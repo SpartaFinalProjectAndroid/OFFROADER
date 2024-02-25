@@ -24,16 +24,16 @@
         android:theme="@style/Theme.OFFROADER"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activity.radio.RadioActivity"
+            android:name=".activity.radio.RadioActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.sandetail.SanDetailActivity"
+            android:name=".activity.sandetail.SanDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.intro.IntroSplashActivity"
+            android:name=".activity.intro.IntroSplashActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.main.MainActivity"
+            android:name=".activity.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

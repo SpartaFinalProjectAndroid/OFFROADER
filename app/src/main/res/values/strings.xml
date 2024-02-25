@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">OFFROADER</string>
+    <string name="home_fragment_name">홈</string>
+    <string name="san_fragment_name">산</string>
+    <string name="map_fragment_name">지도</string>
+    <string name="chatbot_fragment_name">챗봇</string>
+    <string name="my_detail_fragment_name">내 정보</string>
 </resources>
