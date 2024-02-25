@@ -1,12 +1,12 @@
-package com.mit.offroader.activity.intro
+package com.mit.offroader.ui.activity.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.mit.offroader.R
 
-class IntroSplashActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_intro_splash)
+        setContentView(R.layout.activity_detail)
     }
 }

@@ -1,4 +1,4 @@
-package com.mit.offroader.fragment.sanlist
+package com.mit.offroader.ui.fragment.sanlist
 
 import androidx.lifecycle.ViewModel
 

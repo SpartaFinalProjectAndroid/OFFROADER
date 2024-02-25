@@ -1,4 +1,4 @@
-package com.mit.offroader.fragment.chatbot
+package com.mit.offroader.ui.fragment.sanlist
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.mit.offroader.R
 
-class ChatBotFragment : Fragment() {
+class SanListFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ChatBotFragment()
+        fun newInstance() = SanListFragment()
     }
 
-    private lateinit var viewModel: ChatBotViewModel
+    private lateinit var viewModel: SanListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_chat_bot, container, false)
+        return inflater.inflate(R.layout.fragment_san_list, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ChatBotViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(SanListViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

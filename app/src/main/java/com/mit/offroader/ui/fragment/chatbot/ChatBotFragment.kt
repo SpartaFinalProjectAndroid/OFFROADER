@@ -1,4 +1,4 @@
-package com.mit.offroader.fragment.mydetail
+package com.mit.offroader.ui.fragment.chatbot
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.mit.offroader.R
 
-class MyDetailFragment : Fragment() {
+class ChatBotFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MyDetailFragment()
+        fun newInstance() = ChatBotFragment()
     }
 
-    private lateinit var viewModel: MyDetailViewModel
+    private lateinit var viewModel: ChatBotViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_my_detail, container, false)
+        return inflater.inflate(R.layout.fragment_chat_bot, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MyDetailViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ChatBotViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

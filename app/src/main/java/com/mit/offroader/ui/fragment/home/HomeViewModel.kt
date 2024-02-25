@@ -1,4 +1,4 @@
-package com.mit.offroader.fragment.home
+package com.mit.offroader.ui.fragment.home
 
 import androidx.lifecycle.ViewModel
 

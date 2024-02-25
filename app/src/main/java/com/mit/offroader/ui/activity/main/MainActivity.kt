@@ -1,12 +1,12 @@
-package com.mit.offroader.activity.detail
+package com.mit.offroader.ui.activity.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.mit.offroader.R
 
-class DetailActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        setContentView(R.layout.activity_main)
     }
 }

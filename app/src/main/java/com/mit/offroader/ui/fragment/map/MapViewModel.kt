@@ -1,4 +1,4 @@
-package com.mit.offroader.fragment.map
+package com.mit.offroader.ui.fragment.map
 
 import androidx.lifecycle.ViewModel
 

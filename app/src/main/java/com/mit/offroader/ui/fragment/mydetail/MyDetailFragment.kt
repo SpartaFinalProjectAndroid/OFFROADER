@@ -1,4 +1,4 @@
-package com.mit.offroader.fragment.map
+package com.mit.offroader.ui.fragment.mydetail
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.mit.offroader.R
 
-class MapFragment : Fragment() {
+class MyDetailFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MapFragment()
+        fun newInstance() = MyDetailFragment()
     }
 
-    private lateinit var viewModel: MapViewModel
+    private lateinit var viewModel: MyDetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_map, container, false)
+        return inflater.inflate(R.layout.fragment_my_detail, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MyDetailViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

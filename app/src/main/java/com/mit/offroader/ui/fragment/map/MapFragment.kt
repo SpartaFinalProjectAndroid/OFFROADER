@@ -1,4 +1,4 @@
-package com.mit.offroader.fragment.sanlist
+package com.mit.offroader.ui.fragment.map
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.mit.offroader.R
 
-class SanListFragment : Fragment() {
+class MapFragment : Fragment() {
 
     companion object {
-        fun newInstance() = SanListFragment()
+        fun newInstance() = MapFragment()
     }
 
-    private lateinit var viewModel: SanListViewModel
+    private lateinit var viewModel: MapViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_san_list, container, false)
+        return inflater.inflate(R.layout.fragment_map, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(SanListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
