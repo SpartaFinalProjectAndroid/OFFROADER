@@ -6,15 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import com.mit.offroader.R
+import com.mit.offroader.ui.activity.sandetail.SanDetailViewModel
 
 class MyDetailFragment : Fragment() {
 
     companion object {
         fun newInstance() = MyDetailFragment()
     }
+    private val myDetailViewModel by viewModels<MyDetailViewModel>()
 
-    private lateinit var viewModel: MyDetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +28,6 @@ class MyDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MyDetailViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

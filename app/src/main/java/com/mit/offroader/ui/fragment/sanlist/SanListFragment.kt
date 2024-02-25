@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.mit.offroader.R
+import com.mit.offroader.ui.fragment.mydetail.MyDetailViewModel
 
 class SanListFragment : Fragment() {
 
@@ -14,7 +16,8 @@ class SanListFragment : Fragment() {
         fun newInstance() = SanListFragment()
     }
 
-    private lateinit var viewModel: SanListViewModel
+    private val sanListViewModel by viewModels<SanListViewModel>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,8 +28,6 @@ class SanListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(SanListViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }
