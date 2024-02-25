@@ -1,7 +1,11 @@
 package com.mit.offroader.ui.fragment.chatbot
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class ChatBotViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+    private var _chatBotUiState = MutableLiveData<ChatBotUiState>()
+
+    val chatBotUiState : LiveData<ChatBotUiState> = _chatBotUiState
 }
