@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import com.mit.offroader.R
+import com.mit.offroader.databinding.FragmentChatBotBinding
+import com.mit.offroader.databinding.FragmentMyDetailBinding
 import com.mit.offroader.ui.activity.sandetail.SanDetailViewModel
 
 class MyDetailFragment : Fragment() {
@@ -16,6 +18,9 @@ class MyDetailFragment : Fragment() {
     companion object {
         fun newInstance() = MyDetailFragment()
     }
+    private var _binding: FragmentMyDetailBinding? = null
+    private val binding get() = _binding!!
+
     private val myDetailViewModel by viewModels<MyDetailViewModel>()
 
 
@@ -23,8 +28,9 @@ class MyDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_my_detail, container, false)
-    }
+        _binding = FragmentMyDetailBinding.inflate(inflater, container, false)
+
+        return binding.root    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

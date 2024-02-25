@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.mit.offroader.R
+import com.mit.offroader.databinding.FragmentChatBotBinding
+import com.mit.offroader.databinding.FragmentHomeBinding
 import com.mit.offroader.ui.fragment.mydetail.MyDetailViewModel
 
 class HomeFragment : Fragment() {
@@ -15,6 +17,8 @@ class HomeFragment : Fragment() {
     companion object {
         fun newInstance() = HomeFragment()
     }
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     private val homeViewModel by viewModels<HomeViewModel>()
 
@@ -22,8 +26,9 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        return binding.root    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
