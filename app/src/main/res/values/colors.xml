@@ -3,4 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="intro_splash_background">#E4E0C9</color>
+    <color name="theme">#1D5038</color>
+    <color name="background">#F8F7F3</color>
+    <color name="box_outline">#B4D6B1</color>
+    <color name="grey_shade_1">#D6E0DC</color>
+    <color name="grey_shade_2">#5F5F5F</color>
 </resources>
