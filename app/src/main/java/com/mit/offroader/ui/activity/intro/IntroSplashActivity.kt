@@ -1,12 +1,12 @@
 package com.mit.offroader.ui.activity.intro
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import androidx.activity.viewModels
-import com.mit.offroader.R
+import androidx.appcompat.app.AppCompatActivity
 import com.mit.offroader.databinding.ActivityIntroSplashBinding
-import com.mit.offroader.databinding.ActivitySanDetailBinding
-import com.mit.offroader.ui.activity.sandetail.SanDetailViewModel
+import com.mit.offroader.ui.activity.main.MainActivity
 
 class IntroSplashActivity : AppCompatActivity() {
     private var _binding: ActivityIntroSplashBinding? = null
@@ -16,5 +16,23 @@ class IntroSplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityIntroSplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        initView()
+    }
+
+    private fun initView() {
+        Handler().postDelayed({
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            startActivity(intent)
+            finish()
+        }, DURATION)
+    }
+    companion object {
+        private const val DURATION : Long = 3000
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 }
