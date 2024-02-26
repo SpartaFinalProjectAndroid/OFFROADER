@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- 배경 색 디자인에 맞게 입혀줌 -->
+        <item name="android:windowBackground">@color/background</item>
+    </style>
+
+    <!-- 가로 구분선 디자인 -->
+    <style name="Divider">
+        <item name="android:background">?android:attr/listDivider</item> //구분선 색상도 여기서 부여.
+        <item name="android:color">@color/black</item>
+    </style>
+
+    <style name="Divider.Horizontal.Grey" parent="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item> // 두께 수정 및 다른 두께 추가 가능
+    </style>
+
+
+</resources>
