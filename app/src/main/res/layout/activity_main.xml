@@ -21,4 +21,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
+    <include
+        android:id="@+id/bsl_main"
+        layout="@layout/activity_radio"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
