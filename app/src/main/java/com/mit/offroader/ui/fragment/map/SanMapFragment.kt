@@ -30,8 +30,10 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         private const val PERMISSION_REQUEST_CODE = 100
         private val PERMISSIONS = arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION)
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
     }
+
     private var _binding: FragmentSanMapBinding? = null
     private val binding get() = _binding!!
 
@@ -55,7 +57,8 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     ): View? {
         _binding = FragmentSanMapBinding.inflate(inflater, container, false)
 
-        return binding.root    }
+        return binding.root
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -73,6 +76,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    // 프래그먼트에 지도 추가
     private fun initMapView() {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map_view) as MapFragment?
@@ -86,7 +90,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
     }
 
-    // hasPermission()에서는 위치 권한 있 -> true , 없 -> false
+    // hasPermission()에서는 위치 권한 있을 경우 true, 없을 경우 false
     private fun hasPermission(): Boolean {
         for (permission in PERMISSIONS) {
             if (activity?.let { ContextCompat.checkSelfPermission(it, permission) }
@@ -98,6 +102,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         return true
     }
 
+    //권한 확인하여 위치 추가
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
         setUpMap()
@@ -116,6 +121,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    // 현재 위치 기능 지도에 추가
     private fun setUpMap() {
         naverMap.locationSource = locationSource //현위치
         naverMap.uiSettings.isLocationButtonEnabled = true // 현 위치 버튼 기능
@@ -125,6 +131,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         naverMap.minZoom = 9.0
     }
 
+    // MapView 라이프 사이클 메서드를 호출
     override fun onStart() {
         super.onStart()
         mapView.onStart()
