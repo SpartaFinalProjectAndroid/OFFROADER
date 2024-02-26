@@ -18,8 +18,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_hikey"
-            />
+            android:src="@drawable/ic_hikey" />
 
 
 
@@ -40,7 +39,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="기록 지우기"
+                android:text="@string/tv_chatbot_delete_history"
                 android:textColor="@color/grey_shade_2"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -65,13 +64,13 @@
         <ScrollView
             android:id="@+id/sv_chatbot"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:padding="16dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_chatbot"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 tools:listitem="@layout/chat_item"/>
         </ScrollView>
 
@@ -91,13 +90,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:background="@drawable/rounded_corner"
-        android:hint="히키에게 궁금한 것을 물어보세요!"
+        android:hint="@string/et_chatbot_ask_hint"
         android:paddingHorizontal="16dp"
         android:paddingVertical="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        android:autofillHints=""
+        android:inputType="text" />
 
     
 
