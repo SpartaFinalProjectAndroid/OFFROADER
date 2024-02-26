@@ -13,6 +13,7 @@ class RadioActivity : AppCompatActivity() {
     private var _binding: ActivityRadioBinding? = null
     private val binding get() = _binding!!
     private val radioViewModel by viewModels<RadioViewModel>()
+    //test
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityRadioBinding.inflate(layoutInflater)
