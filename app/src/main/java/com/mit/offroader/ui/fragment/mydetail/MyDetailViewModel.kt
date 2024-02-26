@@ -1,7 +1,11 @@
 package com.mit.offroader.ui.fragment.mydetail
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class MyDetailViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+    private var _myDetailUiState = MutableLiveData<MyDetailUiState>()
+
+    val myDetailUiState : LiveData<MyDetailUiState> = _myDetailUiState
 }

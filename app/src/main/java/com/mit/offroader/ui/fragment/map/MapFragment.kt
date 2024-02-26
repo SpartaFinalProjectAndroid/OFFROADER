@@ -6,27 +6,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.mit.offroader.R
+import com.mit.offroader.databinding.FragmentChatBotBinding
+import com.mit.offroader.databinding.FragmentMapBinding
+import com.mit.offroader.ui.fragment.mydetail.MyDetailViewModel
 
 class MapFragment : Fragment() {
 
     companion object {
         fun newInstance() = MapFragment()
     }
+    private var _binding: FragmentMapBinding? = null
+    private val binding get() = _binding!!
 
-    private lateinit var viewModel: MapViewModel
+    private val mapViewModel by viewModels<MapViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_map, container, false)
-    }
+        _binding = FragmentMapBinding.inflate(inflater, container, false)
+
+        return binding.root    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }
