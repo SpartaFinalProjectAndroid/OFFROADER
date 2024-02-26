@@ -7,11 +7,16 @@
     tools:context=".ui.fragment.map.SanMapFragment"
     android:id="@+id/naver_map_fragment">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/map"
+    <!--    <androidx.fragment.app.FragmentContainerView-->
+    <!--        android:id="@+id/map"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:name="com.naver.maps.map.MapFragment" />-->
+
+    <com.naver.maps.map.MapView
+        android:id="@+id/map_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.naver.maps.map.MapFragment" />
+        android:layout_height="match_parent" />
 
     <EditText
         android:id="@+id/et_inputLocation"
@@ -22,7 +27,7 @@
         android:background="@drawable/map_search_edge"
         android:gravity="center"
         android:textSize="14sp"
-        android:text="산 이름으로 검색어를 입력해 주세요"
+        android:hint="산 이름으로 검색어를 입력해 주세요"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
