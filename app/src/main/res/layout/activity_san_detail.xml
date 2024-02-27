@@ -22,6 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
+                android:layout_gravity="top"
                 android:src="@drawable/img_mountain" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +32,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginBottom="-20dp"
+                android:layout_marginBottom="-5dp"
                 android:background="@drawable/ic_rounded_background"
                 android:clipToOutline="true"
                 android:padding="10dp"
@@ -44,6 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
+                    android:fontFamily="@font/pretendardvariable"
                     android:text="한라산"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -68,6 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
+                    android:fontFamily="@font/pretendardvariable"
                     android:hint="Address"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="@id/iv_pin"
@@ -130,8 +133,9 @@
                     android:id="@+id/tv_difficulty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendardvariable"
                     android:hint="난이도"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_info_difficulty"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_difficulty_info"
                     app:layout_constraintEnd_toStartOf="@+id/line_1"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -139,9 +143,10 @@
                     app:layout_constraintVertical_bias="0.5" />
 
                 <TextView
-                    android:id="@+id/tv_info_difficulty"
+                    android:id="@+id/tv_difficulty_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendardvariable"
                     android:text="difficulty"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/tv_difficulty"
@@ -160,15 +165,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tv_height"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/tv_info_difficulty"
+                    app:layout_constraintStart_toEndOf="@+id/tv_difficulty_info"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_height"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendardvariable"
                     android:hint="해발고도"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_info_height"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_height_info"
                     app:layout_constraintEnd_toStartOf="@+id/line_2"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/line_1"
@@ -176,9 +182,10 @@
                     app:layout_constraintVertical_bias="0.5" />
 
                 <TextView
-                    android:id="@+id/tv_info_height"
+                    android:id="@+id/tv_height_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendardvariable"
                     android:text="height"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/tv_height"
@@ -202,6 +209,7 @@
                     android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendardvariable"
                     android:hint="총 등산 시간"
                     app:layout_constraintBottom_toTopOf="@+id/tv_time_info"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -214,6 +222,7 @@
                     android:id="@+id/tv_time_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendardvariable"
                     android:text="time"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/tv_time"
@@ -224,11 +233,12 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/tv_info"
+                android:id="@+id/tv_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="100dp"
+                android:fontFamily="@font/bm_hanna_11yrs_old"
                 android:text="산 개요"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -236,47 +246,51 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_info_info"
+                android:id="@+id/tv_intro_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
-                android:text="Info"
+                android:fontFamily="@font/pretendardvariable"
+                android:text="Intro"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_info" />
+                app:layout_constraintTop_toBottomOf="@id/tv_intro" />
 
             <TextView
-                android:id="@+id/tv_recommand"
+                android:id="@+id/tv_recommend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="30dp"
+                android:fontFamily="@font/bm_hanna_11yrs_old"
                 android:text="추천 이유"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_info_info" />
+                app:layout_constraintTop_toBottomOf="@id/tv_intro_info" />
 
             <TextView
-                android:id="@+id/tv_recommand_info"
+                android:id="@+id/tv_recommend_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
-                android:text="recommand"
+                android:fontFamily="@font/pretendardvariable"
+                android:text="recommend"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommand" />
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="30dp"
+                android:fontFamily="@font/bm_hanna_11yrs_old"
                 android:text="이 위치 날씨"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommand_info" />
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_info" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
