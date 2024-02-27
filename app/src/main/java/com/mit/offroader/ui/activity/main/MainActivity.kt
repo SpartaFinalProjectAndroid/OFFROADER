@@ -12,7 +12,7 @@ import com.mit.offroader.R
 import com.mit.offroader.databinding.ActivityMainBinding
 import com.mit.offroader.ui.fragment.chatbot.ChatBotFragment
 import com.mit.offroader.ui.fragment.home.HomeFragment
-import com.mit.offroader.ui.fragment.map.MapFragment
+import com.mit.offroader.ui.fragment.map.SanMapFragment
 import com.mit.offroader.ui.fragment.mydetail.MyDetailFragment
 import com.mit.offroader.ui.fragment.sanlist.SanListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_3 -> {
-                    replaceFragment(MapFragment())
+                    replaceFragment(SanMapFragment())
                     true
                 }
                 R.id.navigation_4 -> {
