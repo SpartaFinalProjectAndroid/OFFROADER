@@ -10,7 +10,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/bm_hanna_pro"
         android:text="@string/mydetail_myinfo"
         android:textColor="#345948"
         android:textSize="30sp"
@@ -35,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
+            android:fontFamily="@font/pretendardvariable"
             android:text="@string/mydetail_summary"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -45,62 +47,64 @@
             android:id="@+id/iv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_clock2"
             android:layout_marginTop="30dp"
+            android:src="@drawable/ic_clock2"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tv_counttime"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_counttime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendardvariable"
             android:text="@string/mydetail_counttime"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_time"
             app:layout_constraintEnd_toStartOf="@+id/line_3"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/iv_time"
-            app:layout_constraintTop_toTopOf="@id/iv_time"
-            app:layout_constraintBottom_toBottomOf="@id/iv_time"/>
+            app:layout_constraintTop_toTopOf="@id/iv_time" />
 
         <View
             android:id="@+id/line_3"
             android:layout_width="1dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
-            android:background="#B4D6B1"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="30dp"
+            android:background="#B4D6B1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/iv_tracking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_offroader2"
+            app:layout_constraintBottom_toBottomOf="@id/tv_counttracking"
             app:layout_constraintEnd_toStartOf="@+id/tv_counttracking"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/line_3"
-            app:layout_constraintTop_toTopOf="@id/tv_counttracking"
-            app:layout_constraintBottom_toBottomOf="@id/tv_counttracking"/>
+            app:layout_constraintTop_toTopOf="@id/tv_counttracking" />
 
         <TextView
             android:id="@+id/tv_counttracking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/pretendardvariable"
             android:text="@string/mydetail_counttracking"
             android:textSize="16sp"
-            android:layout_marginTop="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/iv_tracking"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -110,6 +114,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="50dp"
+        android:fontFamily="@font/bm_hanna_pro"
         android:text="@string/mydetail_recode"
         android:textColor="#345948"
         android:textSize="30sp"
@@ -122,10 +127,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:background="@drawable/ic_rounded_background_line"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_recode"
-        tools:listitem="@layout/item_adapter_bookmark"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        tools:listitem="@layout/item_adapter_bookmark" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
