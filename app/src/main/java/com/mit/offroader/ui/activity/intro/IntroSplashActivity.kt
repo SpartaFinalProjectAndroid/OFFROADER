@@ -21,13 +21,20 @@ class IntroSplashActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        Handler().postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            startActivity(intent)
-            finish()
-        }, DURATION)
+        setAnimation()
+//        Handler().postDelayed({
+//            val intent = Intent(this, MainActivity::class.java)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+//            startActivity(intent)
+//            finish()
+//        }, DURATION)
     }
+
+    private fun setAnimation() {
+
+
+    }
+
     companion object {
         private const val DURATION : Long = 3000
     }
