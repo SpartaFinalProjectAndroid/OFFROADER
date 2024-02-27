@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.main.MainActivity">
+    android:background="#F7F6F2"
+    tools:context=".ui.activity.main.MainActivity"
+    app:layoutDescription="@xml/activity_main_scene">
 
     <FrameLayout
         android:id="@+id/fl_main"
@@ -21,4 +23,148 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+<!--    여기서 부터는 라디오 관련 설정들 입니다.-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_radio_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F7F6F2"
+        tools:layout_editor_absoluteY="567dp" />
+    <TextView
+        android:id="@+id/tv_radio_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="라디오"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#345948"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"/>
+    <LinearLayout
+        android:id="@+id/ll_bottom_play"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/nav_main"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            app:cardCornerRadius="5dp">
+            <ImageView
+                android:id="@+id/iv_radio_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@color/black"/>
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            android:text="KBS 1라디오"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_radio_channels"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@color/background"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_favorites"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="5dp">
+
+            <ImageView
+                android:id="@+id/iv_favorites"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="#F41E1E" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_kbs"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="5dp"
+            app:layout_constraintStart_toEndOf="@id/cv_favorites">
+
+            <ImageView
+                android:id="@+id/iv_kbs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_kbs_radio"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_sbs"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="5dp"
+            app:layout_constraintStart_toEndOf="@id/cv_kbs">
+
+            <ImageView
+                android:id="@+id/iv_sbs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_sbs_radio" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_mbc"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="5dp"
+            app:layout_constraintStart_toEndOf="@id/cv_sbs">
+
+            <ImageView
+                android:id="@+id/iv_mbc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_mbc_radio" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/ll_radio_channels"
+        android:background="#C5C5C5"/>
+    <View
+        android:id="@+id/v_line2"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        app:layout_constraintTop_toBottomOf="@id/v_line"
+        android:background="#E6E6E6"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_channel_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/v_line2"
+        app:layout_constraintBottom_toBottomOf="@id/ll_bottom_play"/>
+</androidx.constraintlayout.motion.widget.MotionLayout>
