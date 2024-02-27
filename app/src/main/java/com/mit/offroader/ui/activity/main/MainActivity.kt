@@ -74,9 +74,37 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    // 각 방송국의 라디오 채널 리스트 초기화
     private fun radioSetting() {
         val test : ArrayList<String> = arrayListOf("test", "test2", "", "","","","","","")
         binding.rvChannelList.adapter = RadioListAdapter(test)
+
+        with(binding) {
+            cvFavorites.setOnClickListener {
+                val test2 : ArrayList<String> = arrayListOf("test", "test2", "", "")
+                rvChannelList.adapter = RadioListAdapter(test2)
+
+            }
+
+            cvKbs.setOnClickListener {
+                val test3 : ArrayList<String> = arrayListOf("test", "test2", "", "","","","")
+                rvChannelList.adapter = RadioListAdapter(test3)
+                ivRadioProfile.setImageResource(R.drawable.ic_kbs_radio)
+            }
+
+            cvSbs.setOnClickListener {
+                val test4 : ArrayList<String> = arrayListOf("test", "test2")
+                rvChannelList.adapter = RadioListAdapter(test4)
+                ivRadioProfile.setImageResource(R.drawable.ic_sbs_radio)
+            }
+
+            cvMbc.setOnClickListener {
+                val test5 : ArrayList<String> = arrayListOf("test", "test2", "", "","")
+                rvChannelList.adapter = RadioListAdapter(test5)
+                ivRadioProfile.setImageResource(R.drawable.ic_mbc_radio)
+            }
+
+        }
     }
 
 }

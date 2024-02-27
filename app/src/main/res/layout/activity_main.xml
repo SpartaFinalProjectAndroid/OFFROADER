@@ -79,6 +79,7 @@
         android:layout_marginTop="50dp"
         android:gravity="center"
         android:orientation="horizontal"
+        android:background="#F7F6F2"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
@@ -93,7 +94,7 @@
                 android:id="@+id/iv_favorites"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="#000000" />
+                android:src="#F41E1E" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -109,7 +110,7 @@
                 android:id="@+id/iv_kbs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@color/black" />
+                android:src="@drawable/ic_kbs_radio"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -125,7 +126,7 @@
                 android:id="@+id/iv_sbs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@color/black" />
+                android:src="@drawable/ic_sbs_radio" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -141,15 +142,21 @@
                 android:id="@+id/iv_mbc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@color/black" />
+                android:src="@drawable/ic_mbc_radio" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 
     <View
         android:id="@+id/v_line"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
+        android:layout_height="2dp"
         app:layout_constraintTop_toBottomOf="@id/ll_radio_channels"
+        android:background="#C5C5C5"/>
+    <View
+        android:id="@+id/v_line2"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        app:layout_constraintTop_toBottomOf="@id/v_line"
         android:background="#E6E6E6"/>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -158,6 +165,6 @@
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/v_line"
+        app:layout_constraintTop_toBottomOf="@id/v_line2"
         app:layout_constraintBottom_toBottomOf="@id/ll_bottom_play"/>
 </androidx.constraintlayout.motion.widget.MotionLayout>
