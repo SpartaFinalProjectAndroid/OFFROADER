@@ -72,6 +72,8 @@ class ChatBotFragment : Fragment() {
     // 스피너를 작동 (하이키/봉봉이) 을 셋팅해주는 함수
     private fun setBot() {
         binding.spBot.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            // 스피너가 선택 되었을 때 : position 값이 선택된 스피너 값의 인덱스를 알려줌)
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -82,20 +84,21 @@ class ChatBotFragment : Fragment() {
                 when (position) {
                     0 -> {
                         binding.ivBot.setImageResource(R.drawable.ic_hikey)
-                        // TODO : 채팅 화면 바꾸기
+                        // TODO : 채팅 화면 전환하기 (+ MVVM 모델 구조로 바꾸어야함)
                     }
                     1 -> {
                         binding.ivBot.setImageResource(R.drawable.ic_bongbong)
-                        // TODO : 채팅 화면 바꾸기
+                        // TODO : 채팅 화면 전환하기 (+ MVVM 모델 구조로 바꾸어야함)
                     }
                 }
                 // 로직 부분 구현하기
 
             }
 
+            // 스피너가 선택되지 않았을 때 (초기 상태) : 초기에 봉봉이를 선택해 둠.
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 binding.ivBot.setImageResource(R.drawable.ic_bongbong)
-                // TODO : 채팅 화면 바꾸기
+                // TODO : 채팅 화면 셋팅 ? sharedpref 또는 Room DB에 저장되어 있는 채팅 내역 가져오기
             }
 
         }
