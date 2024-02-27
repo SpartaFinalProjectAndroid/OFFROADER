@@ -2,6 +2,7 @@ package com.mit.offroader.ui.fragment.home
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -67,9 +68,35 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
     inner class ProfileViewHolder(private val binding: ItemTest1Binding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: HomeUiData.First) = with(binding) {
+            val vBlur = binding.i1FkView
+            val title = binding.cardTitle
+            val des = binding.cardDes
+
+//            context.let { vBlur.setBlur(it, vBlur, 20) }
+//
+//            title.visibility = View.VISIBLE
+//            des.visibility = View.VISIBLE
+
+//            context.let { vBlur.setBlurCB(it, vBlur, 20, object : BlurCompletionListener {
+//                override fun onCompleted() {
+//                    title.visibility = View.VISIBLE
+//                    des.visibility = View.VISIBLE
+//                }
+//            }
 
 
-            //프로필 뷰홀더
+            context.let {
+                vBlur.setBlurCB(it, vBlur, 40, object : BlurCompletionListener {
+                    override fun onCompleted() {
+                        title.visibility = View.VISIBLE
+                        des.visibility = View.VISIBLE
+                    }
+                })
+            }
+
+
+
+
 
         }
     }

@@ -1,22 +1,15 @@
 package com.mit.offroader.ui.fragment.home
 
-import android.app.AlertDialog
-import android.content.SharedPreferences
-import android.graphics.drawable.Drawable
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.mit.offroader.R
 import com.mit.offroader.databinding.FragmentHomeBinding
+
 
 class HomeFragment : Fragment() {
 
@@ -24,9 +17,14 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var myPageAdapter: HomeMultiViewTypeAdapter
     var uiData: List<HomeUiData> = listOf()
+    private lateinit var mcontext: Context
 
     private val homeViewModel by viewModels<HomeViewModel>()
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mcontext = context
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -37,6 +35,26 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+//        val oriImg = binding.ivOrigin
+//        val blurImg = binding.ivBlur
+
+//        Blurry.with(context)
+//            .radius(10)
+//            .sampling(8)
+//            .capture(oriImg)
+//            .into(blurImg)
+
+
+        //여기!!
+
+
+// 가정: 뷰 바인딩이 이미 설정되어 있고, 'binding'이라는 변수명으로 사용 가능
+//        val blurView = binding.fkBlurView
+//        activity?.let { blurView.setBlur(it, blurView, 20) }
+
+
+
 
         uiData = listOf(
             HomeUiData.First,
