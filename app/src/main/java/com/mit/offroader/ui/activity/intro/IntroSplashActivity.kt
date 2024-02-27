@@ -1,5 +1,6 @@
 package com.mit.offroader.ui.activity.intro
 
+import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -31,15 +32,34 @@ class IntroSplashActivity : AppCompatActivity() {
     }
 
     private fun setAnimation() {
+        binding.laIntroSplash.apply {
+            setMinAndMaxProgress(0.0f,1f)
+            playAnimation()
+            addAnimatorListener(object : Animator.AnimatorListener{
+                override fun onAnimationStart(p0: Animator) {
+                }
 
+                override fun onAnimationEnd(p0: Animator) {
+                    val intent = Intent(this@IntroSplashActivity,MainActivity::class.java)
+                    startActivity(intent)
+                    finish()                }
+
+                override fun onAnimationCancel(p0: Animator) {
+                }
+
+                override fun onAnimationRepeat(p0: Animator) {
+                }
+
+            })
+        }
 
     }
 
-    companion object {
-        private const val DURATION : Long = 3000
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
+//    companion object {
+//        private const val DURATION : Long = 3000
+//    }
+//
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+//    }
 }
