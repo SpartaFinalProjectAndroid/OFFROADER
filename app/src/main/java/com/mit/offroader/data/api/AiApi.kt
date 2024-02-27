@@ -7,7 +7,7 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-private const val AI_API_KEY = "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"
+private const val AI_API_KEY = "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"
 const val AI_MODEL = "gpt-3.5-turbo"
 
 interface AiApi {
