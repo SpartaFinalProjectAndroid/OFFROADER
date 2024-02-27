@@ -79,7 +79,7 @@
         android:layout_marginTop="50dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:background="#F7F6F2"
+        android:background="@color/background"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
