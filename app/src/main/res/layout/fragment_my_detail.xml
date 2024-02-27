@@ -82,7 +82,7 @@
             android:id="@+id/iv_tracking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_offroader"
+            android:src="@drawable/ic_offroader2"
             app:layout_constraintEnd_toStartOf="@+id/tv_counttracking"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/line_3"
