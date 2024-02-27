@@ -45,7 +45,7 @@
             android:id="@+id/iv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_clock"
+            android:src="@drawable/ic_clock2"
             android:layout_marginTop="30dp"
             app:layout_constraintEnd_toStartOf="@+id/tv_counttime"
             app:layout_constraintHorizontal_bias="0.5"
