@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">OFFROADER</string>
-    <string name="et_chatbot_ask_hint">히키에게 궁금한 것을 물어보세요!</string>
-    <string name="tv_chatbot_delete_history">기록 지우기</string>
+
+<!--    ChatBotFragment-->
+    <string name="chatbot_ask_hint">히키에게 궁금한 것을 물어보세요!</string>
+    <string name="chatbot_delete_history">기록 지우기</string>
 
 
 <!--    MyDetailFragment-->
@@ -14,5 +16,4 @@
     <string name="item_bookmark_name">지리산</string>
     <string name="item_bookmark_time">총 등산 시간 2 : 40</string>
     <string name="item_bookmark_date">2024.02.27(화)</string>
-
 </resources>
