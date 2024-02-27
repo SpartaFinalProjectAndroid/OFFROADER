@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F7F6F2"
     tools:context=".ui.activity.main.MainActivity"
     app:layoutDescription="@xml/activity_main_scene">
 
@@ -27,7 +28,7 @@
         android:id="@+id/cl_radio_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/theme"
+        android:background="#F7F6F2"
         tools:layout_editor_absoluteY="567dp" />
     <TextView
         android:id="@+id/tv_radio_title"
@@ -38,7 +39,7 @@
         android:text="라디오"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="#345948"
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"/>
     <LinearLayout
@@ -62,6 +63,13 @@
                 android:layout_height="match_parent"
                 android:src="@color/black"/>
         </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            android:text="KBS 1라디오"/>
     </LinearLayout>
 
     <LinearLayout
@@ -137,4 +145,19 @@
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        app:layout_constraintTop_toBottomOf="@id/ll_radio_channels"
+        android:background="#E6E6E6"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_channel_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/v_line"
+        app:layout_constraintBottom_toBottomOf="@id/ll_bottom_play"/>
 </androidx.constraintlayout.motion.widget.MotionLayout>

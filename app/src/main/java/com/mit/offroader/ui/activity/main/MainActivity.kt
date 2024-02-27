@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.provider.SyncStateContract.Constants
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.mit.offroader.R
@@ -17,6 +18,7 @@ import com.mit.offroader.ui.fragment.mydetail.MyDetailFragment
 import com.mit.offroader.ui.fragment.sanlist.SanListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.mit.offroader.ui.activity.main.adapters.RadioListAdapter
 
 class MainActivity : AppCompatActivity() {
 
@@ -61,8 +63,7 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-        //bottomSheetControl()
+        radioSetting()
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -73,21 +74,9 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    private fun radioSetting() {
+        val test : ArrayList<String> = arrayListOf("test", "test2", "", "","","","","","")
+        binding.rvChannelList.adapter = RadioListAdapter(test)
+    }
 
-    // Bottom Sheet 상태 변화에(드래그 중, 사라졌을 때 등) 따라 기능 수행
-//    private fun bottomSheetControl() {
-//        val test: BottomSheetBehavior<View> = BottomSheetBehavior.from(binding.bslMain.clBottomSheet)
-//        test.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-//            override fun onStateChanged(bottomSheet: View, newState: Int) {
-//                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-//                    //binding.bslMain.ablRadio.visibility = View.VISIBLE
-//                }
-//            }
-//
-//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-//               // binding.bslMain.ablRadio.alpha = slideOffset
-//            }
-//
-//        })
-//    }
 }
