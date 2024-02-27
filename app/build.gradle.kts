@@ -101,4 +101,10 @@ dependencies {
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    // 네이버 지도 SDK
+    implementation("com.naver.maps:map-sdk:3.17.0")
+
+    // 현재 위치 반환
+    implementation ("com.google.android.gms:play-services-location:21.1.0")
 }
