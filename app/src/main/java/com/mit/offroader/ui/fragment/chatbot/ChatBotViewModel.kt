@@ -5,6 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class ChatBotViewModel : ViewModel() {
+    fun setBotSpinner() {
+
+    }
+
     private var _chatBotUiState = MutableLiveData<ChatBotUiState>()
 
     val chatBotUiState : LiveData<ChatBotUiState> = _chatBotUiState
