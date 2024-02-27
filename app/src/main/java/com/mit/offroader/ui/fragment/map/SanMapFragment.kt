@@ -2,6 +2,7 @@ package com.mit.offroader.ui.fragment.map
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +16,19 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.mit.offroader.R
 import com.mit.offroader.databinding.FragmentSanMapBinding
+import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.UiSettings
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
+import com.naver.maps.map.util.MarkerIcons
+import com.naver.maps.map.widget.CompassView
+import com.naver.maps.map.widget.ZoomControlView
 
 
 class SanMapFragment : Fragment(), OnMapReadyCallback {
@@ -39,10 +47,11 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
 
     private val sanMapViewModel by viewModels<SanMapViewModel>()
 
+    private lateinit var mapView: MapView
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var mapView: MapView
+    private lateinit var uiSettings: UiSettings
 
     private val requestMultiplePermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -102,11 +111,30 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         return true
     }
 
-    //권한 확인하여 위치 추가
+    // 지도 그리는 부분
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
+        // 지도 타입 설정
+        this.naverMap.mapType = NaverMap.MapType.Satellite
+        // 지도 레이어 설정
+        this.naverMap.setLayerGroupEnabled(NaverMap.LAYER_GROUP_MOUNTAIN, true)
+        // 지도 컨트롤 요소 수동 설정
+        this.uiSettings = naverMap.uiSettings
+        uiSettings.isZoomControlEnabled = false
+        uiSettings.isCompassEnabled = false
+
+        val zoomControlView: ZoomControlView = binding.zoom
+        zoomControlView.map = naverMap
+
+        val compassView: CompassView = binding.compass
+        compassView.map = naverMap
+        // 최대 확대 및 축소 비율 설정
+        this.naverMap.maxZoom = 21.0
+        this.naverMap.minZoom = 15.0
+
         setUpMap()
 
+        //권한 확인하여 위치 추가
         fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(requireContext()) // 초기화
         if (ActivityCompat.checkSelfPermission(
@@ -118,6 +146,98 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
+        }
+        // 산 마커 목록
+        Marker().apply {
+            position = LatLng(37.658100, 126.977712)
+//            icon = MarkerIcons.YELLOW
+//            iconTintColor = Color.WHITE
+//            alpha = 0.5f
+            icon = OverlayImage.fromResource(R.drawable.ic_marker1)
+            width = resources.getDimensionPixelSize(R.dimen.marker_size)
+            height = resources.getDimensionPixelSize(R.dimen.marker_size)
+            captionText = "북한산"
+            captionColor = Color.WHITE
+            captionHaloColor = Color.rgb(0, 0, 0)
+//            captionMinZoom = 12.0
+            captionTextSize = 16f
+            map = naverMap
+        }
+
+        Marker().apply {
+            position = LatLng(35.3664, 127.7156)
+            icon = MarkerIcons.BLACK
+            iconTintColor = Color.RED
+            alpha = 0.5f
+            captionText = "지리산"
+            map = naverMap
+        }
+
+        Marker().apply {
+            position = LatLng(33.362096, 126.533608)
+            icon = OverlayImage.fromResource(R.drawable.ic_marker2)
+            width = resources.getDimensionPixelSize(R.dimen.marker_size)
+            height = resources.getDimensionPixelSize(R.dimen.marker_size)
+            captionText = "한라산"
+            captionColor = Color.WHITE
+            captionHaloColor = Color.rgb(0, 0, 0)
+//            captionMinZoom = 12.0
+            captionTextSize = 16f
+            map = naverMap
+        }
+
+        Marker().apply {
+            position = LatLng(38.1208537, 128.4603735)
+            icon = MarkerIcons.BLACK
+            iconTintColor = Color.RED
+            alpha = 0.5f
+            captionText = "설악산"
+            map = naverMap
+        }
+
+        Marker().apply {
+            position = LatLng(35.4879127, 126.9074771)
+            icon = MarkerIcons.BLACK
+            iconTintColor = Color.RED
+            alpha = 0.5f
+            captionText = "내장산"
+            map = naverMap
+        }
+
+        Marker().apply {
+            position = LatLng(36.9584900, 128.4804082)
+            icon = MarkerIcons.BLACK
+            iconTintColor = Color.RED
+            alpha = 0.5f
+            captionText = "소백산"
+            map = naverMap
+        }
+
+        Marker().apply {
+            position = LatLng(36.543146, 127.870689)
+            icon = MarkerIcons.BLACK
+            iconTintColor = Color.RED
+            alpha = 0.5f
+            captionText = "속리산"
+            map = naverMap
+        }
+
+        Marker().apply {
+            position = LatLng(36.350315, 127.201472)
+            icon = MarkerIcons.BLACK
+            iconTintColor = Color.RED
+            alpha = 0.5f
+            captionText = "계룡산"
+            map = naverMap
+        }
+
+        Marker().apply {
+            position = LatLng(37.794433, 128.543595)
+            icon = MarkerIcons.BLACK
+            iconTintColor = Color.RED
+            alpha = 0.5f
+            captionText = "오대산"
+            map = naverMap
         }
     }
 
