@@ -5,21 +5,22 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-//dependencyResolutionManagement {
-//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-//    repositories {
-//        google()
-//        mavenCentral()
-//    }
-//}
-
 dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
-        maven(url = "https://jitpack.io")
+        maven("https://jitpack.io")
+        maven("https://naver.jfrog.io/artifactory/maven/")
     }
 }
+//dependencyResolutionManagement {
+//    repositories {
+//        google()
+//        mavenCentral()
+//        maven(url = "https://jitpack.io")
+//    }
+//}
 
 rootProject.name = "OFFROADER"
 include(":app")
