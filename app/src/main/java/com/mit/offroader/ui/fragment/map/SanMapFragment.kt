@@ -15,12 +15,14 @@ import androidx.fragment.app.viewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.mit.offroader.R
+import com.mit.offroader.BuildConfig
 import com.mit.offroader.databinding.FragmentSanMapBinding
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
+import com.naver.maps.map.NaverMapSdk
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.UiSettings
 import com.naver.maps.map.overlay.Align
@@ -67,7 +69,8 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentSanMapBinding.inflate(inflater, container, false)
-
+        NaverMapSdk.getInstance(requireContext()).client =
+            NaverMapSdk.NaverCloudPlatformClient(BuildConfig.NAVERMAPS_API_KEY)
         return binding.root
     }
 
