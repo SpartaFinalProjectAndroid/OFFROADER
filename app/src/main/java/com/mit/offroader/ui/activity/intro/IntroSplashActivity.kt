@@ -1,5 +1,6 @@
 package com.mit.offroader.ui.activity.intro
 
+import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -21,18 +22,44 @@ class IntroSplashActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        Handler().postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            startActivity(intent)
-            finish()
-        }, DURATION)
-    }
-    companion object {
-        private const val DURATION : Long = 3000
+        setAnimation()
+//        Handler().postDelayed({
+//            val intent = Intent(this, MainActivity::class.java)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+//            startActivity(intent)
+//            finish()
+//        }, DURATION)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
+    private fun setAnimation() {
+        binding.laIntroSplash.apply {
+            setMinAndMaxProgress(0.0f,1f)
+            playAnimation()
+            addAnimatorListener(object : Animator.AnimatorListener{
+                override fun onAnimationStart(p0: Animator) {
+                }
+
+                override fun onAnimationEnd(p0: Animator) {
+                    val intent = Intent(this@IntroSplashActivity,MainActivity::class.java)
+                    startActivity(intent)
+                    finish()                }
+
+                override fun onAnimationCancel(p0: Animator) {
+                }
+
+                override fun onAnimationRepeat(p0: Animator) {
+                }
+
+            })
+        }
+
     }
+
+//    companion object {
+//        private const val DURATION : Long = 3000
+//    }
+//
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+//    }
 }

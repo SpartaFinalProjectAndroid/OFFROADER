@@ -8,6 +8,8 @@
 
 
 
+
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_chatbot"
         android:layout_width="match_parent"
@@ -16,6 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <ImageView
+            android:id="@+id/iv_bot"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_hikey" />
@@ -28,6 +31,7 @@
             android:layout_margin="16dp">
 
             <Spinner
+                android:id="@+id/sp_bot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +43,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tv_chatbot_delete_history"
+                android:text="@string/chatbot_delete_history"
                 android:textColor="@color/grey_shade_2"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -92,7 +96,7 @@
         android:layout_margin="16dp"
         android:textSize="16sp"
         android:background="@drawable/rounded_corner"
-        android:hint="@string/et_chatbot_ask_hint"
+        android:hint="@string/chatbot_ask_hint"
         android:paddingHorizontal="16dp"
         android:paddingVertical="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
