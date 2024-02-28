@@ -21,7 +21,6 @@ import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
-import com.naver.maps.map.NaverMapOptions
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.UiSettings
 import com.naver.maps.map.overlay.Align
@@ -30,8 +29,6 @@ import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 import com.naver.maps.map.widget.CompassView
-import com.naver.maps.map.widget.LocationButtonView
-import com.naver.maps.map.widget.LogoView
 import com.naver.maps.map.widget.ScaleBarView
 import com.naver.maps.map.widget.ZoomControlView
 
@@ -166,7 +163,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             icon = OverlayImage.fromResource(R.drawable.ic_transparent)
             width = resources.getDimensionPixelSize(R.dimen.marker_size)
             height = resources.getDimensionPixelSize(R.dimen.marker_size)
-            captionText = "북한산"
+            captionText = getString(R.string.san_name_bukhansan)
             captionColor = Color.WHITE
             setCaptionAligns(Align.Top)
             captionHaloColor = Color.rgb(0, 0, 0)
@@ -180,7 +177,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             icon = MarkerIcons.BLACK
             iconTintColor = Color.RED
             alpha = 0.5f
-            captionText = "지리산"
+            captionText = getString(R.string.san_name_jirisan)
             map = naverMap
         }
 
@@ -189,7 +186,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             icon = OverlayImage.fromResource(R.drawable.ic_marker2)
             width = resources.getDimensionPixelSize(R.dimen.marker_size)
             height = resources.getDimensionPixelSize(R.dimen.marker_size)
-            captionText = "한라산"
+            captionText = getString(R.string.san_name_hallasan)
             captionColor = Color.WHITE
             captionHaloColor = Color.rgb(0, 0, 0)
 //            captionMinZoom = 12.0
@@ -202,7 +199,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             icon = MarkerIcons.BLACK
             iconTintColor = Color.RED
             alpha = 0.5f
-            captionText = "설악산"
+            captionText = getString(R.string.san_name_seoraksan)
             map = naverMap
         }
 
@@ -211,7 +208,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             icon = MarkerIcons.BLACK
             iconTintColor = Color.RED
             alpha = 0.5f
-            captionText = "내장산"
+            captionText = getString(R.string.san_name_naejangsan)
             map = naverMap
         }
 
@@ -220,7 +217,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             icon = MarkerIcons.BLACK
             iconTintColor = Color.RED
             alpha = 0.5f
-            captionText = "소백산"
+            captionText = getString(R.string.san_name_sobaeksan)
             map = naverMap
         }
 
@@ -229,7 +226,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             icon = MarkerIcons.BLACK
             iconTintColor = Color.RED
             alpha = 0.5f
-            captionText = "속리산"
+            captionText = getString(R.string.san_name_songnisan)
             map = naverMap
         }
 
@@ -238,7 +235,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             icon = MarkerIcons.BLACK
             iconTintColor = Color.RED
             alpha = 0.5f
-            captionText = "계룡산"
+            captionText = getString(R.string.san_name_gyeryongsan)
             map = naverMap
         }
 
@@ -247,7 +244,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             icon = MarkerIcons.BLACK
             iconTintColor = Color.RED
             alpha = 0.5f
-            captionText = "오대산"
+            captionText = getString(R.string.san_name_odaesan)
             map = naverMap
         }
     }
