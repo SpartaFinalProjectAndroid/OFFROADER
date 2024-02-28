@@ -17,4 +17,5 @@
     <string name="item_bookmark_time">총 등산 시간 2 : 40</string>
     <string name="item_bookmark_date">2024.02.27(화)</string>
     <string name="main_radio_title">라디오</string>
+    <string name="san_map_input">산 이름으로 검색어를 입력해 주세요</string>
 </resources>

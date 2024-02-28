@@ -21,13 +21,18 @@ import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
+import com.naver.maps.map.NaverMapOptions
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.UiSettings
+import com.naver.maps.map.overlay.Align
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 import com.naver.maps.map.widget.CompassView
+import com.naver.maps.map.widget.LocationButtonView
+import com.naver.maps.map.widget.LogoView
+import com.naver.maps.map.widget.ScaleBarView
 import com.naver.maps.map.widget.ZoomControlView
 
 
@@ -121,13 +126,18 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         // 지도 컨트롤 요소 수동 설정
         this.uiSettings = naverMap.uiSettings
         uiSettings.isZoomControlEnabled = false
-        uiSettings.isCompassEnabled = false
+        uiSettings.isCompassEnabled = true
+        uiSettings.isScaleBarEnabled = false
 
         val zoomControlView: ZoomControlView = binding.zoom
         zoomControlView.map = naverMap
 
         val compassView: CompassView = binding.compass
         compassView.map = naverMap
+
+        val scaleBarView: ScaleBarView = binding.scalebar
+        scaleBarView.map = naverMap
+
         // 최대 확대 및 축소 비율 설정
         this.naverMap.maxZoom = 21.0
         this.naverMap.minZoom = 15.0
@@ -153,11 +163,12 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
 //            icon = MarkerIcons.YELLOW
 //            iconTintColor = Color.WHITE
 //            alpha = 0.5f
-            icon = OverlayImage.fromResource(R.drawable.ic_marker1)
+            icon = OverlayImage.fromResource(R.drawable.ic_transparent)
             width = resources.getDimensionPixelSize(R.dimen.marker_size)
             height = resources.getDimensionPixelSize(R.dimen.marker_size)
             captionText = "북한산"
             captionColor = Color.WHITE
+            setCaptionAligns(Align.Top)
             captionHaloColor = Color.rgb(0, 0, 0)
 //            captionMinZoom = 12.0
             captionTextSize = 16f
