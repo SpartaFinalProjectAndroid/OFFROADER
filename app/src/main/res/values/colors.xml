@@ -9,6 +9,8 @@
     <color name="key_white">#F8F7F3</color>
     <color name="key_red">#F51E1E</color>
 
+    <color name="empty">#00000000</color>
+
     <color name="intro_splash_background">#E4E0C9</color>
     <color name="theme">#1D5038</color>
     <color name="background">#F8F7F3</color>
@@ -16,5 +18,3 @@
     <color name="grey_shade_1">#D6E0DC</color>
     <color name="grey_shade_2">#5F5F5F</color>
 </resources>
-
-<!--5분 16초-->

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Splash" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/intro_splash_background</item>
-        <item name="colorPrimaryDark">@color/white</item>
-        <item name="colorAccent">@color/black</item>
-    </style>
-</resources>

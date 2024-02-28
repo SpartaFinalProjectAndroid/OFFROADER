@@ -6,4 +6,24 @@
     </style>
 
     <style name="Theme.OFFROADER" parent="Base.Theme.OFFROADER" />
+
+    <style name="SplashActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+<!--    <style name="Theme.App.Starting" parent="Theme.SplashScreen">-->
+<!--        &lt;!&ndash; Set the splash screen background, animated icon, and animation-->
+<!--        duration. &ndash;&gt;-->
+<!--        <item name="windowSplashScreenBackground">@color/empty</item>-->
+
+<!--        &lt;!&ndash; Use windowSplashScreenAnimatedIcon to add a drawable or an animated-->
+<!--             drawable. One of these is required. &ndash;&gt;-->
+<!--        <item name="windowSplashScreenAnimatedIcon">@drawable/transparent</item>-->
+<!--        &lt;!&ndash; Required for animated icons. &ndash;&gt;-->
+<!--        <item name="windowSplashScreenAnimationDuration">0</item>-->
+
+<!--        &lt;!&ndash; Set the theme of the Activity that directly follows your splash-->
+<!--        screen. This is required. &ndash;&gt;-->
+<!--        <item name="postSplashScreenTheme">@style/Theme.AppCompat.DayNight.NoActionBar</item>-->
+<!--    </style>-->
 </resources>
