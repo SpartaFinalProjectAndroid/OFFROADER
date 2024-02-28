@@ -26,6 +26,7 @@ android {
         //API 키를 로컬 프로퍼티에서 가져와 name에 부여
         //사용방법 = BuildConfig.[name]
         buildConfigField("String", "OPENAI_API_KEY", properties.getProperty("OFFROADER_OPENAI_API_KEY"))
+        buildConfigField("String", "NAVERMAPS_API_KEY", properties.getProperty("OFFROADER_NAVERMAPS_API_KEY"))
     }
 
     buildTypes {
