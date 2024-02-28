@@ -1,12 +1,7 @@
 package com.mit.offroader.ui.activity.main
 
-import android.graphics.drawable.Drawable.ConstantState
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.SyncStateContract.Constants
-import android.util.Log
-import android.view.View
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.mit.offroader.R
@@ -17,7 +12,6 @@ import com.mit.offroader.ui.fragment.map.SanMapFragment
 import com.mit.offroader.ui.fragment.mydetail.MyDetailFragment
 import com.mit.offroader.ui.fragment.sanlist.SanListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mit.offroader.ui.activity.main.adapters.RadioListAdapter
 
 class MainActivity : AppCompatActivity() {
