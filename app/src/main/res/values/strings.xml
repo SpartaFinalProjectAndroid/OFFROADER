@@ -1,5 +1,34 @@
 <resources>
     <string name="app_name">OFFROADER</string>
-    <string name="et_chatbot_ask_hint">히키에게 궁금한 것을 물어보세요!</string>
-    <string name="tv_chatbot_delete_history">기록 지우기</string>
+
+    <!--    ChatBotFragment-->
+    <string name="chatbot_ask_hint">히키에게 궁금한 것을 물어보세요!</string>
+    <string name="chatbot_delete_history">기록 지우기</string>
+    <string name="chatbot_hikey">하이키</string>
+    <string name="chatbot_bongbong">봉봉이</string>
+
+
+    <!--    MyDetailFragment-->
+    <string name="mydetail_myinfo">내 정보 - 기록</string>
+    <string name="mydetail_summary">총 등산 정보</string>
+    <string name="mydetail_counttime">100시간</string>
+    <string name="mydetail_counttracking">6회</string>
+    <string name="mydetail_recode">기록</string>
+    <!--    BookmarkAdapter-->
+    <string name="item_bookmark_name">지리산</string>
+    <string name="item_bookmark_time">총 등산 시간 2 : 40</string>
+    <string name="item_bookmark_date">2024.02.27(화)</string>
+    <string name="main_radio_title">라디오</string>
+    <!--    SanMapFragment-->
+    <string name="san_map_input">산 이름으로 검색어를 입력해 주세요</string>
+    <string name="san_name_bukhansan">북한산</string>
+    <string name="san_name_jirisan">지리산</string>
+    <string name="san_name_hallasan">한라산</string>
+    <string name="san_name_seoraksan">설악산</string>
+    <string name="san_name_naejangsan">내장산</string>
+    <string name="san_name_sobaeksan">소백산</string>
+    <string name="san_name_songnisan">속리산</string>
+    <string name="san_name_gyeryongsan">계룡산</string>
+    <string name="san_name_odaesan">오대산</string>
+
 </resources>

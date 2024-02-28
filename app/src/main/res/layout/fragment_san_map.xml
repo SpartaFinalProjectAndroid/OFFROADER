@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/naver_map_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.map.SanMapFragment"
-    android:id="@+id/naver_map_fragment">
+    tools:context=".ui.fragment.map.SanMapFragment">
 
     <!--    <androidx.fragment.app.FragmentContainerView-->
     <!--        android:id="@+id/map"-->
@@ -15,40 +15,98 @@
 
     <com.naver.maps.map.MapView
         android:id="@+id/map_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="85dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+    </com.naver.maps.map.MapView>
+
+    <!--    <com.naver.maps.map.widget.LocationButtonView-->
+    <!--        android:id="@+id/location"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentTop="true"-->
+    <!--        android:layout_alignParentRight="true"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="@id/map_view" />-->
+
+    <com.naver.maps.map.widget.ZoomControlView
+        android:id="@+id/zoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintEnd_toEndOf="@id/map_view">
+
+    </com.naver.maps.map.widget.ZoomControlView>
+
+    <com.naver.maps.map.widget.ScaleBarView
+        android:id="@+id/scalebar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/compass"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="75dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </com.naver.maps.map.widget.ScaleBarView>
+
+    <!--    <com.naver.maps.map.widget.LogoView-->
+    <!--        android:id="@+id/logo"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginBottom="32dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@id/map_view"-->
+    <!--        app:layout_constraintStart_toStartOf="@id/map_view" />-->
+
+    <com.naver.maps.map.widget.CompassView
+        android:id="@+id/compass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/scalebar"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/et_inputLocation"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/map_search_edge"
-        android:gravity="center"
+        android:elevation="10dp"
+        android:gravity="center|start"
+        android:hint="@string/san_map_input"
+        android:paddingStart="20dp"
         android:textSize="14sp"
-        android:hint="산 이름으로 검색어를 입력해 주세요"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_sign"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/map_search_edge"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_searchLocation"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_margin="20dp"
+        android:elevation="11dp"
         android:src="@drawable/ic_map_search"
-        app:layout_constraintBottom_toBottomOf="@+id/et_inputLocation"
-        app:layout_constraintEnd_toEndOf="@+id/et_inputLocation"
-        app:layout_constraintTop_toTopOf="@+id/et_inputLocation" />
+        app:layout_constraintBottom_toBottomOf="@id/et_inputLocation"
+        app:layout_constraintEnd_toEndOf="@id/et_inputLocation"
+        app:layout_constraintTop_toTopOf="@id/et_inputLocation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
