@@ -6,29 +6,29 @@
     android:paddingVertical="5dp">
 
     <LinearLayout
+        android:id="@+id/ll_chat_ai"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/left_chat_view"
         android:background="@drawable/rounded_corner"
         android:backgroundTint="@color/grey_shade_1"
         android:layout_marginEnd="80dp"
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/tv_chat_ai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/left_chat_tv"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:text="Hello World"/>
+            android:text="@string/item_chatbot_text_ai"/>
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_chat_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/right_chat_view"
         android:background="@drawable/rounded_corner"
         android:backgroundTint="@color/theme"
         android:layout_marginStart="80dp"
@@ -36,13 +36,13 @@
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/tv_chat_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/right_chat_tv"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="Hello World"/>
+            android:text="@string/item_chatbot_text_user"/>
 
     </LinearLayout>
 

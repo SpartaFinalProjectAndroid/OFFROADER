@@ -75,7 +75,7 @@
                 android:id="@+id/rv_chatbot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/chat_item"/>
+                tools:listitem="@layout/item_chatbot"/>
         </ScrollView>
 
     </LinearLayout>

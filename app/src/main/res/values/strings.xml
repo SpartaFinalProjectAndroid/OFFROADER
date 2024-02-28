@@ -19,5 +19,7 @@
     <string name="item_bookmark_time">총 등산 시간 2 : 40</string>
     <string name="item_bookmark_date">2024.02.27(화)</string>
     <string name="main_radio_title">라디오</string>
+    <string name="item_chatbot_text_ai">Hello World</string>
+    <string name="item_chatbot_text_user">Hello World</string>
 
 </resources>
