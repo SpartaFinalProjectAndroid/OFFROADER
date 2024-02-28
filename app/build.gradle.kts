@@ -93,9 +93,20 @@ dependencies {
     //pager2
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 
+    //lottie 애니메이션 추가
+    implementation("com.airbnb.android:lottie:4.1.0")
+
+    // splash screen
+    implementation("androidx.core:core-splashscreen:1.0.0-beta02")
+
+
     testImplementation("junit:junit:4.13.2")
+
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    // Coordinatorlayout
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
 
     // 네이버 지도 SDK
     implementation("com.naver.maps:map-sdk:3.17.0")
