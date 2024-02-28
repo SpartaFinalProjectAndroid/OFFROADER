@@ -45,7 +45,6 @@ class HomeFragment : Fragment() {
 //            .capture(oriImg)
 //            .into(blurImg)
 
-
         //여기!!
 
 

@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.utils.loadPropertyFromResources
+import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -6,6 +6,9 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
 }
+
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     namespace = "com.mit.offroader"
@@ -18,10 +21,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-
-
-
+        buildConfigField("String", "OPENAI_API_KEY", properties.getProperty("OFFROADER_OPENAI_API_KEY"))
     }
 
     buildTypes {
@@ -46,6 +46,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
 
 
