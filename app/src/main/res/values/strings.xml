@@ -16,6 +16,7 @@
     <string name="item_bookmark_name">지리산</string>
     <string name="item_bookmark_time">총 등산 시간 2 : 40</string>
     <string name="item_bookmark_date">2024.02.27(화)</string>
+<!--    radio-->
     <string name="main_radio_title">라디오</string>
 <!--    SanDetailActivity-->
     <string name="sandetail_name">한라산</string>
