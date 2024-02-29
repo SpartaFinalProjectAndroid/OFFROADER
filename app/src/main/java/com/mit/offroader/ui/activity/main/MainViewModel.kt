@@ -9,4 +9,7 @@ class MainViewModel : ViewModel() {
     private var _mainUiState = MutableLiveData<MainUiState>()
 
     val mainUiState : LiveData<MainUiState> = _mainUiState
+
+    // 라디오 관련 구현들
+
 }

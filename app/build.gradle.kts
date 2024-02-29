@@ -143,4 +143,15 @@ dependencies {
 
     // 현재 위치 반환
     implementation ("com.google.android.gms:play-services-location:21.1.0")
+
+
+    // androidx.media3
+    implementation ("androidx.media3:media3-session:1.2.1")
+    implementation ("androidx.media3:media3-exoplayer:1.2.1")
+    implementation("androidx.media3:media3-exoplayer-dash:1.2.1")
+    implementation("androidx.media3:media3-exoplayer-smoothstreaming:1.2.1")
+    implementation("androidx.media3:media3-exoplayer-hls:1.2.1")
+    implementation("androidx.media3:media3-exoplayer-rtsp:1.2.1")
+    implementation("androidx.media3:media3-ui:1.2.1")
+    implementation("androidx.media3:media3-ui-leanback:1.2.1")
 }

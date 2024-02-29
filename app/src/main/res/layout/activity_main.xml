@@ -31,7 +31,10 @@
         android:layout_height="match_parent"
         android:background="#F7F6F2"
         tools:layout_editor_absoluteY="567dp" />
-
+    <androidx.media3.ui.PlayerView
+        android:id="@+id/view_test"
+        android:layout_width="1dp"
+        android:layout_height="1dp"/>
     <TextView
         android:id="@+id/tv_radio_title"
         android:layout_width="wrap_content"
@@ -75,6 +78,19 @@
             android:layout_marginStart="10dp"
             android:text="KBS 1라디오"
             android:textSize="20sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_radio_play_btn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@color/black"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"/>
     </LinearLayout>
 
     <LinearLayout

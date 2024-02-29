@@ -16,7 +16,8 @@
         android:text="KBS 1라디오"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="@color/black"/>
+        android:textColor="#3D3D3D"
+        android:fontFamily="@font/pretendardvariable"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
