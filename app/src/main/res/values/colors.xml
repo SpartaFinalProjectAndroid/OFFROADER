@@ -2,7 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- 컬러 추가 -->
+    <color name="transparent">#00000000</color>
+    <color name="key_green">#345948</color>
+    <color name="key_white">#F8F7F3</color>
+    <color name="key_red">#F51E1E</color>
+
     <color name="empty">#00000000</color>
+
     <color name="intro_splash_background">#E4E0C9</color>
     <color name="theme">#1D5038</color>
     <color name="background">#F8F7F3</color>
