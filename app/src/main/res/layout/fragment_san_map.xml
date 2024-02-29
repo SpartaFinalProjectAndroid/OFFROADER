@@ -41,8 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/map_view"
         app:layout_constraintEnd_toEndOf="@id/map_view">
 
