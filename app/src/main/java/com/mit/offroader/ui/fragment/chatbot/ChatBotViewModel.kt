@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mit.offroader.data.model.ai.Message
 import com.mit.offroader.data.repository.AiRepository
 import kotlinx.coroutines.launch
 
@@ -29,8 +30,10 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository()) : View
             kotlin.runCatching {
 
                 Log.d("Connect ChatGPT", "^^ 1. ViewModel")
+                Conversation.addText(Message("user",text))
+                val messages = Conversation.hikeyConversation.toList()
                 val channelResponse =
-                    aiRepo.createChatCompletion(text).choices.first().message.content
+                    aiRepo.createChatCompletion(messages).choices.first().message.content
 
                 _chatBotUiState.value = ChatBotUiState(response = channelResponse)
 

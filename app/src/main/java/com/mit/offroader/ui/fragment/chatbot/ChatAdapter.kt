@@ -4,13 +4,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mit.offroader.databinding.ItemChatbotBinding
 
-class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Conversation, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Chat, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -24,6 +23,20 @@ class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Conversa
 
         (holder as ChatItemViewHolder).apply {
 
+
+            // 타입이 ai인지 유저인지에 따라 리사이클러뷰의 버블을 하나씩 지워주는 로직
+            when(item.type) {
+                "ai" -> {
+                    userChat.visibility = View.INVISIBLE
+                    userChatBox.visibility = View.INVISIBLE
+                    aiChat.text = item.text
+                }
+                "user" -> {
+                    aiChat.visibility = View.INVISIBLE
+                    aiChatBox.visibility = View.INVISIBLE
+                    userChat.text = item.text
+                }
+            }
         }
 
     }
@@ -42,13 +55,13 @@ class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Conversa
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Conversation>() {
-            override fun areItemsTheSame(oldItem: Conversation, newItem: Conversation): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Chat>() {
+            override fun areItemsTheSame(oldItem: Chat, newItem: Chat): Boolean {
                 Log.d("Happy_TagRv","^^Items theSame?")
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: Conversation, newItem: Conversation): Boolean {
+            override fun areContentsTheSame(oldItem: Chat, newItem: Chat): Boolean {
                 Log.d("Happy_TagRv","^^ContentmentSame?")
                 return oldItem == newItem
             }

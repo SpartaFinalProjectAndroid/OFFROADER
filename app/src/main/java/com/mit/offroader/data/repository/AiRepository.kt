@@ -9,8 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class AiRepository {
-    suspend fun createChatCompletion(message: String): AiResponse = withContext(Dispatchers.IO) {
-        val request = AiRequest(messages = listOf(Message("user", message)))
+    suspend fun createChatCompletion(list: List<Message>): AiResponse = withContext(Dispatchers.IO) {
+        val request = AiRequest(messages = list)
         Log.d("Connect ChatGPT", "2. Ai Repository")
         RetrofitInstance.aiApi.createChatCompletion(request)
 
