@@ -185,9 +185,9 @@
                     android:fontFamily="@font/pretendardvariable"
                     android:hint="@string/sandetail_height"
                     app:layout_constraintBottom_toTopOf="@+id/tv_height_info"
-                    app:layout_constraintEnd_toStartOf="@+id/line_2"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/line_1"
+                    app:layout_constraintStart_toEndOf="@+id/line_2"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.5" />
 
@@ -227,7 +227,7 @@
                     app:layout_constraintEnd_toStartOf="@id/iv_mini_clock"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toEndOf="@+id/line_2"
+                    app:layout_constraintStart_toEndOf="@+id/line_1"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.5" />
 
@@ -252,7 +252,7 @@
                     android:layout_marginStart="5dp"
                     android:src="@drawable/ic_mini_clock"
                     app:layout_constraintBottom_toBottomOf="@id/tv_time"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/line_2"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@id/tv_time"
                     app:layout_constraintTop_toTopOf="@id/tv_time" />
@@ -260,11 +260,67 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:id="@+id/tv_uptime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="5dp"
+                android:hint="@string/sandetail_uptime"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_info_box" />
+
+            <TextView
+                android:id="@+id/tv_uptime_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/sandetail_uptime_info"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/tv_uptime"
+                app:layout_constraintStart_toEndOf="@id/tv_uptime"
+                app:layout_constraintTop_toTopOf="@id/tv_uptime" />
+
+            <TextView
+                android:id="@+id/tv_downtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:hint="@string/sandetail_downtime"
+                android:textSize="12sp"
+                app:layout_constraintTop_toTopOf="@id/tv_downtime_info"
+                app:layout_constraintBottom_toBottomOf="@id/tv_downtime_info"
+                app:layout_constraintEnd_toStartOf="@id/tv_downtime_info"/>
+
+            <TextView
+                android:id="@+id/tv_downtime_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="50dp"
+                android:text="@string/sandetail_downtime_info"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_info_box" />
+
+            <View
+                android:id="@+id/v_line_cut"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="40dp"
+                android:background="@color/offroader_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_info_box" />
+
+            <TextView
                 android:id="@+id/tv_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="160dp"
                 android:fontFamily="@font/bm_hanna_11yrs_old"
                 android:text="@string/sandetail_intro"
                 android:textSize="20sp"
