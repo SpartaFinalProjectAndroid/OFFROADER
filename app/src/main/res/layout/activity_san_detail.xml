@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_mountain"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_mountain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
