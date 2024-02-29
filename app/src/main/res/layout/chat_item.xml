@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background"
+    android:background="@color/offroader_background"
     android:paddingVertical="5dp">
 
     <LinearLayout
@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/left_chat_view"
         android:background="@drawable/rounded_corner"
-        android:backgroundTint="@color/grey_shade_1"
+        android:backgroundTint="@color/offroader_bubble"
         android:layout_marginEnd="80dp"
         android:padding="10dp">
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/right_chat_view"
         android:background="@drawable/rounded_corner"
-        android:backgroundTint="@color/theme"
+        android:backgroundTint="@color/offroader_green"
         android:layout_marginStart="80dp"
         android:layout_alignParentEnd="true"
         android:padding="10dp">

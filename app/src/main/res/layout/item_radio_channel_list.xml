@@ -33,7 +33,7 @@
             android:padding="3dp"
             android:text="재생중"
             android:textSize="12sp"
-            android:textColor="@color/background"/>
+            android:textColor="@color/offroader_background"/>
     </androidx.cardview.widget.CardView>
 
     <ImageView

@@ -1,9 +1,15 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
 }
+
+//API 키를 담고있는 로컬 프로퍼티를 불러옴
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     namespace = "com.mit.offroader"
@@ -16,6 +22,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        //API 키를 로컬 프로퍼티에서 가져와 name에 부여
+        //사용방법 = BuildConfig.[name]
+        buildConfigField("String", "OPENAI_API_KEY", properties.getProperty("OFFROADER_OPENAI_API_KEY"))
+        buildConfigField("String", "NAVERMAPS_API_KEY", properties.getProperty("OFFROADER_NAVERMAPS_API_KEY"))
     }
 
     buildTypes {
@@ -40,6 +51,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
 }
 
@@ -64,7 +76,7 @@ dependencies {
     // Glide
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+    kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     // viewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
@@ -81,10 +93,11 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 
     // Room
+    val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:2.6.1")
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:$rootProject.roomVersion")
-    androidTestImplementation("androidx.room:room-testing:$rootProject.roomVersion")
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:$room_version")
+    androidTestImplementation("androidx.room:room-testing:$room_version")
 
     //navi
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
@@ -92,6 +105,20 @@ dependencies {
 
     //pager2
     implementation("androidx.viewpager2:viewpager2:1.0.0")
+//    implementation("de.hdodenhof:circleimageview:3.1.0") //잘나옴
+
+    //blur 효과 부여
+    implementation("jp.wasabeef:blurry:4.0.1") //리사이클 캐시 null 에러 = 사용불가
+//    implementation("com.github.Dimezis:BlurView:version-2.0.3") //xml 뷰 안뜸
+    implementation("com.github.furkankaplan:fk-blur-view-android:1.0.1")  //사용 가능하나 코너 값 줄수 없음
+//    implementation ("io.alterac.blurkit:blurkit:1.1.0")//xml 뷰 안뜸
+//    implementation ("com.fivehundredpx:blurringview:1.0.0")//xml 뷰 안뜸
+//    implementation ("com.github.skydoves:cloudy:0.1.2") //로드 안됨
+//    implementation ("jp.wasabeef:picasso-transformations:2.2.1")
+//    implementation ("jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1")
+//    implementation ("implementation 'com.github.jgabrielfreitas:BlurImageView:1.0.1'")
+
+//kts 파일에 maven 추가하는 방법 찾아보기
 
     //lottie 애니메이션 추가
     implementation("com.airbnb.android:lottie:4.1.0")

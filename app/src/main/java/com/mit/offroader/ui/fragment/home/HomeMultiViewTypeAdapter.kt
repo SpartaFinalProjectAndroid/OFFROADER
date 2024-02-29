@@ -2,11 +2,12 @@ package com.mit.offroader.ui.fragment.home
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mit.offroader.databinding.ItemTest1Binding
+import com.mit.offroader.databinding.ItemHomeCardBinding
 import com.mit.offroader.databinding.ItemTest2Binding
 
 class HomeMultiViewTypeAdapter(private val context: Context) :
@@ -37,7 +38,7 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
         return when (viewType) {
             FIRST -> {
                 ProfileViewHolder(
-                    ItemTest1Binding.inflate(
+                    ItemHomeCardBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
@@ -64,12 +65,38 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
     }
 
     // 프로필 영역 뷰홀더
-    inner class ProfileViewHolder(private val binding: ItemTest1Binding) :
+    inner class ProfileViewHolder(private val binding: ItemHomeCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: HomeUiData.First) = with(binding) {
+            val vBlur = binding.i1FkView
+            val title = binding.cardTitle
+            val des = binding.cardDes
+
+//            context.let { vBlur.setBlur(it, vBlur, 20) }
+//
+//            title.visibility = View.VISIBLE
+//            des.visibility = View.VISIBLE
+
+//            context.let { vBlur.setBlurCB(it, vBlur, 20, object : BlurCompletionListener {
+//                override fun onCompleted() {
+//                    title.visibility = View.VISIBLE
+//                    des.visibility = View.VISIBLE
+//                }
+//            }
 
 
-            //프로필 뷰홀더
+            context.let {
+                vBlur.setBlurCB(it, vBlur, 40, object : BlurCompletionListener {
+                    override fun onCompleted() {
+                        title.visibility = View.VISIBLE
+                        des.visibility = View.VISIBLE
+                    }
+                })
+            }
+
+
+
+
 
         }
     }
@@ -90,4 +117,3 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
         private const val SECOND = 2
     }
 }
-

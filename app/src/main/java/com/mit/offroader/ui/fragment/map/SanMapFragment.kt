@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.mit.offroader.R
+import com.mit.offroader.BuildConfig
 import com.mit.offroader.databinding.FragmentSanMapBinding
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
@@ -23,6 +24,7 @@ import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
+import com.naver.maps.map.NaverMapSdk
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.UiSettings
 import com.naver.maps.map.overlay.Align
@@ -57,7 +59,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var uiSettings: UiSettings
 
-    // 마커 이동을 위한 개별 마커마다 구분
+    // 마커 이동을 위해 개별 마커마다 구분
     private var marker1 = Marker()
     private var marker2 = Marker()
     private var marker3 = Marker()
@@ -80,7 +82,8 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentSanMapBinding.inflate(inflater, container, false)
-
+        NaverMapSdk.getInstance(requireContext()).client =
+            NaverMapSdk.NaverCloudPlatformClient(BuildConfig.NAVERMAPS_API_KEY)
         return binding.root
     }
 
@@ -353,55 +356,63 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
 
         // 검색 버튼 클릭 시 마커 이동
         binding.ivSearchLocation.setOnClickListener {
-            when(binding.etInputLocation.text.toString()) {
+            when (binding.etInputLocation.text.toString()) {
                 getString(R.string.san_name_bukhansan) -> {
                     val cameraUpdate = CameraUpdate.scrollAndZoomTo(
                         marker1.position, 15.0
                     )
                     naverMap.moveCamera(cameraUpdate)
                 }
+
                 getString(R.string.san_name_jirisan) -> {
                     val cameraUpdate = CameraUpdate.scrollAndZoomTo(
                         marker2.position, 15.0
                     )
                     naverMap.moveCamera(cameraUpdate)
                 }
+
                 getString(R.string.san_name_hallasan) -> {
                     val cameraUpdate = CameraUpdate.scrollAndZoomTo(
                         marker3.position, 15.0
                     )
                     naverMap.moveCamera(cameraUpdate)
                 }
+
                 getString(R.string.san_name_seoraksan) -> {
                     val cameraUpdate = CameraUpdate.scrollAndZoomTo(
                         marker4.position, 15.0
                     )
                     naverMap.moveCamera(cameraUpdate)
                 }
+
                 getString(R.string.san_name_naejangsan) -> {
                     val cameraUpdate = CameraUpdate.scrollAndZoomTo(
                         marker5.position, 15.0
                     )
                     naverMap.moveCamera(cameraUpdate)
                 }
+
                 getString(R.string.san_name_sobaeksan) -> {
                     val cameraUpdate = CameraUpdate.scrollAndZoomTo(
                         marker6.position, 15.0
                     )
                     naverMap.moveCamera(cameraUpdate)
                 }
+
                 getString(R.string.san_name_songnisan) -> {
                     val cameraUpdate = CameraUpdate.scrollAndZoomTo(
                         marker7.position, 15.0
                     )
                     naverMap.moveCamera(cameraUpdate)
                 }
+
                 getString(R.string.san_name_gyeryongsan) -> {
                     val cameraUpdate = CameraUpdate.scrollAndZoomTo(
                         marker8.position, 15.0
                     )
                     naverMap.moveCamera(cameraUpdate)
                 }
+
                 getString(R.string.san_name_odaesan) -> {
                     val cameraUpdate = CameraUpdate.scrollAndZoomTo(
                         marker9.position, 15.0
