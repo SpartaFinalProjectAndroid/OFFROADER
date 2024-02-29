@@ -13,7 +13,9 @@ class SanImageAdapter(var mItems: List<SanDetailImageData>): RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-            holder.binding.ivMountain.setImageResource(mItems[position].img)
+        val realPosition = position % 5
+
+        holder.mountainImage.setImageResource(mItems[realPosition].img)
     }
 
     override fun getItemCount(): Int {
@@ -21,6 +23,6 @@ class SanImageAdapter(var mItems: List<SanDetailImageData>): RecyclerView.Adapte
     }
 
     inner class Holder(val binding: ItemAdapterMountainBinding): RecyclerView.ViewHolder(binding.root){
-        private val mountainImage = binding.ivMountain
+        var mountainImage = binding.ivMountain
     }
 }

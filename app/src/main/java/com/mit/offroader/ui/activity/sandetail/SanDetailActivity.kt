@@ -16,5 +16,36 @@ class SanDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivitySanDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        initImage()
+        initBookMarkButton()
+
+
+        initBackButton()
+    }
+
+    private fun initImage() {
+        imageAdapter = SanImageAdapter(mItems = List<SanDetailImageData>)
+    }
+
+    private fun initBookMarkButton() {
+        val bookmarkOn = resources.getDrawable(R.drawable.ic_bookmark_on)
+        val bookmarkOff = resources.getDrawable(R.drawable.ic_bookmark_off)
+
+
+
+        binding.ivBookmark.setOnClickListener {
+            binding.ivBookmark.setImageResource(
+                if(isLiked) bookmarkOn else bookmarkOff
+            )
+        }
+    }
+
+    private fun initBackButton() {
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
+
+
     }
 }
