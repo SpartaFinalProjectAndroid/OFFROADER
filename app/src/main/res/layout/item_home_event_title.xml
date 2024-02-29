@@ -10,7 +10,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="10dp"
-        android:src="@drawable/ic_home_suggestion"
+        android:src="@drawable/ic_home_event"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
         android:layout_marginStart="5dp"
         android:fontFamily="@font/bm_hanna_11yrs_old"
         android:paddingTop="3dp"
-        android:text="추천산"
+        android:text="진행중인 이벤트"
         android:textColor="@color/offroader_green"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,7 +35,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginBottom="2.5dp"
         android:fontFamily="@font/pretendard_medium"
-        android:text="이 산은 어때요?"
+        android:text="놓치지 않을 거에요!"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_title"
         app:layout_constraintStart_toEndOf="@id/tv_title" />
