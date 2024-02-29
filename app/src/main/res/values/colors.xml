@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 기본 색상 -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
 
     <!-- 컬러 추가 -->
-    <color name="transparent">#00000000</color>
-    <color name="key_green">#345948</color>
-    <color name="key_white">#F8F7F3</color>
-    <color name="key_red">#F51E1E</color>
-
-    <color name="empty">#00000000</color>
-
-    <color name="intro_splash_background">#E4E0C9</color>
-    <color name="theme">#1D5038</color>
-    <color name="background">#F8F7F3</color>
-    <color name="box_outline">#B4D6B1</color>
-    <color name="grey_shade_1">#D6E0DC</color>
-    <color name="grey_shade_2">#5F5F5F</color>
+    <color name="offroader_green">#00542D</color>
+    <color name="offroader_background">#F8F7F3</color>
+    <color name="offroader_splash">#E4E0C9</color>
+    <color name="offroader_red">#F51E1E</color>
+    <color name="offroader_orange">#FFA301</color>
+    <color name="offroader_blue">#1877F2</color>
+    <color name="offroader_bubble">#D6E0DC</color>
+    <color name="offroader_outline">#B3D5B0</color>
+    <color name="offroader_navi">#A69B9B</color>
+    <color name="offroader_title">#3D3D3D</color>
+    <color name="offroader_description">#7A7A7A</color>
 </resources>
