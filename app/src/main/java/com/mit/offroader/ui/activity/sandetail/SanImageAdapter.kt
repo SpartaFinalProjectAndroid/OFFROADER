@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mit.offroader.databinding.ItemAdapterMountainBinding
 
-class SanImageAdapter: RecyclerView.Adapter<SanImageAdapter.Holder>() {
+class SanImageAdapter(var mItems: List<SanDetailImageData>): RecyclerView.Adapter<SanImageAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ItemAdapterMountainBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -13,10 +13,14 @@ class SanImageAdapter: RecyclerView.Adapter<SanImageAdapter.Holder>() {
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-
+            holder.binding.ivMountain.setImageResource(mItems[position].img)
     }
 
-    override fun getItemCount(): Int = Int.MAX_VALUE
+    override fun getItemCount(): Int {
+        return Int.MAX_VALUE
+    }
 
-    inner class Holder(val binding: ItemAdapterMountainBinding): RecyclerView.ViewHolder(binding.root){}
+    inner class Holder(val binding: ItemAdapterMountainBinding): RecyclerView.ViewHolder(binding.root){
+        private val mountainImage = binding.ivMountain
+    }
 }
