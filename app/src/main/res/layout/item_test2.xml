@@ -4,24 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/iv_test2"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/tv_event_title"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_launcher_background"
-        android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/pretendard_semibold"
+        android:text="오프로더 런칭 이벤트2!!!, 하단 탭의 챗봇으로 산행에 필요한
+정보를 검색하면 스파르타 코딩클럽 평생 수강권 지급!"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_event_des"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="두 번째 아이템"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="10dp"
+        android:fontFamily="@font/pretendard_regular"
+        android:text="2024년 2월 21일"
+        android:textSize="14sp"
+        android:textColor="@color/offroader_green"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_test2" />
+        app:layout_constraintTop_toBottomOf="@id/tv_event_title"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
