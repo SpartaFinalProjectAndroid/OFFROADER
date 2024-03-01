@@ -10,6 +10,16 @@ import com.mit.offroader.data.repository.AiRepository
 import kotlinx.coroutines.launch
 
 class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository()) : ViewModel() {
+
+
+    private var _chatBotUiState = MutableLiveData<ChatBotUiState>()
+
+    val chatBotUiState: LiveData<ChatBotUiState> = _chatBotUiState
+
+    init {
+        _chatBotUiState.value = ChatBotUiState.init()
+    }
+
     fun setBotSpinner(position: Int) {
         when (position) {
             0 -> {
@@ -27,18 +37,26 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository()) : View
 
     fun onSearch(text: String) {
         viewModelScope.launch {
-            kotlin.runCatching {
+            runCatching {
+
+                val message = "한 문장으로 대답해줘. $text"
+
+                Log.d("Connect ChatGpt", "^^ -1. $message")
+
+                val channelResponse =
+                    aiRepo.createChatCompletion(text).choices.first().message.content
+
+                Log.d("Connect ChatGPT", "^^ 0. channelResponse = $channelResponse")
 
                 Log.d("Connect ChatGPT", "^^ 1. ViewModel")
-                Conversation.addText(Message("user",text))
-                val messages = Conversation.hikeyConversation.toList()
-                val channelResponse =
-                    aiRepo.createChatCompletion(messages).choices.first().message.content
+                Conversation.addText(Message("user", text))
+                Conversation.addText(Message("ai",channelResponse))
 
-                _chatBotUiState.value = ChatBotUiState(response = channelResponse)
+
 
             }.onSuccess {
                 Log.d("Connect ChatGPT", "^^Successful!")
+                _chatBotUiState.value = _chatBotUiState.value?.copy(chatContent = Conversation.hikeyConversation)
             }.onFailure {
                 Log.d("Connect ChatGPT", "^^Failed!")
 
@@ -52,7 +70,4 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository()) : View
 
     }
 
-    private var _chatBotUiState = MutableLiveData<ChatBotUiState>()
-
-    val chatBotUiState: LiveData<ChatBotUiState> = _chatBotUiState
 }

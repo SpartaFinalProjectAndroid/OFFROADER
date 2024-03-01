@@ -6,7 +6,7 @@ object Conversation {
     // 임시 대화 저장 공간
 
     var hikeyConversation = arrayListOf<Message>(
-
+        Message("assitant", "궁금한 걸 저에게 물어보세요!")
     )
 
     // 대화를 추가해줌

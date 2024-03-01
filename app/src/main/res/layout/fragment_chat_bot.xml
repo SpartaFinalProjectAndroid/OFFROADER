@@ -17,27 +17,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        <ImageView
-            android:id="@+id/iv_bot"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_hikey" />
 
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="16dp">
+            android:layout_marginVertical="5dp"
+            android:layout_marginHorizontal="10dp">
+
+            <ImageView
+                android:id="@+id/iv_bot"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_hikey"
+                app:layout_constraintEnd_toEndOf="@+id/tv_bot_mbti"
+                app:layout_constraintStart_toStartOf="@id/tv_bot_mbti"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_bot_mbti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chatbot_mbti"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_bot" />
 
             <Spinner
                 android:id="@+id/sp_bot"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintStart_toEndOf="@+id/tv_bot_mbti"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <TextView
@@ -75,6 +87,7 @@
                 android:id="@+id/rv_chatbot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_chatbot"/>
         </ScrollView>
 

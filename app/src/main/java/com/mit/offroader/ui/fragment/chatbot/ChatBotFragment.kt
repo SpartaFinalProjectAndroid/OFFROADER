@@ -1,30 +1,30 @@
 package com.mit.offroader.ui.fragment.chatbot
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mit.offroader.R
 import com.mit.offroader.databinding.FragmentChatBotBinding
 import com.mit.offroader.ui.activity.main.MainActivity
-import com.mit.offroader.ui.fragment.mydetail.MyDetailViewModel
 
 class ChatBotFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ChatBotFragment()
-    }
 
     private var _binding: FragmentChatBotBinding? = null
     private val binding get() = _binding!!
     private val chatBotViewModel by viewModels<ChatBotViewModel>()
+    private val chatAdapter: ChatAdapter by lazy { ChatAdapter(chatBotViewModel) }
 
 
     override fun onCreateView(
@@ -40,12 +40,27 @@ class ChatBotFragment : Fragment() {
         initView()
         initViewModel()
         initObserver()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("onResume in ChatBotFragment", "이거 다음에어댑터 연결하고 서브밋함..")
+
+        Log.d("서브밋","${Conversation.hikeyConversation}")
+        chatAdapter.submitList(Conversation.hikeyConversation)
+
     }
 
     private fun initObserver() {
+        Log.d("옵져빙 함수", "^^ 옵져빙 되는 중")
         chatBotViewModel.chatBotUiState.observe(viewLifecycleOwner) {
-            Log.d("CHATGPT CHATBOT", "^^ ${it.response}")
+
+            Log.d("CHATGPT CHATBOT", "^^ 값 가져오기 + 이 다음에 서브밋함. ${it.chatContent?.get(0)?.content}")
+            chatAdapter.submitList(it.chatContent)
+
         }
+
 
     }
 
@@ -72,10 +87,26 @@ class ChatBotFragment : Fragment() {
 
     // 에딧 텍스트에서 챗봇 검색 실행 코드.
     private fun setSearch() {
+
+        binding.etAsk.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+        })
         binding.etAsk.setOnEditorActionListener { textView, actionId, keyEvent ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                chatBotViewModel.onSearch(textView.toString())
+                Log.d("chatbot Fragment", "^^ setOnEditorAction Listener : ${textView.text.toString()}")
+
+                chatBotViewModel.onSearch(textView.text.toString())
                 handled = true
             }
             handled
@@ -115,7 +146,7 @@ class ChatBotFragment : Fragment() {
 //                    1 -> {
 //                        binding.ivBot.setImageResource(R.drawable.ic_bongbong)
 //                        // TODO : 채팅 화면 전환하기 (+ MVVM 모델 구조로 바꾸어야함)
-//                        setChat(position)
+                        setChat(position)
 //                    }
 //                }
 //                // 로직 부분 구현하기
@@ -135,15 +166,7 @@ class ChatBotFragment : Fragment() {
 
     // 채팅 창을 셋팅해주는 함수
     private fun setChat(bot: Int) { // 정수형 매개변수 bot 이 0이면 봉봉이 1이면 하이키
-        when (bot) {
-            0 -> {
-
-            }
-
-            1 -> {
-
-            }
-        }
+        chatAdapter.submitList(Conversation.hikeyConversation)
 
     }
 
