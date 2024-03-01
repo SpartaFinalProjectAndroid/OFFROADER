@@ -48,6 +48,7 @@ class ChatBotFragment : Fragment() {
         Log.d("onResume in ChatBotFragment", "이거 다음에어댑터 연결하고 서브밋함..")
 
         Log.d("서브밋","${Conversation.hikeyConversation}")
+        binding.rvChatbot.adapter = chatAdapter
         chatAdapter.submitList(Conversation.hikeyConversation)
 
     }
@@ -56,7 +57,7 @@ class ChatBotFragment : Fragment() {
         Log.d("옵져빙 함수", "^^ 옵져빙 되는 중")
         chatBotViewModel.chatBotUiState.observe(viewLifecycleOwner) {
 
-            Log.d("CHATGPT CHATBOT", "^^ 값 가져오기 + 이 다음에 서브밋함. ${it.chatContent?.get(0)?.content}")
+            Log.d("CHATGPT CHATBOT", "^^ 값 가져오기 + 이 다음에 서브밋함. ${it.chatContent}")
             chatAdapter.submitList(it.chatContent)
 
         }

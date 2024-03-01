@@ -45,7 +45,9 @@ class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Message,
                     aiChat.visibility = View.VISIBLE
                     aiChatBox.visibility = View.VISIBLE
                     aiChat.text = item.content
-
+                }
+                else -> {
+                    Log.d("error","^^ 대화 role이 잘못 설정되어있다 오타 확인 !!")
                 }
             }
         }
