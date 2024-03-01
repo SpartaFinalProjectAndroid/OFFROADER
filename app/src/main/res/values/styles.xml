@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- 배경 색 디자인에 맞게 입혀줌 -->
-        <item name="android:windowBackground">@color/background</item>
+        <item name="android:windowBackground">@color/offroader_background</item>
     </style>
 
     <!-- 가로 구분선 디자인 -->

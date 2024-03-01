@@ -17,10 +17,14 @@
         android:id="@+id/map_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="85dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
     </com.naver.maps.map.MapView>
 
     <!--    <com.naver.maps.map.widget.LocationButtonView-->
@@ -38,8 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="@id/map_view"
         app:layout_constraintEnd_toEndOf="@id/map_view">
 
@@ -90,6 +94,9 @@
         android:hint="@string/san_map_input"
         android:paddingStart="20dp"
         android:textSize="14sp"
+        android:fontFamily="@font/pretendardvariable"
+        android:textFontWeight="900"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
