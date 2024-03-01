@@ -91,19 +91,6 @@ class ChatBotFragment : Fragment() {
     // 에딧 텍스트에서 챗봇 검색 실행 코드.
     private fun setSearch() {
 
-        binding.etAsk.addTextChangedListener(object: TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-        })
 
         // 키보드에서 검색을 눌렀을 때 질문이 질문을 뷰모델로 넘겨주는 함수
         binding.etAsk.setOnEditorActionListener { textView, actionId, keyEvent ->
@@ -131,7 +118,7 @@ class ChatBotFragment : Fragment() {
         )
     }
 
-    // 스피너를 작동 (하이키/봉봉이) 을 셋팅해주는 함수
+    // 스피너를 작동 (히키/봉봉이) 을 셋팅해주는 함수
     private fun setBot() {
         binding.spBot.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 

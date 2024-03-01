@@ -4,7 +4,7 @@
     <!--    ChatBotFragment-->
     <string name="chatbot_ask_hint">히키에게 궁금한 것을 물어보세요!</string>
     <string name="chatbot_delete_history">기록 지우기</string>
-    <string name="chatbot_hikey">하이키</string>
+    <string name="chatbot_hikey">히키</string>
     <string name="chatbot_bongbong">봉봉이</string>
     <string name="chatbot_mbti">MBTI F</string>
     <string name="chatbot_clear"></string>
