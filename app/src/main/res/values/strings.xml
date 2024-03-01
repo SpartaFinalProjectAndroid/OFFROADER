@@ -6,6 +6,9 @@
     <string name="chatbot_delete_history">기록 지우기</string>
     <string name="chatbot_hikey">하이키</string>
     <string name="chatbot_bongbong">봉봉이</string>
+    <string name="chatbot_mbti">MBTI F</string>
+    <string name="chatbot_clear"></string>
+
 
 
     <!--    MyDetailFragment-->
@@ -32,6 +35,5 @@
     <string name="san_name_songnisan">속리산</string>
     <string name="san_name_gyeryongsan">계룡산</string>
     <string name="san_name_odaesan">오대산</string>
-    <string name="chatbot_mbti">MBTI F</string>
 
 </resources>

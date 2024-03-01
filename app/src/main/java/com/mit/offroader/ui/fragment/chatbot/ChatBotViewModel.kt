@@ -50,7 +50,7 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository()) : View
 
                 Log.d("Connect ChatGPT", "^^ 1. ViewModel")
                 Conversation.addText(Message("user", text))
-                Conversation.addText(Message("ai",channelResponse))
+                Conversation.addText(Message("assistant",channelResponse))
 
 
 

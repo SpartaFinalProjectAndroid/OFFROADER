@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -58,6 +59,7 @@ class ChatBotFragment : Fragment() {
         chatBotViewModel.chatBotUiState.observe(viewLifecycleOwner) {
 
             Log.d("CHATGPT CHATBOT", "^^ 값 가져오기 + 이 다음에 서브밋함. ${it.chatContent}")
+            binding.rvChatbot.adapter = chatAdapter
             chatAdapter.submitList(it.chatContent)
 
         }
@@ -102,13 +104,16 @@ class ChatBotFragment : Fragment() {
             }
 
         })
+
+        // 키보드에서 검색을 눌렀을 때 질문이 질문을 뷰모델로 넘겨주는 함수
         binding.etAsk.setOnEditorActionListener { textView, actionId, keyEvent ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 Log.d("chatbot Fragment", "^^ setOnEditorAction Listener : ${textView.text.toString()}")
-
                 chatBotViewModel.onSearch(textView.text.toString())
-                handled = true
+                (binding.etAsk as TextView).text = getString(R.string.chatbot_clear)
+                // handled가 false이면 검색 클릭 이후 키보드가 비활성화된다.
+                handled = false
             }
             handled
         }
