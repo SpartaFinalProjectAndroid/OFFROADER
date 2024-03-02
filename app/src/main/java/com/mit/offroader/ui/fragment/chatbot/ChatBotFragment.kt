@@ -57,6 +57,7 @@ class ChatBotFragment : Fragment() {
         Log.d("onResume in ChatBotFragment", "이거 다음에어댑터 연결하고 서브밋함..")
 
 //        binding.rvChatbot.adapter = chatAdapter
+
         initObserver()
 
 
@@ -95,6 +96,14 @@ class ChatBotFragment : Fragment() {
 
         // EditText 검색 셋팅 함수
         setSearch()
+
+        setClear()
+    }
+
+    private fun setClear() {
+        binding.tvClearChat.setOnClickListener {
+            chatBotViewModel.setClearChat()
+        }
     }
 
     // 에딧 텍스트에서 챗봇 검색 실행 코드.
@@ -129,6 +138,8 @@ class ChatBotFragment : Fragment() {
 
     // 스피너를 작동 (히키/봉봉이) 을 셋팅해주는 함수
     private fun setBot() {
+        chatBotViewModel.setBotSpinner(0)
+
         binding.spBot.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
             // 스피너가 선택 되었을 때 : position 값이 선택된 스피너 값의 인덱스를 알려줌)
@@ -158,7 +169,7 @@ class ChatBotFragment : Fragment() {
             // 스피너가 선택되지 않았을 때 (초기 상태) : 초기에 봉봉이를 선택해 둠.
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 binding.ivBot.setImageResource(R.drawable.ic_bongbong)
-                // TODO : 채팅 화면 셋팅 ? sharedpref 또는 Room DB에 저장되어 있는 채팅 내역 가져오기
+                chatBotViewModel.setChat()
 //                setChat(1)
             }
 

@@ -8,8 +8,8 @@ data class ChatBotUiState(
 ) {
     companion object {
         fun init() = ChatBotUiState(
-            chatWithHikey = listOf(Message("assistant", "저에게 궁금한걸 물어보세요!")),
-            chatWithBongBong = listOf(Message("assistant", "저에게 궁금한걸 물어보세요!"))
+            chatWithHikey = listOf(),
+            chatWithBongBong = listOf()
         )
     }
 }

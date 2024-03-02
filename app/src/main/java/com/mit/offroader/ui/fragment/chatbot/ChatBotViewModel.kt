@@ -42,18 +42,24 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), privat
 
     fun onSearch(text: String) {
         lateinit var channelResponse : String
+        lateinit var input: ConversationRecord
+        lateinit var output: ConversationRecord
         viewModelScope.launch {
             runCatching {
 
                 val message = "$text. 한 문장으로 대답해줘. "
-                val myUuId = UUID.randomUUID().toString()
-                val input = ConversationRecord(myUuId, "hikey","user",text)
+                val myUuIdInput = UUID.randomUUID().toString()
+                input = ConversationRecord(myUuIdInput, "hikey","user",text)
                 chatBotRepository.insertChat(input)
 
                 Log.d("Connect ChatGpt", "^^ -1. $message")
 
                 channelResponse =
                     aiRepo.createChatCompletion(text).choices.first().message.content
+                val myUuIdOutput = UUID.randomUUID().toString()
+                output = ConversationRecord(myUuIdOutput,"hikey","assistant", channelResponse )
+                chatBotRepository.insertChat(output)
+
 
                 Log.d("Connect ChatGPT", "^^ 0. channelResponse = $channelResponse")
 
@@ -65,7 +71,7 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), privat
                 Log.d("Connect ChatGPT", "^^Successful!")
                 val myUuId = UUID.randomUUID()
                 val chat = ConversationRecord(myUuId.toString(),"hikey", "assistant", channelResponse)
-                chatBotRepository.insertChat(chat)
+
                 setChat()
 
 //                _chatBotUiState.value = _chatBotUiState.value?.copy(chatContent = Conversation.hikeyConversation)
@@ -79,10 +85,11 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), privat
 
 
 
-    private fun setChat() {
+    fun setChat() {
+        val hikeyConversation: ArrayList<Message> = arrayListOf()
+        val bongbongConversation: ArrayList<Message> = arrayListOf()
         conversation.value?.apply {
-            val hikeyConversation: ArrayList<Message> = arrayListOf()
-            val bongbongConversation: ArrayList<Message> = arrayListOf()
+
             for (i in this.indices) {
                 when (this[i].aiType) {
                     "hikey" -> {
@@ -93,9 +100,18 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), privat
                     }
                 }
             }
-            _chatBotUiState.value = _chatBotUiState.value?.copy(chatWithHikey = hikeyConversation, chatWithBongBong = bongbongConversation)
         }
+        _chatBotUiState.value = _chatBotUiState.value?.copy(chatWithHikey = hikeyConversation, chatWithBongBong = bongbongConversation)
 
     }
+
+    fun setClearChat() {
+        viewModelScope.launch {
+            chatBotRepository.deleteConversation()
+        }
+        setChat()
+    }
+
+
 
 }
