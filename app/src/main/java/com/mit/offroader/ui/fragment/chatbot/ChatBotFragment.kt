@@ -1,5 +1,6 @@
 package com.mit.offroader.ui.fragment.chatbot
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,12 +12,17 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.mit.offroader.R
 import com.mit.offroader.databinding.FragmentChatBotBinding
 import com.mit.offroader.ui.activity.main.MainActivity
 import com.mit.offroader.ui.fragment.chatbot.adapter.ChatAdapter
 import com.mit.offroader.ui.fragment.chatbot.database.ChatBotDao
-import com.mit.offroader.ui.fragment.chatbot.database.Conversation
+import com.mit.offroader.ui.fragment.chatbot.database.ChatBotDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class ChatBotFragment : Fragment() {
 
@@ -27,7 +33,6 @@ class ChatBotFragment : Fragment() {
         ChatBotViewModelFactory((requireActivity().application as ChatBotApplication).repository)
     }
     private val chatAdapter: ChatAdapter by lazy { ChatAdapter(chatBotViewModel) }
-    lateinit var chatBotDao : ChatBotDao
 
 
     override fun onCreateView(
@@ -42,17 +47,17 @@ class ChatBotFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         initViewModel()
-        initObserver()
+
 
     }
+
 
     override fun onResume() {
         super.onResume()
         Log.d("onResume in ChatBotFragment", "이거 다음에어댑터 연결하고 서브밋함..")
 
-        Log.d("서브밋","${Conversation.hikeyConversation}")
 //        binding.rvChatbot.adapter = chatAdapter
-//        chatAdapter.submitList(Conversation.hikeyConversation)
+        initObserver()
 
 
     }

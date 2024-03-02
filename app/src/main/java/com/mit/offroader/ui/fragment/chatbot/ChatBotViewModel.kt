@@ -8,11 +8,9 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.mit.offroader.data.model.ai.Message
 import com.mit.offroader.data.repository.AiRepository
-import com.mit.offroader.ui.fragment.chatbot.database.Conversation
 import com.mit.offroader.ui.fragment.chatbot.database.ConversationRecord
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), private val chatBotRepository: ChatBotRepository) : ViewModel() {
 
@@ -21,11 +19,10 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), privat
 
     val chatBotUiState: LiveData<ChatBotUiState> = _chatBotUiState
 
-    val conversation: LiveData<List<ConversationRecord>> = chatBotRepository.conversation.asLiveData()
+    var conversation: LiveData<List<ConversationRecord>> = chatBotRepository.conversation.asLiveData()
 
     init {
         _chatBotUiState.value = ChatBotUiState.init()
-        conversation = chatBotRepository.insertChat(ConversationRecord("hikey","assistant", "궁금한걸 물어보세요!"))
     }
 
     fun setBotSpinner(position: Int) {
@@ -48,7 +45,10 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), privat
         viewModelScope.launch {
             runCatching {
 
-                val message = "한 문장으로 대답해줘. $text"
+                val message = "$text. 한 문장으로 대답해줘. "
+                val myUuId = UUID.randomUUID().toString()
+                val input = ConversationRecord(myUuId, "hikey","user",text)
+                chatBotRepository.insertChat(input)
 
                 Log.d("Connect ChatGpt", "^^ -1. $message")
 
@@ -58,14 +58,13 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), privat
                 Log.d("Connect ChatGPT", "^^ 0. channelResponse = $channelResponse")
 
                 Log.d("Connect ChatGPT", "^^ 1. ViewModel")
-                Conversation.addText(Message("user", text))
-                Conversation.addText(Message("assistant",channelResponse))
 
 
 
             }.onSuccess {
                 Log.d("Connect ChatGPT", "^^Successful!")
-                val chat = ConversationRecord("hikey", "user", channelResponse)
+                val myUuId = UUID.randomUUID()
+                val chat = ConversationRecord(myUuId.toString(),"hikey", "assistant", channelResponse)
                 chatBotRepository.insertChat(chat)
                 setChat()
 

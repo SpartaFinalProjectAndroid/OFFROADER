@@ -17,4 +17,6 @@ interface ChatBotDao {
     @Query("DELETE FROM conversation_record")
     suspend fun deleteConversation()
 
+
+
 }

@@ -1,8 +1,6 @@
 package com.mit.offroader.ui.fragment.chatbot
 
 import com.mit.offroader.data.model.ai.Message
-import com.mit.offroader.ui.fragment.chatbot.database.Conversation
-import com.mit.offroader.ui.fragment.chatbot.database.ConversationRecord
 
 data class ChatBotUiState(
     val chatWithHikey: List<Message>,

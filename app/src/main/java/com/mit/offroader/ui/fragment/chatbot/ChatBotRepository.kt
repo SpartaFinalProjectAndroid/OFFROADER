@@ -2,8 +2,11 @@ package com.mit.offroader.ui.fragment.chatbot
 
 import androidx.annotation.WorkerThread
 import com.mit.offroader.ui.fragment.chatbot.database.ChatBotDao
+import com.mit.offroader.ui.fragment.chatbot.database.ChatBotDatabase
 import com.mit.offroader.ui.fragment.chatbot.database.ConversationRecord
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
@@ -18,4 +21,6 @@ class ChatBotRepository(private val chatBotDao: ChatBotDao) {
     suspend fun insertChat(chat: ConversationRecord) {
         chatBotDao.insertChat(chat)
     }
+
+
 }

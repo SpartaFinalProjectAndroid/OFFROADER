@@ -36,13 +36,17 @@ abstract class ChatBotDatabase : RoomDatabase() {
         private var INSTANCE: ChatBotDatabase? = null
 
         fun getDatabase(
-            context: Context,
+            context: Context
+            ,
             scope: CoroutineScope
         ): ChatBotDatabase {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(
                     context, ChatBotDatabase::class.java, "record_database"
-                ).addCallback(ChatBotDatabaseCallback(scope)).build()
+                )
+                    .addCallback(ChatBotDatabaseCallback(scope))
+                    .fallbackToDestructiveMigration()
+                    .build()
             }
             return INSTANCE as ChatBotDatabase
         }

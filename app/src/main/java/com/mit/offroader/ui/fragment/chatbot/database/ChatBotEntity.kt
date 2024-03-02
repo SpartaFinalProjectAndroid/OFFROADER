@@ -7,6 +7,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "conversation_record")
 data class ConversationRecord(
     @PrimaryKey
+    @ColumnInfo(name = "key")
+    val key: String,
     @ColumnInfo(name = "ai_type")
     val aiType: String,
     @ColumnInfo(name = "role")
