@@ -25,6 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OFFROADER"
+        android:name=".ui.fragment.chatbot.ChatBotApplication"
         tools:targetApi="31">
 <!--        <meta-data-->
 <!--            android:name="com.naver.maps.map.CLIENT_ID"-->

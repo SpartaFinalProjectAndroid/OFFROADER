@@ -1,4 +1,4 @@
-package com.mit.offroader.ui.fragment.chatbot
+package com.mit.offroader.ui.fragment.chatbot.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,8 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mit.offroader.data.model.ai.Message
 import com.mit.offroader.databinding.ItemChatbotBinding
+import com.mit.offroader.ui.fragment.chatbot.ChatBotViewModel
 
-class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Message, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Message, RecyclerView.ViewHolder>(
+    DIFF_CALLBACK
+) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

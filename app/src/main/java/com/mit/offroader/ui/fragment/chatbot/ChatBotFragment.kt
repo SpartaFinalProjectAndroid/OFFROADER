@@ -1,8 +1,6 @@
 package com.mit.offroader.ui.fragment.chatbot
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,22 +8,26 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.TextView
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mit.offroader.R
 import com.mit.offroader.databinding.FragmentChatBotBinding
 import com.mit.offroader.ui.activity.main.MainActivity
+import com.mit.offroader.ui.fragment.chatbot.adapter.ChatAdapter
+import com.mit.offroader.ui.fragment.chatbot.database.ChatBotDao
+import com.mit.offroader.ui.fragment.chatbot.database.Conversation
 
 class ChatBotFragment : Fragment() {
 
 
     private var _binding: FragmentChatBotBinding? = null
     private val binding get() = _binding!!
-    private val chatBotViewModel by viewModels<ChatBotViewModel>()
+    private val chatBotViewModel: ChatBotViewModel by viewModels {
+        ChatBotViewModelFactory((requireActivity().application as ChatBotApplication).repository)
+    }
     private val chatAdapter: ChatAdapter by lazy { ChatAdapter(chatBotViewModel) }
+    lateinit var chatBotDao : ChatBotDao
 
 
     override fun onCreateView(
@@ -49,19 +51,21 @@ class ChatBotFragment : Fragment() {
         Log.d("onResume in ChatBotFragment", "이거 다음에어댑터 연결하고 서브밋함..")
 
         Log.d("서브밋","${Conversation.hikeyConversation}")
-        binding.rvChatbot.adapter = chatAdapter
-        chatAdapter.submitList(Conversation.hikeyConversation)
+//        binding.rvChatbot.adapter = chatAdapter
+//        chatAdapter.submitList(Conversation.hikeyConversation)
+
 
     }
 
     private fun initObserver() {
         Log.d("옵져빙 함수", "^^ 옵져빙 되는 중")
+        chatBotViewModel.conversation.observe(viewLifecycleOwner) {
+            Log.d("룸 디비", "^^ SUCCESS 저장되 데이터 가져옴 $it")
+
+        }
         chatBotViewModel.chatBotUiState.observe(viewLifecycleOwner) {
-
-            Log.d("CHATGPT CHATBOT", "^^ 값 가져오기 + 이 다음에 서브밋함. ${it.chatContent}")
             binding.rvChatbot.adapter = chatAdapter
-            chatAdapter.submitList(it.chatContent)
-
+            chatAdapter.submitList(it.chatWithHikey)
         }
 
 
@@ -139,7 +143,7 @@ class ChatBotFragment : Fragment() {
 //                    1 -> {
 //                        binding.ivBot.setImageResource(R.drawable.ic_bongbong)
 //                        // TODO : 채팅 화면 전환하기 (+ MVVM 모델 구조로 바꾸어야함)
-                        setChat(position)
+//                        setChat(position)
 //                    }
 //                }
 //                // 로직 부분 구현하기
@@ -150,18 +154,18 @@ class ChatBotFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 binding.ivBot.setImageResource(R.drawable.ic_bongbong)
                 // TODO : 채팅 화면 셋팅 ? sharedpref 또는 Room DB에 저장되어 있는 채팅 내역 가져오기
-                setChat(1)
+//                setChat(1)
             }
 
         }
 
     }
 
-    // 채팅 창을 셋팅해주는 함수
-    private fun setChat(bot: Int) { // 정수형 매개변수 bot 이 0이면 봉봉이 1이면 하이키
-        chatAdapter.submitList(Conversation.hikeyConversation)
-
-    }
+//    // 채팅 창을 셋팅해주는 함수
+//    private fun setChat(bot: Int) { // 정수형 매개변수 bot 이 0이면 봉봉이 1이면 하이키
+//        chatAdapter.submitList(Conversation.hikeyConversation)
+//
+//    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
