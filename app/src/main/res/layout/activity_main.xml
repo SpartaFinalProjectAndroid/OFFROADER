@@ -34,7 +34,8 @@
     <androidx.media3.ui.PlayerView
         android:id="@+id/view_test"
         android:layout_width="1dp"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        app:surface_type="surface_view"/>
     <TextView
         android:id="@+id/tv_radio_title"
         android:layout_width="wrap_content"
@@ -72,6 +73,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
+            android:id="@+id/tv_bottom_radio_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

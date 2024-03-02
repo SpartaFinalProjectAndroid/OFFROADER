@@ -39,6 +39,7 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.json.JSONObject
+import org.json.JSONTokener
 import java.io.IOException
 import java.security.Provider.Service
 import kotlin.concurrent.thread
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var radioPlayer : ExoPlayer
 
     private var radioUrl : String ?= null
+    private var isPlay : Boolean = false
 
     @OptIn(UnstableApi::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +98,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         initRadio()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        radioPlayer.release()
+        binding.viewTest.player?.release()
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -107,15 +114,14 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    // 라디오 관련 기능들 초기화
     private fun initRadio() {
         radioSetting()
     }
 
     // 각 방송국의 라디오 채널 리스트 초기화
     @OptIn(UnstableApi::class) private fun radioSetting() {
-        val test : ArrayList<String> = arrayListOf("test", "test2", "", "","","","","","")
        // binding.rvChannelList.adapter = RadioListAdapter(test)
-
 
         with(binding) {
             cvFavorites.setOnClickListener {
@@ -124,59 +130,63 @@ class MainActivity : AppCompatActivity() {
             }
 
             cvKbs.setOnClickListener {
-                //rvChannelList.adapter = RadioListAdapter(test3)
-                ivRadioProfile.setImageResource(R.drawable.ic_kbs_radio)
+
+                val adapter  = RadioListAdapter(RadioChannelURL.KBS_LIST.keys.toMutableList())
+                adapter.itemClick = object : RadioListAdapter.ItemClick {
+                    override fun onClick(key: String) {
+                        RadioChannelURL.KBS_LIST[key]?.let { httpNetWork2(it) }
+                        Thread.sleep(1000)
+                        preparePlayer()
+                        radioPlay()
+                        binding.tvBottomRadioTitle.text = key
+                        ivRadioProfile.setImageResource(R.drawable.ic_kbs_radio)
+                    }
+                }
+                rvChannelList.adapter = adapter
             }
 
             cvSbs.setOnClickListener {
-                ivRadioProfile.setImageResource(R.drawable.ic_sbs_radio)
-
                 val adapter  = RadioListAdapter(RadioChannelURL.SBS_LIST.keys.toMutableList())
                 adapter.itemClick = object : RadioListAdapter.ItemClick {
-                    override fun onClick(key : String) {
+                    override fun onClick(key: String) {
                         RadioChannelURL.SBS_LIST[key]?.let { httpNetWork(it) }
+                        Thread.sleep(300)
                         preparePlayer()
                         radioPlay()
+                        binding.tvBottomRadioTitle.text = key
+                        ivRadioProfile.setImageResource(R.drawable.ic_sbs_radio)
                     }
                 }
                 rvChannelList.adapter = adapter
             }
 
             cvMbc.setOnClickListener {
-                ivRadioProfile.setImageResource(R.drawable.ic_mbc_radio)
-
                 val adapter  = RadioListAdapter(RadioChannelURL.MBC_LIST.keys.toMutableList())
                 adapter.itemClick = object : RadioListAdapter.ItemClick {
                     override fun onClick(key : String) {
-                        var test2 : String ?= null
-//                        RadioChannelURL.MBC_LIST[key]?.let { httpNetWork(it) }
-//                        preparePlayer()
-//                        radioPlay()
-                        RadioChannelURL.MBC_LIST[key]?.let { test2 = httpNetWork(it) }
-                        testRadioPlay(test2)
+                        RadioChannelURL.MBC_LIST[key]?.let { httpNetWork(it) }
+                        Thread.sleep(300)
+                        preparePlayer()
+                        radioPlay()
+                        binding.tvBottomRadioTitle.text = key
+                        ivRadioProfile.setImageResource(R.drawable.ic_mbc_radio)
                     }
                 }
                 rvChannelList.adapter = adapter
             }
 
             ivRadioPlayBtn.setOnClickListener {
-
-                //radioPlayer.pause()
-
-                val mediaItem = radioUrl?.let { MediaItem.fromUri(it) }
-                if (mediaItem != null) {
-                    radioPlayer.setMediaItem(mediaItem)
+                if (isPlay) {
+                    radioPause()
+                } else {
+                    preparePlayer()
+                    radioPlay()
                 }
-
-                radioPlayer.prepare()
-                radioPlayer.play()
             }
         }
     }
 
-    fun httpNetWork(channelUrl : String) : String? {
-
-        var test : String ?= null
+    fun httpNetWork(channelUrl : String) {
 
         val client = OkHttpClient()
         val request : Request = Request.Builder()
@@ -189,41 +199,60 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                //thread {
-                    //radioUrl = response.body?.string()
-                test = response.body?.string()
-                radioUrl = test
-                //}
+                thread {
+                    radioUrl = response.body?.string()
+                }
             }
         })
+    }
 
-        return test
+    // KBS 라디오 API 호출 함수 (SBS, MBC 하고 API 호출 값이 다르기 때문에 따로 함수 구현)
+    fun httpNetWork2(channelUrl : String) {
+
+        val client = OkHttpClient()
+        val request : Request = Request.Builder()
+            .url(channelUrl)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.i("Minyong", "fail!")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                thread {
+                    val jsonObject = JSONTokener(response.body?.string()).nextValue() as JSONObject
+                    val url = jsonObject.getJSONArray("channel_item")
+                        .getJSONObject(0)
+                        .getString("service_url")
+                    radioUrl = url
+                }
+            }
+        })
     }
 
     private fun preparePlayer() {
-        binding.viewTest.player?.stop()
-        val mediaItem = radioUrl?.let { MediaItem.fromUri(it) }
-        if (mediaItem != null) {
-            binding.viewTest.player?.setMediaItem(mediaItem)
-        }
+        with(binding) {
+            viewTest.player?.stop()
+            val mediaItem = radioUrl?.let { MediaItem.fromUri(it) }
+            if (mediaItem != null) {
+                viewTest.player?.setMediaItem(mediaItem)
+            }
 
-        binding.viewTest.player?.prepare()
-        binding.viewTest.player?.playWhenReady = true
+            viewTest.player?.prepare()
+            viewTest.player?.playWhenReady = true
+        }
     }
 
+    // 라디오 재생
     private fun radioPlay() {
         binding.viewTest.player?.play()
+        isPlay = true
     }
 
-    private fun testRadioPlay(url : String?) {
-        //binding.viewTest.player?.stop()
-        val mediaItem = url?.let { MediaItem.fromUri(it) }
-        if (mediaItem != null) {
-            binding.viewTest.player?.setMediaItem(mediaItem)
-        }
-
-        binding.viewTest.player?.prepare()
-        binding.viewTest.player?.playWhenReady = true
-        binding.viewTest.player?.play()
+    // 라디오 정지
+    private fun radioPause() {
+        binding.viewTest.player?.stop()
+        isPlay = false
     }
 }
