@@ -45,8 +45,7 @@ class ChatBotFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
-        initViewModel()
+
 
 
     }
@@ -57,7 +56,8 @@ class ChatBotFragment : Fragment() {
         Log.d("onResume in ChatBotFragment", "이거 다음에어댑터 연결하고 서브밋함..")
 
 //        binding.rvChatbot.adapter = chatAdapter
-
+        initView()
+        initViewModel()
         initObserver()
 
 
