@@ -23,8 +23,6 @@ abstract class ChatBotDatabase : RoomDatabase() {
 
                     // Delete all content here.
 
-
-
                 }
 
             }

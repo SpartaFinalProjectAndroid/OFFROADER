@@ -12,14 +12,18 @@ import com.mit.offroader.ui.fragment.chatbot.database.ConversationRecord
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), private val chatBotRepository: ChatBotRepository) : ViewModel() {
+class ChatBotViewModel(
+    private val aiRepo: AiRepository = AiRepository(),
+    private val chatBotRepository: ChatBotRepository
+) : ViewModel() {
 
 
     private var _chatBotUiState = MutableLiveData<ChatBotUiState>()
 
     val chatBotUiState: LiveData<ChatBotUiState> = _chatBotUiState
 
-    var conversation: LiveData<List<ConversationRecord>> = chatBotRepository.conversation.asLiveData()
+    var conversation: LiveData<List<ConversationRecord>> =
+        chatBotRepository.conversation.asLiveData()
 
     init {
         _chatBotUiState.value = ChatBotUiState.init()
@@ -40,8 +44,8 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), privat
 
     }
 
-    fun onSearch(text: String) {
-        lateinit var channelResponse : String
+    fun setSearch(text: String) {
+        lateinit var response: String
         lateinit var input: ConversationRecord
         lateinit var output: ConversationRecord
         viewModelScope.launch {
@@ -49,29 +53,32 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), privat
 
                 val message = "$text. 한 문장으로 대답해줘. "
                 val myUuIdInput = UUID.randomUUID().toString()
-                input = ConversationRecord(myUuIdInput, "hikey","user",text)
+                input = ConversationRecord(myUuIdInput, "hikey", "user", text)
                 chatBotRepository.insertChat(input)
+                setChat()
+                Log.d("Submit", "^^ PUT USER TEXT $text")
 
                 Log.d("Connect ChatGpt", "^^ -1. $message")
 
-                channelResponse =
+                response =
                     aiRepo.createChatCompletion(text).choices.first().message.content
+
                 val myUuIdOutput = UUID.randomUUID().toString()
-                output = ConversationRecord(myUuIdOutput,"hikey","assistant", channelResponse )
+                output = ConversationRecord(
+                    myUuIdOutput,
+                    "hikey",
+                    "assistant",
+                    _chatBotUiState.value?.channelResponse.toString()
+                )
+                Log.d("Submit", "^^ PUT ASSISTANT REPLY $response")
                 chatBotRepository.insertChat(output)
-
-
-                Log.d("Connect ChatGPT", "^^ 0. channelResponse = $channelResponse")
-
-                Log.d("Connect ChatGPT", "^^ 1. ViewModel")
-
-
+                _chatBotUiState.value=_chatBotUiState.value?.copy(channelResponse =  response)
 
             }.onSuccess {
                 Log.d("Connect ChatGPT", "^^Successful!")
-                val myUuId = UUID.randomUUID()
-                val chat = ConversationRecord(myUuId.toString(),"hikey", "assistant", channelResponse)
-
+//                chatBotRepository.insertChat(input)
+                _chatBotUiState.value = _chatBotUiState.value?.copy(channelResponse = response)
+//                chatBotRepository.insertChat(output)
                 setChat()
 
 //                _chatBotUiState.value = _chatBotUiState.value?.copy(chatContent = Conversation.hikeyConversation)
@@ -84,8 +91,8 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), privat
     }
 
 
-
     fun setChat() {
+        Log.d("Submit", "^^ SUCCESS")
         val hikeyConversation: ArrayList<Message> = arrayListOf()
         val bongbongConversation: ArrayList<Message> = arrayListOf()
         conversation.value?.apply {
@@ -95,13 +102,17 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), privat
                     "hikey" -> {
                         hikeyConversation.add(Message(this[i].role, this[i].content))
                     }
+
                     "bongbong" -> {
                         bongbongConversation.add(Message(this[i].role, this[i].content))
                     }
                 }
             }
         }
-        _chatBotUiState.value = _chatBotUiState.value?.copy(chatWithHikey = hikeyConversation, chatWithBongBong = bongbongConversation)
+        _chatBotUiState.value = _chatBotUiState.value?.copy(
+            chatWithHikey = hikeyConversation,
+            chatWithBongBong = bongbongConversation
+        )
 
     }
 
@@ -111,7 +122,6 @@ class ChatBotViewModel(private val aiRepo: AiRepository = AiRepository(), privat
         }
         setChat()
     }
-
 
 
 }

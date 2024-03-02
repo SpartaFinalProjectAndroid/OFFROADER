@@ -1,6 +1,5 @@
 package com.mit.offroader.ui.fragment.chatbot
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,17 +11,10 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.mit.offroader.R
 import com.mit.offroader.databinding.FragmentChatBotBinding
 import com.mit.offroader.ui.activity.main.MainActivity
 import com.mit.offroader.ui.fragment.chatbot.adapter.ChatAdapter
-import com.mit.offroader.ui.fragment.chatbot.database.ChatBotDao
-import com.mit.offroader.ui.fragment.chatbot.database.ChatBotDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 
 class ChatBotFragment : Fragment() {
 
@@ -45,7 +37,6 @@ class ChatBotFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
 
     }
@@ -71,7 +62,17 @@ class ChatBotFragment : Fragment() {
         }
         chatBotViewModel.chatBotUiState.observe(viewLifecycleOwner) {
             binding.rvChatbot.adapter = chatAdapter
+            Log.d("CheckSubmit", "^^ Submit List: ${it.chatWithHikey}")
             chatAdapter.submitList(it.chatWithHikey)
+
+//            val size = it.chatWithHikey.size
+//            if (size != 0) {
+//                when (it.chatWithHikey[size-1].role) {
+//                    "user" -> {
+//                        chatBotViewModel.setReply()
+//                    }
+//                }
+//            }
         }
 
 
@@ -114,8 +115,11 @@ class ChatBotFragment : Fragment() {
         binding.etAsk.setOnEditorActionListener { textView, actionId, keyEvent ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                Log.d("chatbot Fragment", "^^ setOnEditorAction Listener : ${textView.text.toString()}")
-                chatBotViewModel.onSearch(textView.text.toString())
+                Log.d(
+                    "chatbot Fragment",
+                    "^^ setOnEditorAction Listener : ${textView.text.toString()}"
+                )
+                chatBotViewModel.setSearch(textView.text.toString())
                 (binding.etAsk as TextView).text = getString(R.string.chatbot_clear)
                 // handled가 false이면 검색 클릭 이후 키보드가 비활성화된다.
                 handled = false

@@ -24,10 +24,10 @@ class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Message,
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.d("chatadapter", "^^ 2. 바인드 뷰홀더 실행")
+//        Log.d("chatadapter", "^^ 2. 바인드 뷰홀더 실행")
 
         val item = getItem(position)
-        Log.d("chatadapter", "^^ 3. 겟 아이템 $item")
+//        Log.d("chatadapter", "^^ 3. 겟 아이템 $item")
 
 
         (holder as ChatItemViewHolder).apply {
@@ -50,7 +50,7 @@ class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Message,
                     aiChat.text = item.content
                 }
                 else -> {
-                    Log.d("error","^^ 대화 role이 잘못 설정되어있다 오타 확인 !!")
+//                    Log.d("error","^^ 대화 role이 잘못 설정되어있다 오타 확인 !!")
                 }
             }
         }
@@ -73,12 +73,12 @@ class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Message,
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Message>() {
             override fun areItemsTheSame(oldItem: Message, newItem: Message): Boolean {
-                Log.d("chatadapter","^^Items theSame?")
+//                Log.d("chatadapter","^^Items theSame?")
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(oldItem: Message, newItem: Message): Boolean {
-                Log.d("chatadapter","^^ContentmentSame?")
+//                Log.d("chatadapter","^^ContentmentSame?")
                 return oldItem == newItem
             }
         }
