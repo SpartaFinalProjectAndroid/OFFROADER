@@ -117,4 +117,3 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
         private const val SECOND = 2
     }
 }
-
