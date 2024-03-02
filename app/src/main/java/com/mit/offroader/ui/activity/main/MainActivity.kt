@@ -24,14 +24,32 @@ import com.mit.offroader.ui.fragment.map.SanMapFragment
 import com.mit.offroader.ui.fragment.mydetail.MyDetailFragment
 import com.mit.offroader.ui.fragment.sanlist.SanListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.Gson
+import com.mit.offroader.data.RadioChannelURL
+import com.mit.offroader.data.RetrofitInstance
 import com.mit.offroader.ui.activity.main.adapters.RadioListAdapter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import org.json.JSONObject
+import java.io.IOException
 import java.security.Provider.Service
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var radioPlayer : ExoPlayer
+
+    private var radioUrl : String ?= null
 
     @OptIn(UnstableApi::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +94,9 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-        radioSetting()
+
+        initRadio()
+
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -87,47 +107,123 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    private fun initRadio() {
+        radioSetting()
+    }
+
     // 각 방송국의 라디오 채널 리스트 초기화
     @OptIn(UnstableApi::class) private fun radioSetting() {
         val test : ArrayList<String> = arrayListOf("test", "test2", "", "","","","","","")
-        binding.rvChannelList.adapter = RadioListAdapter(test)
+       // binding.rvChannelList.adapter = RadioListAdapter(test)
 
 
         with(binding) {
             cvFavorites.setOnClickListener {
-                val test2 : ArrayList<String> = arrayListOf("test", "test2", "", "")
-                rvChannelList.adapter = RadioListAdapter(test2)
+               // rvChannelList.adapter = RadioListAdapter(test2)
 
             }
 
             cvKbs.setOnClickListener {
-                val test3 : ArrayList<String> = arrayListOf("test", "test2", "", "","","","")
-                rvChannelList.adapter = RadioListAdapter(test3)
+                //rvChannelList.adapter = RadioListAdapter(test3)
                 ivRadioProfile.setImageResource(R.drawable.ic_kbs_radio)
             }
 
             cvSbs.setOnClickListener {
-                val test4 : ArrayList<String> = arrayListOf("test", "test2")
-                rvChannelList.adapter = RadioListAdapter(test4)
                 ivRadioProfile.setImageResource(R.drawable.ic_sbs_radio)
+
+                val adapter  = RadioListAdapter(RadioChannelURL.SBS_LIST.keys.toMutableList())
+                adapter.itemClick = object : RadioListAdapter.ItemClick {
+                    override fun onClick(key : String) {
+                        RadioChannelURL.SBS_LIST[key]?.let { httpNetWork(it) }
+                        preparePlayer()
+                        radioPlay()
+                    }
+                }
+                rvChannelList.adapter = adapter
             }
 
             cvMbc.setOnClickListener {
-                val test5 : ArrayList<String> = arrayListOf("test", "test2", "", "","")
-                rvChannelList.adapter = RadioListAdapter(test5)
                 ivRadioProfile.setImageResource(R.drawable.ic_mbc_radio)
+
+                val adapter  = RadioListAdapter(RadioChannelURL.MBC_LIST.keys.toMutableList())
+                adapter.itemClick = object : RadioListAdapter.ItemClick {
+                    override fun onClick(key : String) {
+                        var test2 : String ?= null
+//                        RadioChannelURL.MBC_LIST[key]?.let { httpNetWork(it) }
+//                        preparePlayer()
+//                        radioPlay()
+                        RadioChannelURL.MBC_LIST[key]?.let { test2 = httpNetWork(it) }
+                        testRadioPlay(test2)
+                    }
+                }
+                rvChannelList.adapter = adapter
             }
 
             ivRadioPlayBtn.setOnClickListener {
-                radioPlayer.release()
-                val url =  "https://1radio.gscdn.kbs.co.kr/1radio_192_4.m3u8?Expires=1709351911&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xcmFkaW8uZ3NjZG4ua2JzLmNvLmtyLzFyYWRpb18xOTJfNC5tM3U4IiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzA5MzUxOTExfX19XX0_&Signature=ARjqb4PV~pVAq3AFWPVgDEeGw76xKvTLcTj-w~KsbKvoCdCRXTY8GL1CLV2o9eTO4Mh3UjyLzPUR5uryItMzqmzegTBCeGCsfOrHM-ivWYFbQXTzQ7nbGb7Z1Y2fGmtqsEmVZKj53-RUbwRPF-742S7TbqoB3~P7hVbmLdNW1Fgri3iJLNKD9e9MyrMe0s91gOcnDTHPL-hMOkyVq58gPDp9fATKR0BbBko0T2qC9p33C27wVh4Ts8txvZIuILnrB4aSXM5IgTyujs7trPRYR9GCilAcIYAQiv04vvb4mAqC5v5hpY0xYTdKi0IZHbKHGN9d0OL3vNHIl~8oMUNXiQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA"
 
-                val mediaItem = MediaItem.fromUri(url)
-                radioPlayer.setMediaItem(mediaItem)
+                //radioPlayer.pause()
+
+                val mediaItem = radioUrl?.let { MediaItem.fromUri(it) }
+                if (mediaItem != null) {
+                    radioPlayer.setMediaItem(mediaItem)
+                }
 
                 radioPlayer.prepare()
                 radioPlayer.play()
             }
         }
+    }
+
+    fun httpNetWork(channelUrl : String) : String? {
+
+        var test : String ?= null
+
+        val client = OkHttpClient()
+        val request : Request = Request.Builder()
+            .url(channelUrl)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.i("Minyong", "fail!")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                //thread {
+                    //radioUrl = response.body?.string()
+                test = response.body?.string()
+                radioUrl = test
+                //}
+            }
+        })
+
+        return test
+    }
+
+    private fun preparePlayer() {
+        binding.viewTest.player?.stop()
+        val mediaItem = radioUrl?.let { MediaItem.fromUri(it) }
+        if (mediaItem != null) {
+            binding.viewTest.player?.setMediaItem(mediaItem)
+        }
+
+        binding.viewTest.player?.prepare()
+        binding.viewTest.player?.playWhenReady = true
+    }
+
+    private fun radioPlay() {
+        binding.viewTest.player?.play()
+    }
+
+    private fun testRadioPlay(url : String?) {
+        //binding.viewTest.player?.stop()
+        val mediaItem = url?.let { MediaItem.fromUri(it) }
+        if (mediaItem != null) {
+            binding.viewTest.player?.setMediaItem(mediaItem)
+        }
+
+        binding.viewTest.player?.prepare()
+        binding.viewTest.player?.playWhenReady = true
+        binding.viewTest.player?.play()
     }
 }

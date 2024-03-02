@@ -5,15 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.mit.offroader.databinding.ItemRadioChannelListBinding
+import com.mit.offroader.ui.activity.main.MainViewModel
 
-class RadioListAdapter(private val list: ArrayList<String>) : RecyclerView.Adapter<RadioListAdapter.Holder>() {
+class RadioListAdapter(private val list: MutableList<String>) : RecyclerView.Adapter<RadioListAdapter.Holder>() {
+
+    interface ItemClick {
+        fun onClick(key: String)
+    }
+
+    var itemClick : ItemClick ?= null
 
     inner class Holder(private val binding: ItemRadioChannelListBinding) : ViewHolder(binding.root) {
-        fun bind() {
-
+        fun bind(pos : Int) {
+            binding.tvChannelTitle.text = list[pos]
         }
     }
 
@@ -26,7 +35,10 @@ class RadioListAdapter(private val list: ArrayList<String>) : RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         list[position].run {
-            holder.bind()
+            holder.bind(position)
+            holder.itemView.setOnClickListener {
+                itemClick?.onClick(this)
+            }
         }
     }
 }
