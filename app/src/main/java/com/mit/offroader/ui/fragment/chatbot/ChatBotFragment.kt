@@ -9,12 +9,18 @@ import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import com.mit.offroader.R
 import com.mit.offroader.databinding.FragmentChatBotBinding
 import com.mit.offroader.ui.activity.main.MainActivity
 import com.mit.offroader.ui.fragment.chatbot.adapter.ChatAdapter
+import com.mit.offroader.ui.fragment.chatbot.database.ChatBotDao
+import com.mit.offroader.ui.fragment.chatbot.database.ChatBotDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 
 class ChatBotFragment : Fragment() {
 
@@ -25,7 +31,7 @@ class ChatBotFragment : Fragment() {
         ChatBotViewModelFactory((requireActivity().application as ChatBotApplication).repository)
     }
     private val chatAdapter: ChatAdapter by lazy { ChatAdapter(chatBotViewModel) }
-
+    lateinit var chatBotDao: ChatBotDao
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +43,7 @@ class ChatBotFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setMessageView()
 
     }
 
@@ -55,24 +61,16 @@ class ChatBotFragment : Fragment() {
     }
 
     private fun initObserver() {
-        Log.d("옵져빙 함수", "^^ 옵져빙 되는 중")
+        Log.i("initObserver()", "^ 3/8. 옵져빙 되는 중")
         chatBotViewModel.conversation.observe(viewLifecycleOwner) {
             Log.d("룸 디비", "^^ SUCCESS 저장되 데이터 가져옴 $it")
 
         }
         chatBotViewModel.chatBotUiState.observe(viewLifecycleOwner) {
             binding.rvChatbot.adapter = chatAdapter
-            Log.d("CheckSubmit", "^^ Submit List: ${it.chatWithHikey}")
+            Log.d("OBSERVE", "^ 4/9. Submit List: ${it.chatWithHikey}")
             chatAdapter.submitList(it.chatWithHikey)
 
-//            val size = it.chatWithHikey.size
-//            if (size != 0) {
-//                when (it.chatWithHikey[size-1].role) {
-//                    "user" -> {
-//                        chatBotViewModel.setReply()
-//                    }
-//                }
-//            }
         }
 
 
@@ -87,6 +85,7 @@ class ChatBotFragment : Fragment() {
     프래그먼트를 최초 실행했을 때 실행 되는 함수를 모아놓은 함수
      **/
     private fun initView() {
+        setMessageView()
 
         // 채팅 봇 "스피너"를 셋팅해주는 함수
         setBotServiceProvider()
@@ -99,6 +98,11 @@ class ChatBotFragment : Fragment() {
         setSearch()
 
         setClear()
+    }
+
+    private fun setMessageView() {
+        Log.d("setMessageView","^^^ 셋 챗 뷰모델")
+        chatBotViewModel.setChat()
     }
 
     private fun setClear() {
@@ -154,19 +158,6 @@ class ChatBotFragment : Fragment() {
                 id: Long
             ) {
                 chatBotViewModel.setBotSpinner(position)
-//                when (position) {
-//                    0 -> {
-//                        binding.ivBot.setImageResource(R.drawable.ic_hikey)
-//                        // TODO : 채팅 화면 전환하기 (+ MVVM 모델 구조로 바꾸어야함)
-//                        setChat(position)
-//                    }
-//                    1 -> {
-//                        binding.ivBot.setImageResource(R.drawable.ic_bongbong)
-//                        // TODO : 채팅 화면 전환하기 (+ MVVM 모델 구조로 바꾸어야함)
-//                        setChat(position)
-//                    }
-//                }
-//                // 로직 부분 구현하기
 
             }
 
@@ -174,21 +165,11 @@ class ChatBotFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 binding.ivBot.setImageResource(R.drawable.ic_bongbong)
                 chatBotViewModel.setChat()
-//                setChat(1)
             }
 
         }
 
     }
 
-//    // 채팅 창을 셋팅해주는 함수
-//    private fun setChat(bot: Int) { // 정수형 매개변수 bot 이 0이면 봉봉이 1이면 하이키
-//        chatAdapter.submitList(Conversation.hikeyConversation)
-//
-//    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
 
 }

@@ -48,6 +48,9 @@ abstract class ChatBotDatabase : RoomDatabase() {
             }
             return INSTANCE as ChatBotDatabase
         }
+
+
+
     }
 
 }

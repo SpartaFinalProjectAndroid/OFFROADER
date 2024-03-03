@@ -1,6 +1,7 @@
 package com.mit.offroader.ui.fragment.chatbot
 
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.asLiveData
 import com.mit.offroader.ui.fragment.chatbot.database.ChatBotDao
 import com.mit.offroader.ui.fragment.chatbot.database.ChatBotDatabase
 import com.mit.offroader.ui.fragment.chatbot.database.ConversationRecord
