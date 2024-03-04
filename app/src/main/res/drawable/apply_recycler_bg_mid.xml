@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 일반적인 방법으로는 stroke를 부분적으로 표시할 수 없어 레이어를 겹쳐 표현 -->
+
+    <!-- stroke 표현을 위한 하위 레이어 -->
+    <!-- 메인 배경 레이어에서 margin dp 만큼 R을 더해 주어야 한다 -->
+    <item>
+        <shape>
+            <solid android:color="@color/offroader_outline" />
+        </shape>
+    </item>
+
+    <!-- 메인 배경 레이어 -->
+    <!-- android:layout_margin="1dp"와 같음 -->
+    <item
+        android:bottom="0dp"
+        android:left="1dp"
+        android:right="1dp"
+        android:top="1dp">
+        <shape>
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- Ripple 효과 적용 -->
+    <!-- 배경으로 적용되는 건 아쉽지만 따로 만들면 3개의 drawable 파일이 추가되기 때문에 하위에 추가 -->
+    <item
+        android:bottom="0dp"
+        android:left="1dp"
+        android:right="1dp"
+        android:top="1dp">
+        <ripple android:color="@color/offroader_outline">
+            <item android:id="@android:id/mask">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/black" />
+                </shape>
+            </item>
+        </ripple>
+    </item>
+
+</layer-list>

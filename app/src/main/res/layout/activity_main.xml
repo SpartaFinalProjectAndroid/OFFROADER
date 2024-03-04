@@ -20,9 +20,25 @@
         android:id="@+id/nav_main"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?android:attr/windowBackground"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:itemBackground="@color/transparent"
+        app:itemIconTint="@color/nav_item_color"
+        android:paddingHorizontal="5dp"
+        app:itemPaddingBottom="12dp"
+        app:itemActiveIndicatorStyle="@color/transparent"
+        app:itemRippleColor="@color/transparent"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu">
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_gravity="top"
+            app:dividerColor="@color/offroader_description"/>
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <!--    여기서 부터는 라디오 관련 설정들 입니다.-->
     <androidx.constraintlayout.widget.ConstraintLayout
