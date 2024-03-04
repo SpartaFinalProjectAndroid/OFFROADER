@@ -8,6 +8,7 @@ import android.widget.BaseAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.VISIBLE
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.mit.offroader.databinding.ItemRadioChannelListBinding
 import com.mit.offroader.ui.activity.main.MainViewModel
@@ -21,8 +22,14 @@ class RadioListAdapter(private val list: MutableList<String>) : RecyclerView.Ada
     var itemClick : ItemClick ?= null
 
     inner class Holder(private val binding: ItemRadioChannelListBinding) : ViewHolder(binding.root) {
+
         fun bind(pos : Int) {
             binding.tvChannelTitle.text = list[pos]
+
+        }
+
+        fun checkPlay() {
+            binding.cvPlayStatus.visibility = VISIBLE
         }
     }
 
@@ -37,6 +44,7 @@ class RadioListAdapter(private val list: MutableList<String>) : RecyclerView.Ada
         list[position].run {
             holder.bind(position)
             holder.itemView.setOnClickListener {
+                holder.checkPlay()
                 itemClick?.onClick(this)
             }
         }
