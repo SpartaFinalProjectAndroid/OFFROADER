@@ -12,7 +12,7 @@ interface ChatBotDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE) // INSERT, key 충돌이 나도 무시하고 뒤에 추가해주도록 함.
     suspend fun insertChat(chat:ConversationRecord)
     @Query("SELECT * FROM conversation_record")
-    fun getConversation(): Flow<List<ConversationRecord>>
+    fun getConversation(): LiveData<List<ConversationRecord>>
 
     @Query("DELETE FROM conversation_record")
     suspend fun deleteConversation()

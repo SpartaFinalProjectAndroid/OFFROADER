@@ -4,14 +4,12 @@ import com.mit.offroader.data.model.ai.Message
 
 data class ChatBotUiState(
     val chatWithHikey: List<Message>,
-    val chatWithBongBong: List<Message>,
-    val channelResponse: String,
+    val chatWithBongBong: List<Message>
 ) {
     companion object {
         fun init() = ChatBotUiState(
             chatWithHikey = listOf(),
-            chatWithBongBong = listOf(),
-            channelResponse = ""
+            chatWithBongBong = listOf()
         )
     }
 }

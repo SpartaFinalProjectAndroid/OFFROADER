@@ -56,10 +56,7 @@ class ChatBotFragment : Fragment() {
 
     private fun initObserver() {
         Log.d("옵져빙 함수", "^^ 옵져빙 되는 중")
-        chatBotViewModel.conversation.observe(viewLifecycleOwner) {
-            Log.d("룸 디비", "^^ SUCCESS 저장되 데이터 가져옴 $it")
-
-        }
+//
         chatBotViewModel.chatBotUiState.observe(viewLifecycleOwner) {
             binding.rvChatbot.adapter = chatAdapter
             Log.d("CheckSubmit", "^^ Submit List: ${it.chatWithHikey}")
@@ -154,38 +151,20 @@ class ChatBotFragment : Fragment() {
                 id: Long
             ) {
                 chatBotViewModel.setBotSpinner(position)
-//                when (position) {
-//                    0 -> {
-//                        binding.ivBot.setImageResource(R.drawable.ic_hikey)
-//                        // TODO : 채팅 화면 전환하기 (+ MVVM 모델 구조로 바꾸어야함)
-//                        setChat(position)
-//                    }
-//                    1 -> {
-//                        binding.ivBot.setImageResource(R.drawable.ic_bongbong)
-//                        // TODO : 채팅 화면 전환하기 (+ MVVM 모델 구조로 바꾸어야함)
-//                        setChat(position)
-//                    }
-//                }
-//                // 로직 부분 구현하기
+
 
             }
 
             // 스피너가 선택되지 않았을 때 (초기 상태) : 초기에 봉봉이를 선택해 둠.
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 binding.ivBot.setImageResource(R.drawable.ic_bongbong)
-                chatBotViewModel.setChat()
-//                setChat(1)
             }
 
         }
 
     }
 
-//    // 채팅 창을 셋팅해주는 함수
-//    private fun setChat(bot: Int) { // 정수형 매개변수 bot 이 0이면 봉봉이 1이면 하이키
-//        chatAdapter.submitList(Conversation.hikeyConversation)
-//
-//    }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
