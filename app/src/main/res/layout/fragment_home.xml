@@ -6,11 +6,94 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.home.HomeFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_default_height_material"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="start|center"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_offroader" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:layout_marginEnd="20dp"
+            android:text="츄파춥스님, 안녕하세요!" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:scrollIndicators="top"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tb_title" />
 
+    <!-- 커스텀 토스트?바 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_customToast"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginHorizontal="15dp"
+        android:background="@drawable/apply_recycler_bg_top"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_goto_web"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="18dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/img_home_flaticon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_goto_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/pretendard_bold"
+            android:text="잠시 후 FlatIcon 페이지로 이동합니다"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/iv_goto_web"
+            app:layout_constraintTop_toBottomOf="@id/iv_goto_web" />
+
+        <ProgressBar
+            android:id="@+id/pb_goto"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_goto_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10sp"
+            android:layout_marginBottom="3dp"
+            android:fontFamily="@font/bm_hanna_air"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="10dp"
+            android:text="x"
+            android:textSize="35sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
