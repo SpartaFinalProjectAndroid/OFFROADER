@@ -5,6 +5,9 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
+
+    //google-services 플러그인 추가
+    id("com.google.gms.google-services")
 }
 
 //API 키를 담고있는 로컬 프로퍼티를 불러옴
@@ -25,8 +28,19 @@ android {
 
         //API 키를 로컬 프로퍼티에서 가져와 name에 부여
         //사용방법 = BuildConfig.[name]
-        buildConfigField("String", "OPENAI_API_KEY", properties.getProperty("OFFROADER_OPENAI_API_KEY"))
-        buildConfigField("String", "NAVERMAPS_API_KEY", properties.getProperty("OFFROADER_NAVERMAPS_API_KEY"))
+        buildConfigField(
+            "String",
+            "OPENAI_API_KEY",
+            properties.getProperty("OFFROADER_OPENAI_API_KEY")
+        )
+        buildConfigField(
+            "String",
+            "NAVERMAPS_API_KEY",
+            properties.getProperty("OFFROADER_NAVERMAPS_API_KEY")
+        )
+
+        renderscriptTargetApi = 21
+        renderscriptSupportModeEnabled = true
     }
 
     buildTypes {
@@ -57,7 +71,7 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -76,6 +90,7 @@ dependencies {
     // Glide
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.10.3")
     kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     // viewModel
@@ -105,27 +120,22 @@ dependencies {
 
     //pager2
     implementation("androidx.viewpager2:viewpager2:1.0.0")
-//    implementation("de.hdodenhof:circleimageview:3.1.0") //잘나옴
+    implementation("de.hdodenhof:circleimageview:3.1.0") //잘나옴
 
     //blur 효과 부여
-    implementation("jp.wasabeef:blurry:4.0.1") //리사이클 캐시 null 에러 = 사용불가
-//    implementation("com.github.Dimezis:BlurView:version-2.0.3") //xml 뷰 안뜸
-    implementation("com.github.furkankaplan:fk-blur-view-android:1.0.1")  //사용 가능하나 코너 값 줄수 없음
-//    implementation ("io.alterac.blurkit:blurkit:1.1.0")//xml 뷰 안뜸
-//    implementation ("com.fivehundredpx:blurringview:1.0.0")//xml 뷰 안뜸
-//    implementation ("com.github.skydoves:cloudy:0.1.2") //로드 안됨
-//    implementation ("jp.wasabeef:picasso-transformations:2.2.1")
-//    implementation ("jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1")
-//    implementation ("implementation 'com.github.jgabrielfreitas:BlurImageView:1.0.1'")
+    implementation("com.github.Dimezis:BlurView:version-2.0.3") //테스트 요
 
-//kts 파일에 maven 추가하는 방법 찾아보기
+    //Firebase BoM 추가
+    implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
+
+    //Firebase 분석을 위해 추가
+    implementation("com.google.firebase:firebase-analytics")
 
     //lottie 애니메이션 추가
     implementation("com.airbnb.android:lottie:4.1.0")
 
     // splash screen
     implementation("androidx.core:core-splashscreen:1.0.0-beta02")
-
 
     testImplementation("junit:junit:4.13.2")
 
@@ -151,4 +161,6 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer-rtsp:1.2.1")
     implementation("androidx.media3:media3-ui:1.2.1")
     implementation("androidx.media3:media3-ui-leanback:1.2.1")
+    implementation("com.google.android.gms:play-services-location:21.1.0")
+
 }

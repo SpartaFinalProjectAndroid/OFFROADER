@@ -1,5 +1,6 @@
 package com.mit.offroader.ui.activity.main
 
+<<<<<<< HEAD
 import android.app.PendingIntent
 import android.content.Intent
 import android.media.MediaPlayer
@@ -16,13 +17,22 @@ import androidx.media3.exoplayer.rtsp.RtspMediaSource
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.session.MediaSession
+=======
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.bottomnavigation.BottomNavigationView
+>>>>>>> 54172fc4ffc6a5db5d2785a2505415cb0f4d2f3c
 import com.mit.offroader.R
 import com.mit.offroader.databinding.ActivityMainBinding
+import com.mit.offroader.ui.activity.main.adapters.RadioListAdapter
 import com.mit.offroader.ui.fragment.chatbot.ChatBotFragment
 import com.mit.offroader.ui.fragment.home.HomeFragment
 import com.mit.offroader.ui.fragment.map.SanMapFragment
 import com.mit.offroader.ui.fragment.mydetail.MyDetailFragment
 import com.mit.offroader.ui.fragment.sanlist.SanListFragment
+<<<<<<< HEAD
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.mit.offroader.data.RadioChannelURL
@@ -43,6 +53,8 @@ import org.json.JSONTokener
 import java.io.IOException
 import java.security.Provider.Service
 import kotlin.concurrent.thread
+=======
+>>>>>>> 54172fc4ffc6a5db5d2785a2505415cb0f4d2f3c
 
 class MainActivity : AppCompatActivity() {
 
@@ -58,10 +70,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+<<<<<<< HEAD
         radioPlayer = ExoPlayer.Builder(this)
             .setMediaSourceFactory(DefaultMediaSourceFactory(this).setLiveTargetOffsetMs(5000))
             .build()
         binding.viewTest.player = radioPlayer
+=======
+>>>>>>> 54172fc4ffc6a5db5d2785a2505415cb0f4d2f3c
 
         bottomNavigationView = binding.navMain
 
@@ -77,22 +92,27 @@ class MainActivity : AppCompatActivity() {
                     //애니메이션 쓸거면 여기
                     true
                 }
+
                 R.id.navigation_2 -> {
                     replaceFragment(SanListFragment())
                     true
                 }
+
                 R.id.navigation_3 -> {
                     replaceFragment(SanMapFragment())
                     true
                 }
+
                 R.id.navigation_4 -> {
                     replaceFragment(ChatBotFragment())
                     true
                 }
+
                 R.id.navigation_5 -> {
                     replaceFragment(MyDetailFragment())
                     true
                 }
+
                 else -> false
             }
         }
@@ -120,6 +140,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 각 방송국의 라디오 채널 리스트 초기화
+<<<<<<< HEAD
     @OptIn(UnstableApi::class) private fun radioSetting() {
        // binding.rvChannelList.adapter = RadioListAdapter(test)
 
@@ -217,6 +238,34 @@ class MainActivity : AppCompatActivity() {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.i("Minyong", "fail!")
+=======
+    private fun radioSetting() {
+        val test: ArrayList<String> = arrayListOf("test", "test2", "", "", "", "", "", "", "")
+        binding.rvChannelList.adapter = RadioListAdapter(test)
+
+        with(binding) {
+            cvFavorites.setOnClickListener {
+                val test2: ArrayList<String> = arrayListOf("test", "test2", "", "")
+                rvChannelList.adapter = RadioListAdapter(test2)
+            }
+
+            cvKbs.setOnClickListener {
+                val test3: ArrayList<String> = arrayListOf("test", "test2", "", "", "", "", "")
+                rvChannelList.adapter = RadioListAdapter(test3)
+                ivRadioProfile.setImageResource(R.drawable.ic_kbs_radio)
+            }
+
+            cvSbs.setOnClickListener {
+                val test4: ArrayList<String> = arrayListOf("test", "test2")
+                rvChannelList.adapter = RadioListAdapter(test4)
+                ivRadioProfile.setImageResource(R.drawable.ic_sbs_radio)
+            }
+
+            cvMbc.setOnClickListener {
+                val test5: ArrayList<String> = arrayListOf("test", "test2", "", "", "")
+                rvChannelList.adapter = RadioListAdapter(test5)
+                ivRadioProfile.setImageResource(R.drawable.ic_mbc_radio)
+>>>>>>> 54172fc4ffc6a5db5d2785a2505415cb0f4d2f3c
             }
 
             override fun onResponse(call: Call, response: Response) {
