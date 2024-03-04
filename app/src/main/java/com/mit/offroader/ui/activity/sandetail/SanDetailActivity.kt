@@ -55,15 +55,15 @@ class SanDetailActivity : AppCompatActivity() {
     private fun initImage() {
         val mountain = binding.tvMountain.text
         imageAdapter = when (mountain) {
-            "계룡산" -> SanImageAdapter(kyeryongsanList)
-            "내장산" -> SanImageAdapter(naejangsanList)
-            "북한산" -> SanImageAdapter(northhansanList)
-            "설악산" -> SanImageAdapter(seullacksanList)
-            "소백산" -> SanImageAdapter(sobaeksanList)
-            "속리산" -> SanImageAdapter(sokrisanList)
-            "오대산" -> SanImageAdapter(odaesanList)
-            "지리산" -> SanImageAdapter(jirisanList)
-            else -> SanImageAdapter(hanrasanList)
+            "계룡산" -> SanImageAdapter(kyeryongsanList, binding.vpMountain)
+            "내장산" -> SanImageAdapter(naejangsanList, binding.vpMountain)
+            "북한산" -> SanImageAdapter(northhansanList, binding.vpMountain)
+            "설악산" -> SanImageAdapter(seullacksanList, binding.vpMountain)
+            "소백산" -> SanImageAdapter(sobaeksanList, binding.vpMountain)
+            "속리산" -> SanImageAdapter(sokrisanList, binding.vpMountain)
+            "오대산" -> SanImageAdapter(odaesanList, binding.vpMountain)
+            "지리산" -> SanImageAdapter(jirisanList, binding.vpMountain)
+            else -> SanImageAdapter(hanrasanList, binding.vpMountain)
         }
         binding.vpMountain.adapter = imageAdapter
         binding.vpMountain.orientation = ViewPager2.ORIENTATION_HORIZONTAL

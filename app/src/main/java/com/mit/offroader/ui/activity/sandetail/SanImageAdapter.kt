@@ -6,12 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.mit.offroader.databinding.ItemAdapterMountainBinding
 
-class SanImageAdapter(var mItems: MutableList<SanDetailImageData>): RecyclerView.Adapter<SanImageAdapter.Holder>() {
-
-    private lateinit var viewPager2: ViewPager2
+class SanImageAdapter(
+    var mItems: MutableList<SanDetailImageData>,
+    private val viewPager2: ViewPager2
+) : RecyclerView.Adapter<SanImageAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val binding = ItemAdapterMountainBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemAdapterMountainBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return Holder(binding)
     }
 
@@ -24,10 +26,11 @@ class SanImageAdapter(var mItems: MutableList<SanDetailImageData>): RecyclerView
     }
 
     override fun getItemCount(): Int {
-        return mItems.size
+        return Int.MAX_VALUE
     }
 
-    inner class Holder(val binding: ItemAdapterMountainBinding): RecyclerView.ViewHolder(binding.root){
+    inner class Holder(val binding: ItemAdapterMountainBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         var mountainImage = binding.ivMountain
     }
 
