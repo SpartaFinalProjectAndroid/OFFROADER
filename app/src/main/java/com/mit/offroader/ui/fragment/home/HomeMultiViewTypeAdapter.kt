@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mit.offroader.databinding.ItemTest1Binding
+import com.mit.offroader.databinding.ItemHomeCardBinding
 import com.mit.offroader.databinding.ItemTest2Binding
 
 class HomeMultiViewTypeAdapter(private val context: Context) :
@@ -38,7 +38,7 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
         return when (viewType) {
             FIRST -> {
                 ProfileViewHolder(
-                    ItemTest1Binding.inflate(
+                    ItemHomeCardBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
@@ -65,7 +65,7 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
     }
 
     // 프로필 영역 뷰홀더
-    inner class ProfileViewHolder(private val binding: ItemTest1Binding) :
+    inner class ProfileViewHolder(private val binding: ItemHomeCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: HomeUiData.First) = with(binding) {
             val vBlur = binding.i1FkView

@@ -10,11 +10,13 @@ import com.mit.offroader.R
 import com.mit.offroader.databinding.ActivityMainBinding
 import com.mit.offroader.databinding.ActivitySanDetailBinding
 import com.mit.offroader.ui.activity.main.MainViewModel
+import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.imageList
 
 class SanDetailActivity : AppCompatActivity() {
     private var _binding: ActivitySanDetailBinding? = null
     private val binding get() = _binding!!
-    private val imageList = mutableListOf<SanDetailImageData>()
+
+    // 자동 스크롤
     private val slideImageHandler: Handler = Handler()
     private val slideImageRunnable =
         Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }

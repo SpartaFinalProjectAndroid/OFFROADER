@@ -5,7 +5,7 @@ import com.mit.offroader.R
 
 data class SanDetailImageData(val mountain: String, val img: Int) {
     companion object {
-        val imageList = mutableListOf<SanDetailImageData>(
+        val imageList = mutableListOf(
             SanDetailImageData("계룡산", R.drawable.img_kyeryongsan1),
             SanDetailImageData("계룡산", R.drawable.img_kyeryongsan2),
             SanDetailImageData("계룡산", R.drawable.img_kyeryongsan3),
