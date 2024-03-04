@@ -1,16 +1,21 @@
 package com.mit.offroader.ui.activity.sandetail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import androidx.activity.viewModels
-import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.mit.offroader.R
-import com.mit.offroader.databinding.ActivityMainBinding
 import com.mit.offroader.databinding.ActivitySanDetailBinding
-import com.mit.offroader.ui.activity.main.MainViewModel
-import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.imageList
+import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.hanrasanList
+import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.jirisanList
+import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.kyeryongsanList
+import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.naejangsanList
+import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.northhansanList
+import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.odaesanList
+import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.seullacksanList
+import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.sobaeksanList
+import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.sokrisanList
 
 class SanDetailActivity : AppCompatActivity() {
     private var _binding: ActivitySanDetailBinding? = null
@@ -34,11 +39,13 @@ class SanDetailActivity : AppCompatActivity() {
         initBackButton()
     }
 
+    // 액티비티가 다시 시작될 때 자동스크롤도 다시 시작
     override fun onResume() {
         super.onResume()
         slideImageHandler.postDelayed(slideImageRunnable, 5000)
     }
 
+    // 액티비티가 멈출 때 자동스크롤도 같이 멈춤
     override fun onPause() {
         super.onPause()
         slideImageHandler.removeCallbacks(slideImageRunnable)
@@ -46,7 +53,18 @@ class SanDetailActivity : AppCompatActivity() {
 
     // 자동 스크롤되는 ViewPager2 이미지
     private fun initImage() {
-        imageAdapter = SanImageAdapter(imageList)
+        val mountain = binding.tvMountain.text
+        imageAdapter = when (mountain) {
+            "계룡산" -> SanImageAdapter(kyeryongsanList)
+            "내장산" -> SanImageAdapter(naejangsanList)
+            "북한산" -> SanImageAdapter(northhansanList)
+            "설악산" -> SanImageAdapter(seullacksanList)
+            "소백산" -> SanImageAdapter(sobaeksanList)
+            "속리산" -> SanImageAdapter(sokrisanList)
+            "오대산" -> SanImageAdapter(odaesanList)
+            "지리산" -> SanImageAdapter(jirisanList)
+            else -> SanImageAdapter(hanrasanList)
+        }
         binding.vpMountain.adapter = imageAdapter
         binding.vpMountain.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
