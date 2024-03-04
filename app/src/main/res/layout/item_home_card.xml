@@ -19,7 +19,7 @@
 
         <!-- 메인 이미지 -->
         <ImageView
-            android:id="@+id/tttt11"
+            android:id="@+id/iv_main_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
