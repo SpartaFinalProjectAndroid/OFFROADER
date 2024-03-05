@@ -111,12 +111,12 @@ class ChatBotFragment : Fragment() {
 
         when (position) {
             "hikey" -> {
-                binding.ivBot.setImageResource(R.drawable.ic_bongbong)
+                binding.ivBot.setImageResource(R.drawable.ic_hikey)
                 binding.tvBotMbti.text = getString(R.string.chatbot_mbti_t)
             }
 
             "bongbong" -> {
-                binding.ivBot.setImageResource(R.drawable.ic_hikey)
+                binding.ivBot.setImageResource(R.drawable.ic_bongbong)
                 binding.tvBotMbti.text = getString(R.string.chatbot_mbti_f)
             }
         }
