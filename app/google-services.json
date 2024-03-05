@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "399146829257",
+    "project_id": "offroader-event",
+    "storage_bucket": "offroader-event.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399146829257:android:a611b7e662cbe7e287d418",
+        "android_client_info": {
+          "package_name": "com.mit.offroader"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl0TMv7Fk8fNXS8wKSJDqOKhHgs4h7ItI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

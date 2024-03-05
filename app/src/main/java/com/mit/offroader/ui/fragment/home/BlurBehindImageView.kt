@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
@@ -23,7 +22,11 @@ class BlurBehindImageView : ConstraintLayout {
 
     constructor(context: Context?) : super(context!!)
     constructor(context: Context?, attrs: AttributeSet?) : super(context!!, attrs)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context!!, attrs, defStyleAttr)
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context!!,
+        attrs,
+        defStyleAttr
+    )
 
     /** 코드 사용부 */
     fun setBlur(context: Context, view: View, blurLevel: Int) {
@@ -36,13 +39,23 @@ class BlurBehindImageView : ConstraintLayout {
         setBlurBackgroundAction(context, view)
     }
 
-    fun setBlurCB(context: Context, view: View, blurLevel: Int, listener: BlurCompletionListener? = null) {
+    fun setBlurCB(
+        context: Context,
+        view: View,
+        blurLevel: Int,
+        listener: BlurCompletionListener? = null
+    ) {
         this.blurLevel = blurLevel
         setBlurAction(context, view)
         listener?.onCompleted()
     }
 
-    fun setBlurBackgroundCB(context: Context, view: View, blurLevel: Int, listener: BlurCompletionListener? = null) {
+    fun setBlurBackgroundCB(
+        context: Context,
+        view: View,
+        blurLevel: Int,
+        listener: BlurCompletionListener? = null
+    ) {
         this.blurLevel = blurLevel
         setBlurBackgroundAction(context, view)
         object : BlurCompletionListener {
@@ -55,14 +68,14 @@ class BlurBehindImageView : ConstraintLayout {
 
 
     /** 로직 */
-    private fun setBlurAction(context: Context, view: View, actionListner : BlurCompletionListener? = null) {
+    private fun setBlurAction(
+        context: Context,
+        view: View,
+        actionListner: BlurCompletionListener? = null
+    ) {
         viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                if (Build.VERSION.SDK_INT > 16) {
-                    viewTreeObserver.removeOnGlobalLayoutListener(this)
-                } else {
-                    viewTreeObserver.removeGlobalOnLayoutListener(this)
-                }
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
                 val map = takeScreenShot(context, view)
                 val fast = makeBlur(map, blurLevel)
                 val draw: Drawable = BitmapDrawable(resources, fast)
@@ -72,15 +85,10 @@ class BlurBehindImageView : ConstraintLayout {
         })
     }
 
-
     private fun setBlurAction(context: Context, view: View) {
         viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                if (Build.VERSION.SDK_INT > 16) {
-                    viewTreeObserver.removeOnGlobalLayoutListener(this)
-                } else {
-                    viewTreeObserver.removeGlobalOnLayoutListener(this)
-                }
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
                 val map = takeScreenShot(context, view)
                 val fast = makeBlur(map, blurLevel)
                 val draw: Drawable = BitmapDrawable(resources, fast)
@@ -92,11 +100,7 @@ class BlurBehindImageView : ConstraintLayout {
     private fun setBlurBackgroundAction(context: Context, view: View) {
         viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                if (Build.VERSION.SDK_INT > 16) {
-                    viewTreeObserver.removeOnGlobalLayoutListener(this)
-                } else {
-                    viewTreeObserver.removeGlobalOnLayoutListener(this)
-                }
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
                 val map = takeBackgroundScreenshot(context)
                 val fast = makeBlur(map, blurLevel)
                 val draw: Drawable = BitmapDrawable(resources, fast)
@@ -129,7 +133,7 @@ class BlurBehindImageView : ConstraintLayout {
         val width = view.width
         val height = view.height
         val rect = Rect()
-        view.getGlobalVisibleRect(rect) // getWindowVisibleDisplayFrame provides device screen including action bar. Therefore use getGlobalVisibleRect method.
+        view.getGlobalVisibleRect(rect)
         val blurredViewBitmap =
             Bitmap.createBitmap(backgroundFrameBitmap, rect.left, rect.top, width, height)
         backgroundFrameView.destroyDrawingCache()
@@ -305,8 +309,6 @@ class BlurBehindImageView : ConstraintLayout {
             stackpointer = radius
             y = 0
             while (y < h) {
-
-                // Preserve alpha channel: ( 0xff000000 & pix[yi] )
                 pix[yi] =
                     -0x1000000 and pix[yi] or (dv[rsum] shl 16) or (dv[gsum] shl 8) or dv[bsum]
                 rsum -= routsum

@@ -21,6 +21,7 @@
     <string name="item_bookmark_name">지리산</string>
     <string name="item_bookmark_time">총 등산 시간 2 : 40</string>
     <string name="item_bookmark_date">2024.02.27(화)</string>
+<!--    radio-->
     <string name="main_radio_title">라디오</string>
     <!--    SanMapFragment-->
     <string name="san_map_input">산 이름으로 검색어를 입력해 주세요</string>
@@ -33,5 +34,25 @@
     <string name="san_name_songnisan">속리산</string>
     <string name="san_name_gyeryongsan">계룡산</string>
     <string name="san_name_odaesan">오대산</string>
+
+<!--    SanDetailActivity-->
+    <string name="sandetail_name">한라산</string>
+    <string name="sandetail_address">Address</string>
+    <string name="sandetail_difficulty">난이도</string>
+    <string name="sandetail_difficulty_info">difficulty</string>
+    <string name="sandetail_height">해발고도</string>
+    <string name="sandetail_height_info">height</string>
+    <string name="sandetail_time">총 등산 시간</string>
+    <string name="sandetail_time_info">time</string>
+    <string name="sandetail_intro">산 개요</string>
+    <string name="sandetail_intro_info">Intro</string>
+    <string name="sandetail_recommend">추천 이유</string>
+    <string name="sandetail_recommend_info">recommend</string>
+    <string name="sandetail_weather">이 위치 날씨</string>
+    <string name="sandetail_uptime">평균 상행 시간</string>
+    <string name="sandetail_uptime_info">up time</string>
+    <string name="sandetail_downtime">평균 하행 시간</string>
+    <string name="sandetail_downtime_info">down time</string>
+
 
 </resources>
