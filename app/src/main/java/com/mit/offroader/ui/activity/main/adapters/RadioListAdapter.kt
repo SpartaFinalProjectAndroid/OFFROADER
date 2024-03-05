@@ -1,16 +1,20 @@
 package com.mit.offroader.ui.activity.main.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.INVISIBLE
 import androidx.recyclerview.widget.RecyclerView.VISIBLE
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.google.firebase.firestore.auth.User
 import com.mit.offroader.R
 import com.mit.offroader.databinding.ItemRadioChannelListBinding
 import com.mit.offroader.ui.activity.main.MainViewModel
@@ -35,10 +39,7 @@ class RadioListAdapter(
         fun bind(pos : Int) { binding.tvChannelTitle.text = list[pos]}
 
         fun checkPlay(pos: Int) {
-            list[pos].run {
-                binding.cvPlayStatus.visibility = VISIBLE
-                binding.clRadioChannelItem.setBackgroundResource(R.color.offroader_outline)
-            }
+
 //            if (list[pos]) {
 //                binding.cvPlayStatus.visibility = VISIBLE
 //                binding.clRadioChannelItem.setBackgroundResource(R.color.offroader_outline)
@@ -74,6 +75,18 @@ class RadioListAdapter(
             }
         }
     }
+
+    private val differCallback = object : DiffUtil.ItemCallback<User>() {
+        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+            TODO("Not yet implemented")
+        }
+
+        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
+            TODO("Not yet implemented")
+        }
+    }
+
+    val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ItemRadioChannelListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
