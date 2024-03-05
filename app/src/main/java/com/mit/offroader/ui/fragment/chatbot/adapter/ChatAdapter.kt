@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mit.offroader.data.model.ai.Message
 import com.mit.offroader.databinding.ItemChatbotBinding
-import com.mit.offroader.ui.fragment.chatbot.ChatBotViewModel
+import com.mit.offroader.ui.fragment.chatbot.viewmodel.ChatBotViewModel
 
 class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Message, RecyclerView.ViewHolder>(
     DIFF_CALLBACK

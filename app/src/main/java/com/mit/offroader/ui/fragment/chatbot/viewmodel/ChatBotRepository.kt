@@ -1,4 +1,4 @@
-package com.mit.offroader.ui.fragment.chatbot
+package com.mit.offroader.ui.fragment.chatbot.viewmodel
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData

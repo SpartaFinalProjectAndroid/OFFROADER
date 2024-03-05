@@ -1,4 +1,4 @@
-package com.mit.offroader.ui.fragment.chatbot
+package com.mit.offroader.ui.fragment.chatbot.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.mit.offroader.data.model.ai.Message
 import com.mit.offroader.data.repository.AiRepository
 import com.mit.offroader.ui.fragment.chatbot.database.BongbongData
+import com.mit.offroader.ui.fragment.chatbot.database.ChatUiState
 import com.mit.offroader.ui.fragment.chatbot.database.HikeyData
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -22,28 +23,31 @@ class ChatBotViewModel(
 ) : ViewModel() {
 
 
-    private var _spinnerPosition: MutableLiveData<String> = MutableLiveData()
 
     private var _conversationUiState: MutableLiveData<ChatUiState?> = MutableLiveData()
+
+    // 스피너가 업데이트 되었을 때 업데이트 되는 상수
     val conversationUiState: LiveData<ChatUiState?> get() = _conversationUiState
 
-
+    // 히키와의 대화를 저장하는 상수
     val hikeyUiState: LiveData<ChatUiState?> =
         hikeyRepository.hikeyConversation.map { conversationRecords ->
             createHikeyConversationUiState(conversationRecords)
-
         }
 
+    // 봉봉이와의 대화를 저장하는 상수
     val bongbongUiState: LiveData<ChatUiState?> =
         bongbongRepository.bongbongConversation.map { conversationRecords ->
             createBongbongConversationUiState(conversationRecords)
         }
+
 
     init {
         _conversationUiState.value = ChatUiState.init()
     }
 
 
+    // 데이터베이스에서 가져온 하이키 메세지를 ChatBotUiState에 추가해주는 함수
     private fun createHikeyConversationUiState(conversationRecords: List<HikeyData>): ChatUiState {
         val conversation: ArrayList<Message> = arrayListOf()
 
@@ -55,6 +59,7 @@ class ChatBotViewModel(
         return ChatUiState(conversation.toList(), "hikey")
     }
 
+    // 데이터베이스에서 가져온 봉봉이 메세지를 ChatBotUiState에 추가해주는 함수
     private fun createBongbongConversationUiState(conversationRecords: List<BongbongData>): ChatUiState {
         val conversation: ArrayList<Message> = arrayListOf()
 
@@ -66,6 +71,7 @@ class ChatBotViewModel(
     }
 
 
+    // 스피너 설정에 따라서 메세지 화면에 들어갈 대화 목록을 바꾸어주는 함수
     fun setBotSpinner(position: Int) {
         Log.d(TAG, "2. setBotSpinner, position : $position")
         Log.d(
@@ -106,6 +112,7 @@ class ChatBotViewModel(
 
     }
 
+    // 대화 목록을 처음 띄울때 초반에 대화를 세팅해주는 함수
     private fun setInitConversationUiState(uiState: ChatUiState?) =
         uiState?.let {
             conversationUiState.value?.copy(
@@ -115,6 +122,7 @@ class ChatBotViewModel(
         }
 
 
+    // DB가 텅 비어있을 때 대화를 세팅해주는 함수
     private fun conversationWhenDbNull(aiType: String) =
         conversationUiState.value?.copy(
             chat = listOf(),
@@ -122,6 +130,7 @@ class ChatBotViewModel(
         )
 
 
+    // 사용자가 작성한 메세지를 DB에 저장해주는 함수
     private suspend fun addMessageToDB(role: String, message: String) {
         when (conversationUiState.value?.position) {
             "hikey" -> {
@@ -149,6 +158,7 @@ class ChatBotViewModel(
 
     }
 
+    // ai의 답변을 받아오고 그 값을 DB에 넘겨주는 함수
     private fun getReplyFromChatGpt(text: String, input: String) {
         viewModelScope.launch {
             runCatching {
@@ -171,6 +181,7 @@ class ChatBotViewModel(
 
     }
 
+    // chatgpt에 검색을 할 떄 F처럼 T처럼 대답하게 하기위해 설정해주는 함수
     fun setSearch(text: String) {
         when (conversationUiState.value?.position) {
             "hikey" -> {
@@ -196,6 +207,7 @@ class ChatBotViewModel(
     }
 
 
+    // DB에 메세지를 지우는 함수
     fun setClearChat() {
         viewModelScope.launch {
             when (conversationUiState.value?.position) {

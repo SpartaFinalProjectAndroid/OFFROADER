@@ -16,6 +16,8 @@ import com.mit.offroader.R
 import com.mit.offroader.databinding.FragmentChatBotBinding
 import com.mit.offroader.ui.activity.main.MainActivity
 import com.mit.offroader.ui.fragment.chatbot.adapter.ChatAdapter
+import com.mit.offroader.ui.fragment.chatbot.viewmodel.ChatBotViewModel
+import com.mit.offroader.ui.fragment.chatbot.viewmodel.ChatBotViewModelFactory
 
 private const val TAG = "ChatBotFragment"
 
@@ -39,7 +41,7 @@ class ChatBotFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentChatBotBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -52,9 +54,11 @@ class ChatBotFragment : Fragment() {
 
     }
 
+    // 뷰 모델 옵져빙해주는 함수
     private fun initObserver() {
 
 
+        // conversationUiState가 옵져빙되면 스피너에서 봉봉이랑 하이키의 값이 바뀌었을 때 채팅 화면을 바꾸어줌.
         chatBotViewModel.conversationUiState.observe(viewLifecycleOwner) {
             Log.d(TAG, it?.chat.toString())
             if (it == null) {
@@ -67,6 +71,8 @@ class ChatBotFragment : Fragment() {
         }
 
 
+        // hikeyUiState는 hikey 대화내역이 DB에 저장되면 옵져브됨
+        // 옵져빙되면 chatAdapter에 대화내역 넣어서 화면에 보여줌.
         chatBotViewModel.hikeyUiState.observe(viewLifecycleOwner) {
             if (it == null) {
                 chatAdapter.submitList(listOf())
@@ -75,8 +81,10 @@ class ChatBotFragment : Fragment() {
                 chatAdapter.submitList(it.chat)
             }
 
-
         }
+
+        // bongbongUiState는 bongbong 대화내역이 DB에 저장되면 옵져브됨
+        // 옵져빙되면 chatAdapter에 대화내역 넣어서 화면에 보여줌.
         chatBotViewModel.bongbongUiState.observe(viewLifecycleOwner) {
             if (it == null) {
                 chatAdapter.submitList(listOf())
@@ -90,8 +98,11 @@ class ChatBotFragment : Fragment() {
 
     }
 
+    // 스피너로 선택된 AI에 맞기 UI 수정하는 함수
     private fun chooseAiChatBot(message: List<Message>?, position: String) {
         chatAdapter.submitList(message)
+
+        // 스크롤 유지
         if (message != null) {
             if (message.isNotEmpty()) {
                 binding.rvChatbot.smoothScrollToPosition(message.lastIndex)
@@ -113,7 +124,6 @@ class ChatBotFragment : Fragment() {
     }
 
 
-
     /**
     프래그먼트를 최초 실행했을 때 실행 되는 함수를 모아놓은 함수
      **/
@@ -132,6 +142,7 @@ class ChatBotFragment : Fragment() {
         setClear()
     }
 
+    // 대화내역 삭제하기 버튼 누르면 대화내역 삭제
     private fun setClear() {
         binding.tvClearChat.setOnClickListener {
             chatBotViewModel.setClearChat()
@@ -143,16 +154,15 @@ class ChatBotFragment : Fragment() {
 
 
         // 키보드에서 검색을 눌렀을 때 질문이 질문을 뷰모델로 넘겨주는 함수
-        binding.etAsk.setOnEditorActionListener { textView, actionId, keyEvent ->
-            var handled = false
+        binding.etAsk.setOnEditorActionListener { textView, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 chatBotViewModel.setSearch(textView.text.toString())
                 (binding.etAsk as TextView).text = getString(R.string.chatbot_clear)
                 // handled가 false이면 검색 클릭 이후 키보드가 비활성화된다.
-                handled = false
             }
-            handled
+            // handled 가 항상 false이기 때문에 그냥 false 리턴해줌
+            false
         }
     }
 
@@ -191,10 +201,6 @@ class ChatBotFragment : Fragment() {
                 binding.ivBot.setImageResource(R.drawable.ic_hikey)
             }
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
     }
 
 }
