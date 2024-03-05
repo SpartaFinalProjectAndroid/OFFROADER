@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/rl_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_san_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_mountain"
+            app:strokeWidth="0dp"
+            android:padding="10dp"
+            app:strokeColor="@color/white"
+            app:shapeAppearanceOverlay="@style/circleImageView"
+            />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_san_outline"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="#FE691C"
+            app:shapeAppearanceOverlay="@style/circleImageView"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+
+
+    <TextView
+        android:id="@+id/tv_san_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/san_name_jirisan"
+        android:layout_below="@id/rl_image"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/pretendard_medium"
+        android:textSize="12sp"
+
+        />
+</RelativeLayout>
