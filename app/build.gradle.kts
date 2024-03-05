@@ -108,11 +108,11 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 
     // Room
-    val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:$room_version")
-    androidTestImplementation("androidx.room:room-testing:$room_version")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    kapt ("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:$rootProject.roomVersion")
+    androidTestImplementation("androidx.room:room-testing:$rootProject.roomVersion")
 
     //navi
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
