@@ -1,0 +1,96 @@
+package com.mit.offroader.ui.activity.main.adapters
+
+
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
+import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.mit.offroader.R
+import com.mit.offroader.databinding.ItemRadioChannelListBinding
+
+class TestAdapater(private val likeList: MutableList<String>)
+    : ListAdapter<RadioChannelItem, TestAdapater.Holder>(differCallback) {
+    companion object {
+        val differCallback = object : DiffUtil.ItemCallback<RadioChannelItem>() {
+            override fun areItemsTheSame(oldItem: RadioChannelItem, newItem: RadioChannelItem): Boolean {
+                return oldItem.title == newItem.title
+            }
+
+            override fun areContentsTheSame(oldItem: RadioChannelItem, newItem: RadioChannelItem): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
+    //val differ = AsyncListDiffer(this, differCallback)
+    interface ItemClick { fun onClick(key: String, pos: Int) }
+    interface HeartClick { fun heartClick(key: String) }
+
+    var itemClick : ItemClick ?= null
+    var heartClick : HeartClick ?= null
+
+    inner class Holder(val binding : ItemRadioChannelListBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(pos: Int) {
+            binding.tvChannelTitle.text = currentList[pos].title
+        }
+        private var isLike = false
+
+        fun checkPlay(pos: Int) {
+
+            if (currentList[pos].isPlay) {
+                binding.cvPlayStatus.visibility = VISIBLE
+                binding.clRadioChannelItem.setBackgroundResource(R.color.offroader_outline)
+            } else {
+                binding.cvPlayStatus.visibility = INVISIBLE
+                binding.clRadioChannelItem.setBackgroundResource(R.color.white)
+            }
+        }
+
+        private fun checkIsLike(key: String) {
+            if (likeList.contains(key)) {
+                binding.ivHeart.setImageResource(R.drawable.ic_fill_heart)
+                isLike = true
+            } else {
+                binding.ivHeart.setImageResource(R.drawable.ic_empty_heart)
+                isLike = false
+            }
+        }
+        fun likeSetting(key: String) {
+
+            checkIsLike(key)
+
+            binding.llHeart.setOnClickListener {
+                heartClick?.heartClick(key)
+
+                if (isLike) {
+                    binding.ivHeart.setImageResource(R.drawable.ic_empty_heart)
+                    isLike = false
+                } else {
+                    binding.ivHeart.setImageResource(R.drawable.ic_fill_heart)
+                    isLike = true
+                }
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val binding = ItemRadioChannelListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return Holder(binding)
+    }
+
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        currentList[position].run {
+            holder.bind(position)
+            holder.likeSetting(this.title)
+            holder.itemView.setOnClickListener {
+                holder.checkPlay(position)
+                itemClick?.onClick(this.title, position)
+            }
+        }
+    }
+}
+

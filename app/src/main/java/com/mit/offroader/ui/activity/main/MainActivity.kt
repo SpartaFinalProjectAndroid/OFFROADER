@@ -31,6 +31,8 @@ import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import com.mit.offroader.data.RadioChannelURL
 import com.mit.offroader.data.RetrofitInstance
+import com.mit.offroader.ui.activity.main.adapters.RadioChannelItem
+import com.mit.offroader.ui.activity.main.adapters.TestAdapater
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -57,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     private val radioListViewModel by viewModels<MainViewModel>()
     private var radioUrl : String ?= null
     private var isPlay : Boolean = false
+    private var whoPlay : String ?= null
 
     @OptIn(UnstableApi::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,6 +136,14 @@ class MainActivity : AppCompatActivity() {
         radioSetting()
     }
 
+    fun adapterTest(map: Map<String, String>) : MutableList<RadioChannelItem> {
+        val testList : MutableList<RadioChannelItem> = mutableListOf()
+        map.keys.forEach {
+            testList.add(RadioChannelItem(it))
+        }
+        return testList
+    }
+
     // 각 방송국과 즐겨찾기 라디오 채널 리스트 초기화
     @OptIn(UnstableApi::class) private fun radioSetting() {
 
@@ -170,20 +181,30 @@ class MainActivity : AppCompatActivity() {
             }
 
             cvKbs.setOnClickListener {
+                val adapter = radioListViewModel.radioLikeList.value?.let { TestAdapater(it) }
+                rvChannelList.adapter = adapter
+                adapter?.submitList(adapterTest(RadioChannelURL.KBS_LIST))
 
-                val adapter  = radioListViewModel.radioLikeList.value?.let{ RadioListAdapter(RadioChannelURL.KBS_LIST.keys.toMutableList(), it) }
-                adapter?.itemClick = object : RadioListAdapter.ItemClick {
-                    override fun onClick(key: String) {
+                //val adapter  = radioListViewModel.radioLikeList.value?.let{ RadioListAdapter(RadioChannelURL.KBS_LIST.keys.toMutableList(), it) }
+                adapter?.itemClick = object : TestAdapater.ItemClick {
+                    override fun onClick(key: String, pos: Int) {
                         RadioChannelURL.KBS_LIST[key]?.let { httpNetWork2(it) }
                         Thread.sleep(500)
                         preparePlayer()
-                        radioPlay()
+                        radioPlay(key)
                         binding.tvBottomRadioTitle.text = key
                         ivRadioProfile.setImageResource(R.drawable.ic_kbs_radio)
+
+                        val test = adapter?.currentList?.toMutableList()
+
+                        test?.removeAt(pos)
+                        test?.add(pos, RadioChannelItem(key, true))
+                        adapter?.submitList(test)
+                        Log.i("Minyong", adapter?.currentList?.size.toString())
                     }
                 }
 
-                adapter?.heartClick = object : RadioListAdapter.HeartClick {
+                adapter?.heartClick = object : TestAdapater.HeartClick {
                     override fun heartClick(key: String) {
                         if (radioListViewModel.radioLikeList.value?.contains(key) == true) {
                             radioListViewModel.removeList(key)
@@ -194,7 +215,8 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
-                rvChannelList.adapter = adapter
+
+                //rvChannelList.adapter = adapter
             }
 
             cvSbs.setOnClickListener {
@@ -221,7 +243,6 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
-
                 rvChannelList.adapter = adapter
             }
 
@@ -325,8 +346,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 라디오 재생
-    private fun radioPlay() {
+    private fun radioPlay(key: String = "") {
         binding.viewTest.player?.play()
+        whoPlay = key
         isPlay = true
     }
 
