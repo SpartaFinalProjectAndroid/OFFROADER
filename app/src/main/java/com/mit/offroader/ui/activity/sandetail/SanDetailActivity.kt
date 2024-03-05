@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.mit.offroader.R
+import com.mit.offroader.data.liked.OnBookmarkClickListener
 import com.mit.offroader.databinding.ActivitySanDetailBinding
 import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.hanrasanList
 import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.jirisanList
@@ -25,6 +26,9 @@ class SanDetailActivity : AppCompatActivity() {
     private val slideImageHandler: Handler = Handler()
     private val slideImageRunnable =
         Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
+
+    // 데이터
+    private val sanDetailUiState: SanDetailUiState = TODO()
 
     private lateinit var imageAdapter: SanImageAdapter
     private val sanDetailViewModel by viewModels<SanDetailViewModel>()
@@ -79,15 +83,16 @@ class SanDetailActivity : AppCompatActivity() {
 
     // 좋아요 기능
     private fun initBookMarkButton() {
-        val bookmarkOn = resources.getDrawable(R.drawable.ic_bookmark_on)
-        val bookmarkOff = resources.getDrawable(R.drawable.ic_bookmark_off)
 
+        if (sanDetailUiState.isLiked) binding.ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
 
-//        binding.ivBookmark.setOnClickListener {
-//            binding.ivBookmark.setImageResource(
-//                if(isLiked) bookmarkOn else bookmarkOff
-//            )
-//        }
+        binding.ivBookmark.setOnClickListener {
+            sanDetailUiState.isLiked = !sanDetailUiState.isLiked
+            binding.ivBookmark.setImageResource(
+                if (sanDetailUiState.isLiked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
+            )
+            OnBookmarkClickListener.onBookmarkClick(sanDetailUiState)
+        }
     }
 
     // 뒤로가기 버튼

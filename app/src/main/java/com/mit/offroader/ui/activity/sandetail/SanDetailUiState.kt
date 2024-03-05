@@ -1,5 +1,9 @@
 package com.mit.offroader.ui.activity.sandetail
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class SanDetailUiState(
     val mountain: String,
     val address: String,
@@ -8,5 +12,5 @@ data class SanDetailUiState(
     val time: String,
     val intro: String,
     val recommend: String,
-    val isLiked: Boolean
-)
+    var isLiked: Boolean
+): Parcelable
