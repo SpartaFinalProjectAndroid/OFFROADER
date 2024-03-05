@@ -27,10 +27,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.mit.offroader" />
+                  <option name="mobileSdkAppId" value="1:399146829257:android:a611b7e662cbe7e287d418" />
+                  <option name="projectId" value="offroader-event" />
+                  <option name="projectNumber" value="399146829257" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
