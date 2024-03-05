@@ -7,9 +7,10 @@ import kotlinx.parcelize.Parcelize
 data class SanDetailUiState(
     val mountain: String,
     val address: String,
-    val difficulty: String,
+    val difficulty: Int,
     val height: Int,
-    val time: String,
+    val uphilltime: Int,
+    val downhilltime: Int,
     val intro: String,
     val recommend: String,
     var isLiked: Boolean

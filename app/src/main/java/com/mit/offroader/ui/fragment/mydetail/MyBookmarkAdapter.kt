@@ -15,7 +15,7 @@ interface OnBookmarkClickedInMyLikedListener{
 }
 class MyBookmarkAdapter() : RecyclerView.Adapter<MyBookmarkAdapter.Holder>(), OnBookmarkClickedInMyLikedListener {
 
-    var onBookmarkClickedInMyLikedListener: OnBookmarkClickedInMyLikedListener? = null
+    var onBookmarkClickedInMyLikedListener: List<OnBookmarkClickedInMyLikedListener>? = null
     private var bookmarkedItem = LikedUtil.getLiked()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ItemAdapterBookmarkBinding.inflate(LayoutInflater.from(parent.context), parent, false)

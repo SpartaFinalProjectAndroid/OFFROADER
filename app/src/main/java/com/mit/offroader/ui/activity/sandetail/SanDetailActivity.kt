@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.mit.offroader.R
 import com.mit.offroader.data.liked.OnBookmarkClickListener
@@ -17,6 +18,7 @@ import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.odae
 import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.seullacksanList
 import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.sobaeksanList
 import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.sokrisanList
+import java.text.DecimalFormat
 
 class SanDetailActivity : AppCompatActivity() {
     private var _binding: ActivitySanDetailBinding? = null
@@ -37,6 +39,7 @@ class SanDetailActivity : AppCompatActivity() {
         _binding = ActivitySanDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initData()
         initImage()
         initBookMarkButton()
 
@@ -53,6 +56,37 @@ class SanDetailActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         slideImageHandler.removeCallbacks(slideImageRunnable)
+    }
+
+    // 데이터 받아오기 (지금은 임의의 객체로 설정)
+    private fun initData() {
+        with(binding) {
+            tvMountain.text = sanDetailUiState.mountain
+            tvAddress.text = sanDetailUiState.address
+
+            val dec = DecimalFormat("#,###")
+            tvHeight.text = "${dec.format(sanDetailUiState.height)}m"
+            tvIntroInfo.text = sanDetailUiState.intro
+            tvRecommendInfo.text = sanDetailUiState.recommend
+
+            // 숫자에 따라 난이도 부여 & 색상 부여
+            tvDifficulty.text = when(sanDetailUiState.difficulty) {
+                1 -> "하"
+                2 -> "중"
+                else -> "상"
+            }
+
+            when(tvDifficulty.text) {
+                "하" -> tvDifficulty.setTextColor(ContextCompat.getColor(applicationContext, R.color.offroader_blue))
+                "중" -> tvDifficulty.setTextColor(ContextCompat.getColor(applicationContext, R.color.offroader_orange))
+                else -> tvDifficulty.setTextColor(ContextCompat.getColor(applicationContext, R.color.offroader_red))
+            }
+
+            //상행시간, 하행시간, 총 등산시간
+            tvUptimeInfo.text = "${sanDetailUiState.uphilltime/60}시간 ${sanDetailUiState.uphilltime%60}분"
+            tvDowntimeInfo.text = "${sanDetailUiState.downhilltime/60}시간 ${sanDetailUiState.downhilltime%60}분"
+            tvTimeInfo.text = "${(sanDetailUiState.uphilltime+sanDetailUiState.downhilltime)/60}시간 ${(sanDetailUiState.uphilltime+sanDetailUiState.downhilltime)%60}분"
+        }
     }
 
     // 자동 스크롤되는 ViewPager2 이미지
