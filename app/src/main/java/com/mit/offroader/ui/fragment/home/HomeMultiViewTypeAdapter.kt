@@ -6,9 +6,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -17,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mit.offroader.R
 import com.mit.offroader.databinding.ItemHomeAttributeBinding
 import com.mit.offroader.databinding.ItemHomeCardBinding
@@ -173,15 +177,125 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
             tvEventDes.text = item.des
             tvEventDate.text = item.date
 
-            //임시 테스트
+//            //임시 테스트
+//            root.setOnClickListener {
+//                val dialog = AlertDialog.Builder(context)
+//                    .setTitle(item.title)
+//                    .setMessage(item.des)
+//                    .setPositiveButton("OK", null)
+//                    .create()
+//                dialog.show()
+//            }
+
             root.setOnClickListener {
-                val dialog = AlertDialog.Builder(context)
-                    .setTitle(item.title)
-                    .setMessage(item.des)
-                    .setPositiveButton("OK", null)
-                    .create()
-                dialog.show()
+                val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_home_event, null)
+                val title = dialogView.findViewById<TextView>(R.id.tv_dialog_title)
+                val des = dialogView.findViewById<TextView>(R.id.tv_dialog_des)
+                val date = dialogView.findViewById<TextView>(R.id.tv_dialog_date)
+                val img = dialogView.findViewById<ImageView>(R.id.iv_dialog_img)
+                val dialog = AlertDialog.Builder(context).apply {
+                    setView(dialogView)
+                    setPositiveButton("확인", null)
+                    setNegativeButton("취소", null)
+                }.create()
+
+                dialog.apply {
+                    show() //문제가 있었던 부분인데, 다이얼로그 창 크기르 조절하기 위해 먼저 show로 나타낸 후 조절해야 함
+                    window?.apply {
+                        setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.apply_corner_radius_20))
+//                        val displayMetrics = DisplayMetrics()
+//                        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+//                        windowManager.defaultDisplay.getMetrics(displayMetrics)
+//                        val displayWidth = displayMetrics.widthPixels
+//                        val displayHeight = displayMetrics.heightPixels
+//                        val maxWidth = (displayWidth * 0.8).coerceAtMost(1000.0) // 최대 폭을 1000px로 제한
+//                        val maxHeight = (displayHeight * 0.8).coerceAtMost(1800.0) // 최대 높이를 1800px로 제한
+//                        setLayout(maxWidth.toInt(), maxHeight.toInt())
+
+
+                        val window = dialog.window
+                        val displayMetrics = DisplayMetrics()
+                        window?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+
+                        val maxHeight = (displayMetrics.heightPixels * 0.7).toInt()
+                        val height = (WindowManager.LayoutParams.WRAP_CONTENT).coerceAtMost(maxHeight)
+
+//                        val maxHeight = (displayMetrics.heightPixels * 1.2).coerceAtMost(displayMetrics.heightPixels * 0.9)  // 최대 높이를 디스플레이의 80%로 설정
+                        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, height)
+                        window?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.apply_corner_radius_20))
+                    }
+
+//                    val maxWidth = (displayMetrics.widthPixels * 0.8).toInt()
+//
+//// 너비를 화면 너비의 80%로 제한합니다. 하지만 기본적으로는 MATCH_PARENT를 사용하려고 합니다.
+//// MATCH_PARENT를 픽셀 값으로 직접 비교할 수 없으므로, 실제 너비 값을 사용합니다.
+//                    val width = displayMetrics.widthPixels.coerceAtMost(maxWidth)
+
+                    title.text = item.title
+                    des.text = item.des
+                    date.text = item.date
+                    Glide.with(context)
+                        .load(item.image)
+                        .placeholder(R.drawable.ic_launcher_foreground)
+                        .into(img)
+                }
             }
+
+
+//                val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_home_event, null)
+//                dialogImg = dialogView.findViewById(R.id.civ_dialog_profile)
+//                val dialogName = dialogView.findViewById<EditText>(R.id.et_dialog_name)
+//                val changeBtn = dialogView.findViewById<Button>(R.id.btn_dialog_change)
+//                val builder = AlertDialog.Builder(context)
+//                builder.setView(dialogView)
+//                builder.setPositiveButton("확인") { dialog, _ ->
+//                    uiData = listOf(
+//                        MyPageUiData.Profile(
+//                            dialogName.text.toString(),
+//                            selectedImageUri.toString()
+//                        )
+//                    ) + uiData.subList(1, uiData.size)
+//                    myPageAdapter.submitList(uiData.toList())
+//                    Utils.saveMyInfo(
+//                        requireContext(),
+//                        dialogName.text.toString(),
+//                        selectedImageUri.toString()
+//                    )
+//                    dialog.dismiss()
+//                }
+//                builder.setNegativeButton("취소") { dialog, _ ->
+//                    dialog.cancel()
+//                }
+//                val dialog = builder.create()
+//                dialog.window?.setBackgroundDrawable(
+//                    ContextCompat.getDrawable(
+//                        requireContext(),
+//                        R.drawable.apply_corner_radius_10
+//                    )
+//                )
+//                dialog.show()
+//                dialogName.setText(name)
+//                if (image == null) {
+//                    dialogImg.setImageDrawable(
+//                        ContextCompat.getDrawable(
+//                            requireContext(),
+//                            R.drawable.ic_default_profile
+//                        )
+//                    )
+//                } else {
+//                    dialogImg.setImageDrawable(image)
+//                }
+//                changeBtn.setOnClickListener {
+//                    ImagePicker.with(requireActivity())
+//                        .galleryOnly()
+//                        .compress(1024)
+//                        .maxResultSize(1080, 1080)
+//                        .cropSquare()
+//                        .createIntent { intent ->
+//                            startForProfileImageResult.launch(intent)
+//                        }
+//                }
+//            }
 
 
 //            val positionInFourthType = 1 + currentList.subList(0, absoluteAdapterPosition).count { it is HomeUiData.Fourth }
@@ -326,6 +440,7 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
                                 Intent.ACTION_VIEW,
                                 Uri.parse("https://www.flaticon.com/uicons")
                             )
+                            customToast.visibility = View.GONE
                             context.startActivity(intent)
                         }
                     }
