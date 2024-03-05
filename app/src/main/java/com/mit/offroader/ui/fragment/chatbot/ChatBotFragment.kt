@@ -1,6 +1,7 @@
 package com.mit.offroader.ui.fragment.chatbot
 
 import android.os.Bundle
+import com.mit.offroader.data.model.ai.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,15 +17,23 @@ import com.mit.offroader.databinding.FragmentChatBotBinding
 import com.mit.offroader.ui.activity.main.MainActivity
 import com.mit.offroader.ui.fragment.chatbot.adapter.ChatAdapter
 
+private const val TAG = "ChatBotFragment"
+
 class ChatBotFragment : Fragment() {
 
 
     private var _binding: FragmentChatBotBinding? = null
     private val binding get() = _binding!!
     private val chatBotViewModel: ChatBotViewModel by viewModels {
-        ChatBotViewModelFactory((requireActivity().application as ChatBotApplication).repository)
+        ChatBotViewModelFactory(
+            (requireActivity().application as ChatBotApplication).hikeyRepository,
+            (requireActivity().application as ChatBotApplication).bongbongRepository
+        )
     }
-    private val chatAdapter: ChatAdapter by lazy { ChatAdapter(chatBotViewModel) }
+    private val chatAdapter: ChatAdapter by lazy {
+        ChatAdapter(chatBotViewModel)
+
+    }
 
 
     override fun onCreateView(
@@ -37,41 +46,70 @@ class ChatBotFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("onResume in ChatBotFragment", "이거 다음에어댑터 연결하고 서브밋함..")
-
-//        binding.rvChatbot.adapter = chatAdapter
+        binding.rvChatbot.adapter = chatAdapter
         initView()
         initViewModel()
         initObserver()
 
-
     }
 
     private fun initObserver() {
-        Log.d("옵져빙 함수", "^^ 옵져빙 되는 중")
-//
-        chatBotViewModel.chatBotUiState.observe(viewLifecycleOwner) {
-            binding.rvChatbot.adapter = chatAdapter
-            Log.d("CheckSubmit", "^^ Submit List: ${it.chatWithHikey}")
-            chatAdapter.submitList(it.chatWithHikey)
 
-//            val size = it.chatWithHikey.size
-//            if (size != 0) {
-//                when (it.chatWithHikey[size-1].role) {
-//                    "user" -> {
-//                        chatBotViewModel.setReply()
-//                    }
-//                }
-//            }
+
+        chatBotViewModel.conversationUiState.observe(viewLifecycleOwner) {
+            Log.d(TAG, it?.chat.toString())
+            if (it == null) {
+                chatAdapter.submitList(listOf())
+                chooseAiChatBot(listOf(), "hikey")
+            } else {
+                chatAdapter.submitList(it.chat)
+                chooseAiChatBot(it.chat, it.position)
+            }
         }
 
+
+        chatBotViewModel.hikeyUiState.observe(viewLifecycleOwner) {
+            if (it == null) {
+                chatAdapter.submitList(listOf())
+
+            } else {
+                chatAdapter.submitList(it.chat)
+            }
+
+
+        }
+        chatBotViewModel.bongbongUiState.observe(viewLifecycleOwner) {
+            if (it == null) {
+                chatAdapter.submitList(listOf())
+
+            } else {
+                chatAdapter.submitList(it.chat)
+            }
+
+        }
+
+
+    }
+
+    private fun chooseAiChatBot(message: List<Message>?, position: String) {
+        chatAdapter.submitList(message)
+        if (message != null) {
+            if (message.isNotEmpty()) {
+                binding.rvChatbot.smoothScrollToPosition(message.lastIndex)
+            }
+        }
+
+        when (position) {
+            "hikey" -> {
+                binding.ivBot.setImageResource(R.drawable.ic_hikey)
+                binding.tvBotMbti.text = getString(R.string.chatbot_mbti_t)
+            }
+
+            "bongbong" -> {
+                binding.ivBot.setImageResource(R.drawable.ic_bongbong)
+                binding.tvBotMbti.text = getString(R.string.chatbot_mbti_f)
+            }
+        }
 
     }
 
@@ -112,10 +150,7 @@ class ChatBotFragment : Fragment() {
         binding.etAsk.setOnEditorActionListener { textView, actionId, keyEvent ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                Log.d(
-                    "chatbot Fragment",
-                    "^^ setOnEditorAction Listener : ${textView.text.toString()}"
-                )
+
                 chatBotViewModel.setSearch(textView.text.toString())
                 (binding.etAsk as TextView).text = getString(R.string.chatbot_clear)
                 // handled가 false이면 검색 클릭 이후 키보드가 비활성화된다.
@@ -150,8 +185,8 @@ class ChatBotFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
+                Log.d(TAG, "1. 스피너 선택 position : $position")
                 chatBotViewModel.setBotSpinner(position)
-
 
             }
 
@@ -159,12 +194,8 @@ class ChatBotFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 binding.ivBot.setImageResource(R.drawable.ic_bongbong)
             }
-
         }
-
     }
-
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

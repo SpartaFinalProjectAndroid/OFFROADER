@@ -8,9 +8,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [ConversationRecord::class], exportSchema = false, version = 1)
-abstract class ChatBotDatabase : RoomDatabase() {
-    abstract fun getChatBotDao(): ChatBotDao
+@Database(entities = [HikeyData::class], exportSchema = false, version = 1)
+abstract class HikeyDatabase : RoomDatabase() {
+    abstract fun getChatBotDao(): HikeyDao
 
     private class ChatBotDatabaseCallback(
         private val scope: CoroutineScope
@@ -31,22 +31,22 @@ abstract class ChatBotDatabase : RoomDatabase() {
 
 
     companion object {
-        private var INSTANCE: ChatBotDatabase? = null
+        private var INSTANCE: HikeyDatabase? = null
 
         fun getDatabase(
             context: Context
             ,
             scope: CoroutineScope
-        ): ChatBotDatabase {
+        ): HikeyDatabase {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(
-                    context, ChatBotDatabase::class.java, "record_database"
+                    context, HikeyDatabase::class.java, "hikey"
                 )
                     .addCallback(ChatBotDatabaseCallback(scope))
                     .fallbackToDestructiveMigration()
                     .build()
             }
-            return INSTANCE as ChatBotDatabase
+            return INSTANCE as HikeyDatabase
         }
     }
 
