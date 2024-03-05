@@ -48,7 +48,6 @@ class ChatBotFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.rvChatbot.adapter = chatAdapter
         initView()
-        initViewModel()
         initObserver()
 
     }
@@ -101,12 +100,12 @@ class ChatBotFragment : Fragment() {
 
         when (position) {
             "hikey" -> {
-                binding.ivBot.setImageResource(R.drawable.ic_hikey)
+                binding.ivBot.setImageResource(R.drawable.ic_bongbong)
                 binding.tvBotMbti.text = getString(R.string.chatbot_mbti_t)
             }
 
             "bongbong" -> {
-                binding.ivBot.setImageResource(R.drawable.ic_bongbong)
+                binding.ivBot.setImageResource(R.drawable.ic_hikey)
                 binding.tvBotMbti.text = getString(R.string.chatbot_mbti_f)
             }
         }
@@ -114,9 +113,6 @@ class ChatBotFragment : Fragment() {
     }
 
 
-    private fun initViewModel() {
-
-    }
 
     /**
     프래그먼트를 최초 실행했을 때 실행 되는 함수를 모아놓은 함수
@@ -192,7 +188,7 @@ class ChatBotFragment : Fragment() {
 
             // 스피너가 선택되지 않았을 때 (초기 상태) : 초기에 봉봉이를 선택해 둠.
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                binding.ivBot.setImageResource(R.drawable.ic_bongbong)
+                binding.ivBot.setImageResource(R.drawable.ic_hikey)
             }
         }
     }
