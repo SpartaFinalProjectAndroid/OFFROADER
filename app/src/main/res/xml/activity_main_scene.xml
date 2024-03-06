@@ -127,7 +127,6 @@
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
         app:duration="161">
-        <OnClick app:targetId="@+id/ll_bottom_play" />
         <KeyFrameSet >
             <KeyAttribute
                 app:motionTarget="@+id/ll_radio_channels"
@@ -154,5 +153,6 @@
                 app:framePosition="30"
                 android:alpha="0" />
         </KeyFrameSet>
+        <OnClick />
     </Transition>
 </MotionScene>

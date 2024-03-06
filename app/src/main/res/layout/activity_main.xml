@@ -133,8 +133,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_favorites"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:background="@color/offroader_background"
@@ -149,8 +149,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_kbs"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             app:cardCornerRadius="10dp"
@@ -165,8 +165,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_sbs"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             app:cardCornerRadius="10dp"
@@ -181,8 +181,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_mbc"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             app:cardCornerRadius="10dp"
