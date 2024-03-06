@@ -1,10 +1,12 @@
 package com.mit.offroader.data
 
 import com.mit.offroader.data.api.AiApi
+import com.mit.offroader.data.api.RadioApiInterface
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 
 object RetrofitInstance {
@@ -18,6 +20,10 @@ object RetrofitInstance {
 
     // VWORLD API:
 
+    // Radio API:
+    private const val MBC_SFM_URL = "https://sminiplay.imbc.com/aacplay.ashx?agent=webapp&channel=sfm"
+    val radioAPI : RadioApiInterface by lazy { retrofit(MBC_SFM_URL).create(RadioApiInterface::class.java) }
+
     private fun retrofit(baseUrl: String): Retrofit {
         return Retrofit.Builder().baseUrl(baseUrl).client(
             OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)
@@ -26,6 +32,5 @@ object RetrofitInstance {
                     level = HttpLoggingInterceptor.Level.BODY
                 }).build()
         ).addConverterFactory(GsonConverterFactory.create()).build()
-
     }
 }
