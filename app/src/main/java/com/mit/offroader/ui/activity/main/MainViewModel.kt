@@ -18,6 +18,8 @@ class MainViewModel : ViewModel() {
     private var copyList : MutableList<String> = mutableListOf()
     val radioLikeList : LiveData<MutableList<String>> = _radioLikeList
 
+    var whoPlay : MutableLiveData<String> ?= null
+
     fun addList(key : String) {
         copyList.add(key)
         _radioLikeList.value = copyList

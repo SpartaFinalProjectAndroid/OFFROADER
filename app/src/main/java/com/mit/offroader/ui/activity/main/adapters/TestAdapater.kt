@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mit.offroader.R
 import com.mit.offroader.databinding.ItemRadioChannelListBinding
+import com.mit.offroader.ui.activity.main.MainViewModel
 
-class TestAdapater(private val likeList: MutableList<String>)
+class TestAdapater(private val mainViewModel: MainViewModel)
     : ListAdapter<RadioChannelItem, TestAdapater.Holder>(differCallback) {
     companion object {
         val differCallback = object : DiffUtil.ItemCallback<RadioChannelItem>() {
@@ -39,7 +40,8 @@ class TestAdapater(private val likeList: MutableList<String>)
         }
         private var isLike = false
 
-        fun checkPlay(pos: Int) {
+        fun checkPlay(pos: Int, key: String) {
+
 
             if (currentList[pos].isPlay) {
                 binding.cvPlayStatus.visibility = VISIBLE
@@ -51,7 +53,7 @@ class TestAdapater(private val likeList: MutableList<String>)
         }
 
         private fun checkIsLike(key: String) {
-            if (likeList.contains(key)) {
+            if (mainViewModel.radioLikeList.value?.contains(key) == true) {
                 binding.ivHeart.setImageResource(R.drawable.ic_fill_heart)
                 isLike = true
             } else {
@@ -87,7 +89,7 @@ class TestAdapater(private val likeList: MutableList<String>)
             holder.bind(position)
             holder.likeSetting(this.title)
             holder.itemView.setOnClickListener {
-                holder.checkPlay(position)
+                holder.checkPlay(position, this.title)
                 itemClick?.onClick(this.title, position)
             }
         }

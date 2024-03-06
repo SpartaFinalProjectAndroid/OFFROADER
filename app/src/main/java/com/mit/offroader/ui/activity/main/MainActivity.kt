@@ -181,30 +181,35 @@ class MainActivity : AppCompatActivity() {
             }
 
             cvKbs.setOnClickListener {
-                val adapter = radioListViewModel.radioLikeList.value?.let { TestAdapater(it) }
+                val adapter = TestAdapater(radioListViewModel)
+                //val adapter = radioListViewModel.radioLikeList.value?.let { TestAdapater(it) }
                 rvChannelList.adapter = adapter
-                adapter?.submitList(adapterTest(RadioChannelURL.KBS_LIST))
+                adapter.submitList(adapterTest(RadioChannelURL.KBS_LIST))
 
                 //val adapter  = radioListViewModel.radioLikeList.value?.let{ RadioListAdapter(RadioChannelURL.KBS_LIST.keys.toMutableList(), it) }
-                adapter?.itemClick = object : TestAdapater.ItemClick {
+                adapter.itemClick = object : TestAdapater.ItemClick {
                     override fun onClick(key: String, pos: Int) {
-                        RadioChannelURL.KBS_LIST[key]?.let { httpNetWork2(it) }
-                        Thread.sleep(500)
-                        preparePlayer()
-                        radioPlay(key)
-                        binding.tvBottomRadioTitle.text = key
-                        ivRadioProfile.setImageResource(R.drawable.ic_kbs_radio)
+                        if (whoPlay != key) {
+                            RadioChannelURL.KBS_LIST[key]?.let { httpNetWork2(it) }
+                            Thread.sleep(500)
+                            preparePlayer()
+                            radioPlay(key)
+                            binding.tvBottomRadioTitle.text = key
+                            ivRadioProfile.setImageResource(R.drawable.ic_kbs_radio)
 
-                        val test = adapter?.currentList?.toMutableList()
+                            val test = adapter.currentList.toMutableList()
 
-                        test?.removeAt(pos)
-                        test?.add(pos, RadioChannelItem(key, true))
-                        adapter?.submitList(test)
-                        Log.i("Minyong", adapter?.currentList?.size.toString())
+
+
+//                            test.removeAt(pos)
+//                            test.add(pos, RadioChannelItem(key, true))
+//                            adapter.submitList(test)
+//                            Log.i("Minyong", adapter.currentList.size.toString())
+                        }
                     }
                 }
 
-                adapter?.heartClick = object : TestAdapater.HeartClick {
+                adapter.heartClick = object : TestAdapater.HeartClick {
                     override fun heartClick(key: String) {
                         if (radioListViewModel.radioLikeList.value?.contains(key) == true) {
                             radioListViewModel.removeList(key)
@@ -350,6 +355,7 @@ class MainActivity : AppCompatActivity() {
         binding.viewTest.player?.play()
         whoPlay = key
         isPlay = true
+        radioListViewModel.whoPlay?.value = key
     }
 
     // 라디오 정지
