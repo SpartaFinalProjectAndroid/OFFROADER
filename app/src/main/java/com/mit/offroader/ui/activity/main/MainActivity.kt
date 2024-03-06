@@ -185,7 +185,7 @@ class MainActivity : AppCompatActivity() {
                     Thread.sleep(500)
                     preparePlayer()
                     binding.tvBottomRadioTitle.text = key
-                    ivRadioProfile.setImageResource(R.drawable.ic_kbs_radio)
+                    ivRadioProfile.setImageResource(R.drawable.ic_favorite)
 
                     val adapterList = adapter.currentList.toMutableList()
                     if (adapterList.contains(RadioChannelItem(whoPlay.toString(), true))) {

@@ -144,7 +144,7 @@
                 android:id="@+id/iv_favorites"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@color/offroader_red" />
+                android:src="@drawable/ic_favorite" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
