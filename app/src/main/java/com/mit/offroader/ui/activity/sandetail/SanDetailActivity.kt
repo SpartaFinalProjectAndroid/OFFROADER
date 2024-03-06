@@ -3,7 +3,6 @@ package com.mit.offroader.ui.activity.sandetail
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -42,10 +41,7 @@ class SanDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initData()
-        viewMoreText(binding.tvIntroInfo, binding.tvIntroPlus)
-        viewMoreText(binding.tvRecommendInfo, binding.tvRecommendPlus)
         initImage()
-//        initBookMarkButton()
 
         initBackButton()
     }
@@ -78,7 +74,8 @@ class SanDetailActivity : AppCompatActivity() {
                             document.getLong("time_uphill") ?: 0,
                             document.getLong("time_downhill") ?: 0,
                             document.getString("summary") ?: "none",
-                            document.getString("recommend") ?: "none"
+                            document.getString("recommend") ?: "none",
+                            document.getBoolean("isLiked") ?: false
                         )
 
                         with(binding) {
@@ -90,6 +87,49 @@ class SanDetailActivity : AppCompatActivity() {
                             tvHeightInfo.text = "${dec.format(height)}m"
                             tvIntroInfo.text = sanlist.summary
                             tvRecommendInfo.text = sanlist.recommend
+
+                            // 자세히 보기 클릭 시 텍스트 전부 출력
+                            tvIntroInfo.post {
+                                val lineCount = tvIntroInfo.layout.lineCount
+                                if (lineCount > 0) {
+                                    if (tvIntroInfo.layout.getEllipsisCount(lineCount - 1) > 0) {
+                                        tvIntroPlus.visibility = View.VISIBLE
+
+                                        tvIntroPlus.setOnClickListener {
+                                            tvIntroInfo.maxLines = Int.MAX_VALUE
+                                            tvIntroPlus.visibility = View.GONE
+                                            tvIntroShort.visibility = View.VISIBLE
+                                        }
+
+                                        tvIntroShort.setOnClickListener {
+                                            tvIntroInfo.maxLines = 5
+                                            tvIntroPlus.visibility = View.VISIBLE
+                                            tvIntroShort.visibility = View.GONE
+                                        }
+                                    }
+                                }
+                            }
+
+                            tvRecommendInfo.post {
+                                val lineCount = tvRecommendInfo.layout.lineCount
+                                if (lineCount > 0) {
+                                    if (tvRecommendInfo.layout.getEllipsisCount(lineCount - 1) > 0) {
+                                        tvRecommendPlus.visibility = View.VISIBLE
+
+                                        tvRecommendPlus.setOnClickListener {
+                                            tvRecommendInfo.maxLines = Int.MAX_VALUE
+                                            tvRecommendPlus.visibility = View.GONE
+                                            tvRecommendShort.visibility = View.VISIBLE
+                                        }
+
+                                        tvRecommendShort.setOnClickListener {
+                                            tvRecommendInfo.maxLines = 5
+                                            tvRecommendPlus.visibility = View.VISIBLE
+                                            tvRecommendShort.visibility = View.GONE
+                                        }
+                                    }
+                                }
+                            }
 
                             // 숫자에 따라 난이도 부여 & 색상 부여
                             val difficulty = sanlist.difficulty
@@ -146,28 +186,15 @@ class SanDetailActivity : AppCompatActivity() {
                                 tvTimeInfo.text =
                                     "${(uphilltime + downhilltime) / 60}시간 ${(uphilltime + downhilltime) % 60}분"
                             }
+
+
                         }
+
+
                     }
                 }
 
             }
-    }
-
-    // 자세히 보기 클릭 시 텍스트 전부 출력
-    private fun viewMoreText(contentTextView: TextView, viewMoreTextView: TextView) {
-        contentTextView.post {
-            val lineCount = contentTextView.layout.lineCount
-            if (lineCount > 0) {
-                if (contentTextView.layout.getEllipsisCount(lineCount - 1) > 0) {
-                    viewMoreTextView.visibility = View.VISIBLE
-
-                    viewMoreTextView.setOnClickListener {
-                        contentTextView.maxLines = Int.MAX_VALUE
-                        viewMoreTextView.visibility = View.GONE
-                    }
-                }
-            }
-        }
     }
 
     // 자동 스크롤되는 ViewPager2 이미지
@@ -198,25 +225,23 @@ class SanDetailActivity : AppCompatActivity() {
         })
     }
 
-
-//     좋아요 기능
-//    private fun initBookMarkButton() {
+    // 좋아요 기능
+    private fun initBookmark() {
+//        if (sanlist.isLiked) ivBookmark.setImageResource(R.drawable.ic_bookmark_on2)
 //
-//        if (sanDetailUiState.isLiked) binding.ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
-//
-//        binding.ivBookmark.setOnClickListener {
-//            sanDetailUiState.isLiked = !sanDetailUiState.isLiked
+//        ivBookmark.setOnClickListener {
+//            sanlist.isLiked = !sanlist.isLiked
 //            binding.ivBookmark.setImageResource(
-//                if (sanDetailUiState.isLiked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
+//                if (sanlist.isLiked) R.drawable.ic_bookmark_on2 else R.drawable.ic_bookmark_off2
 //            )
-//            OnBookmarkClickListener.onBookmarkClick(sanDetailUiState)
+//            OnBookmarkClickListener.onBookmarkClick(sanlist)
 //        }
-//    }
+    }
 
-    // 뒤로가기 버튼
-    private fun initBackButton() {
-        binding.ivBack.setOnClickListener {
-            finish()
+        // 뒤로가기 버튼
+        private fun initBackButton() {
+            binding.ivBack.setOnClickListener {
+                finish()
+            }
         }
     }
-}
