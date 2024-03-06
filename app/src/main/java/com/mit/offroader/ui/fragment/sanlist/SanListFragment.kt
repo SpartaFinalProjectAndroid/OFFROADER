@@ -3,6 +3,7 @@ package com.mit.offroader.ui.fragment.sanlist
 import android.annotation.SuppressLint
 import com.mit.offroader.utils.Application
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,10 @@ import com.mit.offroader.ui.fragment.sanlist.model.SanDTO
 import com.mit.offroader.ui.fragment.sanlist.viewmodel.SanListViewModel
 import com.mit.offroader.ui.fragment.sanlist.viewmodel.SanListViewModelFactory
 
+private const val TAG = "SanListFragment"
+
 class SanListFragment : Fragment() {
+
 
     companion object {
         fun newInstance() = SanListFragment()
@@ -49,21 +53,33 @@ class SanListFragment : Fragment() {
 
     private fun initView() {
         setRecyclerViewGridLayout()
+
+        setInitiallySelectedItem()
     }
 
+    private fun setInitiallySelectedItem() {
+        sanListViewModel.setInitiallySelectedItem()
+    }
 
 
     private fun initObserve() {
         sanListViewModel.sanListUiState.observe(viewLifecycleOwner) {
-            it?.selectedItem?.let { it1 -> setSelectedSan(it1) }
+            Log.d(TAG,"sanListUiState OBSERVED ${it?.selectedItem}")
+            if (it?.selectedItem == null) {
+                sanListViewModel.getSelectedItem(null)
+            } else {
+                it?.selectedItem?.let { it1 -> setSelectedSan(it1) }
+            }
         }
-        sanListViewModel.sanListRepository.observe(viewLifecycleOwner) {
+        sanListViewModel.sanList.observe(viewLifecycleOwner) {
+            Log.d(TAG,"sanListRepository OBSERVED")
             sanListAdapter.submitList(it)
         }
     }
 
     @SuppressLint("SetTextI18n") //하드코딩 하지말라는 경고를 타이틀 어노테이션을 통해 무시함.
     private fun setSelectedSan(selectedItem: SanDTO) {
+        Log.d(TAG, "setSelectedSan 화면 구성 $selectedItem")
         if (selectedItem != null) {
             Glide.with(this).load(selectedItem.sanImage).into(binding.ivSelectedImage)
         }
@@ -81,6 +97,7 @@ class SanListFragment : Fragment() {
     }
 
     private fun setRecyclerViewGridLayout() {
+        Log.d( TAG, "setRecyclerViewGridLayout")
         val gridLayoutManager = GridLayoutManager(requireContext(), 4)
         binding.rvSanList.layoutManager = gridLayoutManager
     }

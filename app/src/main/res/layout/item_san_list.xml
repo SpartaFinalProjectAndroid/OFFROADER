@@ -12,9 +12,10 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_san_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
             android:src="@drawable/ic_mountain"
+            android:scaleType="centerCrop"
             app:strokeWidth="0dp"
             android:padding="10dp"
             app:strokeColor="@color/white"
@@ -23,8 +24,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_san_outline"
-            android:layout_width="95dp"
-            android:layout_height="95dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             app:strokeWidth="1.5dp"
             app:strokeColor="#FE691C"
             app:shapeAppearanceOverlay="@style/circleImageView"
