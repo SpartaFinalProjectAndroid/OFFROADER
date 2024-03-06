@@ -9,7 +9,7 @@ sealed class HomeUiData {
         var image: String?,
         var title: String?,
         var des: String?,
-        var date: String?
+        var date: Long?
     ) : HomeUiData()
 
     data object Attribute : HomeUiData()
