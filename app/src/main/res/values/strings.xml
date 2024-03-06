@@ -70,5 +70,6 @@
     <string name="sandetail_downtime">평균 하행 시간</string>
     <string name="sandetail_downtime_info">down time</string>
     <string name="san_list_mountain_info">1,947 m | 2h 40m | 상</string>
+    <string name="san_list_chip_alphabetical_order">가나다순</string>
 
 </resources>

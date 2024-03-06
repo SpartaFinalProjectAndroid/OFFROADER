@@ -20,13 +20,11 @@
             app:shapeAppearanceOverlay="@style/circleImageView"
             />
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <ImageView
             android:id="@+id/iv_san_outline"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:strokeWidth="1.5dp"
-            app:strokeColor="@color/offroader_red"
-            app:shapeAppearanceOverlay="@style/circleImageView"
+            android:layout_width="82dp"
+            android:layout_height="82dp"
+            android:src="@drawable/circle_1"
             android:padding="5dp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />

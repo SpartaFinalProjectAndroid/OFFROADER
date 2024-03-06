@@ -7,42 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.sanlist.SanListFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tv_san_list"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_default_height_material"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp">
-
-            <Spinner
-                android:id="@+id/sp_san_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:visibility="invisible"
-                />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="260dp">
+        android:layout_height="280dp">
 
         <ImageView
             android:id="@+id/iv_selectedImage"
             android:layout_width="match_parent"
-            android:layout_height="260dp"
+            android:layout_height="280dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_mountain"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,17 +49,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_san_name"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="50dp"/>
+            android:layout_marginBottom="80dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_san_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_san_category"
+        tools:itemCount="1"
+        android:paddingHorizontal="16dp"
+        />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:paddingHorizontal="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_selectedImage">
+
+
         
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_san_list"
