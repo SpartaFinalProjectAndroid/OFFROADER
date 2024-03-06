@@ -62,6 +62,7 @@ class SanListRepository {
 
             for (i in documents.documents.indices) {
                 val sanInfo = documents.documents[i]
+
                 sanArrayList.add(
                     SanDTO(
                         sanImage = sanInfo["images"] as ArrayList<String>,

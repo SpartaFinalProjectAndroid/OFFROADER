@@ -22,7 +22,6 @@ private const val TAG = "SanListFragment"
 
 class SanListFragment : Fragment() {
 
-
     companion object {
         fun newInstance() = SanListFragment()
     }

@@ -16,9 +16,7 @@
             android:layout_height="85dp"
             android:src="@drawable/ic_mountain"
             android:scaleType="centerCrop"
-            app:strokeWidth="0dp"
             android:padding="10dp"
-            app:strokeColor="@color/white"
             app:shapeAppearanceOverlay="@style/circleImageView"
             />
 
@@ -32,6 +30,7 @@
             android:padding="5dp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
+
     </RelativeLayout>
 
 

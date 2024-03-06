@@ -1,11 +1,8 @@
 package com.mit.offroader.ui.fragment.sanlist.adapter
 
-import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.core.view.isVisible
@@ -13,7 +10,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.mit.offroader.R
 import com.mit.offroader.databinding.ItemSanListBinding
 import com.mit.offroader.ui.fragment.sanlist.model.SanDTO
 import com.mit.offroader.ui.fragment.sanlist.viewmodel.SanListViewModel
@@ -43,6 +39,8 @@ class SanListAdapter(private val viewModel: SanListViewModel) :
 //            } else {
 //                sanOutline.setStrokeColorResource(R.color.offroader_background)
 //            }
+
+            sanImage.bringToFront()
 
             sanOutline.isVisible = item.sanSelected
             if (item.sanImage != null) {
