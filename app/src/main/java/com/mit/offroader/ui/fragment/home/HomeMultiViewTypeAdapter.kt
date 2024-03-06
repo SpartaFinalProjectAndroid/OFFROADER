@@ -175,7 +175,7 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
         fun bind(item: HomeUiData.Fourth) = with(binding) {
             tvEventTitle.text = item.title
             tvEventDes.text = item.des
-            tvEventDate.text = item.date
+            tvEventDate.text = item.date.toString()
 
 //            //임시 테스트
 //            root.setOnClickListener {
@@ -233,7 +233,7 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
 
                     title.text = item.title
                     des.text = item.des
-                    date.text = item.date
+                    date.text = item.date.toString()
                     Glide.with(context)
                         .load(item.image)
                         .placeholder(R.drawable.ic_launcher_foreground)
