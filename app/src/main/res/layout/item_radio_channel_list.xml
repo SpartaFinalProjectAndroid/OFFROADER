@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="3dp"
-            android:fontFamily="@font/pretendardvariable"
+            android:fontFamily="@font/pretendard_regular"
             android:text="재생중"
             android:textSize="12sp"
             android:textColor="@color/offroader_background"/>
@@ -39,7 +39,7 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="@color/offroader_title"
-        android:fontFamily="@font/pretendardvariable"/>
+        android:fontFamily="@font/pretendard_regular"/>
 
     <LinearLayout
         android:id="@+id/ll_heart"

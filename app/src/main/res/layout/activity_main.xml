@@ -98,7 +98,7 @@
             android:text="@string/kbs_channel_name_1radio"
             android:textSize="20sp"
             android:textColor="@color/offroader_title"
-            android:fontFamily="@font/pretendardvariable"/>
+            android:fontFamily="@font/pretendard_regular"/>
 
         <View
             android:layout_width="0dp"
