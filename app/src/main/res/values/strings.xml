@@ -11,6 +11,11 @@
     <string name="chatbot_clear"> </string>
     <string name="item_chatbot_text_ai">Hello World</string>
     <string name="item_chatbot_text_user">Hello World</string>
+    <!--    SanListFragment-->
+    <string name="san_list_hard">상</string>
+    <string name="san_list_intermediate">중</string>
+    <string name="san_list_easy">하</string>
+    <string name="san_list_divder">\n|\n </string>
     <!--    MyDetailFragment-->
     <string name="mydetail_myinfo">내 정보 - 기록</string>
     <string name="mydetail_summary">총 등산 정보</string>

@@ -1,8 +1,11 @@
 package com.mit.offroader.ui.fragment.sanlist.adapter
 
+import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.core.view.isVisible
@@ -10,6 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.mit.offroader.R
 import com.mit.offroader.databinding.ItemSanListBinding
 import com.mit.offroader.ui.fragment.sanlist.model.SanDTO
 import com.mit.offroader.ui.fragment.sanlist.viewmodel.SanListViewModel
@@ -31,9 +35,18 @@ class SanListAdapter(private val viewModel: SanListViewModel) :
         val item = getItem(position)
 
         (holder as SanItemViewHolder).apply {
+
+//            sanOutline.strokeColor = if (item.sanSelected) VISIBLE else GONE
+
+//            if (item.sanSelected) {
+//                sanOutline.setStrokeColorResource(R.color.offroader_orange)
+//            } else {
+//                sanOutline.setStrokeColorResource(R.color.offroader_background)
+//            }
+
             sanOutline.isVisible = item.sanSelected
             if (item.sanImage != null) {
-                Glide.with(itemView).load(item.sanImage).into(sanImage)
+                Glide.with(itemView).load(item.sanImage[0]).into(sanImage)
             }
             sanName.text = item.sanName
         }
@@ -55,6 +68,7 @@ class SanListAdapter(private val viewModel: SanListViewModel) :
         override fun onClick(p0: View?) {
             val position = adapterPosition.takeIf { it != RecyclerView.NO_POSITION } ?: return
             val item = getItem(position)
+
             Log.d("HappyListVideoItemAdapter", "^^onClicked")
             viewModel.getSelectedItem(item)
         }

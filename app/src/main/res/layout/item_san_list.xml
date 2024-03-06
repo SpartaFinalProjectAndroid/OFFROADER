@@ -27,7 +27,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:strokeWidth="1.5dp"
-            app:strokeColor="#FE691C"
+            app:strokeColor="@color/offroader_red"
             app:shapeAppearanceOverlay="@style/circleImageView"
             android:padding="5dp"
             android:layout_centerVertical="true"

@@ -10,14 +10,17 @@ import com.mit.offroader.ui.fragment.sanlist.model.SanListRepository
 private const val TAG = "SanListViewModel"
 
 class SanListViewModel(sanListRepository: SanListRepository) : ViewModel() {
+
+    private val repository : SanListRepository = sanListRepository
     private var _sanListUiState = MutableLiveData<SanListUiState?>()
 
     val sanListUiState: LiveData<SanListUiState?> = _sanListUiState
 
-    val sanList: LiveData<List<SanDTO>> = sanListRepository.sanListDTO
+    val sanList: LiveData<List<SanDTO>> = repository.sanListDTO
+
+
 
     init {
-
         _sanListUiState.value = SanListUiState.init()
     }
 
@@ -29,11 +32,21 @@ class SanListViewModel(sanListRepository: SanListRepository) : ViewModel() {
         } else {
             _sanListUiState.value = sanListUiState.value?.copy(selectedItem = item)
             Log.d(TAG, _sanListUiState.value.toString())
+
+
+
+
         }
     }
 
     fun setInitiallySelectedItem() {
         _sanListUiState.value = sanListUiState.value?.copy(
-            selectedItem = sanList.value?.get(0))
+            selectedItem = sanList.value?.get(0)
+        )
+    }
+
+
+    fun updateSelectedItemOnDTO(item: SanDTO) {
+        repository.editSelectedItem(item)
     }
 }

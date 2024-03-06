@@ -18,11 +18,21 @@ class SanListRepository {
         MutableLiveData<List<SanDTO>>()
     val sanListDTO: LiveData<List<SanDTO>> get() = _sanListDTO
 
+    fun editSelectedItem(selectedItem: SanDTO) {
+        val position = sanListDTO.value?.indexOf(selectedItem)
+        if (position != null) {
+            initPush(position)
+        } else {
+            Log.d(TAG,"선택된 아이템이 인덱스가 널임 ? ")
+        }
+    }
+
 
     init {
-        Log.d(TAG,"init 함수")
-        initPush()
+        Log.d(TAG, "init 함수")
+        initPush(0)
     }
+
 
     /**
      * Database field 참고용 :
@@ -38,26 +48,51 @@ class SanListRepository {
      * //)
      */
 
-    private fun initPush() {
+     suspend fun editsanDTO(index: Int) {
+         initPush(index)
+     }
 
-        Log.d(TAG,"initPush 함수 여기에서 데이터베이스에 있는 값 접근")
+     fun initPush(index: Int) {
+
+        Log.d(TAG, "initPush 함수 여기에서 데이터베이스에 있는 값 접근")
         val sanArrayList: ArrayList<SanDTO> = arrayListOf()
+
         db.collection("sanlist").get().addOnSuccessListener { documents ->
-            for (document in documents) {
+
+
+            for (i in documents.documents.indices) {
+                val sanInfo = documents.documents[i]
                 sanArrayList.add(
                     SanDTO(
-                        sanImage = null,
-                        sanName = document.getString("name") ?: "오류",
-                        sanDifficulty = document.getLong("difficulty") ?: 0,
-                        sanHeight = document.getLong("height") ?: 0,
-                        sanTimeTotal = (document.getLong("time_uphill")
-                            ?: 0) + (document.getLong("time_downhill") ?: 0),
+                        sanImage = sanInfo["images"] as ArrayList<String>,
+                        sanName = sanInfo["name"] as String,
+                        sanDifficulty = sanInfo["difficulty"] as Long?,
+                        sanHeight = sanInfo.getLong("height") ?: 0,
+                        sanTimeTotal = (sanInfo["time_uphill"] as Long) + (sanInfo["time_downhill"] as Long),
                         sanSelected = false
                     )
                 )
 
             }
-            sanArrayList[0].sanSelected = true
+
+            Log.d(
+                TAG,
+                "DocumentSnapshot Data: ${documents.documents}"
+            ) // HashMap 타입으로 값을 받아옴. 이 그대로 저장해줘도 될듯?
+//            for (document in documents) {
+//                sanArrayList.add(
+//                    SanDTO(
+//                        sanImage = document["images"] as ArrayList<String>?,
+//                        sanName = document["name"] as String?,
+//                        sanDifficulty = document["difficulty"] as Long?,
+//                        sanHeight = document["height"] as Double?,
+//                        sanTimeTotal = (document["time_uphill"] as Long) + (document["time_downhill"] as Long),
+//                        sanSelected = false
+//                    )
+//                )
+//
+//            }
+            sanArrayList[index].sanSelected = true
 
             Log.d(TAG, "값 다 가져옴 $sanArrayList")
             _sanListDTO.value = sanArrayList

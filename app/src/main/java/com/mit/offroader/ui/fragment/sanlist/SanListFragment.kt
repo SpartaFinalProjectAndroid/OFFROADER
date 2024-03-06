@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.mit.offroader.R
 import com.mit.offroader.databinding.FragmentSanListBinding
 import com.mit.offroader.ui.fragment.sanlist.adapter.SanListAdapter
 import com.mit.offroader.ui.fragment.sanlist.model.SanDTO
@@ -64,15 +65,16 @@ class SanListFragment : Fragment() {
 
     private fun initObserve() {
         sanListViewModel.sanListUiState.observe(viewLifecycleOwner) {
-            Log.d(TAG,"sanListUiState OBSERVED ${it?.selectedItem}")
+            Log.d(TAG, "sanListUiState OBSERVED ${it?.selectedItem}")
             if (it?.selectedItem == null) {
                 sanListViewModel.getSelectedItem(null)
             } else {
-                it?.selectedItem?.let { it1 -> setSelectedSan(it1) }
+                it.selectedItem?.let { it1 -> setSelectedSan(it1) }
+                sanListViewModel.updateSelectedItemOnDTO(it.selectedItem!!)
             }
         }
         sanListViewModel.sanList.observe(viewLifecycleOwner) {
-            Log.d(TAG,"sanListRepository OBSERVED")
+            Log.d(TAG, "sanListRepository OBSERVED")
             sanListAdapter.submitList(it)
         }
     }
@@ -80,24 +82,24 @@ class SanListFragment : Fragment() {
     @SuppressLint("SetTextI18n") //하드코딩 하지말라는 경고를 타이틀 어노테이션을 통해 무시함.
     private fun setSelectedSan(selectedItem: SanDTO) {
         Log.d(TAG, "setSelectedSan 화면 구성 $selectedItem")
-        if (selectedItem != null) {
-            Glide.with(this).load(selectedItem.sanImage).into(binding.ivSelectedImage)
-        }
+
+        Glide.with(this).load(selectedItem.sanImage?.get(0)).into(binding.ivSelectedImage)
+
         val height = "${selectedItem.sanHeight?.div(1000)},${selectedItem.sanHeight?.rem(1000)}m"
         val timeTaken =
             "${selectedItem.sanTimeTotal?.div(60)}h ${selectedItem.sanTimeTotal?.rem(60)}min"
         val difficulty = when (selectedItem.sanDifficulty?.toInt()) {
-            0 -> "하"
-            1 -> "중"
-            else -> "상"
+            0 -> getString(R.string.san_list_easy)
+            1 -> getString(R.string.san_list_intermediate)
+            else -> getString(R.string.san_list_hard)
         }
-        val divider = " | "
+        val divider = getString(R.string.san_list_divder)
         binding.tvSanName.text = selectedItem.sanName
         binding.tvSanInfo.text = height + divider + timeTaken + divider + difficulty
     }
 
     private fun setRecyclerViewGridLayout() {
-        Log.d( TAG, "setRecyclerViewGridLayout")
+        Log.d(TAG, "setRecyclerViewGridLayout")
         val gridLayoutManager = GridLayoutManager(requireContext(), 4)
         binding.rvSanList.layoutManager = gridLayoutManager
     }
