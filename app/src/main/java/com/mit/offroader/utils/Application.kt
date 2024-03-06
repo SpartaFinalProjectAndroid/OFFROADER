@@ -1,14 +1,15 @@
-package com.mit.offroader.ui.fragment.chatbot
+package com.mit.offroader.utils
 
 import android.app.Application
 import com.mit.offroader.ui.fragment.chatbot.database.BongbongDatabase
 import com.mit.offroader.ui.fragment.chatbot.database.HikeyDatabase
 import com.mit.offroader.ui.fragment.chatbot.viewmodel.BongbongRepository
 import com.mit.offroader.ui.fragment.chatbot.viewmodel.HikeyRepository
+import com.mit.offroader.ui.fragment.sanlist.SanListRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
-class ChatBotApplication: Application() {
+class Application: Application() {
 
     val applicationScope = CoroutineScope(SupervisorJob())
 
@@ -16,4 +17,7 @@ class ChatBotApplication: Application() {
     val hikeyRepository by lazy { HikeyRepository(hikeyDatabase.getChatBotDao()) }
     val bongbongDatabase by lazy { BongbongDatabase.getDatabase(this, applicationScope)}
     val bongbongRepository by lazy { BongbongRepository(bongbongDatabase.getChatBotDao()) }
+
+    val sanListDTO by lazy {}
+    val sanListRepository by lazy { SanListRepository() }
 }

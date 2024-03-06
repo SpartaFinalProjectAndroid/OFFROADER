@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class SanListViewModel : ViewModel() {
+class SanListViewModel(sanListRepository: SanListRepository) : ViewModel() {
     private var _sanListUiState = MutableLiveData<SanListUiState>()
 
     val sanListUiState : LiveData<SanListUiState> = _sanListUiState

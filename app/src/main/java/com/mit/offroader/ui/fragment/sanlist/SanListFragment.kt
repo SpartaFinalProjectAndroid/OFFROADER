@@ -1,5 +1,6 @@
 package com.mit.offroader.ui.fragment.sanlist
 
+import com.mit.offroader.utils.Application
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -20,7 +21,10 @@ class SanListFragment : Fragment() {
     private var _binding: FragmentSanListBinding? = null
     private val binding get() = _binding!!
 
-    private val sanListViewModel by viewModels<SanListViewModel>()
+    private val sanListViewModel: SanListViewModel by viewModels {
+        SanListViewModelFactory((requireActivity().application as Application).sanListRepository)
+
+    }
 
 
     override fun onCreateView(
@@ -29,7 +33,8 @@ class SanListFragment : Fragment() {
     ): View? {
         _binding = FragmentSanListBinding.inflate(inflater, container, false)
 
-        return binding.root    }
+        return binding.root
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
