@@ -48,7 +48,7 @@ class MyBookmarkAdapter() : RecyclerView.Adapter<MyBookmarkAdapter.Holder>(), On
 
         fun bind(item: SanDetailUiState) {
             mountainName.text = item.mountain
-            mountainTime.text = item.time
+//            mountainTime.text = item.time
 
             val now = System.currentTimeMillis()
             val date = Date(now)

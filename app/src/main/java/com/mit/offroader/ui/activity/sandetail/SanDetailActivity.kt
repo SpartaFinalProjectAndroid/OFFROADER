@@ -2,12 +2,14 @@ package com.mit.offroader.ui.activity.sandetail
 
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mit.offroader.R
-import com.mit.offroader.data.liked.OnBookmarkClickListener
 import com.mit.offroader.databinding.ActivitySanDetailBinding
 import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.hanrasanList
 import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.jirisanList
@@ -29,8 +31,8 @@ class SanDetailActivity : AppCompatActivity() {
     private val slideImageRunnable =
         Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
 
-    // 데이터
-    private val sanDetailUiState: SanDetailUiState = TODO()
+    // 데이터 firebase로 받아오기
+    private val firestore = FirebaseFirestore.getInstance()
 
     private lateinit var imageAdapter: SanImageAdapter
     private val sanDetailViewModel by viewModels<SanDetailViewModel>()
@@ -40,8 +42,10 @@ class SanDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initData()
+        viewMoreText(binding.tvIntroInfo, binding.tvIntroPlus)
+        viewMoreText(binding.tvRecommendInfo, binding.tvRecommendPlus)
         initImage()
-        initBookMarkButton()
+//        initBookMarkButton()
 
         initBackButton()
     }
@@ -58,34 +62,111 @@ class SanDetailActivity : AppCompatActivity() {
         slideImageHandler.removeCallbacks(slideImageRunnable)
     }
 
-    // 데이터 받아오기 (지금은 임의의 객체로 설정)
+    // Firebase 데이터 받아오기
     private fun initData() {
-        with(binding) {
-            tvMountain.text = sanDetailUiState.mountain
-            tvAddress.text = sanDetailUiState.address
 
-            val dec = DecimalFormat("#,###")
-            tvHeight.text = "${dec.format(sanDetailUiState.height)}m"
-            tvIntroInfo.text = sanDetailUiState.intro
-            tvRecommendInfo.text = sanDetailUiState.recommend
+        firestore.collection("sanlist")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    if (document.getString("name") == "한라산") {
+                        val sanlist = SanDetailUiState(
+                            document.getString("name") ?: "none",
+                            document.getString("address") ?: "none",
+                            document.getLong("difficulty") ?: 0,
+                            document.getDouble("height") ?: 0.0,
+                            document.getLong("time_uphill") ?: 0,
+                            document.getLong("time_downhill") ?: 0,
+                            document.getString("summary") ?: "none",
+                            document.getString("recommend") ?: "none"
+                        )
 
-            // 숫자에 따라 난이도 부여 & 색상 부여
-            tvDifficulty.text = when(sanDetailUiState.difficulty) {
-                1 -> "하"
-                2 -> "중"
-                else -> "상"
+                        with(binding) {
+                            tvMountain.text = sanlist.mountain
+                            tvAddress.text = sanlist.address
+
+                            val dec = DecimalFormat("#,###")
+                            val height = sanlist.height
+                            tvHeightInfo.text = "${dec.format(height)}m"
+                            tvIntroInfo.text = sanlist.summary
+                            tvRecommendInfo.text = sanlist.recommend
+
+                            // 숫자에 따라 난이도 부여 & 색상 부여
+                            val difficulty = sanlist.difficulty
+                            tvDifficultyInfo.text = when (difficulty) {
+                                1L -> "하"
+                                2L -> "중"
+                                else -> "상"
+                            }
+
+                            when (tvDifficultyInfo.text) {
+                                "하" -> tvDifficultyInfo.setTextColor(
+                                    ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.offroader_blue
+                                    )
+                                )
+
+                                "중" -> tvDifficultyInfo.setTextColor(
+                                    ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.offroader_orange
+                                    )
+                                )
+
+                                else -> tvDifficultyInfo.setTextColor(
+                                    ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.offroader_red
+                                    )
+                                )
+                            }
+
+                            //상행시간, 하행시간, 총 등산시간
+                            val uphilltime = sanlist.uphilltime
+                            val downhilltime = sanlist.downhilltime
+                            if (uphilltime % 60 == 0L) {
+                                tvUptimeInfo.text =
+                                    "${uphilltime / 60}시간"
+                            } else {
+                                tvUptimeInfo.text =
+                                    "${uphilltime / 60}시간 ${uphilltime % 60}분"
+                            }
+                            if (downhilltime % 60 == 0L) {
+                                tvDowntimeInfo.text =
+                                    "${downhilltime / 60}시간"
+                            } else {
+                                tvDowntimeInfo.text =
+                                    "${downhilltime / 60}시간 ${downhilltime % 60}분"
+                            }
+                            if ((uphilltime + downhilltime) % 60 == 0L) {
+                                tvTimeInfo.text =
+                                    "${(uphilltime + downhilltime) / 60}시간"
+                            } else {
+                                tvTimeInfo.text =
+                                    "${(uphilltime + downhilltime) / 60}시간 ${(uphilltime + downhilltime) % 60}분"
+                            }
+                        }
+                    }
+                }
+
             }
+    }
 
-            when(tvDifficulty.text) {
-                "하" -> tvDifficulty.setTextColor(ContextCompat.getColor(applicationContext, R.color.offroader_blue))
-                "중" -> tvDifficulty.setTextColor(ContextCompat.getColor(applicationContext, R.color.offroader_orange))
-                else -> tvDifficulty.setTextColor(ContextCompat.getColor(applicationContext, R.color.offroader_red))
+    // 자세히 보기 클릭 시 텍스트 전부 출력
+    private fun viewMoreText(contentTextView: TextView, viewMoreTextView: TextView) {
+        contentTextView.post {
+            val lineCount = contentTextView.layout.lineCount
+            if (lineCount > 0) {
+                if (contentTextView.layout.getEllipsisCount(lineCount - 1) > 0) {
+                    viewMoreTextView.visibility = View.VISIBLE
+
+                    viewMoreTextView.setOnClickListener {
+                        contentTextView.maxLines = Int.MAX_VALUE
+                        viewMoreTextView.visibility = View.GONE
+                    }
+                }
             }
-
-            //상행시간, 하행시간, 총 등산시간
-            tvUptimeInfo.text = "${sanDetailUiState.uphilltime/60}시간 ${sanDetailUiState.uphilltime%60}분"
-            tvDowntimeInfo.text = "${sanDetailUiState.downhilltime/60}시간 ${sanDetailUiState.downhilltime%60}분"
-            tvTimeInfo.text = "${(sanDetailUiState.uphilltime+sanDetailUiState.downhilltime)/60}시간 ${(sanDetailUiState.uphilltime+sanDetailUiState.downhilltime)%60}분"
         }
     }
 
@@ -103,10 +184,12 @@ class SanDetailActivity : AppCompatActivity() {
             "지리산" -> SanImageAdapter(jirisanList, binding.vpMountain)
             else -> SanImageAdapter(hanrasanList, binding.vpMountain)
         }
+
         binding.vpMountain.adapter = imageAdapter
         binding.vpMountain.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        binding.vpMountain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        binding.vpMountain.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 slideImageHandler.removeCallbacks(slideImageRunnable)
@@ -115,19 +198,20 @@ class SanDetailActivity : AppCompatActivity() {
         })
     }
 
-    // 좋아요 기능
-    private fun initBookMarkButton() {
 
-        if (sanDetailUiState.isLiked) binding.ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
-
-        binding.ivBookmark.setOnClickListener {
-            sanDetailUiState.isLiked = !sanDetailUiState.isLiked
-            binding.ivBookmark.setImageResource(
-                if (sanDetailUiState.isLiked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
-            )
-            OnBookmarkClickListener.onBookmarkClick(sanDetailUiState)
-        }
-    }
+//     좋아요 기능
+//    private fun initBookMarkButton() {
+//
+//        if (sanDetailUiState.isLiked) binding.ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
+//
+//        binding.ivBookmark.setOnClickListener {
+//            sanDetailUiState.isLiked = !sanDetailUiState.isLiked
+//            binding.ivBookmark.setImageResource(
+//                if (sanDetailUiState.isLiked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
+//            )
+//            OnBookmarkClickListener.onBookmarkClick(sanDetailUiState)
+//        }
+//    }
 
     // 뒤로가기 버튼
     private fun initBackButton() {
