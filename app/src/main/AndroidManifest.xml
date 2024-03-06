@@ -35,16 +35,16 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.sandetail.SanDetailActivity"
-            android:exported="true">
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".ui.activity.intro.IntroSplashActivity"
+            android:exported="true"
+            android:theme="@style/SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.activity.intro.IntroSplashActivity"
-            android:exported="false"
-            android:theme="@style/SplashActivity">
         </activity>
         <activity
             android:name=".ui.activity.main.MainActivity"
