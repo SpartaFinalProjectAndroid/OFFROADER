@@ -46,7 +46,7 @@
         android:id="@+id/cl_radio_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F7F6F2"
+        android:background="@color/offroader_background"
         tools:layout_editor_absoluteY="567dp" />
     <androidx.media3.ui.PlayerView
         android:id="@+id/view_test"
@@ -60,9 +60,10 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="라디오"
-        android:textColor="#345948"
+        android:textColor="@color/offroader_green"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:fontFamily="@font/bm_hanna_11yrs_old"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,13 +80,13 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="10dp">
 
             <ImageView
                 android:id="@+id/iv_radio_profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@color/black" />
+                android:src="@color/offroader_red" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -94,21 +95,30 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
-            android:text="KBS 1라디오"
-            android:textSize="20sp" />
+            android:text="@string/kbs_channel_name_1radio"
+            android:textSize="20sp"
+            android:textColor="@color/offroader_title"
+            android:fontFamily="@font/pretendardvariable"/>
 
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <ImageView
-            android:id="@+id/iv_radio_play_btn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@color/black"
+        <LinearLayout
+            android:id="@+id/ll_radio_play_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="10dp"
             android:layout_gravity="center"
-            android:layout_marginEnd="20dp"/>
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_radio_play_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_play" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -128,13 +138,13 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:background="@color/offroader_background"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="10dp">
 
             <ImageView
                 android:id="@+id/iv_favorites"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="#F41E1E" />
+                android:src="@color/offroader_red" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -143,7 +153,7 @@
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            app:cardCornerRadius="5dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintStart_toEndOf="@id/cv_favorites">
 
             <ImageView
@@ -159,7 +169,7 @@
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            app:cardCornerRadius="5dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintStart_toEndOf="@id/cv_kbs">
 
             <ImageView
@@ -175,7 +185,7 @@
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            app:cardCornerRadius="5dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintStart_toEndOf="@id/cv_sbs">
 
             <ImageView
@@ -207,5 +217,5 @@
         android:layout_marginTop="20dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="@id/ll_bottom_play"
-        app:layout_constraintTop_toBottomOf="@id/v_line2" />
+        app:layout_constraintTop_toBottomOf="@id/v_line2"/>
 </androidx.constraintlayout.motion.widget.MotionLayout>

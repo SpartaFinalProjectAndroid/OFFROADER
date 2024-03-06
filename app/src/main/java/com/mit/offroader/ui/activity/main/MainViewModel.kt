@@ -1,5 +1,6 @@
 package com.mit.offroader.ui.activity.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,7 +19,14 @@ class MainViewModel : ViewModel() {
     private var copyList : MutableList<String> = mutableListOf()
     val radioLikeList : LiveData<MutableList<String>> = _radioLikeList
 
-    var whoPlay : MutableLiveData<String> ?= null
+    private var _whoPlay : MutableLiveData<String?> = MutableLiveData()
+    var whoPlay : MutableLiveData<String?> = _whoPlay
+    private var whoPlayTest : String ?= null
+
+    fun addWhoPlay(key: String) {
+        whoPlayTest = key
+        _whoPlay.value = whoPlayTest
+    }
 
     fun addList(key : String) {
         copyList.add(key)

@@ -37,9 +37,13 @@
 
     <!--    MainActivity-->
     <string name="mbc_channel_name_standard_fm">표준FM</string>
-    <string name="mbc_channel_name_FM4U">FM4U</string>
+    <string name="mbc_channel_name_fm4U">FM4U</string>
     <string name="sbs_channel_name_love_fm">러브FM</string>
-    <string name="sbs_channel_name_power_fm">파워FM</string>
+    <string name="kbs_channel_name_1radio">1Radio</string>
+    <string name="kbs_channel_name_happy_fm">HappyFM</string>
+    <string name="kbs_channel_name_3radio">3Radio</string>
+    <string name="kbs_channel_name_classic_fm">ClassicFM</string>
+    <string name="kbs_channel_name_korean_broadcast">한민족방송</string>
 
 
 <!--    SanDetailActivity-->

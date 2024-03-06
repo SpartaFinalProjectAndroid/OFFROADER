@@ -21,7 +21,7 @@ object RadioChannelURL {
         "HappyFM" to "https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/22",
         "3Radio" to "https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/23",
         "ClassicFM" to "https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/24",
-        "CoolFM" to "https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/25",
+        //"CoolFM" to "https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/25",
         "한민족방송" to "https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/26",
     )
 
@@ -41,7 +41,7 @@ object RadioChannelURL {
         "HappyFM" to "https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/22",
         "3Radio" to "https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/23",
         "ClassicFM" to "https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/24",
-        "CoolFM" to "https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/25",
+        //"CoolFM" to "https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/25",
         "한민족방송" to "https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/26",
     )
 

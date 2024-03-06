@@ -1,56 +1,56 @@
 package com.mit.offroader.ui.activity.main.adapters
 
-import android.content.Context
-import android.util.Log
+
 import android.view.LayoutInflater
-import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
+import androidx.core.graphics.toColor
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.INVISIBLE
-import androidx.recyclerview.widget.RecyclerView.VISIBLE
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.google.firebase.firestore.auth.User
 import com.mit.offroader.R
 import com.mit.offroader.databinding.ItemRadioChannelListBinding
 import com.mit.offroader.ui.activity.main.MainViewModel
 
-class RadioListAdapter(
-    private val list: MutableList<String>,
-    private val likeList: MutableList<String> = mutableListOf()
-) : RecyclerView.Adapter<RadioListAdapter.Holder>() {
+class RadioListAdapter(private val mainViewModel: MainViewModel)
+    : ListAdapter<RadioChannelItem, RadioListAdapter.Holder>(differCallback) {
+    companion object {
+        val differCallback = object : DiffUtil.ItemCallback<RadioChannelItem>() {
+            override fun areItemsTheSame(oldItem: RadioChannelItem, newItem: RadioChannelItem): Boolean {
+                return oldItem.title == newItem.title
+            }
 
-    interface ItemClick { fun onClick(key: String) }
+            override fun areContentsTheSame(oldItem: RadioChannelItem, newItem: RadioChannelItem): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
+    //val differ = AsyncListDiffer(this, differCallback)
+    interface ItemClick { fun onClick(key: String, pos: Int) }
     interface HeartClick { fun heartClick(key: String) }
 
     var itemClick : ItemClick ?= null
     var heartClick : HeartClick ?= null
 
-    private var isPlay = false
-
-    inner class Holder(private val binding: ItemRadioChannelListBinding) : ViewHolder(binding.root) {
-
+    inner class Holder(val binding : ItemRadioChannelListBinding) : RecyclerView.ViewHolder(binding.root){
         private var isLike = false
 
-        fun bind(pos : Int) { binding.tvChannelTitle.text = list[pos]}
-
-        fun checkPlay(pos: Int) {
-
-//            if (list[pos]) {
-//                binding.cvPlayStatus.visibility = VISIBLE
-//                binding.clRadioChannelItem.setBackgroundResource(R.color.offroader_outline)
-//            } else {
-//                binding.cvPlayStatus.visibility = INVISIBLE
-//                binding.clRadioChannelItem.setBackgroundResource(R.color.white)
-//            }
+        fun bind(pos: Int) {
+            binding.tvChannelTitle.text = currentList[pos].title
+            if (currentList[pos].isPlay || mainViewModel.whoPlay.value == currentList[pos].title) {
+                binding.cvPlayStatus.visibility = VISIBLE
+                binding.clRadioChannelItem.setBackgroundResource(R.color.offroader_outline)
+                currentList[pos].isPlay = true
+            } else {
+                binding.cvPlayStatus.visibility = INVISIBLE
+                binding.clRadioChannelItem.setBackgroundResource(R.color.white)
+            }
         }
 
         private fun checkIsLike(key: String) {
-            if (likeList.contains(key)) {
+            if (mainViewModel.radioLikeList.value?.contains(key) == true) {
                 binding.ivHeart.setImageResource(R.drawable.ic_fill_heart)
                 isLike = true
             } else {
@@ -76,34 +76,19 @@ class RadioListAdapter(
         }
     }
 
-    private val differCallback = object : DiffUtil.ItemCallback<User>() {
-        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
-            TODO("Not yet implemented")
-        }
-
-        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
-            TODO("Not yet implemented")
-        }
-    }
-
-    val differ = AsyncListDiffer(this, differCallback)
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ItemRadioChannelListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return Holder(binding)
     }
 
-    override fun getItemCount() = list.size
-
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        list[position].run {
+        currentList[position].run {
             holder.bind(position)
-            holder.likeSetting(this)
+            holder.likeSetting(this.title)
             holder.itemView.setOnClickListener {
-                isPlay = true
-                holder.checkPlay(position)
-                itemClick?.onClick(this)
+                itemClick?.onClick(this.title, position)
             }
         }
     }
 }
+
