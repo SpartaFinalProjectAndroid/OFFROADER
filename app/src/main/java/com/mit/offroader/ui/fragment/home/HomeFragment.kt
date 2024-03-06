@@ -58,9 +58,9 @@ class HomeFragment : Fragment() {
 
                         val event = HomeUiData.Fourth(
                             image = document.getString("img") ?: "none (?: <-으로 나오는 텍스트)",
-                            title = document.getString("title") ?: "none (?: <-으로 나오는 텍스트)",
+                            title = document.getString("title") ?: "유효한 데이터가 아닙니다",
                             des = document.getString("des") ?: "none (?: <-으로 나오는 텍스트)",
-                            date = document.getString("date") ?: "none (?: <-으로 나오는 텍스트)"
+                            date = document.getLong("date") ?: 1
                         )
                         items.add(event)
                     }
