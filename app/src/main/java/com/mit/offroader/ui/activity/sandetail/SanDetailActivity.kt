@@ -2,6 +2,7 @@ package com.mit.offroader.ui.activity.sandetail
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,8 @@ import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.soba
 import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.sokrisanList
 import java.text.DecimalFormat
 
+private const val TAG = "SanDetailActivity"
+
 class SanDetailActivity : AppCompatActivity() {
     private var _binding: ActivitySanDetailBinding? = null
     private val binding get() = _binding!!
@@ -35,10 +38,14 @@ class SanDetailActivity : AppCompatActivity() {
 
     private lateinit var imageAdapter: SanImageAdapter
     private val sanDetailViewModel by viewModels<SanDetailViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivitySanDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val sanName = intent.getStringExtra("name") ?: ""
+        Log.d(TAG, "산이름 : ${sanName}")
 
         initData()
         initImage()
@@ -60,12 +67,13 @@ class SanDetailActivity : AppCompatActivity() {
 
     // Firebase 데이터 받아오기
     private fun initData() {
+        val sanName = intent.getStringExtra("name")
 
         firestore.collection("sanlist")
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    if (document.getString("name") == "한라산") {
+                    if (document["name"] == sanName) {
                         val sanlist = SanDetailUiState(
                             document.getString("name") ?: "none",
                             document.getString("address") ?: "none",
@@ -199,8 +207,8 @@ class SanDetailActivity : AppCompatActivity() {
 
     // 자동 스크롤되는 ViewPager2 이미지
     private fun initImage() {
-        val mountain = binding.tvMountain.text
-        imageAdapter = when (mountain) {
+        val sanName = intent.getStringExtra("name")
+        imageAdapter = when (sanName) {
             "계룡산" -> SanImageAdapter(kyeryongsanList, binding.vpMountain)
             "내장산" -> SanImageAdapter(naejangsanList, binding.vpMountain)
             "북한산" -> SanImageAdapter(northhansanList, binding.vpMountain)

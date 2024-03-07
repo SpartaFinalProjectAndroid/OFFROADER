@@ -85,10 +85,10 @@
                         android:id="@+id/tv_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="8dp"
                         android:fontFamily="@font/pretendard_medium"
                         android:hint="@string/sandetail_address"
-                        android:textSize="16sp"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/iv_pin"
                         app:layout_constraintStart_toEndOf="@id/iv_pin"
                         app:layout_constraintTop_toTopOf="@id/iv_pin" />
@@ -456,6 +456,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
+                tools:listitem="@layout/item_adapter_weather"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_weather"
                 app:layout_constraintStart_toStartOf="parent"/>
