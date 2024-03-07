@@ -96,7 +96,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:text="@string/kbs_channel_name_1radio"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="@color/offroader_title"
             android:fontFamily="@font/pretendard_regular"/>
 
