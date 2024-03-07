@@ -1,6 +1,7 @@
 package com.mit.offroader.ui.fragment.chatbot
 
 import android.os.Bundle
+import com.mit.offroader.data.model.ai.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mit.offroader.R
-import com.mit.offroader.data.model.ai.Message
 import com.mit.offroader.databinding.FragmentChatBotBinding
 import com.mit.offroader.ui.activity.main.MainActivity
 import com.mit.offroader.ui.fragment.chatbot.adapter.ChatAdapter
