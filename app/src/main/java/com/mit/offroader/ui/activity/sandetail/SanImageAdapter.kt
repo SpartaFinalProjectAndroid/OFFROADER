@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.mit.offroader.databinding.ItemAdapterMountainBinding
 
 class SanImageAdapter(
@@ -18,7 +19,9 @@ class SanImageAdapter(
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.mountainImage.setImageResource(mItems[position].img)
+        Glide.with(holder.mountainImage.context)
+            .load(mItems[position].img)
+            .into(holder.mountainImage)
 
         if (position == mItems.size - 1) {
             viewPager2.post(runnable)

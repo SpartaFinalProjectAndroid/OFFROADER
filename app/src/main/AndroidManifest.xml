@@ -24,8 +24,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Base.Theme.OFFROADER"
-        android:name=".ui.fragment.chatbot.ChatBotApplication"
+        android:name=".ui.fragment.chatbot.MyApplication"
         tools:targetApi="31">
         <!--        <meta-data-->
         <!--            android:name="com.naver.maps.map.CLIENT_ID"-->
@@ -35,7 +36,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.sandetail.SanDetailActivity"
-            android:exported="false" />
+            android:exported="false">
+        </activity>
         <activity
             android:name=".ui.activity.intro.IntroSplashActivity"
             android:exported="true"

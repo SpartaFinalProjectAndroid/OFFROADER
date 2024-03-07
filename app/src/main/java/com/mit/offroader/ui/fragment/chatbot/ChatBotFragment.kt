@@ -1,7 +1,6 @@
 package com.mit.offroader.ui.fragment.chatbot
 
 import android.os.Bundle
-import com.mit.offroader.data.model.ai.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +12,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mit.offroader.R
+import com.mit.offroader.data.model.ai.Message
 import com.mit.offroader.databinding.FragmentChatBotBinding
 import com.mit.offroader.ui.activity.main.MainActivity
 import com.mit.offroader.ui.fragment.chatbot.adapter.ChatAdapter
@@ -28,8 +28,8 @@ class ChatBotFragment : Fragment() {
     private val binding get() = _binding!!
     private val chatBotViewModel: ChatBotViewModel by viewModels {
         ChatBotViewModelFactory(
-            (requireActivity().application as ChatBotApplication).hikeyRepository,
-            (requireActivity().application as ChatBotApplication).bongbongRepository
+            (requireActivity().application as MyApplication).hikeyRepository,
+            (requireActivity().application as MyApplication).bongbongRepository
         )
     }
     private val chatAdapter: ChatAdapter by lazy {

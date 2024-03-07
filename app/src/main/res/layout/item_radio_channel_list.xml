@@ -1,54 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cl_radio_channel_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/tv_channel_title"
+    <androidx.cardview.widget.CardView
+        android:visibility="invisible"
+        android:id="@+id/cv_play_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="20dp"
-        android:layout_gravity="center"
-        android:text="KBS 1라디오"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"/>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/tv_channel_title"
-        app:layout_constraintTop_toTopOf="@id/tv_channel_title"
-        app:layout_constraintBottom_toBottomOf="@id/tv_channel_title"
         android:layout_marginStart="10dp"
-        app:cardBackgroundColor="#345948"
+        app:cardBackgroundColor="@color/offroader_green"
         app:cardCornerRadius="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="3dp"
+            android:fontFamily="@font/pretendard_regular"
             android:text="재생중"
             android:textSize="12sp"
             android:textColor="@color/offroader_background"/>
     </androidx.cardview.widget.CardView>
 
-    <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:src="@drawable/ic_empty_heart"
+    <TextView
+        android:id="@+id/tv_channel_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/cv_play_status"
+        app:layout_constraintTop_toTopOf="@id/cv_play_status"
+        app:layout_constraintBottom_toBottomOf="@id/cv_play_status"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:text="KBS 1라디오"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/offroader_title"
+        android:fontFamily="@font/pretendard_regular"/>
+
+    <LinearLayout
+        android:id="@+id/ll_heart"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="20dp"/>
+        android:layout_marginEnd="20dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_heart"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_empty_heart" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         app:layout_constraintTop_toBottomOf="@id/tv_channel_title"
         android:layout_marginTop="20dp"
-        android:background="#BDDABA"/>
+        android:background="@color/offroader_outline"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
