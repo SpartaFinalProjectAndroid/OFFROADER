@@ -33,7 +33,7 @@ class SanDetailActivity : AppCompatActivity() {
         _binding = ActivitySanDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initImage()
+//        initImage()
         initBookMarkButton()
 
         initBackButton()

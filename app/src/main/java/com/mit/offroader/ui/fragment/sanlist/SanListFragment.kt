@@ -56,16 +56,7 @@ class SanListFragment : Fragment() {
 
     }
 
-    private fun clickListener(sanName: String?) {
-        binding.ivSelectedImage.setOnClickListener {
-            Log.d(TAG,"Selected Image")
-            val intent = Intent(requireActivity(), SanDetailActivity::class.java)
-//            intent.putExtra("name",sanName)
-            startActivity(intent)
 
-        }
-        binding.chipCategory
-    }
 
     private fun setInitiallySelectedItem() {
         sanListViewModel.setInitiallySelectedItem()
@@ -73,14 +64,17 @@ class SanListFragment : Fragment() {
 
 
     private fun initObserve() {
+
+        // sanListUiState 안에 있는 selectedItem 변수는 리사이클러뷰에서 선택된 아이템이다!
         sanListViewModel.sanListUiState.observe(viewLifecycleOwner) {
             Log.d(TAG, "sanListUiState OBSERVED ${it?.selectedItem}")
             if (it?.selectedItem == null) {
-                sanListViewModel.getSelectedItem(null)
-                clickListener(it!!.selectedItem?.sanName)
+
+                sanListViewModel.getSelectedItem(null)      // 선택된 아이템의 테두리를 추가해주기 위해서 산 디티오의 selectedItem의 값을 확인해주는 함수
+                clickListener(it!!.selectedItem?.sanName)        // 텍스트 클릭 시 디테일 액티비티로 넘어갈 수 있도록 구현
             } else {
                 it.selectedItem?.let { it1 -> setSelectedSan(it1) }
-                sanListViewModel.updateSelectedItemOnDTO(it.selectedItem!!)
+                sanListViewModel.updateSelectedItemOnDTO(it.selectedItem!!)  // 산 디티오 옵져빙 후 업데이트 시켜주기
             }
         }
         sanListViewModel.sanList.observe(viewLifecycleOwner) {
@@ -90,6 +84,8 @@ class SanListFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n") //하드코딩 하지말라는 경고를 타이틀 어노테이션을 통해 무시함.
+
+    // 선택된 산 디테일 정보를 표시해주는 코드
     private fun setSelectedSan(selectedItem: SanDTO) {
         Log.d(TAG, "setSelectedSan 화면 구성 $selectedItem")
 
@@ -115,4 +111,16 @@ class SanListFragment : Fragment() {
     }
 
 
+    private fun clickListener(sanName: String?) {
+
+        // 디테일 액티비티로 넘어감.
+        binding.tvSanName.setOnClickListener {
+            Log.d(TAG,"Selected Image")
+            val intent = Intent(requireActivity(), SanDetailActivity::class.java)
+            intent.putExtra("name",sanName)
+            startActivity(intent)
+
+        }
+        binding.chipCategory
+    }
 }

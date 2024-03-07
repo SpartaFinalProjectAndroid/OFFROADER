@@ -21,9 +21,11 @@ class SanListViewModel(sanListRepository: SanListRepository) : ViewModel() {
 
 
     init {
+        // 선택된 산 초기화해주기
         _sanListUiState.value = SanListUiState.init()
     }
 
+    // 선택된 산 값을 업데이트 시켜주는 함수. null이면 로그 띄워줌.
     fun getSelectedItem(item: SanDTO?) {
         Log.d(TAG, "getSelectedItem ${item.toString()}")
         if (item == null) {
@@ -39,6 +41,7 @@ class SanListViewModel(sanListRepository: SanListRepository) : ViewModel() {
         }
     }
 
+    // 값 업데이트
     fun setInitiallySelectedItem() {
         _sanListUiState.value = sanListUiState.value?.copy(
             selectedItem = sanList.value?.get(0)
@@ -46,6 +49,9 @@ class SanListViewModel(sanListRepository: SanListRepository) : ViewModel() {
     }
 
 
+    // 디비에서 아이템 값을 다시 가져옴. 매개변수로 들어가는 item은 선택된 item이다.
+    // repository에서 디비에서 값을 가져올 때 선택된 아이템의 불리언 값만 트루로 세팅해주는데
+    // 이때 매개변수로 들어간 아이템과 이름이 같은 걸 찾아주고 그 아이템의 불리언값을 수정해주는 방식이다.
     fun updateSelectedItemOnDTO(item: SanDTO) {
         repository.editSelectedItem(item)
     }
