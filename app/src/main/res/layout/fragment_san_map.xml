@@ -135,7 +135,7 @@
         android:fontFamily="@font/pretendard_regular"
         android:text="@string/mountain_description"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/markerInfo"
+        app:layout_constraintEnd_toEndOf="@id/markerInfo"
         app:layout_constraintStart_toStartOf="@id/markerInfo"
         app:layout_constraintTop_toBottomOf="@id/tv_markerHeight" />
 

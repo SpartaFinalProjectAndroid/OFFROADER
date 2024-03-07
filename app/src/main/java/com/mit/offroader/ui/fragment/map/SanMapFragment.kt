@@ -134,7 +134,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
         // 지도 타입 설정
-        this.naverMap.mapType = NaverMap.MapType.Satellite
+        this.naverMap.mapType = NaverMap.MapType.Basic
         // 지도 레이어 설정
         this.naverMap.setLayerGroupEnabled(NaverMap.LAYER_GROUP_MOUNTAIN, true)
         // 지도 컨트롤 요소 수동 설정
