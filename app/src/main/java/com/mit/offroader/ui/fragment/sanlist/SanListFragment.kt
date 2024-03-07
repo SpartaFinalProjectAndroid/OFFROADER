@@ -95,8 +95,8 @@ class SanListFragment : Fragment() {
         val timeTaken =
             "${selectedItem.sanTimeTotal?.div(60)}h ${selectedItem.sanTimeTotal?.rem(60)}min"
         val difficulty = when (selectedItem.sanDifficulty?.toInt()) {
-            0 -> getString(SanListString.EASY.string)
-            1 -> getString(SanListString.INTERMEDIATE.string)
+            1 -> getString(SanListString.EASY.string)
+            2 -> getString(SanListString.INTERMEDIATE.string)
             else -> getString(SanListString.HARD.string)
         }
         val divider = getString(SanListString.DIVIDER.string)
