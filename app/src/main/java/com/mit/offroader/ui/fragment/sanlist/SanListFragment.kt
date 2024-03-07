@@ -1,30 +1,25 @@
 package com.mit.offroader.ui.fragment.sanlist
 
 import android.annotation.SuppressLint
-import com.mit.offroader.utils.Application
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
-import com.mit.offroader.R
 import com.mit.offroader.databinding.FragmentSanListBinding
 import com.mit.offroader.ui.fragment.sanlist.adapter.SanListAdapter
 import com.mit.offroader.ui.fragment.sanlist.model.SanDTO
 import com.mit.offroader.ui.fragment.sanlist.viewmodel.SanListViewModel
 import com.mit.offroader.ui.fragment.sanlist.viewmodel.SanListViewModelFactory
+import com.mit.offroader.utils.Application
 
 private const val TAG = "SanListFragment"
 
 class SanListFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = SanListFragment()
-    }
 
     private var _binding: FragmentSanListBinding? = null
     private val binding get() = _binding!!
@@ -55,6 +50,14 @@ class SanListFragment : Fragment() {
         setRecyclerViewGridLayout()
 
         setInitiallySelectedItem()
+
+        clickListener()
+    }
+
+    private fun clickListener() {
+        binding.ivSelectedImage.setOnClickListener {
+
+        }
     }
 
     private fun setInitiallySelectedItem() {
@@ -88,11 +91,11 @@ class SanListFragment : Fragment() {
         val timeTaken =
             "${selectedItem.sanTimeTotal?.div(60)}h ${selectedItem.sanTimeTotal?.rem(60)}min"
         val difficulty = when (selectedItem.sanDifficulty?.toInt()) {
-            0 -> getString(R.string.san_list_easy)
-            1 -> getString(R.string.san_list_intermediate)
-            else -> getString(R.string.san_list_hard)
+            0 -> SanListString.EASY
+            1 -> SanListString.INTERMEDIATE
+            else -> SanListString.HARD
         }
-        val divider = getString(R.string.san_list_divder)
+        val divider = SanListString.DIVIDER
         binding.tvSanName.text = selectedItem.sanName
         binding.tvSanInfo.text = height + divider + timeTaken + divider + difficulty
     }

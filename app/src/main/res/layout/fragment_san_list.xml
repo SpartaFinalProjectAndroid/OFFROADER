@@ -53,15 +53,25 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
         android:id="@+id/rv_san_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_san_category"
-        tools:itemCount="1"
+        android:orientation="horizontal"
+        android:paddingVertical="2dp"
         android:paddingHorizontal="16dp"
-        />
+        >
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/san_list_chip_alphabetical_order"
+            android:fontFamily="@font/pretendard_medium"
+            app:chipStrokeColor="@color/offroader_outline"
+            />
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
