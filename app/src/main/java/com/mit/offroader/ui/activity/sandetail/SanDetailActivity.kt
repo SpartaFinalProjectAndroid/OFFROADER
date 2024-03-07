@@ -60,12 +60,13 @@ class SanDetailActivity : AppCompatActivity() {
 
     // Firebase 데이터 받아오기
     private fun initData() {
+        val sanName = intent.getStringExtra("name")
 
         firestore.collection("sanlist")
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    if (document.getString("name") == "한라산") {
+                    if (document.getString("name") == sanName) {
                         val sanlist = SanDetailUiState(
                             document.getString("name") ?: "none",
                             document.getString("address") ?: "none",
