@@ -18,6 +18,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
 import com.mit.offroader.R
 import com.mit.offroader.BuildConfig
 import com.mit.offroader.databinding.FragmentSanMapBinding
@@ -172,24 +173,30 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                 if (querySnapshot == null) {
                     return@addSnapshotListener
                 }
-                for (snapshot in querySnapshot.documents) {
-                    markerDTOs.add(snapshot.toObject(MarkerDTO::class.java)!!)
-                    for (idx in 0 until markerDTOs.size) {
-                        // 마커 여러개 찍기
-                        val markers = arrayOfNulls<Marker>(markerDTOs.size)
-                        markers[idx] = Marker()
-                        val lat = markerDTOs[idx].lat
-                        val lnt = markerDTOs[idx].lng
-                        markers[idx]!!.position = LatLng(lat!!, lnt!!)
-                        markers[idx]!!.captionText = markerDTOs[idx].name!!
-                        markers[idx]!!.icon = OverlayImage.fromResource(R.drawable.ic_transparent)
-                        markers[idx]!!.width = resources.getDimensionPixelSize(R.dimen.marker_size)
-                        markers[idx]!!.height = resources.getDimensionPixelSize(R.dimen.marker_size)
-                        markers[idx]!!.captionColor = Color.WHITE
-                        markers[idx]!!.setCaptionAligns(Align.Top)
-                        markers[idx]!!.captionHaloColor = Color.rgb(0, 0, 0)
-                        markers[idx]!!.captionTextSize = 16f
-                        markers[idx]!!.map = naverMap
+                if (markerDTOs.size == 0) {
+                    for (snapshot in querySnapshot.documents) {
+                        markerDTOs.add(snapshot.toObject(MarkerDTO::class.java)!!)
+                        for (idx in 0 until markerDTOs.size) {
+                            // 마커 여러개 찍기
+                            val markers = arrayOfNulls<Marker>(markerDTOs.size)
+                            markers[idx] = Marker()
+                            Log.d("", "onMapReady: ${markers[idx]}")
+                            val lat = markerDTOs[idx].lat
+                            val lnt = markerDTOs[idx].lng
+                            markers[idx]!!.position = LatLng(lat!!, lnt!!)
+                            markers[idx]!!.captionText = markerDTOs[idx].name!!
+                            markers[idx]!!.icon =
+                                OverlayImage.fromResource(R.drawable.ic_transparent)
+                            markers[idx]!!.width =
+                                resources.getDimensionPixelSize(R.dimen.marker_size)
+                            markers[idx]!!.height =
+                                resources.getDimensionPixelSize(R.dimen.marker_size)
+                            markers[idx]!!.captionColor = Color.WHITE
+                            markers[idx]!!.setCaptionAligns(Align.Top)
+                            markers[idx]!!.captionHaloColor = Color.rgb(0, 0, 0)
+                            markers[idx]!!.captionTextSize = 16f
+                            markers[idx]!!.map = naverMap
+                        }
                     }
                 }
 
