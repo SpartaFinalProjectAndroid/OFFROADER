@@ -160,6 +160,7 @@ class ChatBotViewModel(
 
     // ai의 답변을 받아오고 그 값을 DB에 넘겨주는 함수
     private fun getReplyFromChatGpt(text: String, input: String) {
+
         viewModelScope.launch {
             runCatching {
 

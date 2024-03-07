@@ -36,8 +36,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.sandetail.SanDetailActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".ui.activity.intro.IntroSplashActivity"
             android:exported="true"

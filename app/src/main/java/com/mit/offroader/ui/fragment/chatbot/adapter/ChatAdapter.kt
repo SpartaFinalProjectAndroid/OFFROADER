@@ -12,14 +12,15 @@ import com.mit.offroader.data.model.ai.Message
 import com.mit.offroader.databinding.ItemChatbotBinding
 import com.mit.offroader.ui.fragment.chatbot.viewmodel.ChatBotViewModel
 
-class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Message, RecyclerView.ViewHolder>(
-    DIFF_CALLBACK
-) {
+class ChatAdapter(private val viewModel: ChatBotViewModel) :
+    ListAdapter<Message, RecyclerView.ViewHolder>(
+        DIFF_CALLBACK
+    ) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = ItemChatbotBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        Log.d("chatadapter","^^ 1. 바인딩 잘됨")
+        Log.d("chatadapter", "^^ 1. 바인딩 잘됨")
         return ChatItemViewHolder(binding)
     }
 
@@ -34,7 +35,7 @@ class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Message,
 
 
             // 타입이 ai인지 유저인지에 따라 리사이클러뷰의 버블을 하나씩 지워주는 로직
-            when(item.role) {
+            when (item.role) {
                 "user" -> {
                     userChat.visibility = View.VISIBLE
                     userChatBox.visibility = View.VISIBLE
@@ -42,6 +43,7 @@ class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Message,
                     aiChatBox.isVisible = false
                     userChat.text = item.content
                 }
+
                 "assistant" -> {
                     userChat.isVisible = false
                     userChatBox.isVisible = false
@@ -49,6 +51,7 @@ class ChatAdapter(private val viewModel: ChatBotViewModel): ListAdapter<Message,
                     aiChatBox.visibility = View.VISIBLE
                     aiChat.text = item.content
                 }
+
                 else -> {
 //                    Log.d("error","^^ 대화 role이 잘못 설정되어있다 오타 확인 !!")
                 }

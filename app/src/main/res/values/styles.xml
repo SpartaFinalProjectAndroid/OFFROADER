@@ -17,5 +17,12 @@
         <item name="android:layout_height">1dp</item> // 두께 수정 및 다른 두께 추가 가능
     </style>
 
+    <!-- 이미지 동그라미-->
+    <style name="circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+
 
 </resources>
