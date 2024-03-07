@@ -231,6 +231,11 @@ class HomeMultiViewTypeAdapter(private val context: Context, private val mList :
                 title.text = item.title
                 des.text = item.des
                 date.text = item.date.toString()
+
+//                if (item.date.toString().isNullOrEmpty()){
+//                    date.text =
+//                }
+
                 Glide.with(context)
                     .load(item.image)
                     .placeholder(R.drawable.ic_launcher_foreground)

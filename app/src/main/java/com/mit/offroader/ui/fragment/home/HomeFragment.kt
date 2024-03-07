@@ -86,10 +86,10 @@ class HomeFragment : Fragment() {
                         Log.d("fireTest", "doc id : ${document.id}, data: ${document.data}")
 
                         val event = HomeUiData.Fourth(
-                            image = document.getString("img") ?: "none (?: <-으로 나오는 텍스트)",
+                            image = document.getString("img") ?: "유효한 데이터가 아닙니다",
                             title = document.getString("title") ?: "유효한 데이터가 아닙니다",
-                            des = document.getString("des") ?: "none (?: <-으로 나오는 텍스트)",
-                            date = document.getLong("date") ?: 1
+                            des = document.getString("des") ?: "유효한 데이터가 아닙니다",
+                            date = document.getLong("date")
                         )
                         eventItems.add(event)
                     }
