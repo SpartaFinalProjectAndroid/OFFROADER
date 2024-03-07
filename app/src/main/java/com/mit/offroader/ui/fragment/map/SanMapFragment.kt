@@ -10,7 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -23,6 +25,7 @@ import com.mit.offroader.R
 import com.mit.offroader.BuildConfig
 import com.mit.offroader.databinding.FragmentSanMapBinding
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
@@ -39,6 +42,9 @@ import com.naver.maps.map.util.MarkerIcons
 import com.naver.maps.map.widget.CompassView
 import com.naver.maps.map.widget.ScaleBarView
 import com.naver.maps.map.widget.ZoomControlView
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.Locale
 
 
 class SanMapFragment : Fragment(), OnMapReadyCallback {
@@ -147,8 +153,8 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         scaleBarView.map = naverMap
 
         // 최대 확대 및 축소 비율 설정
-        this.naverMap.maxZoom = 21.0
-        this.naverMap.minZoom = 15.0
+        this.naverMap.maxZoom = 19.0
+        this.naverMap.minZoom = 10.0
 
         setUpMap()
 
@@ -180,21 +186,95 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                             // 마커 여러개 찍기
                             val markers = arrayOfNulls<Marker>(markerDTOs.size)
                             markers[idx] = Marker()
-                            Log.d("", "onMapReady: ${markers[idx]}")
                             val lat = markerDTOs[idx].lat
                             val lnt = markerDTOs[idx].lng
                             markers[idx]!!.position = LatLng(lat!!, lnt!!)
                             markers[idx]!!.captionText = markerDTOs[idx].name!!
                             markers[idx]!!.icon =
-                                OverlayImage.fromResource(R.drawable.ic_transparent)
-                            markers[idx]!!.width =
-                                resources.getDimensionPixelSize(R.dimen.marker_size)
-                            markers[idx]!!.height =
-                                resources.getDimensionPixelSize(R.dimen.marker_size)
+                                OverlayImage.fromResource(R.drawable.ic_marker)
+                            markers[idx]!!.width = resources.getDimensionPixelSize(R.dimen.marker_size_3)
+                            markers[idx]!!.height = resources.getDimensionPixelSize(R.dimen.marker_size_3)
+                            //카메라 변화 감지하여 줌 레벨에 따라 마커의 크기 변경
+                            naverMap.addOnCameraChangeListener { _, _ ->
+                                when (naverMap.cameraPosition.zoom) {
+                                    10.0 -> {
+                                        markers[idx]!!.width =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_1)
+                                        markers[idx]!!.height =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_1)
+                                    }
+                                    11.0 -> {
+                                        markers[idx]!!.width =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_2)
+                                        markers[idx]!!.height =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_2)
+                                    }
+                                    12.0 -> {
+                                        markers[idx]!!.width =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_3)
+                                        markers[idx]!!.height =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_3)
+                                    }
+                                    13.0 -> {
+                                        markers[idx]!!.width =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_4)
+                                        markers[idx]!!.height =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_4)
+                                    }
+                                    14.0 -> {
+                                        markers[idx]!!.width =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_5)
+                                        markers[idx]!!.height =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_5)
+                                    }
+                                    15.0 -> {
+                                        markers[idx]!!.width =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_6)
+                                        markers[idx]!!.height =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_6)
+                                    }
+                                    16.0 -> {
+                                        markers[idx]!!.width =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_7)
+                                        markers[idx]!!.height =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_7)
+                                    }
+                                    17.0 -> {
+                                        markers[idx]!!.width =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_8)
+                                        markers[idx]!!.height =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_8)
+                                    }
+                                    18.0 -> {
+                                        markers[idx]!!.width =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_9)
+                                        markers[idx]!!.height =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_9)
+                                    }
+                                    19.0 -> {
+                                        markers[idx]!!.width =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_10)
+                                        markers[idx]!!.height =
+                                            resources.getDimensionPixelSize(R.dimen.marker_size_10)
+                                    }
+                                }
+                            }
+                            markers[idx]!!.isIconPerspectiveEnabled = true
                             markers[idx]!!.captionColor = Color.WHITE
-                            markers[idx]!!.setCaptionAligns(Align.Top)
                             markers[idx]!!.captionHaloColor = Color.rgb(0, 0, 0)
                             markers[idx]!!.captionTextSize = 16f
+                            //마커 클릭 시 정보창 visibility 유무
+                            markers[idx]!!.setOnClickListener {
+                                if (binding.markerInfo.visibility == View.GONE) {
+                                    binding.tvMarkerName.text = markerDTOs[idx].name
+                                    binding.tvMarkerHeight.text = NumberFormat.getInstance(Locale.getDefault()).format(markerDTOs[idx].height)+"m"
+                                    binding.tvMarkerDescription.text = markerDTOs[idx].description
+                                    binding.markerInfo.visibility = View.VISIBLE
+                                } else if (binding.markerInfo.visibility == View.VISIBLE) {
+                                    binding.markerInfo.visibility = View.GONE
+                                }
+                                false
+                            }
                             markers[idx]!!.map = naverMap
                         }
                     }
@@ -217,17 +297,29 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                     false
                 }
                 binding.ivSearchLocation.setOnClickListener {
+                    hideKeyboard()
                     for (idx in 0 until markerDTOs.size) {
                         if (binding.etInputLocation.text.toString() == markerDTOs[idx].name) {
                             val cameraUpdate = CameraUpdate.scrollAndZoomTo(
-//                                        marker1.position, 15.0
-                                LatLng(markerDTOs[idx].lat!!, markerDTOs[idx].lng!!), 15.0
-                            )
+                                LatLng(markerDTOs[idx].lat!!, markerDTOs[idx].lng!!), 17.0
+                            ).animate(CameraAnimation.Fly, 1000)
                             naverMap.moveCamera(cameraUpdate)
                         }
                     }
                 }
             }
+    }
+    // 키보드 내림처리
+    private fun hideKeyboard() {
+        if (activity != null && activity?.currentFocus != null) {
+            // 프래그먼트기 때문에 getActivity() 사용
+            val inputManager =
+                requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
     }
 
     // 현재 위치 기능 지도에 추가
