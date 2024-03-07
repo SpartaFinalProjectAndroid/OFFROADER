@@ -35,80 +35,88 @@
                 android:layout_margin="20dp"
                 android:src="@drawable/ic_back" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_mountain"
+            <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="120dp"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="-5dp"
-                android:background="@drawable/ic_rounded_background"
-                android:clipToOutline="true"
-                android:padding="10dp"
-                app:layout_collapseMode="pin"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_collapseMode="pin">
 
-                <TextView
-                    android:id="@+id/tv_mountain"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_mountain"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:fontFamily="@font/pretendardvariable"
-                    android:text="@string/sandetail_name"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iv_pin"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginBottom="10dp"
-                    android:src="@drawable/ic_pin"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_mountain" />
-
-                <TextView
-                    android:id="@+id/tv_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:fontFamily="@font/pretendardvariable"
-                    android:hint="@string/sandetail_address"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_pin"
-                    app:layout_constraintStart_toEndOf="@id/iv_pin"
-                    app:layout_constraintTop_toTopOf="@id/iv_pin" />
-
-                <ImageView
-                    android:id="@+id/iv_weather"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="20dp"
-                    android:src="@drawable/ic_weather"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/iv_bookmark"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iv_bookmark"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_gravity="bottom"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_bookmark_off"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="-5dp"
+                    android:background="@drawable/ic_rounded_background"
+                    android:clipToOutline="true"
+                    android:padding="10dp"
+                    app:layout_collapseMode="pin"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/tv_mountain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:text="@string/sandetail_name"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_pin"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/ic_pin"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_mountain" />
+
+                    <TextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:hint="@string/sandetail_address"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_pin"
+                        app:layout_constraintStart_toEndOf="@id/iv_pin"
+                        app:layout_constraintTop_toTopOf="@id/iv_pin" />
+
+                    <ImageView
+                        android:id="@+id/iv_weather"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/ic_weather"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_bookmark"
+                        app:layout_constraintEnd_toStartOf="@id/iv_bookmark"
+                        app:layout_constraintTop_toTopOf="@id/iv_bookmark" />
+
+                    <ImageView
+                        android:id="@+id/iv_bookmark"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_bookmark_off"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -142,7 +150,7 @@
                     android:id="@+id/tv_difficulty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendardvariable"
+                    android:fontFamily="@font/pretendard_medium"
                     android:hint="@string/sandetail_difficulty"
                     app:layout_constraintBottom_toTopOf="@id/tv_difficulty_info"
                     app:layout_constraintEnd_toStartOf="@id/line_1"
@@ -155,7 +163,7 @@
                     android:id="@+id/tv_difficulty_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendardvariable"
+                    android:fontFamily="@font/pretendard_medium"
                     android:text="@string/sandetail_difficulty_info"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -182,7 +190,7 @@
                     android:id="@+id/tv_height"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendardvariable"
+                    android:fontFamily="@font/pretendard_medium"
                     android:hint="@string/sandetail_height"
                     app:layout_constraintBottom_toTopOf="@id/tv_height_info"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -195,7 +203,7 @@
                     android:id="@+id/tv_height_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendardvariable"
+                    android:fontFamily="@font/pretendard_medium"
                     android:text="@string/sandetail_height_info"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -221,7 +229,7 @@
                     android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendardvariable"
+                    android:fontFamily="@font/pretendard_medium"
                     android:hint="@string/sandetail_time"
                     app:layout_constraintBottom_toTopOf="@id/tv_time_info"
                     app:layout_constraintEnd_toStartOf="@id/iv_mini_clock"
@@ -235,7 +243,7 @@
                     android:id="@+id/tv_time_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendardvariable"
+                    android:fontFamily="@font/pretendard_medium"
                     android:text="@string/sandetail_time_info"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -323,6 +331,7 @@
                 android:layout_marginTop="160dp"
                 android:fontFamily="@font/bm_hanna_11yrs_old"
                 android:text="@string/sandetail_intro"
+                android:textColor="@color/offroader_green"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -332,21 +341,53 @@
                 android:id="@+id/tv_intro_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/pretendardvariable"
+                android:layout_marginEnd="20dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/pretendard_medium"
+                android:letterSpacing="0.03"
+                android:lineSpacingExtra="10dp"
+                android:maxLines="5"
+                android:padding="15dp"
                 android:text="@string/sandetail_intro_info"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_intro" />
+
+            <TextView
+                android:id="@+id/tv_intro_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:hint="@string/sandetail_intro_plus"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_intro_info" />
+
+            <TextView
+                android:id="@+id/tv_intro_short"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:hint="@string/sandetail_intro_short"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_intro_info" />
 
             <TextView
                 android:id="@+id/tv_recommend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="60dp"
                 android:fontFamily="@font/bm_hanna_11yrs_old"
                 android:text="@string/sandetail_recommend"
+                android:textColor="@color/offroader_green"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -356,24 +397,68 @@
                 android:id="@+id/tv_recommend_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/pretendardvariable"
+                android:layout_marginEnd="20dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/pretendard_medium"
+                android:letterSpacing="0.03"
+                android:lineSpacingExtra="10dp"
+                android:maxLines="5"
+                android:padding="15dp"
                 android:text="@string/sandetail_recommend_info"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_recommend" />
 
             <TextView
+                android:id="@+id/tv_recommend_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:hint="@string/sandetail_recommend_plus"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_info" />
+
+            <TextView
+                android:id="@+id/tv_recommend_short"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:hint="@string/sandetail_recommend_short"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_info" />
+
+            <TextView
+                android:id="@+id/tv_weather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="60dp"
                 android:fontFamily="@font/bm_hanna_11yrs_old"
                 android:text="@string/sandetail_weather"
+                android:textColor="@color/offroader_green"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_recommend_info" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tv_weather"
+                app:layout_constraintStart_toStartOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
