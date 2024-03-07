@@ -21,8 +21,9 @@ android {
     defaultConfig {
         applicationId = "com.mit.offroader"
         minSdk = 26
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "1.2"
+        targetSdk = 34
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
