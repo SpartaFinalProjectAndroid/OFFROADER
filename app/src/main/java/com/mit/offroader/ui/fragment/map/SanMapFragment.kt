@@ -140,7 +140,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         // 지도 컨트롤 요소 수동 설정
         this.uiSettings = naverMap.uiSettings
         uiSettings.isZoomControlEnabled = false
-        uiSettings.isCompassEnabled = true
+        uiSettings.isCompassEnabled = false
         uiSettings.isScaleBarEnabled = false
 
         val zoomControlView: ZoomControlView = binding.zoom
@@ -196,67 +196,56 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                             markers[idx]!!.height = resources.getDimensionPixelSize(R.dimen.marker_size_3)
                             //카메라 변화 감지하여 줌 레벨에 따라 마커의 크기 변경
                             naverMap.addOnCameraChangeListener { _, _ ->
-                                when (naverMap.cameraPosition.zoom) {
-                                    10.0 -> {
-                                        markers[idx]!!.width =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_1)
-                                        markers[idx]!!.height =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_1)
-                                    }
-                                    11.0 -> {
-                                        markers[idx]!!.width =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_2)
-                                        markers[idx]!!.height =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_2)
-                                    }
-                                    12.0 -> {
-                                        markers[idx]!!.width =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_3)
-                                        markers[idx]!!.height =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_3)
-                                    }
-                                    13.0 -> {
-                                        markers[idx]!!.width =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_4)
-                                        markers[idx]!!.height =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_4)
-                                    }
-                                    14.0 -> {
-                                        markers[idx]!!.width =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_5)
-                                        markers[idx]!!.height =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_5)
-                                    }
-                                    15.0 -> {
-                                        markers[idx]!!.width =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_6)
-                                        markers[idx]!!.height =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_6)
-                                    }
-                                    16.0 -> {
-                                        markers[idx]!!.width =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_7)
-                                        markers[idx]!!.height =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_7)
-                                    }
-                                    17.0 -> {
-                                        markers[idx]!!.width =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_8)
-                                        markers[idx]!!.height =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_8)
-                                    }
-                                    18.0 -> {
-                                        markers[idx]!!.width =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_9)
-                                        markers[idx]!!.height =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_9)
-                                    }
-                                    19.0 -> {
-                                        markers[idx]!!.width =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_10)
-                                        markers[idx]!!.height =
-                                            resources.getDimensionPixelSize(R.dimen.marker_size_10)
-                                    }
+                                if (naverMap.cameraPosition.zoom >= 10.0 && naverMap.cameraPosition.zoom <11.0) {
+                                    markers[idx]!!.width =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_1)
+                                    markers[idx]!!.height =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_1)
+                                } else if (naverMap.cameraPosition.zoom >= 11.0 && naverMap.cameraPosition.zoom <12.0) {
+                                    markers[idx]!!.width =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_2)
+                                    markers[idx]!!.height =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_2)
+                                } else if (naverMap.cameraPosition.zoom >= 12.0 && naverMap.cameraPosition.zoom <13.0) {
+                                    markers[idx]!!.width =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_3)
+                                    markers[idx]!!.height =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_3)
+                                } else if (naverMap.cameraPosition.zoom >= 13.0 && naverMap.cameraPosition.zoom <14.0) {
+                                    markers[idx]!!.width =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_4)
+                                    markers[idx]!!.height =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_4)
+                                } else if (naverMap.cameraPosition.zoom >= 14.0 && naverMap.cameraPosition.zoom <15.0) {
+                                    markers[idx]!!.width =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_5)
+                                    markers[idx]!!.height =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_5)
+                                } else if (naverMap.cameraPosition.zoom >= 15.0 && naverMap.cameraPosition.zoom <16.0) {
+                                    markers[idx]!!.width =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_6)
+                                    markers[idx]!!.height =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_6)
+                                } else if (naverMap.cameraPosition.zoom >= 16.0 && naverMap.cameraPosition.zoom <17.0) {
+                                    markers[idx]!!.width =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_7)
+                                    markers[idx]!!.height =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_7)
+                                } else if (naverMap.cameraPosition.zoom >= 17.0 && naverMap.cameraPosition.zoom <18.0) {
+                                    markers[idx]!!.width =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_8)
+                                    markers[idx]!!.height =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_8)
+                                } else if (naverMap.cameraPosition.zoom >= 18.0 && naverMap.cameraPosition.zoom <19.0) {
+                                    markers[idx]!!.width =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_9)
+                                    markers[idx]!!.height =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_9)
+                                } else if (naverMap.cameraPosition.zoom in 19.0..20.0) {
+                                    markers[idx]!!.width =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_10)
+                                    markers[idx]!!.height =
+                                        resources.getDimensionPixelSize(R.dimen.marker_size_10)
                                 }
                             }
                             markers[idx]!!.isIconPerspectiveEnabled = true
