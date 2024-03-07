@@ -6,7 +6,7 @@
         <Constraint
             android:id="@+id/nav_main"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="64dp"
             app:layout_constraintBottom_toBottomOf="parent" />
         <Constraint
             android:id="@+id/cl_radio_container"
