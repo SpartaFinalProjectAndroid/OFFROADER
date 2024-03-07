@@ -64,5 +64,9 @@
     <string name="sandetail_uptime_info">up time</string>
     <string name="sandetail_downtime">평균 하행 시간</string>
     <string name="sandetail_downtime_info">down time</string>
+    <string name="sandetail_intro_plus">자세히 보기 ▼</string>
+    <string name="sandetail_recommend_plus">자세히 보기 ▼</string>
+    <string name="sandetail_intro_short">축소하기 ▲</string>
+    <string name="sandetail_recommend_short">축소하기 ▲</string>
 
 </resources>

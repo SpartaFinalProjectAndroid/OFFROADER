@@ -36,7 +36,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="10dp"
         android:text="KBS 1라디오"
-        android:textSize="22sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/offroader_title"
         android:fontFamily="@font/pretendard_regular"/>

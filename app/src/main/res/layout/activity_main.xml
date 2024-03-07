@@ -70,14 +70,14 @@
     <LinearLayout
         android:id="@+id/ll_bottom_play"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:background="@color/white"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/nav_main">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
             app:cardCornerRadius="10dp">
@@ -96,7 +96,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:text="@string/kbs_channel_name_1radio"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="@color/offroader_title"
             android:fontFamily="@font/pretendard_regular"/>
 
@@ -133,8 +133,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_favorites"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:background="@color/offroader_background"
@@ -149,8 +149,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_kbs"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             app:cardCornerRadius="10dp"
@@ -165,8 +165,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_sbs"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             app:cardCornerRadius="10dp"
@@ -181,8 +181,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_mbc"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             app:cardCornerRadius="10dp"

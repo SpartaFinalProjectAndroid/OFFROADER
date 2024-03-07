@@ -6,7 +6,7 @@
         <Constraint
             android:id="@+id/nav_main"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="64dp"
             app:layout_constraintBottom_toBottomOf="parent" />
         <Constraint
             android:id="@+id/cl_radio_container"
@@ -30,7 +30,7 @@
         <Constraint
             android:id="@+id/ll_bottom_play"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@id/nav_main" />
         <Constraint
@@ -65,7 +65,7 @@
         <Constraint
             android:id="@+id/nav_main"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="64dp"
             app:layout_constraintBottom_toBottomOf="parent" />
         <Constraint
             android:id="@+id/tv_radio_title"
@@ -83,7 +83,7 @@
         <Constraint
             android:id="@+id/ll_bottom_play"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@id/nav_main" />
         <Constraint
@@ -127,7 +127,6 @@
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
         app:duration="161">
-        <OnClick app:targetId="@+id/ll_bottom_play" />
         <KeyFrameSet >
             <KeyAttribute
                 app:motionTarget="@+id/ll_radio_channels"
@@ -154,5 +153,6 @@
                 app:framePosition="30"
                 android:alpha="0" />
         </KeyFrameSet>
+        <OnClick app:targetId="@+id/ll_bottom_play" />
     </Transition>
 </MotionScene>

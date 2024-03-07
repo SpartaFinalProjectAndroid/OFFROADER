@@ -39,6 +39,7 @@
         app:layout_constraintBottom_toBottomOf="@id/iv_mountain"/>
 
     <TextView
+        android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/item_bookmark_date"
