@@ -32,6 +32,7 @@ class SanDetailActivity : AppCompatActivity() {
 
     // 데이터 firebase로 받아오기
     private val firestore = FirebaseFirestore.getInstance()
+    private val sanName = intent.getStringExtra("name")
 
     private lateinit var imageAdapter: SanImageAdapter
     private val sanDetailViewModel by viewModels<SanDetailViewModel>()
@@ -60,13 +61,12 @@ class SanDetailActivity : AppCompatActivity() {
 
     // Firebase 데이터 받아오기
     private fun initData() {
-        val sanName = intent.getStringExtra("name")
 
         firestore.collection("sanlist")
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    if (document.getString("name") == sanName) {
+                    if (document["name"] == sanName) {
                         val sanlist = SanDetailUiState(
                             document.getString("name") ?: "none",
                             document.getString("address") ?: "none",
@@ -200,8 +200,7 @@ class SanDetailActivity : AppCompatActivity() {
 
     // 자동 스크롤되는 ViewPager2 이미지
     private fun initImage() {
-        val mountain = binding.tvMountain.text
-        imageAdapter = when (mountain) {
+        imageAdapter = when (sanName) {
             "계룡산" -> SanImageAdapter(kyeryongsanList, binding.vpMountain)
             "내장산" -> SanImageAdapter(naejangsanList, binding.vpMountain)
             "북한산" -> SanImageAdapter(northhansanList, binding.vpMountain)

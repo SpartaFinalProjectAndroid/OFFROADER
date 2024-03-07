@@ -54,7 +54,7 @@
 
 
 <!--    SanDetailActivity-->
-    <string name="sandetail_name">한라산</string>
+    <string name="sandetail_name">지리산</string>
     <string name="sandetail_address">Address</string>
     <string name="sandetail_difficulty">난이도</string>
     <string name="sandetail_difficulty_info">difficulty</string>

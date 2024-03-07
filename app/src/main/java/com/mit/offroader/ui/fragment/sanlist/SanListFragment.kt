@@ -117,7 +117,7 @@ class SanListFragment : Fragment() {
         binding.tvSanName.setOnClickListener {
             Log.d(TAG,"Selected Image")
             val intent = Intent(requireActivity(), SanDetailActivity::class.java)
-            intent.putExtra("name",sanName)
+            intent.putExtra("name", sanName)
             startActivity(intent)
 
         }
