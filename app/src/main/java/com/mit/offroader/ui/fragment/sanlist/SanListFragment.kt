@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.mit.offroader.databinding.FragmentSanListBinding
 import com.mit.offroader.ui.activity.sandetail.SanDetailActivity
+import com.mit.offroader.ui.fragment.chatbot.MyApplication
 import com.mit.offroader.ui.fragment.sanlist.adapter.SanListAdapter
 import com.mit.offroader.ui.fragment.sanlist.model.SanDTO
 import com.mit.offroader.ui.fragment.sanlist.viewmodel.SanListViewModel
 import com.mit.offroader.ui.fragment.sanlist.viewmodel.SanListViewModelFactory
-import com.mit.offroader.utils.Application
 
 private const val TAG = "SanListFragment"
 
@@ -27,7 +27,7 @@ class SanListFragment : Fragment() {
     private val binding get() = _binding!!
     private val sanListAdapter: SanListAdapter by lazy { SanListAdapter(sanListViewModel) }
     private val sanListViewModel: SanListViewModel by viewModels {
-        SanListViewModelFactory((requireActivity().application as Application).sanListRepository)
+        SanListViewModelFactory((requireActivity().application as MyApplication).sanListRepository)
 
     }
 

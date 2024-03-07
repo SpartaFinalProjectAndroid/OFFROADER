@@ -18,7 +18,6 @@ import com.mit.offroader.ui.activity.main.MainActivity
 import com.mit.offroader.ui.fragment.chatbot.adapter.ChatAdapter
 import com.mit.offroader.ui.fragment.chatbot.viewmodel.ChatBotViewModel
 import com.mit.offroader.ui.fragment.chatbot.viewmodel.ChatBotViewModelFactory
-import com.mit.offroader.utils.Application
 
 private const val TAG = "ChatBotFragment"
 
@@ -29,8 +28,8 @@ class ChatBotFragment : Fragment() {
     private val binding get() = _binding!!
     private val chatBotViewModel: ChatBotViewModel by viewModels {
         ChatBotViewModelFactory(
-            (requireActivity().application as Application).hikeyRepository,
-            (requireActivity().application as Application).bongbongRepository
+            (requireActivity().application as MyApplication).hikeyRepository,
+            (requireActivity().application as MyApplication).bongbongRepository
         )
     }
     private val chatAdapter: ChatAdapter by lazy {
