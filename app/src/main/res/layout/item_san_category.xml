@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_item_san_category">
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/san_list_chip_alphabetical_order"
+        android:fontFamily="@font/pretendard_medium"
+        app:chipStrokeColor="@color/offroader_outline"
+        />
+
+
+</RelativeLayout>
