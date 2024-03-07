@@ -30,7 +30,7 @@
         <Constraint
             android:id="@+id/ll_bottom_play"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@id/nav_main" />
         <Constraint
@@ -153,6 +153,6 @@
                 app:framePosition="30"
                 android:alpha="0" />
         </KeyFrameSet>
-        <OnClick />
+        <OnClick app:targetId="@+id/ll_bottom_play" />
     </Transition>
 </MotionScene>
