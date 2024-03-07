@@ -15,7 +15,7 @@
     <string name="san_list_hard">상</string>
     <string name="san_list_intermediate">중</string>
     <string name="san_list_easy">하</string>
-    <string name="san_list_divder">" | "</string>
+    <string name="san_list_divder">|</string>
     <!--    MyDetailFragment-->
     <string name="mydetail_myinfo">내 정보 - 기록</string>
     <string name="mydetail_summary">총 등산 정보</string>

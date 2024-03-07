@@ -1,6 +1,7 @@
 package com.mit.offroader.ui.fragment.sanlist
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.mit.offroader.databinding.FragmentSanListBinding
+import com.mit.offroader.ui.activity.sandetail.SanDetailActivity
 import com.mit.offroader.ui.fragment.sanlist.adapter.SanListAdapter
 import com.mit.offroader.ui.fragment.sanlist.model.SanDTO
 import com.mit.offroader.ui.fragment.sanlist.viewmodel.SanListViewModel
@@ -51,13 +53,18 @@ class SanListFragment : Fragment() {
 
         setInitiallySelectedItem()
 
-        clickListener()
+
     }
 
-    private fun clickListener() {
+    private fun clickListener(sanName: String?) {
         binding.ivSelectedImage.setOnClickListener {
+            Log.d(TAG,"Selected Image")
+            val intent = Intent(requireActivity(), SanDetailActivity::class.java)
+//            intent.putExtra("name",sanName)
+            startActivity(intent)
 
         }
+        binding.chipCategory
     }
 
     private fun setInitiallySelectedItem() {
@@ -70,6 +77,7 @@ class SanListFragment : Fragment() {
             Log.d(TAG, "sanListUiState OBSERVED ${it?.selectedItem}")
             if (it?.selectedItem == null) {
                 sanListViewModel.getSelectedItem(null)
+                clickListener(it!!.selectedItem?.sanName)
             } else {
                 it.selectedItem?.let { it1 -> setSelectedSan(it1) }
                 sanListViewModel.updateSelectedItemOnDTO(it.selectedItem!!)
@@ -91,13 +99,13 @@ class SanListFragment : Fragment() {
         val timeTaken =
             "${selectedItem.sanTimeTotal?.div(60)}h ${selectedItem.sanTimeTotal?.rem(60)}min"
         val difficulty = when (selectedItem.sanDifficulty?.toInt()) {
-            0 -> SanListString.EASY
-            1 -> SanListString.INTERMEDIATE
-            else -> SanListString.HARD
+            0 -> getString(SanListString.EASY.string)
+            1 -> getString(SanListString.INTERMEDIATE.string)
+            else -> getString(SanListString.HARD.string)
         }
-        val divider = SanListString.DIVIDER
+        val divider = getString(SanListString.DIVIDER.string)
         binding.tvSanName.text = selectedItem.sanName
-        binding.tvSanInfo.text = height + divider + timeTaken + divider + difficulty
+        binding.tvSanInfo.text = "$height $divider $timeTaken $divider $difficulty"
     }
 
     private fun setRecyclerViewGridLayout() {

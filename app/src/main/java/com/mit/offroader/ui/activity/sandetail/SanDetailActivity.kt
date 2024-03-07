@@ -37,6 +37,9 @@ class SanDetailActivity : AppCompatActivity() {
         initBookMarkButton()
 
         initBackButton()
+
+
+
     }
 
     // 액티비티가 다시 시작될 때 자동스크롤도 다시 시작
