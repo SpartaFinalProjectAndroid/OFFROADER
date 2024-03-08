@@ -7,34 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.map.SanMapFragment">
 
-    <!--    <androidx.fragment.app.FragmentContainerView-->
-    <!--        android:id="@+id/map"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:name="com.naver.maps.map.MapFragment" />-->
-
     <com.naver.maps.map.MapView
         android:id="@+id/map_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
     </com.naver.maps.map.MapView>
-
-    <!--    <com.naver.maps.map.widget.LocationButtonView-->
-    <!--        android:id="@+id/location"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_alignParentTop="true"-->
-    <!--        android:layout_alignParentRight="true"-->
-    <!--        android:layout_marginStart="16dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="@id/map_view" />-->
 
     <com.naver.maps.map.widget.ZoomControlView
         android:id="@+id/zoom"
@@ -43,7 +25,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintBottom_toBottomOf="@id/map_view"
         app:layout_constraintEnd_toEndOf="@id/map_view">
 
     </com.naver.maps.map.widget.ZoomControlView>
@@ -56,19 +38,10 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="75dp"
         android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintBottom_toBottomOf="@id/map_view"
         app:layout_constraintStart_toStartOf="parent">
 
     </com.naver.maps.map.widget.ScaleBarView>
-
-    <!--    <com.naver.maps.map.widget.LogoView-->
-    <!--        android:id="@+id/logo"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="16dp"-->
-    <!--        android:layout_marginBottom="32dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@id/map_view"-->
-    <!--        app:layout_constraintStart_toStartOf="@id/map_view" />-->
 
     <com.naver.maps.map.widget.CompassView
         android:id="@+id/compass"
@@ -77,7 +50,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="80dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/scalebar"
+        app:layout_constraintBottom_toTopOf="@id/scalebar"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -89,8 +62,10 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/map_search_edge"
         android:elevation="10dp"
+        android:fontFamily="@font/pretendard_regular"
         android:gravity="center|start"
         android:hint="@string/san_map_input"
+        android:inputType="text"
         android:paddingStart="20dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,5 +82,87 @@
         app:layout_constraintBottom_toBottomOf="@id/et_inputLocation"
         app:layout_constraintEnd_toEndOf="@id/et_inputLocation"
         app:layout_constraintTop_toTopOf="@id/et_inputLocation" />
+
+    <TextView
+        android:id="@+id/markerInfo"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/map_info_edge"
+        android:elevation="10dp"
+        android:minHeight="100dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/map_view"
+        app:layout_constraintEnd_toEndOf="@id/map_view"
+        app:layout_constraintStart_toStartOf="@id/map_view" />
+
+    <TextView
+        android:id="@+id/tv_markerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:elevation="20dp"
+        android:fontFamily="@font/pretendard_regular"
+        android:text="@string/mountain_name"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/markerInfo"
+        app:layout_constraintTop_toTopOf="@id/markerInfo" />
+
+    <TextView
+        android:id="@+id/tv_markerHeight_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="6dp"
+        android:elevation="20dp"
+        android:fontFamily="@font/pretendard_regular"
+        android:text="@string/mountain_height_text"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/markerInfo"
+        app:layout_constraintTop_toBottomOf="@id/tv_markerName" />
+
+    <TextView
+        android:id="@+id/tv_markerHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="6dp"
+        android:elevation="20dp"
+        android:fontFamily="@font/pretendard_regular"
+        android:text="@string/mountain_height"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_markerHeight_text"
+        app:layout_constraintTop_toBottomOf="@id/tv_markerName" />
+
+    <TextView
+        android:id="@+id/tv_markerDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="20dp"
+        android:elevation="20dp"
+        android:fontFamily="@font/pretendard_regular"
+        android:text="@string/mountain_description"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@id/markerInfo"
+        app:layout_constraintStart_toStartOf="@id/markerInfo"
+        app:layout_constraintTop_toBottomOf="@id/tv_markerHeight" />
+
+    <ImageView
+        android:id="@+id/iv_infoClose"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="9dp"
+        android:background="@drawable/map_search_edge"
+        android:elevation="10dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_map_info_close"
+        app:layout_constraintEnd_toEndOf="@id/markerInfo"
+        app:layout_constraintTop_toTopOf="@id/markerInfo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

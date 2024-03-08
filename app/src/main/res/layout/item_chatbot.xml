@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/offroader_background"
+    android:clipToPadding="false"
+    android:paddingTop="2dp"
+    android:paddingBottom="7dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ll_chat_ai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:backgroundTint="@color/offroader_bubble"
+        android:outlineSpotShadowColor="@color/offroader_green"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_chat_ai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="390dp"
+            android:padding="10dp"
+            android:text="@string/item_chatbot_text_ai"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ll_chat_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/offroader_green"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_chat_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="390dp"
+            android:padding="10dp"
+            android:text="@string/item_chatbot_text_user"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--
+
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/offroader_background"
+        android:paddingVertical="5dp">
+
+        <LinearLayout
+            android:id="@+id/ll_chat_ai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/offroader_bubble"
+            android:layout_marginEnd="80dp"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv_chat_ai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="@string/item_chatbot_text_ai"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_chat_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/offroader_green"
+            android:layout_marginStart="80dp"
+            android:layout_alignParentEnd="true"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv_chat_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="@string/item_chatbot_text_user"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    -->

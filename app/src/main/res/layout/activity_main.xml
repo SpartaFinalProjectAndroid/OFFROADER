@@ -11,27 +11,48 @@
     <FrameLayout
         android:id="@+id/fl_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/nav_main"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="80dp"/>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/ll_bottom_play"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_main"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?android:attr/windowBackground"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:itemBackground="@color/transparent"
+        app:itemIconTint="@color/nav_item_color"
+        android:paddingHorizontal="5dp"
+        app:itemPaddingBottom="12dp"
+        app:itemActiveIndicatorStyle="@color/transparent"
+        app:itemRippleColor="@color/transparent"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu">
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha="0.6"
+            android:layout_marginTop="1dp"
+            android:layout_gravity="top"
+            app:dividerColor="@color/offroader_description"/>
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
 
     <!--    여기서 부터는 라디오 관련 설정들 입니다.-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_radio_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F7F6F2"
+        android:background="@color/offroader_background"
         tools:layout_editor_absoluteY="567dp" />
-
+    <androidx.media3.ui.PlayerView
+        android:id="@+id/view_test"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:surface_type="surface_view"/>
     <TextView
         android:id="@+id/tv_radio_title"
         android:layout_width="wrap_content"
@@ -39,42 +60,65 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="라디오"
-        android:textColor="#345948"
+        android:textColor="@color/offroader_green"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:fontFamily="@font/bm_hanna_11yrs_old"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/ll_bottom_play"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:background="@color/white"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@id/nav_main">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="10dp">
 
             <ImageView
                 android:id="@+id/iv_radio_profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@color/black" />
+                android:src="@color/offroader_red" />
         </androidx.cardview.widget.CardView>
 
         <TextView
+            android:id="@+id/tv_bottom_radio_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
-            android:text="KBS 1라디오"
-            android:textSize="20sp" />
+            android:text="@string/kbs_channel_name_1radio"
+            android:textSize="16sp"
+            android:textColor="@color/offroader_title"
+            android:fontFamily="@font/pretendard_regular"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:id="@+id/ll_radio_play_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_radio_play_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_play" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -82,33 +126,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:background="@color/background"
+        android:background="@color/offroader_background"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_favorites"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            app:cardCornerRadius="5dp">
+            android:background="@color/offroader_background"
+            app:cardCornerRadius="10dp">
 
             <ImageView
                 android:id="@+id/iv_favorites"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="#F41E1E" />
+                android:src="@drawable/ic_favorite" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_kbs"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            app:cardCornerRadius="5dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintStart_toEndOf="@id/cv_favorites">
 
             <ImageView
@@ -120,11 +165,11 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_sbs"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            app:cardCornerRadius="5dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintStart_toEndOf="@id/cv_kbs">
 
             <ImageView
@@ -136,11 +181,11 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_mbc"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            app:cardCornerRadius="5dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintStart_toEndOf="@id/cv_sbs">
 
             <ImageView
@@ -154,8 +199,9 @@
     <View
         android:id="@+id/v_line"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="#C5C5C5"
+        android:layout_marginTop="-1dp"
         app:layout_constraintTop_toBottomOf="@id/ll_radio_channels" />
 
     <View
@@ -172,5 +218,5 @@
         android:layout_marginTop="20dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="@id/ll_bottom_play"
-        app:layout_constraintTop_toBottomOf="@id/v_line2" />
+        app:layout_constraintTop_toBottomOf="@id/v_line2"/>
 </androidx.constraintlayout.motion.widget.MotionLayout>

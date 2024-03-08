@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/black">
+    <item android:id="@android:id/mask">
+        <!-- ripple 영역 지정을 위한 shape, 색상은 상관없음 상위의 ripple 색상으로 설정됨 -->
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <corners android:radius="10dp" />
+        </shape>
+    </item>
+</ripple>
