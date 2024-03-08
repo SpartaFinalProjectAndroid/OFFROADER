@@ -76,7 +76,7 @@ class SanListAdapter(private val viewModel: SanListViewModel) :
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SanDTO>() {
             override fun areItemsTheSame(oldItem: SanDTO, newItem: SanDTO): Boolean {
                 Log.d(TAG, "^^Items theSame?")
-                return oldItem == newItem
+                return oldItem.sanName == newItem.sanName
             }
 
             override fun areContentsTheSame(oldItem: SanDTO, newItem: SanDTO): Boolean {
