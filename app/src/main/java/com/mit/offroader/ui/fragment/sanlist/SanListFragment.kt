@@ -57,7 +57,6 @@ class SanListFragment : Fragment() {
     }
 
 
-
     private fun setInitiallySelectedItem() {
         sanListViewModel.setInitiallySelectedItem()
     }
@@ -92,17 +91,55 @@ class SanListFragment : Fragment() {
 
         Glide.with(this).load(selectedItem.sanImage?.get(0)).into(binding.ivSelectedImage)
 
-        val height = "${selectedItem.sanHeight?.div(1000)},${selectedItem.sanHeight?.rem(1000)}m"
-        val timeTaken =
-            "${selectedItem.sanTimeTotal?.div(60)}h ${selectedItem.sanTimeTotal?.rem(60)}min"
-        val difficulty = when (selectedItem.sanDifficulty?.toInt()) {
+        val height = getHeightToString(selectedItem.sanHeight?.toInt())
+        val timeTaken = getTimeTakenToString(selectedItem)
+        val difficulty = getDifficultyToString(selectedItem)
+        val divider = getString(SanListString.DIVIDER.string)
+
+        binding.tvSanName.text = selectedItem.sanName
+        binding.tvSanInfo.text = "$height $divider $timeTaken $divider $difficulty"
+    }
+
+    private fun getDifficultyToString(selectedItem: SanDTO): String {
+        return when (selectedItem.sanDifficulty?.toInt()) {
             1 -> getString(SanListString.EASY.string)
             2 -> getString(SanListString.INTERMEDIATE.string)
             else -> getString(SanListString.HARD.string)
         }
-        val divider = getString(SanListString.DIVIDER.string)
-        binding.tvSanName.text = selectedItem.sanName
-        binding.tvSanInfo.text = "$height $divider $timeTaken $divider $difficulty"
+    }
+
+    private fun getTimeTakenToString(selectedItem: SanDTO): String {
+        return if (selectedItem.sanTimeTotal?.rem(60)?.toInt() == 0) {
+            "${selectedItem.sanTimeTotal?.div(60)}h"
+        } else {
+            "${selectedItem.sanTimeTotal?.div(60)}h ${selectedItem.sanTimeTotal?.rem(60)}min"
+        }
+    }
+
+    private fun getHeightToString(selectedItem: Int?): String {
+        return if (selectedItem?.div(1000) == 0) {
+            "${selectedItem}m"
+        } else {
+
+            if (selectedItem?.rem(1000)?.div(100) == 0) {
+
+                if (selectedItem.rem(100).div(10)== 0) {
+
+                    if (selectedItem.rem(10) == 0) {
+                        "${selectedItem.div(1000)},000m"
+                    } else {
+                        "${selectedItem.div(1000)},00${selectedItem.rem(1000)}m"
+                    }
+
+                } else {
+                    "${selectedItem.div(1000)},0${selectedItem.rem(1000)}m"
+                }
+
+            } else {
+                "${selectedItem?.div(1000)},${selectedItem?.rem(1000)}m"
+            }
+
+        }
     }
 
     private fun setRecyclerViewGridLayout() {
@@ -116,11 +153,11 @@ class SanListFragment : Fragment() {
 
         // 디테일 액티비티로 넘어감.
         binding.ivSelectedImage.setOnClickListener {
-            Log.d(TAG,"Selected Image $sanName")
+            Log.d(TAG, "Selected Image $sanName")
             val intent = Intent(requireActivity(), SanDetailActivity::class.java)
 
             if (sanName == null) {
-                intent.putExtra("name","계룡산")
+                intent.putExtra("name", "계룡산")
             } else {
                 intent.putExtra("name", sanName)
             }
