@@ -259,17 +259,14 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                     binding.tvMarkerHeight.text = NumberFormat.getInstance(Locale.getDefault()).format(markerDTOs[idx].height)+"m"
                                     binding.tvMarkerDescription.text = markerDTOs[idx].description
                                     binding.markerInfo.visibility = View.VISIBLE
-//                                    binding.ivInfoClose.visibility = View.VISIBLE
                                 } else if (binding.markerInfo.visibility == View.VISIBLE) {
                                     binding.markerInfo.visibility = View.GONE
-//                                    binding.ivInfoClose.visibility = View.GONE
                                 }
                                 false
                             }
                             binding.ivInfoClose.setOnClickListener {
                                 if (binding.markerInfo.visibility == View.VISIBLE) {
                                     binding.markerInfo.visibility = View.GONE
-//                                    binding.ivInfoClose.visibility = View.GONE
                                 }
                             }
                             markers[idx]!!.map = naverMap
