@@ -1,5 +1,6 @@
 package com.mit.offroader.ui.activity.sandetail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -86,124 +87,130 @@ class SanDetailActivity : AppCompatActivity() {
                             document.getBoolean("isLiked") ?: false
                         )
 
-                        with(binding) {
-                            tvMountain.text = sanlist.mountain
-                            tvAddress.text = sanlist.address
-
-                            val dec = DecimalFormat("#,###")
-                            val height = sanlist.height
-                            tvHeightInfo.text = "${dec.format(height)}m"
-                            tvIntroInfo.text = sanlist.summary
-                            tvRecommendInfo.text = sanlist.recommend
-
-                            // 자세히 보기 클릭 시 텍스트 전부 출력
-                            tvIntroInfo.post {
-                                val lineCount = tvIntroInfo.layout.lineCount
-                                if (lineCount > 0) {
-                                    if (tvIntroInfo.layout.getEllipsisCount(lineCount - 1) > 0) {
-                                        tvIntroPlus.visibility = View.VISIBLE
-
-                                        tvIntroPlus.setOnClickListener {
-                                            tvIntroInfo.maxLines = Int.MAX_VALUE
-                                            tvIntroPlus.visibility = View.GONE
-                                            tvIntroShort.visibility = View.VISIBLE
-                                        }
-
-                                        tvIntroShort.setOnClickListener {
-                                            tvIntroInfo.maxLines = 5
-                                            tvIntroPlus.visibility = View.VISIBLE
-                                            tvIntroShort.visibility = View.GONE
-                                        }
-                                    }
-                                }
-                            }
-
-                            tvRecommendInfo.post {
-                                val lineCount = tvRecommendInfo.layout.lineCount
-                                if (lineCount > 0) {
-                                    if (tvRecommendInfo.layout.getEllipsisCount(lineCount - 1) > 0) {
-                                        tvRecommendPlus.visibility = View.VISIBLE
-
-                                        tvRecommendPlus.setOnClickListener {
-                                            tvRecommendInfo.maxLines = Int.MAX_VALUE
-                                            tvRecommendPlus.visibility = View.GONE
-                                            tvRecommendShort.visibility = View.VISIBLE
-                                        }
-
-                                        tvRecommendShort.setOnClickListener {
-                                            tvRecommendInfo.maxLines = 5
-                                            tvRecommendPlus.visibility = View.VISIBLE
-                                            tvRecommendShort.visibility = View.GONE
-                                        }
-                                    }
-                                }
-                            }
-
-                            // 숫자에 따라 난이도 부여 & 색상 부여
-                            val difficulty = sanlist.difficulty
-                            tvDifficultyInfo.text = when (difficulty) {
-                                1L -> "하"
-                                2L -> "중"
-                                else -> "상"
-                            }
-
-                            when (tvDifficultyInfo.text) {
-                                "하" -> tvDifficultyInfo.setTextColor(
-                                    ContextCompat.getColor(
-                                        applicationContext,
-                                        R.color.offroader_blue
-                                    )
-                                )
-
-                                "중" -> tvDifficultyInfo.setTextColor(
-                                    ContextCompat.getColor(
-                                        applicationContext,
-                                        R.color.offroader_orange
-                                    )
-                                )
-
-                                else -> tvDifficultyInfo.setTextColor(
-                                    ContextCompat.getColor(
-                                        applicationContext,
-                                        R.color.offroader_red
-                                    )
-                                )
-                            }
-
-                            //상행시간, 하행시간, 총 등산시간
-                            val uphilltime = sanlist.uphilltime
-                            val downhilltime = sanlist.downhilltime
-                            if (uphilltime % 60 == 0L) {
-                                tvUptimeInfo.text =
-                                    "${uphilltime / 60}시간"
-                            } else {
-                                tvUptimeInfo.text =
-                                    "${uphilltime / 60}시간 ${uphilltime % 60}분"
-                            }
-                            if (downhilltime % 60 == 0L) {
-                                tvDowntimeInfo.text =
-                                    "${downhilltime / 60}시간"
-                            } else {
-                                tvDowntimeInfo.text =
-                                    "${downhilltime / 60}시간 ${downhilltime % 60}분"
-                            }
-                            if ((uphilltime + downhilltime) % 60 == 0L) {
-                                tvTimeInfo.text =
-                                    "${(uphilltime + downhilltime) / 60}시간"
-                            } else {
-                                tvTimeInfo.text =
-                                    "${(uphilltime + downhilltime) / 60}시간 ${(uphilltime + downhilltime) % 60}분"
-                            }
-
-
-                        }
-
-
+                        //데이터를 view에 전달
+                        initView(sanlist)
                     }
                 }
 
             }
     }
+
+    @SuppressLint("SetTextI18n")
+    private fun initView(sanlist: SanDetailUiState) {
+        with(binding) {
+            tvMountain.text = sanlist.mountain
+            tvAddress.text = sanlist.address
+
+            val dec = DecimalFormat("#,###")
+            val height = sanlist.height
+            tvHeightInfo.text = "${dec.format(height)}m"
+            tvIntroInfo.text = sanlist.summary
+            tvRecommendInfo.text = sanlist.recommend
+
+            // 자세히 보기 클릭 시 텍스트 전부 출력
+            tvIntroInfo.post {
+                val lineCount = tvIntroInfo.layout.lineCount
+                if (lineCount > 0) {
+                    if (tvIntroInfo.layout.getEllipsisCount(lineCount - 1) > 0) {
+                        tvIntroPlus.visibility = View.VISIBLE
+
+                        tvIntroPlus.setOnClickListener {
+                            tvIntroInfo.maxLines = Int.MAX_VALUE
+                            tvIntroPlus.visibility = View.GONE
+                            tvIntroShort.visibility = View.VISIBLE
+                        }
+
+                        tvIntroShort.setOnClickListener {
+                            tvIntroInfo.maxLines = 5
+                            tvIntroPlus.visibility = View.VISIBLE
+                            tvIntroShort.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+
+            tvRecommendInfo.post {
+                val lineCount = tvRecommendInfo.layout.lineCount
+                if (lineCount > 0) {
+                    if (tvRecommendInfo.layout.getEllipsisCount(lineCount - 1) > 0) {
+                        tvRecommendPlus.visibility = View.VISIBLE
+
+                        tvRecommendPlus.setOnClickListener {
+                            tvRecommendInfo.maxLines = Int.MAX_VALUE
+                            tvRecommendPlus.visibility = View.GONE
+                            tvRecommendShort.visibility = View.VISIBLE
+                        }
+
+                        tvRecommendShort.setOnClickListener {
+                            tvRecommendInfo.maxLines = 5
+                            tvRecommendPlus.visibility = View.VISIBLE
+                            tvRecommendShort.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+
+            // 숫자에 따라 난이도 부여 & 색상 부여
+            val difficulty = sanlist.difficulty
+            tvDifficultyInfo.text = when (difficulty) {
+                1L -> "하"
+                2L -> "중"
+                else -> "상"
+            }
+
+            when (tvDifficultyInfo.text) {
+                "하" -> tvDifficultyInfo.setTextColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.offroader_blue
+                    )
+                )
+
+                "중" -> tvDifficultyInfo.setTextColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.offroader_orange
+                    )
+                )
+
+                else -> tvDifficultyInfo.setTextColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.offroader_red
+                    )
+                )
+            }
+
+            //상행시간, 하행시간, 총 등산시간
+            val uphilltime = sanlist.uphilltime
+            val downhilltime = sanlist.downhilltime
+            if (uphilltime % 60 == 0L) {
+                tvUptimeInfo.text =
+                    "${uphilltime / 60}시간"
+            } else {
+                tvUptimeInfo.text =
+                    "${uphilltime / 60}시간 ${uphilltime % 60}분"
+            }
+            if (downhilltime % 60 == 0L) {
+                tvDowntimeInfo.text =
+                    "${downhilltime / 60}시간"
+            } else {
+                tvDowntimeInfo.text =
+                    "${downhilltime / 60}시간 ${downhilltime % 60}분"
+            }
+            if ((uphilltime + downhilltime) % 60 == 0L) {
+                tvTimeInfo.text =
+                    "${(uphilltime + downhilltime) / 60}시간"
+            } else {
+                tvTimeInfo.text =
+                    "${(uphilltime + downhilltime) / 60}시간 ${(uphilltime + downhilltime) % 60}분"
+            }
+
+
+        }
+    }
+
+
 
     // 자동 스크롤되는 ViewPager2 이미지
     private fun initImage() {
