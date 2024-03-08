@@ -4,116 +4,126 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:fitsSystemWindows="true"
     tools:context=".ui.activity.sandetail.SanDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@color/white">
+        android:background="@color/transparent"
+        android:backgroundTint="@color/transparent"
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="500dp"
+            app:contentScrim="@color/transparent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_mountain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="35dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_adapter_mountain" />
 
             <ImageView
                 android:id="@+id/iv_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="start"
-                android:layout_margin="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
                 android:src="@drawable/ic_back" />
 
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tb_must_be_trans"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:clickable="false"
+                android:layout_height="125dp"
                 android:layout_gravity="bottom"
                 app:layout_collapseMode="pin" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_mountain"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="-5dp"
-                android:background="@drawable/ic_rounded_background"
-                android:clipToOutline="true"
-                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/tv_mountain"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:text="@string/sandetail_name"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/iv_pin"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginBottom="10dp"
-                    android:src="@drawable/ic_pin"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_mountain" />
+                    <TextView
+                        android:id="@+id/tv_mountain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:text="@string/sandetail_name"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:hint="@string/sandetail_address"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_pin"
-                    app:layout_constraintStart_toEndOf="@id/iv_pin"
-                    app:layout_constraintTop_toTopOf="@id/iv_pin" />
+                    <ImageView
+                        android:id="@+id/iv_pin"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/ic_pin"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_mountain" />
 
-                <ImageView
-                    android:id="@+id/iv_weather"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="20dp"
-                    android:src="@drawable/ic_weather"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_bookmark"
-                    app:layout_constraintEnd_toStartOf="@id/iv_bookmark"
-                    app:layout_constraintTop_toTopOf="@id/iv_bookmark" />
+                    <TextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:hint="@string/sandetail_address"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_pin"
+                        app:layout_constraintStart_toEndOf="@id/iv_pin"
+                        app:layout_constraintTop_toTopOf="@id/iv_pin" />
 
-                <ImageView
-                    android:id="@+id/iv_bookmark"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_bookmark_off"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/iv_weather"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/ic_weather"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_bookmark"
+                        app:layout_constraintEnd_toStartOf="@id/iv_bookmark"
+                        app:layout_constraintTop_toTopOf="@id/iv_bookmark" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/iv_bookmark"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_bookmark_off"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -123,13 +133,14 @@
         android:id="@+id/sv_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="-100dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -315,7 +326,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:layout_marginTop="40dp"
-                android:background="@color/offroader_description"
+                android:background="#CECECE"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_info_box" />
@@ -461,5 +472,12 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:src="@drawable/apply_gradation_shadow_black"
+        android:rotation="180"
+        android:alpha="0.4"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

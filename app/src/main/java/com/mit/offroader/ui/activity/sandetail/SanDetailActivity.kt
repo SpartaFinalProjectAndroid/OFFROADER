@@ -45,6 +45,19 @@ class SanDetailActivity : AppCompatActivity() {
         _binding = ActivitySanDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        window.statusBarColor = ContextCompat.getColor(this, R.color.transparent)
+        //전체화면으로 설정하면 상단 parent 아이콘 배치 margin 주어야 함 안그러면 상태바 아래로 기어드감
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        //보고 필요하면 상태바 아이콘 어둡게
+        //window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
+//        binding.tbMustBeTrans.setBackgroundColor(Color.TRANSPARENT)
+//        binding.appbar.setBackgroundColor(Color.TRANSPARENT)
+//        binding.collapsingToolbar.setBackgroundColor(Color.TRANSPARENT)
+//        binding.collapsingToolbar.setContentScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
+//        tb.alpha = 0f
+
+
         val sanName = intent.getStringExtra("name") ?: ""
         Log.d(TAG, "산이름 : ${sanName}")
 

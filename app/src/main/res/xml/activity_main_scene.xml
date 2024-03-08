@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="parent"
+            android:visibility="gone" />
         <Constraint
             android:id="@+id/fl_main"
             android:layout_width="match_parent"
@@ -38,32 +39,38 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             app:layout_constraintBottom_toBottomOf="@id/ll_bottom_play"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:visibility="gone" />
         <Constraint
             android:id="@+id/ll_radio_channels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/fl_main" />
+            app:layout_constraintBottom_toTopOf="@+id/fl_main"
+            android:visibility="gone" />
         <Constraint
             android:id="@+id/v_line"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            app:layout_constraintBottom_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="parent"
+            android:visibility="gone" />
         <Constraint
             android:id="@+id/rv_channel_list"
             android:layout_width="match_parent"
             android:layout_height="-1dp"
-            app:layout_constraintBottom_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="parent"
+            android:visibility="gone" />
         <Constraint
             android:id="@+id/v_line2"
             android:layout_width="match_parent"
             android:layout_height="-1dp"
-            app:layout_constraintBottom_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="parent"
+            android:visibility="gone" />
         <Constraint
             android:id="@+id/view_test"
             android:layout_width="1dp"
             android:layout_height="1dp"
-            app:layout_constraintBottom_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="parent"
+            android:visibility="invisible" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
