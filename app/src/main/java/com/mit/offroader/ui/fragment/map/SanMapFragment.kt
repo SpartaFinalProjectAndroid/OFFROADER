@@ -194,51 +194,53 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                             markers[idx]!!.captionText = markerDTOs[idx].name!!
                             markers[idx]!!.icon =
                                 OverlayImage.fromResource(R.drawable.ic_marker)
-                            markers[idx]!!.width = resources.getDimensionPixelSize(R.dimen.marker_size_3)
-                            markers[idx]!!.height = resources.getDimensionPixelSize(R.dimen.marker_size_3)
+                            markers[idx]!!.width =
+                                resources.getDimensionPixelSize(R.dimen.marker_size_3)
+                            markers[idx]!!.height =
+                                resources.getDimensionPixelSize(R.dimen.marker_size_3)
                             //카메라 변화 감지하여 줌 레벨에 따라 마커의 크기 변경
                             naverMap.addOnCameraChangeListener { _, _ ->
-                                if (naverMap.cameraPosition.zoom >= 10.0 && naverMap.cameraPosition.zoom <11.0) {
+                                if (naverMap.cameraPosition.zoom >= 10.0 && naverMap.cameraPosition.zoom < 11.0) {
                                     markers[idx]!!.width =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_1)
                                     markers[idx]!!.height =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_1)
-                                } else if (naverMap.cameraPosition.zoom >= 11.0 && naverMap.cameraPosition.zoom <12.0) {
+                                } else if (naverMap.cameraPosition.zoom >= 11.0 && naverMap.cameraPosition.zoom < 12.0) {
                                     markers[idx]!!.width =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_2)
                                     markers[idx]!!.height =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_2)
-                                } else if (naverMap.cameraPosition.zoom >= 12.0 && naverMap.cameraPosition.zoom <13.0) {
+                                } else if (naverMap.cameraPosition.zoom >= 12.0 && naverMap.cameraPosition.zoom < 13.0) {
                                     markers[idx]!!.width =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_3)
                                     markers[idx]!!.height =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_3)
-                                } else if (naverMap.cameraPosition.zoom >= 13.0 && naverMap.cameraPosition.zoom <14.0) {
+                                } else if (naverMap.cameraPosition.zoom >= 13.0 && naverMap.cameraPosition.zoom < 14.0) {
                                     markers[idx]!!.width =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_4)
                                     markers[idx]!!.height =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_4)
-                                } else if (naverMap.cameraPosition.zoom >= 14.0 && naverMap.cameraPosition.zoom <15.0) {
+                                } else if (naverMap.cameraPosition.zoom >= 14.0 && naverMap.cameraPosition.zoom < 15.0) {
                                     markers[idx]!!.width =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_5)
                                     markers[idx]!!.height =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_5)
-                                } else if (naverMap.cameraPosition.zoom >= 15.0 && naverMap.cameraPosition.zoom <16.0) {
+                                } else if (naverMap.cameraPosition.zoom >= 15.0 && naverMap.cameraPosition.zoom < 16.0) {
                                     markers[idx]!!.width =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_6)
                                     markers[idx]!!.height =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_6)
-                                } else if (naverMap.cameraPosition.zoom >= 16.0 && naverMap.cameraPosition.zoom <17.0) {
+                                } else if (naverMap.cameraPosition.zoom >= 16.0 && naverMap.cameraPosition.zoom < 17.0) {
                                     markers[idx]!!.width =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_7)
                                     markers[idx]!!.height =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_7)
-                                } else if (naverMap.cameraPosition.zoom >= 17.0 && naverMap.cameraPosition.zoom <18.0) {
+                                } else if (naverMap.cameraPosition.zoom >= 17.0 && naverMap.cameraPosition.zoom < 18.0) {
                                     markers[idx]!!.width =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_8)
                                     markers[idx]!!.height =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_8)
-                                } else if (naverMap.cameraPosition.zoom >= 18.0 && naverMap.cameraPosition.zoom <19.0) {
+                                } else if (naverMap.cameraPosition.zoom >= 18.0 && naverMap.cameraPosition.zoom < 19.0) {
                                     markers[idx]!!.width =
                                         resources.getDimensionPixelSize(R.dimen.marker_size_9)
                                     markers[idx]!!.height =
@@ -254,13 +256,14 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                             markers[idx]!!.captionColor = Color.WHITE
                             markers[idx]!!.captionHaloColor = Color.rgb(0, 0, 0)
                             markers[idx]!!.captionTextSize = 16f
-                            Log.d("", "onMapReady: ${markerDTOs[idx].image}")
                             //마커 클릭 시 정보창 visibility 유무
-                            markers[idx]!!.setOnClickListener {
-                                with(binding) {
+                            with(binding) {
+                                markers[idx]!!.setOnClickListener {
                                     if (markerInfo.visibility == View.GONE) {
                                         tvMarkerName.text = markerDTOs[idx].name
-                                        tvMarkerHeight.text = NumberFormat.getInstance(Locale.getDefault()).format(markerDTOs[idx].height)+"m"
+                                        tvMarkerHeight.text =
+                                            NumberFormat.getInstance(Locale.getDefault())
+                                                .format(markerDTOs[idx].height) + "m"
                                         tvMarkerDescription.text = markerDTOs[idx].description
                                         Glide.with(requireContext())
                                             .asDrawable()
@@ -275,9 +278,6 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                     }
                                     false
                                 }
-
-                            }
-                            with(binding) {
                                 ivInfoClose.setOnClickListener {
                                     if (markerInfo.visibility == View.VISIBLE) {
                                         markerInfo.visibility = View.GONE
@@ -318,7 +318,6 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                         }
                     }
                 }
-
             }
     }
     // 키보드 내림처리
@@ -334,7 +333,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    fun roundLeft(iv: ImageView, curveRadius : Float)  : ImageView {
+    fun roundLeft(iv: ImageView, curveRadius: Float): ImageView {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -342,7 +341,13 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
 
                 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
                 override fun getOutline(view: View?, outline: Outline?) {
-                    outline?.setRoundRect(0, 0, (view!!.width+curveRadius).toInt(), (view.height).toInt(), curveRadius)
+                    outline?.setRoundRect(
+                        0,
+                        0,
+                        (view!!.width + curveRadius).toInt(),
+                        (view.height).toInt(),
+                        curveRadius
+                    )
                 }
             }
 
@@ -395,9 +400,5 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     override fun onLowMemory() {
         super.onLowMemory()
         mapView.onLowMemory()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
     }
 }
