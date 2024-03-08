@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -43,7 +45,6 @@ class SanListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.rvSanList.adapter = sanListAdapter
-
         initView()
         initObserve()
     }
@@ -52,6 +53,29 @@ class SanListFragment : Fragment() {
         setRecyclerViewGridLayout()
 
         setInitiallySelectedItem()
+
+        // 카테고리 리스트 스피너 처리
+        setCategorySpinner()
+    }
+
+    private fun setCategorySpinner() = with(binding.spCategory) {
+        adapter = ArrayAdapter(
+            requireActivity(),
+            android.R.layout.simple_spinner_dropdown_item,
+            listOf(
+                "가나다순"
+            )
+        )
+
+        onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+        }
 
 
     }
@@ -69,11 +93,18 @@ class SanListFragment : Fragment() {
             Log.d(TAG, "sanListUiState OBSERVED ${it?.selectedItem}")
             if (it?.selectedItem == null) {
 
-                sanListViewModel.getSelectedItem(null)      // 선택된 아이템의 테두리를 추가해주기 위해서 산 디티오의 selectedItem의 값을 확인해주는 함수
-                clickListener(binding.tvSanName.text.toString())        // 텍스트 클릭 시 디테일 액티비티로 넘어갈 수 있도록 구현
+                // 선택된 아이템의 테두리를 추가해주기 위해서 산 디티오의 selectedItem의 값을 확인해주는 함수
+                sanListViewModel.getSelectedItem(null)
+
+                // 텍스트 클릭 시 디테일 액티비티로 넘어갈 수 있도록 구현
+                clickListener(binding.tvSanName.text.toString())
+
             } else {
+
                 it.selectedItem?.let { it1 -> setSelectedSan(it1) }
-                sanListViewModel.updateSelectedItemOnDTO(it.selectedItem!!)  // 산 디티오 옵져빙 후 업데이트 시켜주기
+
+                // 산 디티오 옵져빙 후 업데이트 시켜주기
+                sanListViewModel.updateSelectedItemOnDTO(it.selectedItem!!)
                 clickListener(it.selectedItem?.sanName)
             }
         }
@@ -169,6 +200,6 @@ class SanListFragment : Fragment() {
             startActivity(intent)
 
         }
-        binding.chipCategory
+
     }
 }
