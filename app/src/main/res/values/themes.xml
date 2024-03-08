@@ -7,6 +7,10 @@
         <!-- 기본 폰트를 pretendard_regular 지정 -->
         <item name="android:fontFamily">@font/pretendard_regular</item>
 
+        <item name="colorPrimaryDark">@color/offroader_background</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+
     </style>
 
 
