@@ -77,5 +77,6 @@
     <string name="sandetail_recommend_short">축소하기 ▲</string>
     <string name="san_list_mountain_info">1,947 m | 2h 40m | 상</string>
     <string name="san_list_chip_alphabetical_order">가나다순</string>
+    <string name="mountain_height_text">고도 :</string>
 
 </resources>
