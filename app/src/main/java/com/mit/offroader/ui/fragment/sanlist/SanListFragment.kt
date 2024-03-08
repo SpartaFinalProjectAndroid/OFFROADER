@@ -100,6 +100,7 @@ class SanListFragment : Fragment() {
         binding.tvSanInfo.text = "$height $divider $timeTaken $divider $difficulty"
     }
 
+    // 상중하 문자열로 변환하는 로직
     private fun getDifficultyToString(selectedItem: SanDTO): String {
         return when (selectedItem.sanDifficulty?.toInt()) {
             1 -> getString(SanListString.EASY.string)
@@ -108,14 +109,16 @@ class SanListFragment : Fragment() {
         }
     }
 
+    // 걸린 시간 문자열로 변환하는 로직
     private fun getTimeTakenToString(selectedItem: SanDTO): String {
         return if (selectedItem.sanTimeTotal?.rem(60)?.toInt() == 0) {
-            "${selectedItem.sanTimeTotal?.div(60)}h"
+            "${selectedItem.sanTimeTotal.div(60)}h"
         } else {
             "${selectedItem.sanTimeTotal?.div(60)}h ${selectedItem.sanTimeTotal?.rem(60)}min"
         }
     }
 
+    // 산 높이 문자열로 변환하는 로직
     private fun getHeightToString(selectedItem: Int?): String {
         return if (selectedItem?.div(1000) == 0) {
             "${selectedItem}m"
@@ -142,6 +145,7 @@ class SanListFragment : Fragment() {
         }
     }
 
+    // 리사이클러뷰 그리드 레이아웃으로 설정하는 코드
     private fun setRecyclerViewGridLayout() {
         Log.d(TAG, "setRecyclerViewGridLayout")
         val gridLayoutManager = GridLayoutManager(requireContext(), 4)
@@ -149,6 +153,7 @@ class SanListFragment : Fragment() {
     }
 
 
+    // 리스너 콜백 함수들 모아놓은 함수
     private fun clickListener(sanName: String?) {
 
         // 디테일 액티비티로 넘어감.
