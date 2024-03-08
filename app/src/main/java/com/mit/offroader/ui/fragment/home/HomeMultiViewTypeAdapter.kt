@@ -249,12 +249,16 @@ class HomeMultiViewTypeAdapter(private val context: Context, private val mList :
 
                 val displayMetrics = DisplayMetrics()
                 dialog.window?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
-                val maxHeight = (displayMetrics.heightPixels - 100).toInt() //배율 사용시 Double -> toInt 필요
-                val maxWidth = (displayMetrics.widthPixels - 100).toInt() //배율 사용시 Double -> toInt 필요
+                val maxHeight = (displayMetrics.heightPixels).toInt() //배율 사용시 Double -> toInt 필요
+                val maxWidth = (displayMetrics.widthPixels).toInt() //배율 사용시 Double -> toInt 필요
 
                 dialog.show()
-                dialog.window?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.apply_corner_radius_20))
+                dialog.window?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.apply_dialog_full_size))
                 dialog.window?.setLayout(maxWidth, maxHeight)
+
+//                dialog.window?.statusBarColor = ContextCompat.getColor(context, R.color.white)
+                //전체화면으로 설정하면 상단 parent 아이콘 배치 margin 주어야 함 안그러면 상태바 아래로 기어드감
+//                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 
                 //다이얼로그 크기를 고정했기 때문에 ScrollView 안의 ConstraintLayout의 최소 높이를 강제해야 함, 딱 맞추기 위해 - margin 해줌
                 val dialogCl = dialogView.findViewById<ConstraintLayout>(R.id.cl_dialog)

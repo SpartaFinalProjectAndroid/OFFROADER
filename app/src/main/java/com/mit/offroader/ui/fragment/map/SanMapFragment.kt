@@ -264,6 +264,11 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                 }
                                 false
                             }
+                            binding.ivInfoClose.setOnClickListener {
+                                if (binding.markerInfo.visibility == View.VISIBLE) {
+                                    binding.markerInfo.visibility = View.GONE
+                                }
+                            }
                             markers[idx]!!.map = naverMap
                         }
                     }
@@ -277,7 +282,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                 if (binding.etInputLocation.text.toString() == markerDTOs[idx].name) {
                                     val cameraUpdate = CameraUpdate.scrollAndZoomTo(
                                         LatLng(markerDTOs[idx].lat!!, markerDTOs[idx].lng!!), 15.0
-                                    )
+                                    ).animate(CameraAnimation.Fly, 1500)
                                     naverMap.moveCamera(cameraUpdate)
                                 }
                             }
@@ -291,7 +296,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                         if (binding.etInputLocation.text.toString() == markerDTOs[idx].name) {
                             val cameraUpdate = CameraUpdate.scrollAndZoomTo(
                                 LatLng(markerDTOs[idx].lat!!, markerDTOs[idx].lng!!), 17.0
-                            ).animate(CameraAnimation.Fly, 1000)
+                            ).animate(CameraAnimation.Fly, 1500)
                             naverMap.moveCamera(cameraUpdate)
                         }
                     }
@@ -310,6 +315,8 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             )
         }
     }
+
+
 
     // 현재 위치 기능 지도에 추가
     private fun setUpMap() {
