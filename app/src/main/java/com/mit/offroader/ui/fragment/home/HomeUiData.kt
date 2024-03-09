@@ -3,8 +3,13 @@ package com.mit.offroader.ui.fragment.home
 sealed class HomeUiData {
 
     data object First : HomeUiData()
-    data object Second : HomeUiData()
+
+    data class Second(
+        var rvItems : ArrayList<HomeUiState>
+    ): HomeUiData()
+
     data object Third : HomeUiData()
+
     data class Fourth(
         var image: String?,
         var title: String?,
@@ -22,11 +27,11 @@ sealed class HomeUiData {
     data class Fourth(val contentModel: ContentModel) : HomeUiData()
 
     data class ContentModel(
-        var image: String = "",
-        var title: String = "",
-        var des: String = "",
-        var date: String = ""
+    var image: String = "",
+    var title: String = "",
+    var des: String = "",
+    var date: String = ""
     )
-    */
+     */
 
 }
