@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mit.offroader.R
 import com.mit.offroader.databinding.ItemRadioChannelListBinding
 import com.mit.offroader.ui.activity.main.MainViewModel
+import kotlin.concurrent.thread
 
 class RadioListAdapter(private val mainViewModel: MainViewModel)
     : ListAdapter<RadioChannelItem, RadioListAdapter.Holder>(differCallback) {

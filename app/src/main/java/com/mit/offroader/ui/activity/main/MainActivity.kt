@@ -1,13 +1,17 @@
 package com.mit.offroader.ui.activity.main
 
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.annotation.DrawableRes
 import androidx.annotation.OptIn
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.LifecycleOwner
@@ -19,7 +23,11 @@ import androidx.media3.exoplayer.rtsp.RtspMediaSource
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.session.MediaSession
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.annotations.concurrent.Blocking
 import com.mit.offroader.R
 import com.mit.offroader.databinding.ActivityMainBinding
 import com.mit.offroader.ui.activity.main.adapters.RadioListAdapter
@@ -34,9 +42,15 @@ import com.google.gson.reflect.TypeToken
 import com.mit.offroader.data.RadioChannelURL
 import com.mit.offroader.data.RetrofitInstance
 import com.mit.offroader.ui.activity.main.adapters.RadioChannelItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Delay
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -49,6 +63,7 @@ import org.json.JSONTokener
 import java.io.IOException
 import java.security.Provider.Service
 import kotlin.concurrent.thread
+import kotlin.coroutines.CoroutineContext
 
 
 class MainActivity : AppCompatActivity() {
@@ -60,6 +75,9 @@ class MainActivity : AppCompatActivity() {
     private val radioListViewModel by viewModels<MainViewModel>()
     private var radioUrl : String ?= null
     private var isPlay : Boolean = false
+
+    private lateinit var rvAdapter: RadioListAdapter
+    private lateinit var rvAdapterList: MutableList<RadioChannelItem>
 
     @OptIn(UnstableApi::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -143,9 +161,9 @@ class MainActivity : AppCompatActivity() {
         firstSetting()
 
         cvFavorites.setOnClickListener { favoriteInit() }
-        cvKbs.setOnClickListener { kbsInit() }
-        cvSbs.setOnClickListener { sbsInit() }
-        cvMbc.setOnClickListener { mbcInit() }
+        cvKbs.setOnClickListener { broadcastInit(RadioChannelURL.KBS_LIST, R.drawable.ic_kbs_radio) }
+        cvSbs.setOnClickListener { broadcastInit(RadioChannelURL.SBS_LIST, R.drawable.ic_sbs_radio) }
+        cvMbc.setOnClickListener { broadcastInit(RadioChannelURL.MBC_LIST, R.drawable.ic_mbc_radio) }
 
         llRadioPlayBtn.setOnClickListener {
             if (isPlay) { radioPause() }
@@ -178,7 +196,9 @@ class MainActivity : AppCompatActivity() {
                 val whoPlay = radioListViewModel.whoPlay.value
                 if (whoPlay != key) {
                     if (RadioChannelURL.MBC_LIST.contains(key) || RadioChannelURL.SBS_LIST.contains(key)) {
-                        RadioChannelURL.RADIO_API_URL[key]?.let { httpNetWork(it) }
+                        GlobalScope.launch {
+                            //RadioChannelURL.RADIO_API_URL[key]?.let { httpNetWork(it) }
+                        }
                     } else {
                         RadioChannelURL.RADIO_API_URL[key]?.let { httpNetWork2(it) }
                     }
@@ -260,91 +280,50 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // SBS 리사이클러뷰 리스트 초기화
-    private fun sbsInit() = with(binding){
-        val adapter = RadioListAdapter(radioListViewModel)
-        rvChannelList.adapter = adapter
-        adapter.submitList(initAdapter(RadioChannelURL.SBS_LIST))
 
-        adapter.itemClick = object : RadioListAdapter.ItemClick {
-            override fun onClick(key: String, pos: Int) {
+    private fun playingMarkChange() {
+        rvAdapterList = rvAdapter.currentList.toMutableList()
+        val whoPlay = radioListViewModel.whoPlay.value.toString()
 
-                val whoPlay = radioListViewModel.whoPlay.value
-
-                if (whoPlay != key) {
-                    RadioChannelURL.SBS_LIST[key]?.let { httpNetWork(it) }
-                    Thread.sleep(500)
-                    preparePlayer()
-                    binding.tvBottomRadioTitle.text = key
-                    ivRadioProfile.setImageResource(R.drawable.ic_sbs_radio)
-
-                    val adapterList = adapter.currentList.toMutableList()
-
-                    if (adapterList.contains(RadioChannelItem(whoPlay.toString(), true))) {
-                        val where = adapterList.indexOf(RadioChannelItem(whoPlay.toString(), true))
-                        adapterList.remove(RadioChannelItem(whoPlay.toString(), true))
-                        adapterList.add(where, RadioChannelItem(whoPlay.toString()))
-                    }
-
-                    radioPlay(key)
-                    adapterList.removeAt(pos)
-                    adapterList.add(pos, RadioChannelItem(key, true))
-
-                    adapter.submitList(adapterList)
-
-                }
-            }
+        if (rvAdapterList.contains(RadioChannelItem(whoPlay, true))) {
+            val where = rvAdapterList.indexOf(RadioChannelItem(whoPlay, true))
+            rvAdapterList.remove(RadioChannelItem(whoPlay, true))
+            rvAdapterList.add(where, RadioChannelItem(whoPlay, false))
         }
-        adapter.heartClick = object : RadioListAdapter.HeartClick {
-            override fun heartClick(key: String) {
-                if (radioListViewModel.radioLikeList.value?.contains(key) == true) {
-                    radioListViewModel.removeList(key)
-                    saveData()
-                } else {
-                    radioListViewModel.addList(key)
-                    saveData()
-                }
-            }
-        }
-        rvChannelList.adapter = adapter
+
+        rvAdapter.submitList(rvAdapterList)
+
+    }
+
+    private fun playingMarkCurrent(key: String, pos: Int) {
+        rvAdapterList.removeAt(pos)
+        rvAdapterList.add(pos, RadioChannelItem(key, true))
+
+        rvAdapter.submitList(rvAdapterList)
     }
 
     // MBC 리사이클러뷰 리스트 초기화
-    private fun mbcInit() = with(binding) {
-        val adapter = RadioListAdapter(radioListViewModel)
-        rvChannelList.adapter = adapter
-        adapter.submitList(initAdapter(RadioChannelURL.MBC_LIST))
+    private fun broadcastInit(urlList: Map<String, String>, radioIcon: Int) = with(binding) {
+        rvAdapter = RadioListAdapter(radioListViewModel)
+        rvChannelList.adapter = rvAdapter
+        rvAdapter.submitList(initAdapter(urlList))
 
-        adapter.itemClick = object : RadioListAdapter.ItemClick {
-            override fun onClick(key : String, pos: Int) {
+        rvAdapter.itemClick = object : RadioListAdapter.ItemClick {
+            override fun onClick(key : String, pos: Int)  {
 
                 val whoPlay = radioListViewModel.whoPlay.value
-
                 if (whoPlay != key) {
-                    RadioChannelURL.MBC_LIST[key]?.let { httpNetWork(it) }
-                    Thread.sleep(300)
-                    preparePlayer()
-                    binding.tvBottomRadioTitle.text = key
-                    ivRadioProfile.setImageResource(R.drawable.ic_mbc_radio)
-
-                    val adapterList = adapter.currentList.toMutableList()
-
-                    if (adapterList.contains(RadioChannelItem(whoPlay.toString(), true))) {
-                        val where = adapterList.indexOf(RadioChannelItem(whoPlay.toString(), true))
-                        adapterList.remove(RadioChannelItem(whoPlay.toString(), true))
-                        adapterList.add(where, RadioChannelItem(whoPlay.toString()))
+                    when(urlList) {
+                        RadioChannelURL.KBS_LIST -> {
+                            
+                        }
                     }
-
-                    radioPlay(key)
-                    adapterList.removeAt(pos)
-                    adapterList.add(pos, RadioChannelItem(key, true))
-
-                    adapter.submitList(adapterList)
+                    urlList[key]?.let { httpNetWork(it, key, radioIcon, pos) }
                 }
             }
         }
 
-        adapter.heartClick = object : RadioListAdapter.HeartClick {
+        rvAdapter.heartClick = object : RadioListAdapter.HeartClick {
             override fun heartClick(key: String) {
                 if (radioListViewModel.radioLikeList.value?.contains(key) == true) {
                     radioListViewModel.removeList(key)
@@ -355,7 +334,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        rvChannelList.adapter = adapter
+        rvChannelList.adapter = rvAdapter
     }
 
     // RadioListAdapter 초기화 함수
@@ -374,23 +353,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // SBS, MBC 라디오 API 호출 함수(KBS 하고 API 호출 값이 다르기 때문에 따로 함수 구현)
-    fun httpNetWork(channelUrl : String) {
 
-        val client = OkHttpClient()
-        val request : Request = Request.Builder()
-            .url(channelUrl)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.i("Minyong", "fail!")
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                thread { radioUrl = response.body?.string() }
-            }
-        })
-    }
 
     // KBS 라디오 API 호출 함수 (SBS, MBC 하고 API 호출 값이 다르기 때문에 따로 함수 구현)
     fun httpNetWork2(channelUrl: String) {
@@ -431,10 +394,64 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     // 라디오를 재생 하고 뷰모델 whoPlay 변수에 어떤 채널이 재생 되고 있는지 저장
     private fun radioPlay(key: String = "") {
         binding.viewTest.player?.play()
         binding.ivRadioPlayBtn.setImageResource(R.drawable.ic_pause)
+        isPlay = true
+        radioListViewModel.addWhoPlay(key)
+    }
+
+    fun httpNetWork(channelUrl : String,
+                     key: String,
+                     icon: Int,
+                     pos: Int
+    )  {
+        val client = OkHttpClient()
+
+        val request : Request = Request.Builder()
+            .url(channelUrl)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.i("Minyong", "fail!")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    if (response.isSuccessful) {
+                        radioUrl = response.body?.string()
+                        preparePlayer2()
+                        playingMarkChange()
+                        radioPlay2(key, icon)
+                        playingMarkCurrent(key, pos)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun preparePlayer2() {
+        with(binding) {
+            viewTest.player?.stop()
+            val mediaItem = radioUrl?.let { MediaItem.fromUri(it) }
+            if (mediaItem != null) {
+                viewTest.player?.setMediaItem(mediaItem)
+            }
+            viewTest.player?.prepare()
+            viewTest.player?.playWhenReady = true
+        }
+    }
+
+
+    // 라디오를 재생 하고 뷰모델 whoPlay 변수에 어떤 채널이 재생 되고 있는지 저장
+    private  fun radioPlay2(key: String = "", icon: Int) = with(binding) {
+        viewTest.player?.play()
+        ivRadioPlayBtn.setImageResource(R.drawable.ic_pause)
+        tvBottomRadioTitle.text = key
+        ivRadioProfile.setImageResource(icon)
         isPlay = true
         radioListViewModel.addWhoPlay(key)
     }
