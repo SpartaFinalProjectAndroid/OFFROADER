@@ -6,30 +6,34 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mit.offroader.R
 import com.mit.offroader.databinding.ItemHomeAttributeBinding
-import com.mit.offroader.databinding.ItemHomeCardBinding
 import com.mit.offroader.databinding.ItemHomeCardTitleBinding
 import com.mit.offroader.databinding.ItemHomeEventBinding
 import com.mit.offroader.databinding.ItemHomeEventTitleBinding
+import com.mit.offroader.databinding.LayoutHomeHoriRvBinding
 
 
-class HomeMultiViewTypeAdapter(private val context: Context) :
+class HomeMultiViewTypeAdapter(private val context: Context, private val mList : ArrayList<HomeUiState>) :
     ListAdapter<HomeUiData, RecyclerView.ViewHolder>(
         object : DiffUtil.ItemCallback<HomeUiData>() {
             override fun areItemsTheSame(oldItem: HomeUiData, newItem: HomeUiData): Boolean {
@@ -70,7 +74,7 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
 
             SECOND -> {
                 CardViewHolder(
-                    ItemHomeCardBinding.inflate(
+                    LayoutHomeHoriRvBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
@@ -114,7 +118,7 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItem(position)) {
             is HomeUiData.First -> (holder as CardTitleViewHolder).bind(currentList[position] as HomeUiData.First)
-            is HomeUiData.Second -> (holder as CardViewHolder).bind(currentList[position] as HomeUiData.Second)
+            is HomeUiData.Second -> (holder as CardViewHolder).bind(HomeHoriAdapter())
             is HomeUiData.Third -> (holder as EventTitleViewHolder).bind(currentList[position] as HomeUiData.Third)
             is HomeUiData.Fourth -> (holder as EventViewHolder).bind(currentList[position] as HomeUiData.Fourth)
             else -> (holder as AttributeViewHolder).bind(currentList[position] as HomeUiData.Attribute)
@@ -132,29 +136,57 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
     }
 
     // 카드 영역 뷰홀더
-    inner class CardViewHolder(private val binding: ItemHomeCardBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        @RequiresApi(Build.VERSION_CODES.Q)
-        fun bind(item: HomeUiData.Second) = with(binding) {
-            val vBlur = i1FkView
-            val title = cardTitle
-            val des = cardDes
+//    inner class CardViewHolder(private val binding: LayoutHomeHoriRvBinding) :
+//        RecyclerView.ViewHolder(binding.root) {
+//        @RequiresApi(Build.VERSION_CODES.Q)
+//        fun bind(item: HomeUiData.Second) = with(binding) {
+////            val vBlur = i1FkView
+////            val title = cardTitle
+////            val des = cardDes
+////
+////            /* 기존 사용부
+////                        context.let {
+////                            vBlur.setBlurCB(it, vBlur, 20, object : BlurCompletionListener {
+////                                override fun onCompleted() {
+////                                    title.visibility = View.VISIBLE
+////                                    des.visibility = View.VISIBLE
+////                                }
+////                            }
+////            */
+////
+////            with(vBlur) {
+////                setupWith(mainCard)
+////                    .setBlurEnabled(true)
+////                    .setBlurRadius(10f)
+////            }
+//
+//            //구현해야 하는 것 가로 리사이클러 뷰 xml, 그 리사이클러 뷰 어답터
+//            val layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+//            binding.rvHori.layoutManager = layoutManager
+//
+//            // 리사이클러 뷰에 대한 어댑터 설정
+//            // 여기서 YourAdapter는 가로 스크롤 리사이클러 뷰를 위한 어댑터의 인스턴스입니다.
+//            val adapter = HomeHoriAdapter()
+//            binding.rvHori.adapter = adapter
+//
+//
+//
+//
+//        }
+//    }
 
-            /* 기존 사용부
-                        context.let {
-                            vBlur.setBlurCB(it, vBlur, 20, object : BlurCompletionListener {
-                                override fun onCompleted() {
-                                    title.visibility = View.VISIBLE
-                                    des.visibility = View.VISIBLE
-                                }
-                            }
-            */
+    inner class CardViewHolder(private val binding: LayoutHomeHoriRvBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(homeHoriAdapter: HomeHoriAdapter) = with(binding) {
 
-            with(vBlur) {
-                setupWith(mainCard)
-                    .setBlurEnabled(true)
-                    .setBlurRadius(10f)
-            }
+            val adapter = HomeHoriAdapter(mList)
+            binding.rvHori.layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+            binding.rvHori.adapter = adapter
+
+//            val adapter = MyAdapter(dataList)
+//            binding.recyclerView.adapter = adapter
+//            binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
+
 
         }
     }
@@ -187,140 +219,80 @@ class HomeMultiViewTypeAdapter(private val context: Context) :
 //                dialog.show()
 //            }
 
+            //자유로운 창 조절을 위해 Dialog Fragment로 추후 전환 고려
             root.setOnClickListener {
                 val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_home_event, null)
                 val title = dialogView.findViewById<TextView>(R.id.tv_dialog_title)
                 val des = dialogView.findViewById<TextView>(R.id.tv_dialog_des)
                 val date = dialogView.findViewById<TextView>(R.id.tv_dialog_date)
                 val img = dialogView.findViewById<ImageView>(R.id.iv_dialog_img)
+                val btn = dialogView.findViewById<CardView>(R.id.cv_btn_close)
+
+                title.text = item.title
+                des.text = item.des
+                date.text = item.date.toString()
+
+//                if (item.date.toString().isNullOrEmpty()){
+//                    date.text =
+//                }
+
+                Glide.with(context)
+                    .load(item.image)
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .into(img)
+
                 val dialog = AlertDialog.Builder(context).apply {
                     setView(dialogView)
-                    setPositiveButton("확인", null)
-                    setNegativeButton("취소", null)
+//                    setPositiveButton("확인", null)
+//                    setNegativeButton("취소", null)
                 }.create()
 
-                dialog.apply {
-                    show() //문제가 있었던 부분인데, 다이얼로그 창 크기르 조절하기 위해 먼저 show로 나타낸 후 조절해야 함
-                    window?.apply {
-                        setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.apply_corner_radius_20))
-//                        val displayMetrics = DisplayMetrics()
-//                        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-//                        windowManager.defaultDisplay.getMetrics(displayMetrics)
-//                        val displayWidth = displayMetrics.widthPixels
-//                        val displayHeight = displayMetrics.heightPixels
-//                        val maxWidth = (displayWidth * 0.8).coerceAtMost(1000.0) // 최대 폭을 1000px로 제한
-//                        val maxHeight = (displayHeight * 0.8).coerceAtMost(1800.0) // 최대 높이를 1800px로 제한
-//                        setLayout(maxWidth.toInt(), maxHeight.toInt())
+                val displayMetrics = DisplayMetrics()
+                dialog.window?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+                val maxHeight = (displayMetrics.heightPixels).toInt() //배율 사용시 Double -> toInt 필요
+                val maxWidth = (displayMetrics.widthPixels).toInt() //배율 사용시 Double -> toInt 필요
 
+                dialog.show()
+                dialog.window?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.apply_dialog_full_size))
+                dialog.window?.setLayout(maxWidth, maxHeight)
 
-                        val window = dialog.window
-                        val displayMetrics = DisplayMetrics()
-                        window?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+//                dialog.window?.statusBarColor = ContextCompat.getColor(context, R.color.white)
+                //전체화면으로 설정하면 상단 parent 아이콘 배치 margin 주어야 함 안그러면 상태바 아래로 기어드감
+//                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 
-                        val maxHeight = (displayMetrics.heightPixels * 0.7).toInt()
-                        val height = (WindowManager.LayoutParams.WRAP_CONTENT).coerceAtMost(maxHeight)
+                //다이얼로그 크기를 고정했기 때문에 ScrollView 안의 ConstraintLayout의 최소 높이를 강제해야 함, 딱 맞추기 위해 - margin 해줌
+                val dialogCl = dialogView.findViewById<ConstraintLayout>(R.id.cl_dialog)
+                val dialogSV = dialogView.findViewById<ScrollView>(R.id.sv_dialog)
+                dialogCl.minHeight = maxHeight - dialogSV.marginTop
 
-//                        val maxHeight = (displayMetrics.heightPixels * 1.2).coerceAtMost(displayMetrics.heightPixels * 0.9)  // 최대 높이를 디스플레이의 80%로 설정
-                        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, height)
-                        window?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.apply_corner_radius_20))
-                    }
-
-//                    val maxWidth = (displayMetrics.widthPixels * 0.8).toInt()
-//
-//// 너비를 화면 너비의 80%로 제한합니다. 하지만 기본적으로는 MATCH_PARENT를 사용하려고 합니다.
-//// MATCH_PARENT를 픽셀 값으로 직접 비교할 수 없으므로, 실제 너비 값을 사용합니다.
-//                    val width = displayMetrics.widthPixels.coerceAtMost(maxWidth)
-
-                    title.text = item.title
-                    des.text = item.des
-                    date.text = item.date.toString()
-                    Glide.with(context)
-                        .load(item.image)
-                        .placeholder(R.drawable.ic_launcher_foreground)
-                        .into(img)
+                btn.setOnClickListener {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        dialog.cancel()
+                    }, 300)  // 1초 후에 실행
                 }
+
+
+
+
+                /*
+                // 다이얼로그 창 높이를 화면 크기의 80% 초과 시 제한하려 했으나 dialogHeight를 측정할 수 없음
+                // 디버그 모드 브레이크 포인트로 확인해 봐도 ?:0 출력함
+                dialog.setOnShowListener {
+                    val displayMetrics = DisplayMetrics()
+                        dialog.window?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+
+                    val dialogHeight = dialog.window?.decorView?.height ?:0
+                    val maxHeight = (displayMetrics.heightPixels * 0.7).toInt()
+                    if (dialogHeight > maxHeight) {
+                            dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, maxHeight)
+                        } else {
+                            dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+                        }
+                }
+                */
+
             }
 
-
-//                val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_home_event, null)
-//                dialogImg = dialogView.findViewById(R.id.civ_dialog_profile)
-//                val dialogName = dialogView.findViewById<EditText>(R.id.et_dialog_name)
-//                val changeBtn = dialogView.findViewById<Button>(R.id.btn_dialog_change)
-//                val builder = AlertDialog.Builder(context)
-//                builder.setView(dialogView)
-//                builder.setPositiveButton("확인") { dialog, _ ->
-//                    uiData = listOf(
-//                        MyPageUiData.Profile(
-//                            dialogName.text.toString(),
-//                            selectedImageUri.toString()
-//                        )
-//                    ) + uiData.subList(1, uiData.size)
-//                    myPageAdapter.submitList(uiData.toList())
-//                    Utils.saveMyInfo(
-//                        requireContext(),
-//                        dialogName.text.toString(),
-//                        selectedImageUri.toString()
-//                    )
-//                    dialog.dismiss()
-//                }
-//                builder.setNegativeButton("취소") { dialog, _ ->
-//                    dialog.cancel()
-//                }
-//                val dialog = builder.create()
-//                dialog.window?.setBackgroundDrawable(
-//                    ContextCompat.getDrawable(
-//                        requireContext(),
-//                        R.drawable.apply_corner_radius_10
-//                    )
-//                )
-//                dialog.show()
-//                dialogName.setText(name)
-//                if (image == null) {
-//                    dialogImg.setImageDrawable(
-//                        ContextCompat.getDrawable(
-//                            requireContext(),
-//                            R.drawable.ic_default_profile
-//                        )
-//                    )
-//                } else {
-//                    dialogImg.setImageDrawable(image)
-//                }
-//                changeBtn.setOnClickListener {
-//                    ImagePicker.with(requireActivity())
-//                        .galleryOnly()
-//                        .compress(1024)
-//                        .maxResultSize(1080, 1080)
-//                        .cropSquare()
-//                        .createIntent { intent ->
-//                            startForProfileImageResult.launch(intent)
-//                        }
-//                }
-//            }
-
-
-//            val positionInFourthType = 1 + currentList.subList(0, absoluteAdapterPosition).count { it is HomeUiData.Fourth }
-//            val checkSize = currentList.count { it is HomeUiData.Fourth }
-//            when (checkSize) {
-//                1 -> {
-//                    when (absoluteAdapterPosition) {
-//                        3 -> binding.root.background = ContextCompat.getDrawable(binding.root.context, R.drawable.apply_recycler_bg_selector)
-//                    }
-//                }
-//                2 -> {
-//                    when (absoluteAdapterPosition) {
-//                        3 -> binding.root.background = ContextCompat.getDrawable(binding.root.context, R.drawable.apply_testtop)
-//                        4 -> binding.root.background = ContextCompat.getDrawable(binding.root.context, R.drawable.apply_recycler_bg_selector)
-//                    }
-//                }
-//                else -> {
-//                    when (absoluteAdapterPosition) {
-//                        //해당 뷰 홀더의 위치를 가져옴
-//                        3 -> binding.root.background = ContextCompat.getDrawable(binding.root.context, R.drawable.apply_testtop)
-//                        4 -> binding.root.background = ContextCompat.getDrawable(binding.root.context, R.drawable.apply_testtop)
-//                        //해당 뷰 홀더의 위치에 아이템 개수를 더함
-//                    }
-//                }
-//            }
             // 안쪽 when에 absoluteAdapterPosition을 사용하다 뷰 홀더의 앞 뒤 아이템의 개수가 바뀌면 코드를 수정해야 하는 문제를 해당 뷰 홀더의 아이템 개수를 카운트함
             val checkPosition = 1 + currentList.subList(0, absoluteAdapterPosition)
                 .count { it is HomeUiData.Fourth }

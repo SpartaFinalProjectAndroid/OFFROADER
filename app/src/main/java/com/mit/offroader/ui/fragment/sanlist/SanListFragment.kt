@@ -71,10 +71,11 @@ class SanListFragment : Fragment() {
             if (it?.selectedItem == null) {
 
                 sanListViewModel.getSelectedItem(null)      // 선택된 아이템의 테두리를 추가해주기 위해서 산 디티오의 selectedItem의 값을 확인해주는 함수
-                clickListener(it!!.selectedItem?.sanName)        // 텍스트 클릭 시 디테일 액티비티로 넘어갈 수 있도록 구현
+                clickListener(binding.tvSanName.text.toString())        // 텍스트 클릭 시 디테일 액티비티로 넘어갈 수 있도록 구현
             } else {
                 it.selectedItem?.let { it1 -> setSelectedSan(it1) }
                 sanListViewModel.updateSelectedItemOnDTO(it.selectedItem!!)  // 산 디티오 옵져빙 후 업데이트 시켜주기
+                clickListener(it.selectedItem?.sanName)
             }
         }
         sanListViewModel.sanList.observe(viewLifecycleOwner) {
@@ -114,10 +115,15 @@ class SanListFragment : Fragment() {
     private fun clickListener(sanName: String?) {
 
         // 디테일 액티비티로 넘어감.
-        binding.tvSanName.setOnClickListener {
-            Log.d(TAG,"Selected Image")
+        binding.ivSelectedImage.setOnClickListener {
+            Log.d(TAG,"Selected Image $sanName")
             val intent = Intent(requireActivity(), SanDetailActivity::class.java)
-            intent.putExtra("name",sanName)
+
+            if (sanName == null) {
+                intent.putExtra("name","계룡산")
+            } else {
+                intent.putExtra("name", sanName)
+            }
             startActivity(intent)
 
         }

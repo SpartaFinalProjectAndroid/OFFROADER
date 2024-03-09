@@ -1,5 +1,6 @@
 package com.mit.offroader.ui.activity.main
 
+
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -14,12 +15,9 @@ import androidx.annotation.OptIn
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.rtsp.RtspMediaSource
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.session.MediaSession
@@ -28,20 +26,20 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.annotations.concurrent.Blocking
+import com.google.gson.Gson
+import com.google.gson.JsonParseException
+import com.google.gson.reflect.TypeToken
 import com.mit.offroader.R
+import com.mit.offroader.data.RadioChannelURL
 import com.mit.offroader.databinding.ActivityMainBinding
+import com.mit.offroader.ui.activity.main.adapters.RadioChannelItem
 import com.mit.offroader.ui.activity.main.adapters.RadioListAdapter
 import com.mit.offroader.ui.fragment.chatbot.ChatBotFragment
 import com.mit.offroader.ui.fragment.home.HomeFragment
 import com.mit.offroader.ui.fragment.map.SanMapFragment
 import com.mit.offroader.ui.fragment.mydetail.MyDetailFragment
 import com.mit.offroader.ui.fragment.sanlist.SanListFragment
-import com.google.gson.Gson
-import com.google.gson.JsonParseException
-import com.google.gson.reflect.TypeToken
-import com.mit.offroader.data.RadioChannelURL
 import com.mit.offroader.data.RetrofitInstance
-import com.mit.offroader.ui.activity.main.adapters.RadioChannelItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Delay
 import kotlinx.coroutines.Dispatchers
@@ -55,13 +53,10 @@ import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.json.JSONObject
 import org.json.JSONTokener
 import java.io.IOException
-import java.security.Provider.Service
 import kotlin.concurrent.thread
 import kotlin.coroutines.CoroutineContext
 

@@ -39,7 +39,9 @@
     <string name="san_name_songnisan">속리산</string>
     <string name="san_name_gyeryongsan">계룡산</string>
     <string name="san_name_odaesan">오대산</string>
-
+    <string name="mountain_name">산 명칭</string>
+    <string name="mountain_height">1,000m</string>
+    <string name="mountain_description">산 설명</string>
     <!--    MainActivity-->
     <string name="mbc_channel_name_standard_fm">표준FM</string>
     <string name="mbc_channel_name_fm4U">FM4U</string>
@@ -52,7 +54,7 @@
 
 
 <!--    SanDetailActivity-->
-    <string name="sandetail_name">한라산</string>
+    <string name="sandetail_name">지리산</string>
     <string name="sandetail_address">Address</string>
     <string name="sandetail_difficulty">난이도</string>
     <string name="sandetail_difficulty_info">difficulty</string>
@@ -75,5 +77,6 @@
     <string name="sandetail_recommend_short">축소하기 ▲</string>
     <string name="san_list_mountain_info">1,947 m | 2h 40m | 상</string>
     <string name="san_list_chip_alphabetical_order">가나다순</string>
+    <string name="mountain_height_text">고도 :</string>
 
 </resources>
