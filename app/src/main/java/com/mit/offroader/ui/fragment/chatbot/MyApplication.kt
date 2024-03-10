@@ -6,6 +6,7 @@ import com.mit.offroader.ui.fragment.chatbot.database.BongbongDatabase
 import com.mit.offroader.ui.fragment.chatbot.database.HikeyDatabase
 import com.mit.offroader.ui.fragment.chatbot.viewmodel.BongbongRepository
 import com.mit.offroader.ui.fragment.chatbot.viewmodel.HikeyRepository
+import com.mit.offroader.ui.fragment.home.HomeDataRepository
 import com.mit.offroader.ui.fragment.sanlist.model.SanListRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -22,6 +23,8 @@ class MyApplication: Application() {
 
     val sanListDTO by lazy {}
     val sanListRepository by lazy { SanListRepository() }
+    val homeDataRepository by lazy { HomeDataRepository() }
+
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext

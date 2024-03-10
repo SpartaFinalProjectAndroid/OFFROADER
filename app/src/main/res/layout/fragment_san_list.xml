@@ -18,10 +18,19 @@
             android:layout_width="match_parent"
             android:layout_height="280dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_mountain"
+            android:src="@drawable/img_mountain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 어두운 그라데이션 한 스푼 추가 -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="bottom"
+            android:alpha="0.7"
+            android:src="@drawable/apply_gradation_shadow_black"
+            app:layout_constraintBottom_toBottomOf="@id/iv_selectedImage" />
 
 
 
@@ -54,7 +63,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/rv_san_category"
+        android:id="@+id/ll_san_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -62,14 +71,11 @@
         android:paddingHorizontal="16dp"
         >
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_category"
+        <Spinner
+            android:id="@+id/sp_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/san_list_chip_alphabetical_order"
-            android:fontFamily="@font/pretendard_medium"
-            app:chipStrokeColor="@color/offroader_outline"
-            />
+            android:paddingVertical="5dp"/>
 
     </LinearLayout>
 
