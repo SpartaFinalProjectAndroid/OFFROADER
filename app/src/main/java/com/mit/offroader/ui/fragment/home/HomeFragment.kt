@@ -20,13 +20,8 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val homeViewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory((requireActivity().application as MyApplication).homeDataRepository)
-    }
-    private val myPageAdapter: HomeMultiViewTypeAdapter by lazy {
-        HomeMultiViewTypeAdapter(requireContext(), homeViewModel)
-    }
-
+    private val homeViewModel: HomeViewModel by viewModels { HomeViewModelFactory((requireActivity().application as MyApplication).homeDataRepository) }
+    private lateinit var  myPageAdapter: HomeMultiViewTypeAdapter
     private var uiData: List<HomeUiData> = listOf()
 
 
@@ -46,9 +41,7 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun initView() {
-
-
+    private fun initObserver() {
 
         uiData = listOf(
             HomeUiData.First,
@@ -56,15 +49,12 @@ class HomeFragment : Fragment() {
             HomeUiData.Attribute
         )
 
-        binding.rvHome.adapter = myPageAdapter
-        binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
-        myPageAdapter.submitList(uiData.toList())
-
-
-    }
-
-    private fun initObserver() {
-
+        homeViewModel.recItems.observe(viewLifecycleOwner) {
+            myPageAdapter = HomeMultiViewTypeAdapter(requireContext(), homeViewModel, it)
+            binding.rvHome.adapter = myPageAdapter
+            binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
+            myPageAdapter.submitList(uiData.toList())
+        }
 
         homeViewModel.eventItems.observe(viewLifecycleOwner) {
             CoroutineScope(Dispatchers.Main).launch {

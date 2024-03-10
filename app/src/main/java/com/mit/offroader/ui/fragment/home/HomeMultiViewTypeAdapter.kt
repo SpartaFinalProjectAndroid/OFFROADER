@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,8 +33,8 @@ import com.mit.offroader.databinding.ItemHomeEventBinding
 import com.mit.offroader.databinding.ItemHomeEventTitleBinding
 import com.mit.offroader.databinding.LayoutHomeHoriRvBinding
 
-
-class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeViewModel) :
+private const val TAG = "HomeMultiViewTypeAdapter"
+class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeViewModel, list: ArrayList<HomeUiState>?) :
     ListAdapter<HomeUiData, RecyclerView.ViewHolder>(
         object : DiffUtil.ItemCallback<HomeUiData>() {
             override fun areItemsTheSame(oldItem: HomeUiData, newItem: HomeUiData): Boolean {
@@ -46,7 +47,7 @@ class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeView
         }
     ) {
 
-    private var mList = viewModel.recItems.value
+    private var mList = list
 
     override fun getItemCount(): Int {
         return currentList.size
@@ -147,6 +148,8 @@ class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeView
                 binding.rvHori.adapter = adapter
 
                 binding.rvHori.post(Runnable { adapter.notifyDataSetChanged() })
+            } else {
+                Log.d(TAG, "디비에서 값을 못가져옴")
             }
 
 
