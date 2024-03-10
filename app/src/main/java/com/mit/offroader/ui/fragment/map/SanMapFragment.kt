@@ -2,6 +2,7 @@ package com.mit.offroader.ui.fragment.map
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Outline
@@ -29,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.mit.offroader.BuildConfig
 import com.mit.offroader.R
 import com.mit.offroader.databinding.FragmentSanMapBinding
+import com.mit.offroader.ui.activity.sandetail.SanDetailActivity
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
@@ -276,6 +278,12 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                         markerInfo.visibility = View.GONE
                                         ivMarkerInfoImage.visibility = View.GONE
                                     }
+                                    // 마커 정보창 클릭 시 상세 정보로 이동
+                                    markerInfo.setOnClickListener {
+                                        val intent = Intent(activity, SanDetailActivity::class.java)
+                                        intent.putExtra("name", markerDTOs[idx].name)
+                                        startActivity(intent)
+                                    }
                                     false
                                 }
                                 ivInfoClose.setOnClickListener {
@@ -332,7 +340,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             )
         }
     }
-
+    // 마커 정보창 이미지 왼쪽만 라운드 처리
     fun roundLeft(iv: ImageView, curveRadius: Float): ImageView {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
