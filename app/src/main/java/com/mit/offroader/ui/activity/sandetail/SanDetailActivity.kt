@@ -59,11 +59,9 @@ class SanDetailActivity : AppCompatActivity() {
 //        binding.collapsingToolbar.setContentScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
 //        tb.alpha = 0f
 
-
         val sanName = intent.getStringExtra("name") ?: ""
         Log.d(TAG, "산이름 : ${sanName}")
 
-        initData()
         initImage()
 
         initBackButton()
@@ -81,92 +79,121 @@ class SanDetailActivity : AppCompatActivity() {
         slideImageHandler.removeCallbacks(slideImageRunnable)
     }
 
-    // Firebase 데이터 받아오기
-    private fun initData() {
-        val sanName = intent.getStringExtra("name")
-
-        firestore.collection("sanlist")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    if (document["name"] == sanName) {
-                        val sanlist = SanDetailUiState(
-                            document.getString("name") ?: "none",
-                            document.getString("address") ?: "none",
-                            document.getLong("difficulty") ?: 0,
-                            document.getDouble("height") ?: 0.0,
-                            document.getLong("time_uphill") ?: 0,
-                            document.getLong("time_downhill") ?: 0,
-                            document.getString("summary") ?: "none",
-                            document.getString("recommend") ?: "none",
-                            document.getBoolean("isLiked") ?: false
-                        )
-
-                        //데이터를 view에 전달
-                        initView(sanlist)
-                    }
-                }
-
-            }
-    }
 
     @SuppressLint("SetTextI18n")
     private fun initView(sanlist: SanDetailUiState) {
-        with(binding) {
-            tvMountain.text = sanlist.mountain
-            tvAddress.text = sanlist.address
+        // 산 정보 표시
+        setSanInfoView(sanlist)
+        // 자세히 보기 클릭 시 텍스트 전부 출력
+        setMoreView(sanlist)
+        // 숫자에 따라 난이도 부여 & 색상 부여
+        setDifficultyView(sanlist)
+        //상행시간, 하행시간, 총 등산시간
+        setHikingTimeView(sanlist)
+    }
+    // 자동 스크롤되는 ViewPager2 이미지
+    private fun initImage() {
 
-            val dec = DecimalFormat("#,###")
-            val height = sanlist.height
-            tvHeightInfo.text = "${dec.format(height)}m"
-            tvIntroInfo.text = sanlist.summary
-            tvRecommendInfo.text = sanlist.recommend
+        // 뷰페이저 어댑터 기본 설정
+        setImageAdapter()
+        //자동 스크롤 콜백 설정
+        setImageCallBack()
 
-            // 자세히 보기 클릭 시 텍스트 전부 출력
-            viewMoreText(tvIntroInfo, tvIntroPlus, tvIntroShort)
-            viewMoreText(tvRecommendInfo, tvRecommendPlus, tvRecommendShort)
 
-            // 숫자에 따라 난이도 부여 & 색상 부여
-            val difficulty = sanlist.difficulty
-            tvDifficultyInfo.text = when (difficulty) {
-                1L -> "하"
-                2L -> "중"
-                else -> "상"
+    }
+
+    private fun setImageCallBack() {
+        binding.vpMountain.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                slideImageHandler.removeCallbacks(slideImageRunnable)
+                slideImageHandler.postDelayed(slideImageRunnable, 5000)
             }
+        })
+    }
 
-            when (tvDifficultyInfo.text) {
-                "하" -> tvDifficultyInfo.setTextColor(
-                    ContextCompat.getColor(
-                        applicationContext,
-                        R.color.offroader_blue
-                    )
+    private fun setImageAdapter() {
+
+        // getSanName() : 인텐트로 넘오는 산 이름 받아줌.
+        // getImageAdapter : 산 이름에 따라서 산 리스트를 받아옴
+        imageAdapter = getImageAdapter(getSanName())
+
+        binding.vpMountain.adapter = imageAdapter
+        binding.vpMountain.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+    }
+
+    private fun getImageAdapter(sanName: String?) = when (sanName) {
+        "계룡산" -> SanImageAdapter(kyeryongsanList, binding.vpMountain)
+        "내장산" -> SanImageAdapter(naejangsanList, binding.vpMountain)
+        "북한산" -> SanImageAdapter(northhansanList, binding.vpMountain)
+        "설악산" -> SanImageAdapter(seullacksanList, binding.vpMountain)
+        "소백산" -> SanImageAdapter(sobaeksanList, binding.vpMountain)
+        "속리산" -> SanImageAdapter(sokrisanList, binding.vpMountain)
+        "오대산" -> SanImageAdapter(odaesanList, binding.vpMountain)
+        "지리산" -> SanImageAdapter(jirisanList, binding.vpMountain)
+        else -> SanImageAdapter(hanrasanList, binding.vpMountain)
+    }
+    // 인텐트로 넘오는 산 이름 받아줌.
+    private fun getSanName() =intent.getStringExtra("name")
+
+
+    private fun setSanInfoView(sanlist: SanDetailUiState) = with(binding){
+        tvMountain.text = sanlist.mountain
+        tvAddress.text = sanlist.address
+
+        val dec = DecimalFormat("#,###")
+        val height = sanlist.height
+        tvHeightInfo.text = "${dec.format(height)}m"
+    }
+
+    private fun setMoreView(sanlist: SanDetailUiState) = with(binding){
+        tvIntroInfo.text = sanlist.summary
+        tvRecommendInfo.text = sanlist.recommend
+        viewMoreText(tvIntroInfo, tvIntroPlus, tvIntroShort)
+        viewMoreText(tvRecommendInfo, tvRecommendPlus, tvRecommendShort)
+    }
+
+    private fun setDifficultyView(sanlist: SanDetailUiState) = with(binding){
+        val difficulty = sanlist.difficulty
+        tvDifficultyInfo.text = when (difficulty) {
+            1L -> "하"
+            2L -> "중"
+            else -> "상"
+        }
+
+        when (tvDifficultyInfo.text) {
+            "하" -> tvDifficultyInfo.setTextColor(
+                ContextCompat.getColor(
+                    applicationContext,
+                    R.color.offroader_blue
                 )
+            )
 
-                "중" -> tvDifficultyInfo.setTextColor(
-                    ContextCompat.getColor(
-                        applicationContext,
-                        R.color.offroader_orange
-                    )
+            "중" -> tvDifficultyInfo.setTextColor(
+                ContextCompat.getColor(
+                    applicationContext,
+                    R.color.offroader_orange
                 )
+            )
 
-                else -> tvDifficultyInfo.setTextColor(
-                    ContextCompat.getColor(
-                        applicationContext,
-                        R.color.offroader_red
-                    )
+            else -> tvDifficultyInfo.setTextColor(
+                ContextCompat.getColor(
+                    applicationContext,
+                    R.color.offroader_red
                 )
-            }
-
-            //상행시간, 하행시간, 총 등산시간
-            val uphillTime = sanlist.uphilltime
-            val downhillTime = sanlist.downhilltime
-            val totalTime = uphillTime + downhillTime
-
-            viewHillTime(uphillTime, tvUptimeInfo)
-            viewHillTime(downhillTime, tvDowntimeInfo)
-            viewHillTime(totalTime, tvTimeInfo)
+            )
         }
     }
+
+    private fun setHikingTimeView(sanlist: SanDetailUiState) = with(binding) {
+        val uphillTime = sanlist.uphilltime
+        val downhillTime = sanlist.downhilltime
+        val totalTime = uphillTime + downhillTime
+
+        viewHillTime(uphillTime, tvUptimeInfo)
+        viewHillTime(downhillTime, tvDowntimeInfo)
+        viewHillTime(totalTime, tvTimeInfo)    }
 
     // 자세히 보기 클릭 시 텍스트 전부 출력하는 함수
     private fun viewMoreText(info: TextView, plus: TextView, short: TextView) {
@@ -204,33 +231,7 @@ class SanDetailActivity : AppCompatActivity() {
         }
     }
 
-    // 자동 스크롤되는 ViewPager2 이미지
-    private fun initImage() {
-        val sanName = intent.getStringExtra("name")
-        imageAdapter = when (sanName) {
-            "계룡산" -> SanImageAdapter(kyeryongsanList, binding.vpMountain)
-            "내장산" -> SanImageAdapter(naejangsanList, binding.vpMountain)
-            "북한산" -> SanImageAdapter(northhansanList, binding.vpMountain)
-            "설악산" -> SanImageAdapter(seullacksanList, binding.vpMountain)
-            "소백산" -> SanImageAdapter(sobaeksanList, binding.vpMountain)
-            "속리산" -> SanImageAdapter(sokrisanList, binding.vpMountain)
-            "오대산" -> SanImageAdapter(odaesanList, binding.vpMountain)
-            "지리산" -> SanImageAdapter(jirisanList, binding.vpMountain)
-            else -> SanImageAdapter(hanrasanList, binding.vpMountain)
-        }
 
-        binding.vpMountain.adapter = imageAdapter
-        binding.vpMountain.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-
-        binding.vpMountain.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                slideImageHandler.removeCallbacks(slideImageRunnable)
-                slideImageHandler.postDelayed(slideImageRunnable, 5000)
-            }
-        })
-    }
 
     // 좋아요 기능
     private fun initBookmark() {
