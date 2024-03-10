@@ -30,6 +30,7 @@ class SanDetailRepository {
                         document.getLong("time_downhill") ?: 0,
                         document.getString("summary") ?: "none",
                         document.getString("recommend") ?: "none",
+                        document["images"] as ArrayList<String>,
                         document.getBoolean("isLiked") ?: false
                     )
                     if (sanList.mountain == sanName) {
@@ -37,9 +38,6 @@ class SanDetailRepository {
                         Log.d(TAG, "initSanData: $sanList -> ${info.value}")
                     }
                 }
-
-//                _info.value = sanInfo
-//                Log.d(TAG, "${info.value?.size}")
 
             }
             .addOnFailureListener { exception ->

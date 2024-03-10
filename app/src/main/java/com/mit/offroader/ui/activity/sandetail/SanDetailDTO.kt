@@ -13,5 +13,6 @@ data class SanDetailDTO(
     val downhillTime: Long,
     val summary: String,
     val recommend: String,
+    val img: ArrayList<String>,
     var isLiked: Boolean
 ): Parcelable
