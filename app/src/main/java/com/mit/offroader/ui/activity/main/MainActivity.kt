@@ -326,7 +326,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 하단 라디오 플레이어의 재생 상태를 설정하는 함수
-    private fun bottomRadioPlay(key: String = "") {
+    private fun bottomRadioPlay(key: String?) {
         binding.viewTest.player?.play()
         binding.ivRadioPlayBtn.setImageResource(R.drawable.ic_pause)
         isPlay = true
@@ -334,7 +334,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 라디오를 재생 하고 뷰모델 whoPlay 변수에 어떤 채널이 재생 되고 있는지 저장
-    private  fun radioPlay(key: String = "", icon: Int) = with(binding) {
+    private  fun radioPlay(key: String?, icon: Int) = with(binding) {
         viewTest.player?.play()
         ivRadioPlayBtn.setImageResource(R.drawable.ic_pause)
         tvBottomRadioTitle.text = key

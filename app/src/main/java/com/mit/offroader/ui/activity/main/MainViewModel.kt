@@ -23,7 +23,7 @@ class MainViewModel : ViewModel() {
     var whoPlay : MutableLiveData<String?> = _whoPlay
     private var whoPlayTest : String ?= null
 
-    fun addWhoPlay(key: String) {
+    fun addWhoPlay(key: String?) {
         whoPlayTest = key
         _whoPlay.value = whoPlayTest
     }
