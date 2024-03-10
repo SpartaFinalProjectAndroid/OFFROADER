@@ -42,24 +42,13 @@ class HomeFragment : Fragment() {
 
 
         initView()
-//        FirebaseApp.initializeApp(requireContext())
-
         initObserver()
-
-//        binding.rvHome.adapter = myPageAdapter
-//        binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
-//        myPageAdapter.submitList(uiData.toList())
-
-
-        //Fourth를 제외한 나머지를 먼저 로딩, 로딩이 오래걸리면 빈 화면 나오길래 분리함
-
 
     }
 
     private fun initView() {
 
 
-        homeViewModel.initialise()
 
         uiData = listOf(
             HomeUiData.First,
@@ -69,15 +58,11 @@ class HomeFragment : Fragment() {
 
         binding.rvHome.adapter = myPageAdapter
         binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
-//        Log.d(TAG, uiData.toString())
         myPageAdapter.submitList(uiData.toList())
 
 
     }
 
-    //    private fun initializeValue() {
-
-    //    }
     private fun initObserver() {
 
 
