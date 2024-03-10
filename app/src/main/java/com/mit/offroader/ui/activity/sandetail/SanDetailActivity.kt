@@ -104,7 +104,6 @@ class SanDetailActivity : AppCompatActivity() {
         //자동 스크롤 콜백 설정
         setImageCallBack()
 
-
     }
 
     private fun setImageCallBack() {
