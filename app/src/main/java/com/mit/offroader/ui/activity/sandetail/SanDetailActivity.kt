@@ -59,12 +59,20 @@ class SanDetailActivity : AppCompatActivity() {
 //        binding.collapsingToolbar.setContentScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
 //        tb.alpha = 0f
 
-        val sanName = intent.getStringExtra("name") ?: ""
-        Log.d(TAG, "산이름 : ${sanName}")
+
+        sanDetailViewModel.getSelectedSan(getSanName())
+//        Log.d(TAG, "산이름 : ${sanName}")
 
         initImage()
-
         initBackButton()
+        initObserver()
+    }
+
+    private fun initObserver() {
+
+        sanDetailViewModel.info.observe(this) {
+            initView(it)
+        }
     }
 
     // 액티비티가 다시 시작될 때 자동스크롤도 다시 시작
@@ -81,7 +89,7 @@ class SanDetailActivity : AppCompatActivity() {
 
 
     @SuppressLint("SetTextI18n")
-    private fun initView(sanlist: SanDetailUiState) {
+    private fun initView(sanlist: SanDetailDTO) {
         // 산 정보 표시
         setSanInfoView(sanlist)
         // 자세히 보기 클릭 시 텍스트 전부 출력
@@ -138,7 +146,7 @@ class SanDetailActivity : AppCompatActivity() {
     private fun getSanName() =intent.getStringExtra("name")
 
 
-    private fun setSanInfoView(sanlist: SanDetailUiState) = with(binding){
+    private fun setSanInfoView(sanlist: SanDetailDTO) = with(binding){
         tvMountain.text = sanlist.mountain
         tvAddress.text = sanlist.address
 
@@ -147,14 +155,14 @@ class SanDetailActivity : AppCompatActivity() {
         tvHeightInfo.text = "${dec.format(height)}m"
     }
 
-    private fun setMoreView(sanlist: SanDetailUiState) = with(binding){
+    private fun setMoreView(sanlist: SanDetailDTO) = with(binding){
         tvIntroInfo.text = sanlist.summary
         tvRecommendInfo.text = sanlist.recommend
         viewMoreText(tvIntroInfo, tvIntroPlus, tvIntroShort)
         viewMoreText(tvRecommendInfo, tvRecommendPlus, tvRecommendShort)
     }
 
-    private fun setDifficultyView(sanlist: SanDetailUiState) = with(binding){
+    private fun setDifficultyView(sanlist: SanDetailDTO) = with(binding){
         val difficulty = sanlist.difficulty
         tvDifficultyInfo.text = when (difficulty) {
             1L -> "하"
@@ -186,9 +194,9 @@ class SanDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setHikingTimeView(sanlist: SanDetailUiState) = with(binding) {
-        val uphillTime = sanlist.uphilltime
-        val downhillTime = sanlist.downhilltime
+    private fun setHikingTimeView(sanlist: SanDetailDTO) = with(binding) {
+        val uphillTime = sanlist.uphillTime
+        val downhillTime = sanlist.downhillTime
         val totalTime = uphillTime + downhillTime
 
         viewHillTime(uphillTime, tvUptimeInfo)
