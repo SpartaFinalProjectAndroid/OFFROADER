@@ -177,13 +177,13 @@ class MainActivity : AppCompatActivity() {
 
     // 처음 앱 시작시 KBS 1Radio로 시작하도록 초기화
     // 추후에 마지막으로 들었던 채널로 시작하도록 구현 예정
-    private fun firstSetting() {
-        RadioChannelURL.KBS_LIST["1Radio"]?.let { httpNetWork(it, "1Radio", R.drawable.ic_kbs_radio, 3) }
-        preparePlayer()
-        radioPause()
-        radioListViewModel.addWhoPlay("1Radio")
-        binding.ivRadioProfile.setImageResource(R.drawable.ic_kbs_radio)
-    }
+//    private fun firstSetting() {
+//        RadioChannelURL.KBS_LIST["1Radio"]?.let { httpNetWork(it, "1Radio", R.drawable.ic_kbs_radio, 3) }
+//        preparePlayer()
+//        radioPause()
+//        radioListViewModel.addWhoPlay("1Radio")
+//        binding.ivRadioProfile.setImageResource(R.drawable.ic_kbs_radio)
+//    }
 
     // 각 방송국들의 채널에 대한 초기화 함수
     // RecyclerView 적용, 아이템 클릭 이벤트
@@ -224,15 +224,17 @@ class MainActivity : AppCompatActivity() {
 
     // 현재 재생중인 라디오 채널의 재생중 표시를 제거하고 어댑터를 업데이트 해준다.
     private fun playingMarkChange() {
+
         rvAdapterList = rvAdapter.currentList.toMutableList()
         val whoPlay = radioListViewModel.whoPlay.value.toString()
+        val playChannel = RadioChannelItem(whoPlay, true) // 현재 재생중인 라디오 채널
 
-        if (rvAdapterList.contains(RadioChannelItem(whoPlay, true))) {
-            val where = rvAdapterList.indexOf(RadioChannelItem(whoPlay, true))
-            rvAdapterList.remove(RadioChannelItem(whoPlay, true))
+        if (rvAdapterList.contains(playChannel)) {
+            val where = rvAdapterList.indexOf(playChannel)
+            rvAdapterList.remove(playChannel)
             rvAdapterList.add(where, RadioChannelItem(whoPlay, false))
         }
-        rvAdapter.submitList(rvAdapterList)
+        rvAdapter.submitList(rvAdapterList) // 어뎁터 업데이트
     }
 
 
@@ -258,6 +260,9 @@ class MainActivity : AppCompatActivity() {
         return channelItemList
     }
 
+
+    // 각 방송국의 API 호출 함수
+    // 방송국 마다 호출로 불러온 값이 다르기 때문에 when으로 구분
     fun httpNetWork(channelUrl : String, key: String, icon: Int, pos: Int)  {
         when {
             RadioChannelURL.KBS_LIST.keys.contains(key) -> {
