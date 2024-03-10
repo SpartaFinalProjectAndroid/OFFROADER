@@ -1,11 +1,14 @@
 package com.mit.offroader.ui.fragment.home
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
-    private var _homeUiState = MutableLiveData<HomeUiState>()
 
-    val homeUiState : LiveData<HomeUiState> = _homeUiState
+class HomeViewModel(homeDataRepository: HomeDataRepository) : ViewModel() {
+
+    private val repo : HomeDataRepository = homeDataRepository
+
+    val recItems : LiveData<ArrayList<HomeUiState>> = repo.recItems
+    val eventItems : LiveData<ArrayList<HomeUiData.Fourth>> = repo.eventItems
+
 }
