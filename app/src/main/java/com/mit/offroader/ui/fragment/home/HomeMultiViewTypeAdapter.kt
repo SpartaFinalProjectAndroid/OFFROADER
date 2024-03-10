@@ -46,6 +46,8 @@ class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeView
         }
     ) {
 
+    private var mList = viewModel.recItems.value
+
     override fun getItemCount(): Int {
         return currentList.size
     }
@@ -133,12 +135,20 @@ class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeView
         }
     }
 
-    inner class CardViewHolder(private val binding: LayoutHomeHoriRvBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CardViewHolder(private val binding: LayoutHomeHoriRvBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(homeHoriAdapter: HomeHoriAdapter) = with(binding) {
 
-            val adapter = HomeHoriAdapter()
-            binding.rvHori.layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
-            binding.rvHori.adapter = adapter
+
+            if (mList != null) {
+                val adapter = HomeHoriAdapter(mList!!)
+                binding.rvHori.layoutManager =
+                    LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+                binding.rvHori.adapter = adapter
+
+                binding.rvHori.post(Runnable { adapter.notifyDataSetChanged() })
+            }
+
 
 //            val adapter = MyAdapter(dataList)
 //            binding.recyclerView.adapter = adapter
@@ -165,7 +175,8 @@ class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeView
 
             //자유로운 창 조절을 위해 Dialog Fragment로 추후 전환 고려
             root.setOnClickListener {
-                val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_home_event, null)
+                val dialogView =
+                    LayoutInflater.from(context).inflate(R.layout.dialog_home_event, null)
                 val title = dialogView.findViewById<TextView>(R.id.tv_dialog_title)
                 val des = dialogView.findViewById<TextView>(R.id.tv_dialog_des)
                 val date = dialogView.findViewById<TextView>(R.id.tv_dialog_date)
@@ -193,7 +204,12 @@ class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeView
                 val maxWidth = (displayMetrics.widthPixels).toInt() //배율 사용시 Double -> toInt 필요
 
                 dialog.show()
-                dialog.window?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.apply_dialog_full_size))
+                dialog.window?.setBackgroundDrawable(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.apply_dialog_full_size
+                    )
+                )
                 dialog.window?.setLayout(maxWidth, maxHeight)
 
                 //다이얼로그 크기를 고정했기 때문에 ScrollView 안의 ConstraintLayout의 최소 높이를 강제해야 함, 딱 맞추기 위해 - margin 해줌

@@ -26,6 +26,7 @@ class HomeFragment : Fragment() {
     private val myPageAdapter: HomeMultiViewTypeAdapter by lazy {
         HomeMultiViewTypeAdapter(requireContext(), homeViewModel)
     }
+
     private var uiData: List<HomeUiData> = listOf()
 
 
@@ -38,11 +39,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        uiData = listOf(
-            HomeUiData.First,
-            HomeUiData.Third,
-            HomeUiData.Attribute
-        )
+
 
         initView()
 //        FirebaseApp.initializeApp(requireContext())
@@ -60,8 +57,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun initView() {
-//        homeViewModel.initialise()
-//        initializeValue()
+
+
+        homeViewModel.initialise()
+
+        uiData = listOf(
+            HomeUiData.First,
+            HomeUiData.Third,
+            HomeUiData.Attribute
+        )
 
         binding.rvHome.adapter = myPageAdapter
         binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
@@ -72,46 +76,30 @@ class HomeFragment : Fragment() {
     }
 
     //    private fun initializeValue() {
-//        homeViewModel.initialise()
-//    }
+
+    //    }
     private fun initObserver() {
 
-//        homeViewModel.uiState.value?.rvItems?.let {
-//            Log.d(TAG,it.toString())
-//            }
 
+        homeViewModel.eventItems.observe(viewLifecycleOwner) {
+            CoroutineScope(Dispatchers.Main).launch {
+                updateRecyclerView(it)
+            }
 
-        homeViewModel.uiState.observe(viewLifecycleOwner) {
-
-
-            CoroutineScope(Dispatchers.Main)
-                .launch {
-                    it.rvItems?.let { it1 ->
-                        it.eventItems?.let { it2 ->
-                            updateRecyclerView(it1, it2) }
-                    }
-//                    updateRecyclerView(it.rvItems, it.eventItems)
-                }
-            Log.d(TAG, "rvItems: ${it.rvItems}")
-            Log.d(TAG, "eventItems: ${it.eventItems}")
-
-//            myPageAdapter = it.rvItems?.let { it1 -> HomeMultiViewTypeAdapter(requireContext(), it1) }!!
-            it.rvItems?.let { it1 -> HomeHoriAdapter(items = it1) }
         }
 
 
     }
 
     private fun updateRecyclerView(
-        rvItems: ArrayList<HomeUiState>,
         eventItems: ArrayList<HomeUiData.Fourth>
     ) {
         uiData = listOf(
             HomeUiData.First,
-        ) + HomeUiData.Second(rvItems) + HomeUiData.Third + eventItems + HomeUiData.Attribute
+        ) + HomeUiData.Second + HomeUiData.Third + eventItems + HomeUiData.Attribute
 
         Log.d(TAG, "업데이트 : ${uiData.toList()}")
-//        myPageAdapter.submitList(uiData.toList())
+        myPageAdapter.submitList(uiData.toList())
     }
 
     override fun onDestroyView() {

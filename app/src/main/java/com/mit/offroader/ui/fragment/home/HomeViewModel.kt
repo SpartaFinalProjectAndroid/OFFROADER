@@ -27,6 +27,7 @@ class HomeViewModel(homeDataRepository: HomeDataRepository) : ViewModel() {
 
     init {
         Log.d(TAG,"${repo.recItems.value}")
+
 //        _uiState.value = UiState(repo.recItems.value, repo.eventItems.value)
     }
 
@@ -38,13 +39,13 @@ class HomeViewModel(homeDataRepository: HomeDataRepository) : ViewModel() {
 //    val eventItems : LiveData<ArrayList<HomeUiData.Fourth>?> get() = _eventItems
 //
 
-//    fun initialise() {
-//        if (repo.recItems != null && repo.eventItems != null ) {
-//            _uiState.value = UiState(repo.recItems.value,repo.eventItems.value)
-//        } else {
-//            Log.d(TAG, "데이터베이스에서 값이 안넘어온다.")
-//        }
-//
-//        Log.d(TAG, repo.recItems.value.toString())
-//    }
+    fun initialise() {
+        if (repo.recItems != null && repo.eventItems != null ) {
+            _uiState.value = UiState(repo.recItems.value,repo.eventItems.value)
+        } else {
+            Log.d(TAG, "데이터베이스에서 값이 안넘어온다.")
+        }
+
+        Log.d(TAG, repo.recItems.value.toString())
+    }
 }

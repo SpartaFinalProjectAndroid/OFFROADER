@@ -4,9 +4,7 @@ sealed class HomeUiData {
 
     data object First : HomeUiData()
 
-    data class Second(
-        var rvItems : ArrayList<HomeUiState>
-    ): HomeUiData()
+    data object Second : HomeUiData()
 
     data object Third : HomeUiData()
 
