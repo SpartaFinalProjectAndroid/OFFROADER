@@ -3,7 +3,7 @@ package com.mit.offroader.data.liked
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.mit.offroader.ui.activity.sandetail.SanDetailUiState
+import com.mit.offroader.ui.activity.sandetail.SanDetailDTO
 import com.mit.offroader.ui.fragment.chatbot.MyApplication
 
 object LikedUtil {
@@ -12,7 +12,7 @@ object LikedUtil {
         getLiked().find { it.mountain == mountainName } != null
 
 
-    fun savedLiked(bookmark: MutableList<SanDetailUiState>) {
+    fun savedLiked(bookmark: MutableList<SanDetailDTO>) {
         val context = MyApplication.appContext
 
         val prefs = context?.getSharedPreferences(
@@ -23,7 +23,7 @@ object LikedUtil {
         prefs?.edit()?.putString(LikedConstants.LIKED_PREF_KEY, "")?.apply()
     }
 
-    fun getLiked() : List<SanDetailUiState> {
+    fun getLiked() : List<SanDetailDTO> {
         val context = MyApplication.appContext
 
         val prefs = context?.getSharedPreferences(
@@ -33,7 +33,7 @@ object LikedUtil {
 
         val json = prefs?.getString(LikedConstants.LIKED_PREF_KEY, null)
         return if(json != null) {
-            val type = object : TypeToken<List<SanDetailUiState>>() {}.type
+            val type = object : TypeToken<List<SanDetailDTO>>() {}.type
             Gson().fromJson(json, type)
         } else {
             emptyList()

@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.mit.offroader.databinding.ItemAdapterMountainBinding
 
 class SanImageAdapter(
-    var mItems: MutableList<SanDetailImageData>,
+    var mItems: ArrayList<String>,
     private val viewPager2: ViewPager2
 ) : RecyclerView.Adapter<SanImageAdapter.Holder>() {
 
@@ -20,7 +20,7 @@ class SanImageAdapter(
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         Glide.with(holder.mountainImage.context)
-            .load(mItems[position].img)
+            .load(mItems[position])
             .into(holder.mountainImage)
 
         if (position == mItems.size - 1) {

@@ -50,10 +50,9 @@ class SanListFragment : Fragment() {
     }
 
     private fun initView() {
+
         setRecyclerViewGridLayout()
-
         setInitiallySelectedItem()
-
         // 카테고리 리스트 스피너 처리
         setCategorySpinner()
     }
@@ -181,6 +180,11 @@ class SanListFragment : Fragment() {
         Log.d(TAG, "setRecyclerViewGridLayout")
         val gridLayoutManager = GridLayoutManager(requireContext(), 4)
         binding.rvSanList.layoutManager = gridLayoutManager
+
+        // 깜ㅃ
+        binding.rvSanList.apply {
+            itemAnimator = null
+        }
     }
 
 
