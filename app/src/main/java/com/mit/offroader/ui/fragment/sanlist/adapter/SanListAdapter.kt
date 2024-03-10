@@ -14,7 +14,6 @@ import com.mit.offroader.databinding.ItemSanListBinding
 import com.mit.offroader.ui.fragment.sanlist.model.SanDTO
 import com.mit.offroader.ui.fragment.sanlist.viewmodel.SanListViewModel
 
-private const val TAG = "SanListAdapter"
 
 class SanListAdapter(private val viewModel: SanListViewModel) :
     ListAdapter<SanDTO, RecyclerView.ViewHolder>(
@@ -31,14 +30,6 @@ class SanListAdapter(private val viewModel: SanListViewModel) :
         val item = getItem(position)
 
         (holder as SanItemViewHolder).apply {
-
-//            sanOutline.strokeColor = if (item.sanSelected) VISIBLE else GONE
-
-//            if (item.sanSelected) {
-//                sanOutline.setStrokeColorResource(R.color.offroader_orange)
-//            } else {
-//                sanOutline.setStrokeColorResource(R.color.offroader_background)
-//            }
 
             sanImage.bringToFront()
 
@@ -67,7 +58,6 @@ class SanListAdapter(private val viewModel: SanListViewModel) :
             val position = adapterPosition.takeIf { it != RecyclerView.NO_POSITION } ?: return
             val item = getItem(position)
 
-            Log.d("HappyListVideoItemAdapter", "^^onClicked")
             viewModel.getSelectedItem(item)
         }
     }
@@ -75,12 +65,10 @@ class SanListAdapter(private val viewModel: SanListViewModel) :
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SanDTO>() {
             override fun areItemsTheSame(oldItem: SanDTO, newItem: SanDTO): Boolean {
-                Log.d(TAG, "^^Items theSame?")
-                return oldItem == newItem
+                return oldItem.sanName == newItem.sanName
             }
 
             override fun areContentsTheSame(oldItem: SanDTO, newItem: SanDTO): Boolean {
-                Log.d(TAG, "^^ContentmentSame?")
                 return oldItem == newItem
             }
         }
