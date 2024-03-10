@@ -3,14 +3,12 @@ package com.mit.offroader.ui.activity.sandetail
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
-import com.google.firebase.firestore.FirebaseFirestore
 import com.mit.offroader.R
 import com.mit.offroader.databinding.ActivitySanDetailBinding
 import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.hanrasanList
@@ -23,6 +21,8 @@ import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.seul
 import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.sobaeksanList
 import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.sokrisanList
 import com.mit.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModel
+import com.mit.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModelFactory
+import com.mit.offroader.ui.fragment.chatbot.MyApplication
 import java.text.DecimalFormat
 
 private const val TAG = "SanDetailActivity"
@@ -36,11 +36,8 @@ class SanDetailActivity : AppCompatActivity() {
     private val slideImageRunnable =
         Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
 
-    // 데이터 firebase로 받아오기
-    private val firestore = FirebaseFirestore.getInstance()
-
     private lateinit var imageAdapter: SanImageAdapter
-    private val sanDetailViewModel by viewModels<SanDetailViewModel>()
+    private val sanDetailViewModel: SanDetailViewModel by viewModels { SanDetailViewModelFactory((application as MyApplication).sanDetailRepository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -143,7 +140,7 @@ class SanDetailActivity : AppCompatActivity() {
         else -> SanImageAdapter(hanrasanList, binding.vpMountain)
     }
     // 인텐트로 넘오는 산 이름 받아줌.
-    private fun getSanName() =intent.getStringExtra("name")
+    private fun getSanName() = intent.getStringExtra("name")
 
 
     private fun setSanInfoView(sanlist: SanDetailDTO) = with(binding){

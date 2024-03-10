@@ -20,7 +20,6 @@ class SanDetailRepository {
             .addOnSuccessListener { documents ->
                 val sanInfo: ArrayList<SanDetailDTO> = arrayListOf()
 
-
                 documents.forEach { document ->
                     val sanList = SanDetailDTO(
                         document.getString("name") ?: "none",
