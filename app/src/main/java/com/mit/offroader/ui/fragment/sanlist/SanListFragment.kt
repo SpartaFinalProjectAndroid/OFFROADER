@@ -50,6 +50,8 @@ class SanListFragment : Fragment() {
     }
 
     private fun initView() {
+
+
         setRecyclerViewGridLayout()
 
         setInitiallySelectedItem()
@@ -181,6 +183,11 @@ class SanListFragment : Fragment() {
         Log.d(TAG, "setRecyclerViewGridLayout")
         val gridLayoutManager = GridLayoutManager(requireContext(), 4)
         binding.rvSanList.layoutManager = gridLayoutManager
+
+        // 깜ㅃ
+        binding.rvSanList.apply {
+            itemAnimator = null
+        }
     }
 
 
