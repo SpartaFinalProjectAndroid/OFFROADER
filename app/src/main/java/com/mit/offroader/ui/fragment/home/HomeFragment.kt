@@ -48,6 +48,7 @@ class HomeFragment : Fragment() {
 //        FirebaseApp.initializeApp(requireContext())
 
         initObserver()
+        myPageAdapter.submitList(uiData.toList())
 
 //        binding.rvHome.adapter = myPageAdapter
 //        binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
@@ -92,13 +93,14 @@ class HomeFragment : Fragment() {
                     }
 //                    updateRecyclerView(it.rvItems, it.eventItems)
                 }
-            Log.d(TAG, "rvItems: ${it.rvItems}")
-            Log.d(TAG, "eventItems: ${it.eventItems}")
+            Log.d(TAG, "rvItems: ${it.rvItems.size}")
+            Log.d(TAG, "eventItems: ${it.eventItems.size}")
 
 //            myPageAdapter = it.rvItems?.let { it1 -> HomeMultiViewTypeAdapter(requireContext(), it1) }!!
             it.rvItems?.let { it1 -> HomeHoriAdapter(items = it1) }
         }
 
+        myPageAdapter.submitList(uiData.toList())
 
     }
 
@@ -110,6 +112,7 @@ class HomeFragment : Fragment() {
             HomeUiData.First,
         ) + HomeUiData.Second(rvItems) + HomeUiData.Third + eventItems + HomeUiData.Attribute
 
+        myPageAdapter.submitList(uiData.toList())
         Log.d(TAG, "업데이트 : ${uiData.toList()}")
 //        myPageAdapter.submitList(uiData.toList())
     }
