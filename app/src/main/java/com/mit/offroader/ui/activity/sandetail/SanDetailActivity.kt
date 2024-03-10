@@ -41,12 +41,6 @@ class SanDetailActivity : AppCompatActivity() {
         //보고 필요하면 상태바 아이콘 어둡게
         //window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
-//        binding.tbMustBeTrans.setBackgroundColor(Color.TRANSPARENT)
-//        binding.appbar.setBackgroundColor(Color.TRANSPARENT)
-//        binding.collapsingToolbar.setBackgroundColor(Color.TRANSPARENT)
-//        binding.collapsingToolbar.setContentScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
-//        tb.alpha = 0f
-
 
         sanDetailViewModel.getSelectedSan(getSanName())
 //        Log.d(TAG, "산이름 : ${sanName}")

@@ -51,11 +51,8 @@ class SanListFragment : Fragment() {
 
     private fun initView() {
 
-
         setRecyclerViewGridLayout()
-
         setInitiallySelectedItem()
-
         // 카테고리 리스트 스피너 처리
         setCategorySpinner()
     }
