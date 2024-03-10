@@ -71,13 +71,13 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.navigation_1 -> {
                     replaceFragment(HomeFragment())
+                    disableStatusBarTrans()
                     //애니메이션 쓸거면 여기
                     true
                 }
 
                 R.id.navigation_2 -> {
                     replaceFragment(SanListFragment())
-
                     enableStatusBarTrans()
 
                     true
@@ -85,19 +85,19 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.navigation_3 -> {
                     replaceFragment(SanMapFragment())
+                    disableStatusBarTrans()
                     true
                 }
 
                 R.id.navigation_4 -> {
                     replaceFragment(ChatBotFragment())
-
                     disableStatusBarTrans()
-
                     true
                 }
 
                 R.id.navigation_5 -> {
                     replaceFragment(MyDetailFragment())
+                    disableStatusBarTrans()
                     true
                 }
 
