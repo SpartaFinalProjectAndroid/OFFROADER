@@ -24,21 +24,15 @@ class HomeFragment : Fragment() {
     private lateinit var  myPageAdapter: HomeMultiViewTypeAdapter
     private var uiData: List<HomeUiData> = listOf()
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        initView()
         initObserver()
-
     }
 
     private fun initObserver() {
@@ -60,15 +54,11 @@ class HomeFragment : Fragment() {
             CoroutineScope(Dispatchers.Main).launch {
                 updateRecyclerView(it)
             }
-
         }
-
-
     }
 
     private fun updateRecyclerView(
-        eventItems: ArrayList<HomeUiData.Fourth>
-    ) {
+        eventItems: ArrayList<HomeUiData.Fourth>) {
         uiData = listOf(
             HomeUiData.First,
         ) + HomeUiData.Second + HomeUiData.Third + eventItems + HomeUiData.Attribute
