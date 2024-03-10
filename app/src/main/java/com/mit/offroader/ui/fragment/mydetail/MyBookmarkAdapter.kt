@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mit.offroader.data.liked.LikedUtil
 import com.mit.offroader.databinding.ItemAdapterBookmarkBinding
-import com.mit.offroader.ui.activity.sandetail.SanDetailUiState
+import com.mit.offroader.ui.activity.sandetail.SanDetailDTO
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -46,7 +46,7 @@ class MyBookmarkAdapter() : RecyclerView.Adapter<MyBookmarkAdapter.Holder>(), On
         var mountainTime = binding.tvTime
         var mountainDate = binding.tvDate
 
-        fun bind(item: SanDetailUiState) {
+        fun bind(item: SanDetailDTO) {
             mountainName.text = item.mountain
 //            mountainTime.text = item.time
 
