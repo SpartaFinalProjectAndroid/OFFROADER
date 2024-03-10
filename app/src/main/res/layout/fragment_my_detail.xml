@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:fontFamily="@font/bm_hanna_pro"
+        android:fontFamily="@font/bm_hanna_11yrs_old"
         android:text="@string/mydetail_myinfo"
         android:textColor="@color/offroader_green"
-        android:textSize="30sp"
-        android:textStyle="bold"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,10 +36,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:fontFamily="@font/pretendardvariable"
+            android:fontFamily="@font/pretendard_medium"
             android:text="@string/mydetail_summary"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,9 +58,9 @@
             android:id="@+id/tv_counttime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendardvariable"
+            android:fontFamily="@font/pretendard_bold"
             android:text="@string/mydetail_counttime"
-            android:textSize="16sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_time"
             app:layout_constraintEnd_toStartOf="@id/line_3"
             app:layout_constraintHorizontal_bias="0.5"
@@ -98,9 +96,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:fontFamily="@font/pretendardvariable"
+            android:fontFamily="@font/pretendard_bold"
             android:text="@string/mydetail_counttracking"
-            android:textSize="16sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -115,11 +113,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="50dp"
-        android:fontFamily="@font/bm_hanna_pro"
+        android:fontFamily="@font/bm_hanna_11yrs_old"
         android:text="@string/mydetail_recode"
         android:textColor="@color/offroader_green"
-        android:textSize="30sp"
-        android:textStyle="bold"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_my_info" />
 
@@ -128,10 +125,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:background="@drawable/ic_rounded_background_line"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_recode"
-        tools:listitem="@layout/item_adapter_bookmark" />
+        tools:listitem="@layout/item_san_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
