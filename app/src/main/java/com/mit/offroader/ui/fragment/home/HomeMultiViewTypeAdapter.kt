@@ -8,9 +8,11 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.ScrollView
@@ -32,8 +34,8 @@ import com.mit.offroader.databinding.ItemHomeEventBinding
 import com.mit.offroader.databinding.ItemHomeEventTitleBinding
 import com.mit.offroader.databinding.LayoutHomeHoriRvBinding
 
-
-class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeViewModel) :
+private const val TAG = "HomeMultiViewTypeAdapter"
+class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeViewModel, list: ArrayList<HomeUiState>?) :
     ListAdapter<HomeUiData, RecyclerView.ViewHolder>(
         object : DiffUtil.ItemCallback<HomeUiData>() {
             override fun areItemsTheSame(oldItem: HomeUiData, newItem: HomeUiData): Boolean {
@@ -45,6 +47,8 @@ class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeView
             }
         }
     ) {
+
+    private var mList = list
 
     override fun getItemCount(): Int {
         return currentList.size
@@ -133,12 +137,22 @@ class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeView
         }
     }
 
-    inner class CardViewHolder(private val binding: LayoutHomeHoriRvBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CardViewHolder(private val binding: LayoutHomeHoriRvBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(homeHoriAdapter: HomeHoriAdapter) = with(binding) {
 
-            val adapter = HomeHoriAdapter()
-            binding.rvHori.layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
-            binding.rvHori.adapter = adapter
+
+            if (mList != null) {
+                val adapter = HomeHoriAdapter(mList!!)
+                binding.rvHori.layoutManager =
+                    LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+                binding.rvHori.adapter = adapter
+
+                binding.rvHori.post(Runnable { adapter.notifyDataSetChanged() })
+            } else {
+                Log.d(TAG, "디비에서 값을 못가져옴")
+            }
+
 
 //            val adapter = MyAdapter(dataList)
 //            binding.recyclerView.adapter = adapter
@@ -193,8 +207,14 @@ class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeView
                 val maxWidth = (displayMetrics.widthPixels).toInt() //배율 사용시 Double -> toInt 필요
 
                 dialog.show()
-                dialog.window?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.apply_dialog_full_size))
-                dialog.window?.setLayout(maxWidth, maxHeight)
+                dialog.window?.setBackgroundDrawable(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.apply_dialog_full_size
+                    )
+                )
+                //위 코드의 setBackgroundDrawable로 margin이 사라졌기 때문에 높이를 MATCH_PARENT로 고정해 준다
+                dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
 
                 //다이얼로그 크기를 고정했기 때문에 ScrollView 안의 ConstraintLayout의 최소 높이를 강제해야 함, 딱 맞추기 위해 - margin 해줌
                 val dialogCl = dialogView.findViewById<ConstraintLayout>(R.id.cl_dialog)

@@ -102,41 +102,79 @@
         android:id="@+id/tv_markerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:elevation="20dp"
         android:fontFamily="@font/pretendard_regular"
         android:text="@string/mountain_name"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/markerInfo"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@id/iv_marker_info_image"
         app:layout_constraintTop_toTopOf="@id/markerInfo" />
+
+    <TextView
+        android:id="@+id/tv_markerHeight_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:elevation="20dp"
+        android:fontFamily="@font/pretendard_regular"
+        android:text="@string/mountain_height_text"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/iv_marker_info_image"
+        app:layout_constraintTop_toBottomOf="@id/tv_markerName" />
 
     <TextView
         android:id="@+id/tv_markerHeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:elevation="20dp"
         android:fontFamily="@font/pretendard_regular"
         android:text="@string/mountain_height"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/markerInfo"
+        app:layout_constraintStart_toEndOf="@id/tv_markerHeight_text"
         app:layout_constraintTop_toBottomOf="@id/tv_markerName" />
 
     <TextView
         android:id="@+id/tv_markerDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="10dp"
         android:elevation="20dp"
         android:fontFamily="@font/pretendard_regular"
         android:text="@string/mountain_description"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@id/markerInfo"
-        app:layout_constraintStart_toStartOf="@id/markerInfo"
+        app:layout_constraintStart_toEndOf="@id/iv_marker_info_image"
         app:layout_constraintTop_toBottomOf="@id/tv_markerHeight" />
+
+    <ImageView
+        android:id="@+id/iv_infoClose"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="9dp"
+        android:background="@drawable/map_search_edge"
+        android:elevation="10dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_map_info_close"
+        app:layout_constraintEnd_toEndOf="@id/markerInfo"
+        app:layout_constraintTop_toTopOf="@id/markerInfo" />
+
+    <ImageView
+        android:id="@+id/iv_marker_info_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:elevation="10dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:src="@drawable/iv_marker_info_image"
+        app:layout_constraintBottom_toBottomOf="@id/markerInfo"
+        app:layout_constraintStart_toStartOf="@id/markerInfo"
+        app:layout_constraintTop_toTopOf="@id/markerInfo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
