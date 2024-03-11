@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
     private var radioUrl : String ?= null
     private var isPlay : Boolean = false
 
+    private var lastTimeBackPressed:Long=-1500
+    
     @OptIn(UnstableApi::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -457,5 +459,12 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+    }
+    override fun onBackPressed() {
+        // (현재 버튼 누른 시간-이전에 버튼 누른 시간) <=1.5초일 때 동작
+        if(System.currentTimeMillis()-lastTimeBackPressed<=1500)
+            finish()
+        lastTimeBackPressed=System.currentTimeMillis()
+        Toast.makeText(this,"이전 버튼을 한 번 더 누르면 종료됩니다", Toast.LENGTH_SHORT).show()
     }
 }
