@@ -40,6 +40,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tb_title" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:rotation="180"
+        android:alpha="0.03"
+        android:src="@drawable/apply_gradation_shadow_black"
+        app:layout_constraintTop_toTopOf="@id/rv_home"/>
+
     <!-- 커스텀 토스트?바 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_customToast"
