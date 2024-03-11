@@ -1,6 +1,7 @@
 package com.mit.offroader.ui.activity.main
 
 
+import android.app.Application
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -42,6 +43,9 @@ import com.mit.offroader.ui.fragment.map.SanMapFragment
 import com.mit.offroader.ui.fragment.mydetail.MyDetailFragment
 import com.mit.offroader.ui.fragment.sanlist.SanListFragment
 import com.mit.offroader.data.RetrofitInstance
+import com.mit.offroader.ui.activity.main.adapters.HttpItem
+import com.mit.offroader.ui.activity.main.models.HttpNetWork
+import com.mit.offroader.ui.activity.main.models.HttpTestInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Delay
 import kotlinx.coroutines.Dispatchers
@@ -76,6 +80,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvAdapter: RadioListAdapter
     private lateinit var rvAdapterList: MutableList<RadioChannelItem>
 
+    val httpTest = HttpNetWork()
+    
     @OptIn(UnstableApi::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -203,7 +209,20 @@ class MainActivity : AppCompatActivity() {
             override fun onClick(key : String, pos: Int)  {
                 val whoPlay = radioListViewModel.whoPlay.value
                 if (whoPlay != key) {
-                    urlList[key]?.let { httpNetWork(it, key, radioIcon, pos) }
+                    urlList[key]?.let {
+                        val item2 = HttpItem(it, key, radioIcon, pos)
+                        //httpNetWork(item)
+                        radioListViewModel.getHttpNetWork(item2)
+                        radioListViewModel.channelURL.observe(this@MainActivity) {
+                            url ->
+                            radioUrl = url
+                            preparePlayer()
+                            playingMarkChange()
+                            radioPlay(item2.key, item2.radioIcon)
+                            playingMarkCurrent(item2.key, item2.position)
+                        }
+
+                    }
                 }
             }
         }
@@ -263,11 +282,11 @@ class MainActivity : AppCompatActivity() {
 
     // 각 방송국의 API 호출 함수
     // 방송국 마다 호출로 불러온 값이 다르기 때문에 when으로 구분
-    fun httpNetWork(channelUrl : String, key: String, icon: Int, pos: Int)  {
+    fun httpNetWork(item: HttpItem)  {
         when {
-            RadioChannelURL.KBS_LIST.keys.contains(key) -> {
+            RadioChannelURL.KBS_LIST.keys.contains(item.key) -> {
                 val client = OkHttpClient()
-                val request: Request = Request.Builder().url(channelUrl).build()
+                val request: Request = Request.Builder().url(item.url).build()
 
                 client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) { Log.e("Minyong", "fail!") }
@@ -282,8 +301,8 @@ class MainActivity : AppCompatActivity() {
                                 radioUrl = url
                                 preparePlayer()
                                 playingMarkChange()
-                                radioPlay(key, icon)
-                                playingMarkCurrent(key, pos)
+                                radioPlay(item.key, item.radioIcon)
+                                playingMarkCurrent(item.key, item.position)
                             }
                         }
                     }
@@ -291,7 +310,7 @@ class MainActivity : AppCompatActivity() {
             }
             else -> {
                 val client = OkHttpClient()
-                val request = Request.Builder().url(channelUrl).build()
+                val request = Request.Builder().url(item.url).build()
 
                 client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) { Log.i("Minyong", "fail!") }
@@ -302,8 +321,8 @@ class MainActivity : AppCompatActivity() {
                                 radioUrl = response.body?.string()
                                 preparePlayer()
                                 playingMarkChange()
-                                radioPlay(key, icon)
-                                playingMarkCurrent(key, pos)
+                                radioPlay(item.key, item.radioIcon)
+                                playingMarkCurrent(item.key, item.position)
                             }
                         }
                     }
@@ -317,6 +336,8 @@ class MainActivity : AppCompatActivity() {
     private fun preparePlayer() = with(binding) {
         viewTest.player?.stop()
         val mediaItem = radioUrl?.let { MediaItem.fromUri(it) }
+        //val mediaItem = radioListViewModel.channelURL?.let { MediaItem.fromUri(it) }
+        //val mediaItem = MediaItem.fromUri(item.toString())
         if (mediaItem != null) {
             viewTest.player?.setMediaItem(mediaItem)
         }
@@ -334,7 +355,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 라디오를 재생 하고 뷰모델 whoPlay 변수에 어떤 채널이 재생 되고 있는지 저장
-    private  fun radioPlay(key: String?, icon: Int) = with(binding) {
+    private fun radioPlay(key: String?, icon: Int) = with(binding) {
         viewTest.player?.play()
         ivRadioPlayBtn.setImageResource(R.drawable.ic_pause)
         tvBottomRadioTitle.text = key

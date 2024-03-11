@@ -11,3 +11,10 @@ data class RadioChannelItem(
     var isPlay : Boolean = false,
 )
 
+data class HttpItem(
+    val url : String,
+    val key : String,
+    val radioIcon : Int,
+    val position : Int,
+)
+
