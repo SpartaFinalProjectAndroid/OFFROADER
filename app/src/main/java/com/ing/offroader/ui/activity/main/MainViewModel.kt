@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.mit.offroader.ui.activity.main.adapters.HttpItem
+import com.ing.offroader.ui.activity.main.adapters.HttpItem
 import com.ing.offroader.ui.activity.main.models.HttpTestInterface
 import com.ing.offroader.ui.activity.main.repository.RadioRepository
 import kotlinx.coroutines.launch
