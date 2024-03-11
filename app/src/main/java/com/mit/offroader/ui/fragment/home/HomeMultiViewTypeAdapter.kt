@@ -206,6 +206,8 @@ class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeView
                 val maxHeight = (displayMetrics.heightPixels).toInt() //배율 사용시 Double -> toInt 필요
                 val maxWidth = (displayMetrics.widthPixels).toInt() //배율 사용시 Double -> toInt 필요
 
+                dialog.window?.setDimAmount(0.0f)
+
                 dialog.show()
                 dialog.window?.setBackgroundDrawable(
                     ContextCompat.getDrawable(
