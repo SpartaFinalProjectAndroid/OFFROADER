@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.ScrollView
@@ -178,8 +179,7 @@ class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeView
 
             //자유로운 창 조절을 위해 Dialog Fragment로 추후 전환 고려
             root.setOnClickListener {
-                val dialogView =
-                    LayoutInflater.from(context).inflate(R.layout.dialog_home_event, null)
+                val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_home_event, null)
                 val title = dialogView.findViewById<TextView>(R.id.tv_dialog_title)
                 val des = dialogView.findViewById<TextView>(R.id.tv_dialog_des)
                 val date = dialogView.findViewById<TextView>(R.id.tv_dialog_date)
@@ -206,6 +206,8 @@ class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeView
                 val maxHeight = (displayMetrics.heightPixels).toInt() //배율 사용시 Double -> toInt 필요
                 val maxWidth = (displayMetrics.widthPixels).toInt() //배율 사용시 Double -> toInt 필요
 
+                dialog.window?.setDimAmount(0.0f)
+
                 dialog.show()
                 dialog.window?.setBackgroundDrawable(
                     ContextCompat.getDrawable(
@@ -213,7 +215,8 @@ class HomeMultiViewTypeAdapter(private val context: Context, viewModel: HomeView
                         R.drawable.apply_dialog_full_size
                     )
                 )
-                dialog.window?.setLayout(maxWidth, maxHeight)
+                //위 코드의 setBackgroundDrawable로 margin이 사라졌기 때문에 높이를 MATCH_PARENT로 고정해 준다
+                dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
 
                 //다이얼로그 크기를 고정했기 때문에 ScrollView 안의 ConstraintLayout의 최소 높이를 강제해야 함, 딱 맞추기 위해 - margin 해줌
                 val dialogCl = dialogView.findViewById<ConstraintLayout>(R.id.cl_dialog)

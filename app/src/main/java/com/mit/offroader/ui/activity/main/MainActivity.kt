@@ -15,6 +15,7 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.OptIn
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.media3.common.MediaItem
@@ -104,7 +105,11 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.navigation_1 -> {
                     replaceFragment(HomeFragment())
+
                     binding.mlMain.transitionToStart()
+
+                    disableStatusBarTrans()
+
                     //애니메이션 쓸거면 여기
                     true
                 }
@@ -112,24 +117,29 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_2 -> {
                     replaceFragment(SanListFragment())
                     binding.mlMain.transitionToStart()
+                    enableStatusBarTrans()
+
                     true
                 }
 
                 R.id.navigation_3 -> {
                     replaceFragment(SanMapFragment())
                     binding.mlMain.transitionToStart()
+                    disableStatusBarTrans()
                     true
                 }
 
                 R.id.navigation_4 -> {
                     replaceFragment(ChatBotFragment())
                     binding.mlMain.transitionToStart()
+                    disableStatusBarTrans()
                     true
                 }
 
                 R.id.navigation_5 -> {
                     replaceFragment(MyDetailFragment())
                     binding.mlMain.transitionToStart()
+                    disableStatusBarTrans()
                     true
                 }
 
@@ -398,4 +408,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun enableStatusBarTrans(){
+        window.statusBarColor = ContextCompat.getColor(this, R.color.transparent)
+        //전체화면으로 설정하면 상단 parent 아이콘 배치 margin 주어야 함 안그러면 상태바 아래로 기어드감
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        //보고 필요하면 상태바 아이콘 어둡게
+//        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+    }
+
+    private fun disableStatusBarTrans(){
+        window.statusBarColor = ContextCompat.getColor(this, R.color.offroader_background)
+        //전체화면으로 설정하면 상단 parent 아이콘 배치 margin 주어야 함 안그러면 상태바 아래로 기어드감
+        window.decorView.systemUiVisibility = 0
+        //보고 필요하면 상태바 아이콘 어둡게
+//        window.decorView.systemUiVisibility = 8191
+    }
+
+
+
 }

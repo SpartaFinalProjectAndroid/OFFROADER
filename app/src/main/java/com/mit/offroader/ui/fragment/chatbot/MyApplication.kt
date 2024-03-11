@@ -2,6 +2,7 @@ package com.mit.offroader.ui.fragment.chatbot
 
 import android.app.Application
 import android.content.Context
+import com.mit.offroader.ui.activity.sandetail.viewmodel.SanDetailRepository
 import com.mit.offroader.ui.fragment.chatbot.database.BongbongDatabase
 import com.mit.offroader.ui.fragment.chatbot.database.HikeyDatabase
 import com.mit.offroader.ui.fragment.chatbot.viewmodel.BongbongRepository
@@ -24,6 +25,7 @@ class MyApplication: Application() {
     val sanListDTO by lazy {}
     val sanListRepository by lazy { SanListRepository() }
     val homeDataRepository by lazy { HomeDataRepository() }
+    val sanDetailRepository by lazy { SanDetailRepository() }
 
     override fun onCreate() {
         super.onCreate()
