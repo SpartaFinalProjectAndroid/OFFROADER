@@ -11,15 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.mit.offroader.R
 import com.mit.offroader.databinding.ActivitySanDetailBinding
-import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.hanrasanList
-import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.jirisanList
-import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.kyeryongsanList
-import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.naejangsanList
-import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.northhansanList
-import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.odaesanList
-import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.seullacksanList
-import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.sobaeksanList
-import com.mit.offroader.ui.activity.sandetail.SanDetailImageData.Companion.sokrisanList
 import com.mit.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModel
 import com.mit.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModelFactory
 import com.mit.offroader.ui.fragment.chatbot.MyApplication
@@ -50,17 +41,11 @@ class SanDetailActivity : AppCompatActivity() {
         //보고 필요하면 상태바 아이콘 어둡게
         //window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
-//        binding.tbMustBeTrans.setBackgroundColor(Color.TRANSPARENT)
-//        binding.appbar.setBackgroundColor(Color.TRANSPARENT)
-//        binding.collapsingToolbar.setBackgroundColor(Color.TRANSPARENT)
-//        binding.collapsingToolbar.setContentScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
-//        tb.alpha = 0f
-
 
         sanDetailViewModel.getSelectedSan(getSanName())
 //        Log.d(TAG, "산이름 : ${sanName}")
 
-        initImage()
+
         initBackButton()
         initObserver()
     }
@@ -95,12 +80,14 @@ class SanDetailActivity : AppCompatActivity() {
         setDifficultyView(sanlist)
         //상행시간, 하행시간, 총 등산시간
         setHikingTimeView(sanlist)
+        // 뷰페이저 어댑터 기본 설정
+        initImage(sanlist)
     }
     // 자동 스크롤되는 ViewPager2 이미지
-    private fun initImage() {
+    private fun initImage(sanlist : SanDetailDTO) {
 
         // 뷰페이저 어댑터 기본 설정
-        setImageAdapter()
+        setImageAdapter(sanlist)
         //자동 스크롤 콜백 설정
         setImageCallBack()
 
@@ -118,27 +105,13 @@ class SanDetailActivity : AppCompatActivity() {
         })
     }
 
-    private fun setImageAdapter() {
+    private fun setImageAdapter(sanlist: SanDetailDTO) {
 
-        // getSanName() : 인텐트로 넘오는 산 이름 받아줌.
-        // getImageAdapter : 산 이름에 따라서 산 리스트를 받아옴
-        imageAdapter = getImageAdapter(getSanName())
-
-        binding.vpMountain.adapter = imageAdapter
+        binding.vpMountain.adapter = getImageAdapter(sanlist)
         binding.vpMountain.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
-    private fun getImageAdapter(sanName: String?) = when (sanName) {
-        "계룡산" -> SanImageAdapter(kyeryongsanList, binding.vpMountain)
-        "내장산" -> SanImageAdapter(naejangsanList, binding.vpMountain)
-        "북한산" -> SanImageAdapter(northhansanList, binding.vpMountain)
-        "설악산" -> SanImageAdapter(seullacksanList, binding.vpMountain)
-        "소백산" -> SanImageAdapter(sobaeksanList, binding.vpMountain)
-        "속리산" -> SanImageAdapter(sokrisanList, binding.vpMountain)
-        "오대산" -> SanImageAdapter(odaesanList, binding.vpMountain)
-        "지리산" -> SanImageAdapter(jirisanList, binding.vpMountain)
-        else -> SanImageAdapter(hanrasanList, binding.vpMountain)
-    }
+    private fun getImageAdapter(sanlist: SanDetailDTO) = SanImageAdapter(sanlist.img, binding.vpMountain)
     // 인텐트로 넘오는 산 이름 받아줌.
     private fun getSanName() = intent.getStringExtra("name")
 

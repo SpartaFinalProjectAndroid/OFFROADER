@@ -5,5 +5,6 @@ data class MarkerDTO(
     var lat: Double? = null,
     var lng: Double? = null,
     var height: Double? = null,
-    var description: String? = null
+    var description: String? = null,
+    var image: String? = null
 )

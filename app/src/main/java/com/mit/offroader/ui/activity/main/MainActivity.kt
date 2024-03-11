@@ -2,10 +2,11 @@ package com.mit.offroader.ui.activity.main
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.media3.common.MediaItem
@@ -47,8 +48,6 @@ class MainActivity : AppCompatActivity() {
     private var radioUrl : String ?= null
     private var isPlay : Boolean = false
 
-    private var lastTimeBackPressed:Long=-1500
-    
     @OptIn(UnstableApi::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -72,27 +71,33 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.navigation_1 -> {
                     replaceFragment(HomeFragment())
+                    disableStatusBarTrans()
                     //애니메이션 쓸거면 여기
                     true
                 }
 
                 R.id.navigation_2 -> {
                     replaceFragment(SanListFragment())
+                    enableStatusBarTrans()
+
                     true
                 }
 
                 R.id.navigation_3 -> {
                     replaceFragment(SanMapFragment())
+                    disableStatusBarTrans()
                     true
                 }
 
                 R.id.navigation_4 -> {
                     replaceFragment(ChatBotFragment())
+                    disableStatusBarTrans()
                     true
                 }
 
                 R.id.navigation_5 -> {
                     replaceFragment(MyDetailFragment())
+                    disableStatusBarTrans()
                     true
                 }
 
@@ -461,11 +466,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    override fun onBackPressed() {
-        // (현재 버튼 누른 시간-이전에 버튼 누른 시간) <=1.5초일 때 동작
-        if(System.currentTimeMillis()-lastTimeBackPressed<=1500)
-            finish()
-        lastTimeBackPressed=System.currentTimeMillis()
-        Toast.makeText(this,"이전 버튼을 한 번 더 누르면 종료됩니다", Toast.LENGTH_SHORT).show()
+
+    private fun enableStatusBarTrans(){
+        window.statusBarColor = ContextCompat.getColor(this, R.color.transparent)
+        //전체화면으로 설정하면 상단 parent 아이콘 배치 margin 주어야 함 안그러면 상태바 아래로 기어드감
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        //보고 필요하면 상태바 아이콘 어둡게
+//        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
     }
+
+    private fun disableStatusBarTrans(){
+        window.statusBarColor = ContextCompat.getColor(this, R.color.offroader_background)
+        //전체화면으로 설정하면 상단 parent 아이콘 배치 margin 주어야 함 안그러면 상태바 아래로 기어드감
+        window.decorView.systemUiVisibility = 0
+        //보고 필요하면 상태바 아이콘 어둡게
+//        window.decorView.systemUiVisibility = 8191
+    }
+
+
+
 }
