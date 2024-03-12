@@ -113,12 +113,12 @@ class ChatBotFragment : Fragment() {
         when (position) {
             "hikey" -> {
                 binding.ivBot.setImageResource(R.drawable.ic_hikey)
-                binding.tvBotMbti.text = getString(R.string.chatbot_mbti_t)
+                binding.tvBotMbti.text = getString(R.string.chatbot_hikey)
             }
 
             "bongbong" -> {
                 binding.ivBot.setImageResource(R.drawable.ic_bongbong)
-                binding.tvBotMbti.text = getString(R.string.chatbot_mbti_f)
+                binding.tvBotMbti.text = getString(R.string.chatbot_bongbong)
             }
         }
 
@@ -180,8 +180,8 @@ class ChatBotFragment : Fragment() {
             activity as MainActivity,
             android.R.layout.simple_spinner_dropdown_item,
             listOf(
-                getString(R.string.chatbot_hikey),
-                getString(R.string.chatbot_bongbong)
+                getString(R.string.chatbot_mbti_t),
+                getString(R.string.chatbot_mbti_f)
             )
         )
     }
