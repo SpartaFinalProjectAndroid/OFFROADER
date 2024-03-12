@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ing.offroader.R
@@ -152,17 +153,24 @@ class ChatBotFragment : Fragment() {
     // 에딧 텍스트에서 챗봇 검색 실행 코드.
     private fun setSearch() {
 
-
         // 키보드에서 검색을 눌렀을 때 질문이 질문을 뷰모델로 넘겨주는 함수
         binding.etAsk.setOnEditorActionListener { textView, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
-                chatBotViewModel.setSearch(textView.text.toString())
-                (binding.etAsk as TextView).text = getString(R.string.chatbot_clear)
-                // handled가 false이면 검색 클릭 이후 키보드가 비활성화된다.
+            if (textView.text.toString().isBlank()) {
+                Toast.makeText(requireContext(),"궁금한 것을 입력해주세요",Toast.LENGTH_SHORT).show()
+                true
+
+            } else {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    chatBotViewModel.setSearch(textView.text.toString())
+                    (binding.etAsk as TextView).text = getString(R.string.chatbot_clear)
+
+                    // handled가 false이면 검색 클릭 이후 키보드가 비활성화된다.
+                }
+                // handled 가 항상 false이기 때문에 그냥 false 리턴해줌
+                false
             }
-            // handled 가 항상 false이기 때문에 그냥 false 리턴해줌
-            false
         }
     }
 
@@ -192,6 +200,7 @@ class ChatBotFragment : Fragment() {
                 id: Long
             ) {
                 Log.d(TAG, "1. 스피너 선택 position : $position")
+
                 chatBotViewModel.setBotSpinner(position)
 
             }
