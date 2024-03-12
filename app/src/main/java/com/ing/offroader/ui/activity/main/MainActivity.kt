@@ -187,9 +187,13 @@ class MainActivity : AppCompatActivity() {
         rvChannelList.adapter = adapter
         adapter.submitList(radioListViewModel.radioLikeList.value?.let { initAdapter(it) })
 
-        Log.d("Minyong", "favoriteInit: " + radioListViewModel.radioLikeList.value?.size)
-
-
+        if (radioListViewModel.radioLikeList.value?.size == 0) {
+            binding.tvFavoriteNotify.visibility = View.VISIBLE
+            binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
+        } else {
+            binding.tvFavoriteNotify.visibility = View.GONE
+            binding.tvFavoriteNotify.text = ""
+        }
 
         adapter.itemClick = object : RadioListAdapter.ItemClick {
             override fun onClick(key: String, pos: Int) {
