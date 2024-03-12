@@ -3,6 +3,7 @@ package com.ing.offroader.ui.activity.main
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     private val radioListViewModel by viewModels<MainViewModel>()
     private var radioUrl : String ?= null
     private var isPlay : Boolean = false
+    private var lastTimeBackPressed:Long=-1500
 
     @OptIn(UnstableApi::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -520,6 +522,12 @@ class MainActivity : AppCompatActivity() {
 //        window.decorView.systemUiVisibility = 8191
     }
 
-
+    override fun onBackPressed() {
+        // (현재 버튼 누른 시간-이전에 버튼 누른 시간) <=1.5초일 때 동작
+        if(System.currentTimeMillis()-lastTimeBackPressed<=1500)
+            finish()
+        lastTimeBackPressed=System.currentTimeMillis()
+        Toast.makeText(this,"이전 버튼을 한 번 더 누르면 종료됩니다", Toast.LENGTH_SHORT).show()
+    }
 
 }
