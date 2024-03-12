@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var radioPlayer : ExoPlayer
+    private var isRadioLikeTab = false
 
     private val radioListViewModel by viewModels<MainViewModel>()
     private var radioUrl : String ?= null
@@ -55,20 +56,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         radioPlayer = ExoPlayer.Builder(this)
             .setMediaSourceFactory(DefaultMediaSourceFactory(this).setLiveTargetOffsetMs(5000))
             .build()
         binding.viewTest.player = radioPlayer
 
-        if (radioListViewModel.radioLikeList.value == null) {
-            binding.tvFavoriteNotify.visibility = View.VISIBLE
-        } else {
-            binding.tvFavoriteNotify.visibility = View.GONE
-        }
-
         radioListViewModel.radioLikeList.observe(this) {
-            if (it.size == 0) {
+            if (it.size == 0 && isRadioLikeTab) {
                 binding.tvFavoriteNotify.visibility = View.VISIBLE
                 binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
             } else {
@@ -188,19 +182,14 @@ class MainActivity : AppCompatActivity() {
 
     // 즐겨찾기 리사이클러뷰 리스트 초기화
     private fun favoriteInit() = with(binding) {
+        isRadioLikeTab = true
         val adapter = RadioListAdapter(radioListViewModel)
         rvChannelList.adapter = adapter
         adapter.submitList(radioListViewModel.radioLikeList.value?.let { initAdapter(it) })
 
         Log.d("Minyong", "favoriteInit: " + radioListViewModel.radioLikeList.value?.size)
 
-        if (radioListViewModel.radioLikeList.value?.size == 0) {
-            tvFavoriteNotify.visibility = View.VISIBLE
-            tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
-        } else {
-            tvFavoriteNotify.visibility = View.GONE
-            tvFavoriteNotify.text = ""
-        }
+
 
         adapter.itemClick = object : RadioListAdapter.ItemClick {
             override fun onClick(key: String, pos: Int) {
@@ -247,6 +236,7 @@ class MainActivity : AppCompatActivity() {
 
     // KBS 리사이클러뷰 리스트 초기화
     private fun kbsInit() = with(binding) {
+        isRadioLikeTab = false
         val adapter = RadioListAdapter(radioListViewModel)
         rvChannelList.adapter = adapter
         adapter.submitList(initAdapter(RadioChannelURL.KBS_LIST))
@@ -292,6 +282,7 @@ class MainActivity : AppCompatActivity() {
 
     // SBS 리사이클러뷰 리스트 초기화
     private fun sbsInit() = with(binding){
+        isRadioLikeTab = false
         val adapter = RadioListAdapter(radioListViewModel)
         rvChannelList.adapter = adapter
         adapter.submitList(initAdapter(RadioChannelURL.SBS_LIST))
@@ -342,6 +333,7 @@ class MainActivity : AppCompatActivity() {
 
     // MBC 리사이클러뷰 리스트 초기화
     private fun mbcInit() = with(binding) {
+        isRadioLikeTab = false
         val adapter = RadioListAdapter(radioListViewModel)
         rvChannelList.adapter = adapter
         adapter.submitList(initAdapter(RadioChannelURL.MBC_LIST))
