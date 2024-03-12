@@ -93,6 +93,8 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.firebase:firebase-firestore-ktx:24.10.3")
     implementation("com.google.firebase:firebase-firestore:24.10.3")
+    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
+    implementation("com.google.firebase:firebase-auth:22.3.1")
     kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     // viewModel
@@ -163,6 +165,12 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer-rtsp:1.2.1")
     implementation("androidx.media3:media3-ui:1.2.1")
     implementation("androidx.media3:media3-ui-leanback:1.2.1")
-    implementation("com.google.android.gms:play-services-location:21.1.0")
 
+    //구글 로그인 지원용
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+    implementation("androidx.credentials:credentials:1.3.0-alpha01")
+    // optional - needed for credentials support from play services, for devices running
+    // Android 13 and below.
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha01")
 }
