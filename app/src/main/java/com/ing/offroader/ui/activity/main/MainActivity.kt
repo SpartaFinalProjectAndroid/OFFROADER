@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.core.content.ContextCompat
@@ -48,10 +49,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var radioPlayer : ExoPlayer
+    private var isRadioLikeTab = false
 
     private val radioListViewModel by viewModels<MainViewModel>()
     private var radioUrl : String ?= null
     private var isPlay : Boolean = false
+    private var lastTimeBackPressed:Long=-1500
 
     private lateinit var rvAdapter: RadioListAdapter
     private lateinit var rvAdapterList: MutableList<RadioChannelItem>
@@ -68,6 +71,20 @@ class MainActivity : AppCompatActivity() {
             .build()
         binding.viewTest.player = radioPlayer
 
+        radioListViewModel.radioLikeList.observe(this) {
+            if (it.size == 0 && isRadioLikeTab) {
+                binding.tvFavoriteNotify.visibility = View.VISIBLE
+                binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
+            } else {
+                binding.tvFavoriteNotify.visibility = View.GONE
+                binding.tvFavoriteNotify.text = ""
+            }
+        }
+
+        binding.ivRadioBackBtn.setOnClickListener {
+            binding.mlMain.transitionToStart()
+        }
+
 
         bottomNavigationView = binding.navMain
 
@@ -80,11 +97,8 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.navigation_1 -> {
                     replaceFragment(HomeFragment())
-
                     binding.mlMain.transitionToStart()
-
                     disableStatusBarTrans()
-
                     //애니메이션 쓸거면 여기
                     true
                 }
@@ -93,7 +107,6 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(SanListFragment())
                     binding.mlMain.transitionToStart()
                     enableStatusBarTrans()
-
                     true
                 }
 
@@ -199,7 +212,7 @@ class MainActivity : AppCompatActivity() {
                         //httpNetWork(item)
                         radioListViewModel.getHttpNetWork(item2)
                         radioListViewModel.channelURL.observe(this@MainActivity) {
-                            url ->
+                                url ->
                             radioUrl = url
                             preparePlayer()
                             playingMarkChange()
@@ -399,7 +412,13 @@ class MainActivity : AppCompatActivity() {
         //보고 필요하면 상태바 아이콘 어둡게
 //        window.decorView.systemUiVisibility = 8191
     }
-
-
+    
+    override fun onBackPressed() {
+        // (현재 버튼 누른 시간-이전에 버튼 누른 시간) <=1.5초일 때 동작
+        if(System.currentTimeMillis()-lastTimeBackPressed<=1500)
+            finish()
+        lastTimeBackPressed=System.currentTimeMillis()
+        Toast.makeText(this,"이전 버튼을 한 번 더 누르면 종료됩니다", Toast.LENGTH_SHORT).show()
+    }
 
 }
