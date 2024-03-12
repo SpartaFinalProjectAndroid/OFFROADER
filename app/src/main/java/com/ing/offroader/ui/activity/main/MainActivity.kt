@@ -18,8 +18,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
-import com.mit.offroader.ui.activity.main.adapters.RadioChannelItem
-import com.mit.offroader.ui.activity.main.adapters.HttpItem
+import com.ing.offroader.ui.activity.main.adapters.RadioChannelItem
+import com.ing.offroader.ui.activity.main.adapters.HttpItem
 import com.ing.offroader.ui.activity.main.models.HttpNetWork
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
