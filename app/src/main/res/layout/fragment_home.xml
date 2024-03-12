@@ -23,6 +23,7 @@
             android:src="@drawable/logo_offroader" />
 
         <TextView
+            android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center"
@@ -104,5 +105,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_sign_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="200dp"
+        android:text="로그아웃"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/tb_title"
+        app:layout_constraintEnd_toEndOf="@id/tb_title"
+        app:layout_constraintTop_toTopOf="@id/tb_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
