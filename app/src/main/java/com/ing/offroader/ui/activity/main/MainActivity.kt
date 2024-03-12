@@ -58,8 +58,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var rvAdapter: RadioListAdapter
     private lateinit var rvAdapterList: MutableList<RadioChannelItem>
-
-    val httpTest = HttpNetWork()
     
     @OptIn(UnstableApi::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                 binding.tvFavoriteNotify.text = ""
             }
         }
+
 
         binding.ivRadioBackBtn.setOnClickListener {
             binding.mlMain.transitionToStart()
@@ -229,7 +228,7 @@ class MainActivity : AppCompatActivity() {
             override fun heartClick(key: String) {
                 if (radioListViewModel.radioLikeList.value?.contains(key) == true) {
                     radioListViewModel.removeList(key)
-                    rvAdapter.submitList(radioListViewModel.radioLikeList.value?.let { initAdapter(it) })
+                    //rvAdapter.submitList(radioListViewModel.radioLikeList.value?.let { initAdapter(it) })
                 } else {
                     radioListViewModel.addList(key)
                 }
@@ -412,7 +411,7 @@ class MainActivity : AppCompatActivity() {
         //보고 필요하면 상태바 아이콘 어둡게
 //        window.decorView.systemUiVisibility = 8191
     }
-    
+
     override fun onBackPressed() {
         // (현재 버튼 누른 시간-이전에 버튼 누른 시간) <=1.5초일 때 동작
         if(System.currentTimeMillis()-lastTimeBackPressed<=1500)

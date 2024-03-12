@@ -41,8 +41,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application), H
         viewModelScope.launch {
             radioRepository = RadioRepository(item, object : HttpTestInterface {
                 override fun onReceive(item: String) {
-                    //_channelURL.postValue(item)
-                    _channelURL.value = item
+                    _channelURL.postValue(item)
+                    //_channelURL.value = item
                 }
             })
             radioRepository?.initURL()
