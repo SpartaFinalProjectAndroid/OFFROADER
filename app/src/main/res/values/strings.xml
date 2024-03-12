@@ -53,7 +53,7 @@
     <string name="kbs_channel_name_korean_broadcast">한민족방송</string>
 
 
-<!--    SanDetailActivity-->
+    <!--    SanDetailActivity-->
     <string name="sandetail_name">지리산</string>
     <string name="sandetail_address">Address</string>
     <string name="sandetail_difficulty">난이도</string>
@@ -78,5 +78,6 @@
     <string name="san_list_mountain_info">1,947 m | 2h 40m | 상</string>
     <string name="san_list_chip_alphabetical_order">가나다순</string>
     <string name="mountain_height_text">고도 :</string>
+    <string name="signin_google">GOOGLE LOGIN</string>
 
 </resources>
