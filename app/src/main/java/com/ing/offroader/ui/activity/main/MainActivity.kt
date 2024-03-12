@@ -59,6 +59,26 @@ class MainActivity : AppCompatActivity() {
             .build()
         binding.viewTest.player = radioPlayer
 
+        if (radioListViewModel.radioLikeList.value == null) {
+            binding.tvFavoriteNotify.visibility = View.VISIBLE
+        } else {
+            binding.tvFavoriteNotify.visibility = View.GONE
+        }
+
+        radioListViewModel.radioLikeList.observe(this) {
+            if (it.size == 0) {
+                binding.tvFavoriteNotify.visibility = View.VISIBLE
+                binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
+            } else {
+                binding.tvFavoriteNotify.visibility = View.GONE
+                binding.tvFavoriteNotify.text = ""
+            }
+        }
+
+        binding.ivRadioBackBtn.setOnClickListener {
+            binding.mlMain.transitionToStart()
+        }
+
 
         bottomNavigationView = binding.navMain
 
@@ -72,6 +92,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_1 -> {
                     replaceFragment(HomeFragment())
                     disableStatusBarTrans()
+                    binding.mlMain.transitionToStart()
                     //애니메이션 쓸거면 여기
                     true
                 }
@@ -79,25 +100,28 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_2 -> {
                     replaceFragment(SanListFragment())
                     enableStatusBarTrans()
-
+                    binding.mlMain.transitionToStart()
                     true
                 }
 
                 R.id.navigation_3 -> {
                     replaceFragment(SanMapFragment())
                     disableStatusBarTrans()
+                    binding.mlMain.transitionToStart()
                     true
                 }
 
                 R.id.navigation_4 -> {
                     replaceFragment(ChatBotFragment())
                     disableStatusBarTrans()
+                    binding.mlMain.transitionToStart()
                     true
                 }
 
                 R.id.navigation_5 -> {
                     replaceFragment(MyDetailFragment())
                     disableStatusBarTrans()
+                    binding.mlMain.transitionToStart()
                     true
                 }
 
@@ -166,6 +190,16 @@ class MainActivity : AppCompatActivity() {
         rvChannelList.adapter = adapter
         adapter.submitList(radioListViewModel.radioLikeList.value?.let { initAdapter(it) })
 
+        Log.d("Minyong", "favoriteInit: " + radioListViewModel.radioLikeList.value?.size)
+
+        if (radioListViewModel.radioLikeList.value?.size == 0) {
+            tvFavoriteNotify.visibility = View.VISIBLE
+            tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
+        } else {
+            tvFavoriteNotify.visibility = View.GONE
+            tvFavoriteNotify.text = ""
+        }
+
         adapter.itemClick = object : RadioListAdapter.ItemClick {
             override fun onClick(key: String, pos: Int) {
                 val whoPlay = radioListViewModel.whoPlay.value
@@ -207,7 +241,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        rvChannelList.adapter = adapter
     }
 
     // KBS 리사이클러뷰 리스트 초기화
@@ -215,6 +248,8 @@ class MainActivity : AppCompatActivity() {
         val adapter = RadioListAdapter(radioListViewModel)
         rvChannelList.adapter = adapter
         adapter.submitList(initAdapter(RadioChannelURL.KBS_LIST))
+        tvFavoriteNotify.visibility = View.GONE
+        tvFavoriteNotify.text = ""
 
         adapter.itemClick = object : RadioListAdapter.ItemClick {
             override fun onClick(key: String, pos: Int) {
@@ -258,6 +293,8 @@ class MainActivity : AppCompatActivity() {
         val adapter = RadioListAdapter(radioListViewModel)
         rvChannelList.adapter = adapter
         adapter.submitList(initAdapter(RadioChannelURL.SBS_LIST))
+        tvFavoriteNotify.visibility = View.GONE
+        tvFavoriteNotify.text = ""
 
         adapter.itemClick = object : RadioListAdapter.ItemClick {
             override fun onClick(key: String, pos: Int) {
@@ -299,7 +336,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        rvChannelList.adapter = adapter
     }
 
     // MBC 리사이클러뷰 리스트 초기화
@@ -307,6 +343,8 @@ class MainActivity : AppCompatActivity() {
         val adapter = RadioListAdapter(radioListViewModel)
         rvChannelList.adapter = adapter
         adapter.submitList(initAdapter(RadioChannelURL.MBC_LIST))
+        tvFavoriteNotify.visibility = View.GONE
+        tvFavoriteNotify.text = ""
 
         adapter.itemClick = object : RadioListAdapter.ItemClick {
             override fun onClick(key : String, pos: Int) {
@@ -348,7 +386,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        rvChannelList.adapter = adapter
     }
 
     // RadioListAdapter 초기화 함수

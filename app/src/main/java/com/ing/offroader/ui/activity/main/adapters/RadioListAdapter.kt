@@ -64,11 +64,11 @@ class RadioListAdapter(private val mainViewModel: MainViewModel)
                 heartClick?.heartClick(key)
 
                 if (isLike) {
-                    binding.ivHeart.setImageResource(R.drawable.ic_empty_heart)
                     isLike = false
+                    binding.ivHeart.setImageResource(R.drawable.ic_empty_heart)
                 } else {
-                    binding.ivHeart.setImageResource(R.drawable.ic_fill_heart)
                     isLike = true
+                    binding.ivHeart.setImageResource(R.drawable.ic_fill_heart)
                 }
             }
         }
