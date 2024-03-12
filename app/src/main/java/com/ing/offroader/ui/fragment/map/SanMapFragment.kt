@@ -48,7 +48,6 @@ import com.naver.maps.map.widget.ZoomControlView
 import java.text.NumberFormat
 import java.util.Locale
 
-
 class SanMapFragment : Fragment(), OnMapReadyCallback {
 
     companion object {
@@ -177,7 +176,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             // 마커 정보를 담을 배열 설정
             var markerDTOs: ArrayList<MarkerDTO> = arrayListOf()
             // Firestore에서 markers collection 접근하여 쿼리를 가져옴
-            firestore.collection("markers")
+            firestore.collection("sanlist")
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     if (querySnapshot == null) {
                         return@addSnapshotListener
@@ -267,7 +266,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                         tvMarkerDescription.text = markerDTOs[idx].description
                                         Glide.with(requireContext())
                                             .asDrawable()
-                                            .load(markerDTOs[idx].image)
+                                            .load(markerDTOs[idx].thumbnail)
                                             .into(ivMarkerInfoImage)
                                         roundLeft(ivMarkerInfoImage, 15f)
                                         markerInfo.visibility = View.VISIBLE
