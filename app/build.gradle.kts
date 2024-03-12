@@ -15,11 +15,11 @@ val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
-    namespace = "com.mit.offroader"
+    namespace = "com.ing.offroader"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.mit.offroader"
+        applicationId = "com.ing.offroader"
         minSdk = 26
         versionCode = 3
         versionName = "1.2"
