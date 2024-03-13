@@ -166,10 +166,20 @@ class ChatBotViewModel(
 
                 addMessageToDB("user", text)
 
-                addMessageToDB(
-                    "assistant",
-                    aiRepo.createChatCompletion(input).choices.first().message.content
-                )
+                when (conversationUiState.value?.position) {
+                    "hikey" -> addMessageToDB(
+                        "assistant",
+                        aiRepo.hikeyChatCompletion(input).choices.first().message.content
+                    )
+
+                    "bongbong" -> addMessageToDB(
+                        "assistant",
+                        aiRepo.bongbongChatCompletion(input).choices.first().message.content
+                    )
+                }
+
+
+
 
             }.onSuccess {
                 Log.d("Connect ChatGPT", "^^Successful!")

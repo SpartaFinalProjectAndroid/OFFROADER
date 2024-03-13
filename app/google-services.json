@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "399146829257-9m5hulcsutibi2c360od30de3fqqedp7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ing.offroader",
+            "certificate_hash": "d6c3f06527e05c097f27334c407095788322c31c"
+          }
+        },
+        {
+          "client_id": "399146829257-av08ldk7ekfjtgrmrecetv0sl3rf77p3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ing.offroader",
+            "certificate_hash": "30240454624306058d91acb5eb362a262f788127"
+          }
+        },
+        {
           "client_id": "399146829257-febl996c5rr6v18te0drvd27ga05s0sv.apps.googleusercontent.com",
           "client_type": 3
         }

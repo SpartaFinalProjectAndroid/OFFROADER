@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ing.offroader.data.repository.SanListRepository
 import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
-import com.ing.offroader.ui.fragment.sanlist.model.SanListRepository
 
 private const val TAG = "SanListViewModel"
 
@@ -17,8 +17,6 @@ class SanListViewModel(sanListRepository: SanListRepository) : ViewModel() {
     val sanListUiState: LiveData<SanListUiState?> = _sanListUiState
 
     val sanList: LiveData<List<SanDTO>> = repository.sanListDTO
-
-
 
     init {
         // 선택된 산 초기화해주기
@@ -34,10 +32,6 @@ class SanListViewModel(sanListRepository: SanListRepository) : ViewModel() {
         } else {
             _sanListUiState.value = sanListUiState.value?.copy(selectedItem = item)
             Log.d(TAG, _sanListUiState.value.toString())
-
-
-
-
         }
     }
 
