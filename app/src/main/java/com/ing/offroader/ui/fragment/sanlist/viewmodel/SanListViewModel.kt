@@ -18,8 +18,6 @@ class SanListViewModel(sanListRepository: SanListRepository) : ViewModel() {
 
     val sanList: LiveData<List<SanDTO>> = repository.sanListDTO
 
-
-
     init {
         // 선택된 산 초기화해주기
         _sanListUiState.value = SanListUiState.init()
@@ -34,10 +32,6 @@ class SanListViewModel(sanListRepository: SanListRepository) : ViewModel() {
         } else {
             _sanListUiState.value = sanListUiState.value?.copy(selectedItem = item)
             Log.d(TAG, _sanListUiState.value.toString())
-
-
-
-
         }
     }
 

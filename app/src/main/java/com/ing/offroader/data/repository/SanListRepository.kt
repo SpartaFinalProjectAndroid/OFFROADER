@@ -23,8 +23,6 @@ class SanListRepository {
     private val _sanListDTO: MutableLiveData<List<SanDTO>> =
         MutableLiveData<List<SanDTO>>()
     val sanListDTO: LiveData<List<SanDTO>> = _sanListDTO
-    private val _info: MutableLiveData<SanDetailDTO> = MutableLiveData()
-    val info: LiveData<SanDetailDTO> = _info
 
     // HomeFragment 변수
     private val _recItems: MutableLiveData<ArrayList<HomeUiState>> = MutableLiveData()
@@ -34,9 +32,6 @@ class SanListRepository {
 
     private val _detailInfo: MutableLiveData<SanDetailDTO> = MutableLiveData()
     val detailInfo: LiveData<SanDetailDTO> = _detailInfo
-
-    private val _sanName: MutableLiveData<SanDetailDTO?> = MutableLiveData()
-    val sanName: LiveData<SanDetailDTO?> = _sanName
 
 
     // 초기 실행
@@ -56,10 +51,9 @@ class SanListRepository {
     }
 
 
-
-    suspend fun editsanDTO(index: Int) {
-        initPush(index)
-    }
+//    suspend fun editsanDTO(index: Int) {
+//        initPush(index)
+//    }
 
     fun getSelectedItemFromRepository(sanName: String?) {
         if (sanName.isNullOrBlank()) {
@@ -74,9 +68,11 @@ class SanListRepository {
 
         Log.d(TAG, "initPush 함수 여기에서 데이터베이스에 있는 값 접근")
 
-
         db.collection("sanlist").get().addOnSuccessListener { documents ->
+
+            // 산 리스트 DTO를 가져와주는 함수
             setSanListData(index, documents)
+            // 홈 화면에 추천 산을 가져와주는 함수
             setHomeData(documents)
         }
 
@@ -99,7 +95,8 @@ class SanListRepository {
                 )
                 if (sanList.mountain == sanName) {
                     _detailInfo.value = sanList
-                    Log.d(TAG, "initSanData: $sanList -> ${detailInfo.value}"
+                    Log.d(
+                        TAG, "initSanData: $sanList -> ${detailInfo.value}"
                     )
                 }
             }
