@@ -6,6 +6,7 @@ import android.os.Handler
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
@@ -90,6 +91,8 @@ class SanDetailActivity : AppCompatActivity() {
         setImageAdapter(sanlist)
         //자동 스크롤 콜백 설정
         setImageCallBack()
+        //이미지 클릭 시 dialog
+        viewImage()
 
     }
 
@@ -168,8 +171,8 @@ class SanDetailActivity : AppCompatActivity() {
         val downhillTime = sanlist.downhillTime
         val totalTime = uphillTime + downhillTime
 
-        viewHillTime(uphillTime, tvUptimeInfo)
-        viewHillTime(downhillTime, tvDowntimeInfo)
+//        viewHillTime(uphillTime, tvUptimeInfo)
+//        viewHillTime(downhillTime, tvDowntimeInfo)
         viewHillTime(totalTime, tvTimeInfo)    }
 
     // 자세히 보기 클릭 시 텍스트 전부 출력하는 함수
@@ -208,6 +211,23 @@ class SanDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun viewImage() {
+        imageAdapter.imageClick = object : SanImageAdapter.OnClick {
+            override fun onClick(item: String) {
+                val builder = AlertDialog.Builder(binding.vpMountain.context)
+                builder.setTitle("${binding.tvMountain}")
+                builder.setIcon(R.mipmap.ic_launcher)
+
+                val v1 = layoutInflater.inflate(R.layout.dialog, null)
+                builder.setView(v1)
+
+                builder.setNeutralButton("확인", null)
+
+                builder.show()
+            }
+
+        }
+    }
 
 
     // 좋아요 기능
