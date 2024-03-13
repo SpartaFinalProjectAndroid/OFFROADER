@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ing.offroader.data.repository.SanListRepository
 import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
-import com.ing.offroader.ui.fragment.sanlist.model.SanListRepository
 
 private const val TAG = "SanListViewModel"
 

@@ -28,7 +28,9 @@ class SanDetailActivity : AppCompatActivity() {
         Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
 
     private lateinit var imageAdapter: SanImageAdapter
-    private val sanDetailViewModel: SanDetailViewModel by viewModels { SanDetailViewModelFactory((application as MyApplication).sanDetailRepository) }
+    private val sanDetailViewModel: SanDetailViewModel by viewModels {
+        return@viewModels SanDetailViewModelFactory((application as MyApplication).sanListRepository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
