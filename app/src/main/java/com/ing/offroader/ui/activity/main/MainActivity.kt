@@ -69,22 +69,6 @@ class MainActivity : AppCompatActivity() {
             .build()
         binding.viewTest.player = radioPlayer
 
-        radioListViewModel.radioLikeList.observe(this) {
-            if (it.size == 0 && isRadioLikeTab) {
-                binding.tvFavoriteNotify.visibility = View.VISIBLE
-                binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
-            } else {
-                binding.tvFavoriteNotify.visibility = View.GONE
-                binding.tvFavoriteNotify.text = ""
-            }
-        }
-
-
-        binding.ivRadioBackBtn.setOnClickListener {
-            binding.mlMain.transitionToStart()
-        }
-
-
         bottomNavigationView = binding.navMain
 
         replaceFragment(HomeFragment())
@@ -156,6 +140,20 @@ class MainActivity : AppCompatActivity() {
     private fun initRadio() {
         loadData()
         radioSetting()
+
+        binding.ivRadioBackBtn.setOnClickListener {
+            binding.mlMain.transitionToStart()
+        }
+
+        radioListViewModel.radioLikeList.observe(this) {
+            if (it.size == 0 && isRadioLikeTab) {
+                binding.tvFavoriteNotify.visibility = View.VISIBLE
+                binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
+            } else {
+                binding.tvFavoriteNotify.visibility = View.GONE
+                binding.tvFavoriteNotify.text = ""
+            }
+        }
     }
 
     // 각 방송국과 즐겨찾기 라디오 채널 리스트 초기화

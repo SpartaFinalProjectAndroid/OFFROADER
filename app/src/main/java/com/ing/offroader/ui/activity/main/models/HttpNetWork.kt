@@ -15,8 +15,7 @@ import java.io.IOException
 
 class HttpNetWork {
 
-    var radioUrl : String ?= null
-    //private lateinit var listener: HttpTestInterface
+    private var radioUrl : String ?= null
 
     suspend fun httpNetWork(item: HttpItem, listener: HttpTestInterface) : String {
 
@@ -56,7 +55,8 @@ class HttpNetWork {
 
                     override fun onResponse(call: Call, response: Response) {
                         if (response.isSuccessful) {
-                            radioUrl = response.body?.string().toString()
+                            //radioUrl = response.body?.string().toString()
+                            listener.onReceive(response.body.toString())
                         }
                     }
                 })
