@@ -12,11 +12,6 @@ class SanImageAdapter(
     private val viewPager2: ViewPager2
 ) : RecyclerView.Adapter<SanImageAdapter.Holder>() {
 
-    interface OnClick {
-        fun onClick(item: String)
-    }
-
-    var imageClick: OnClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding =
@@ -29,9 +24,6 @@ class SanImageAdapter(
             .load(mItems[position])
             .into(holder.mountainImage)
 
-        holder.mountainImage.setOnClickListener {
-            imageClick?.onClick(mItems[position])
-        }
 
         if (position == mItems.size - 1) {
             viewPager2.post(runnable)

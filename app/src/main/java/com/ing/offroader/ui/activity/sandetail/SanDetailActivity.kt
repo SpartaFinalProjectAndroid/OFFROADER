@@ -6,7 +6,6 @@ import android.os.Handler
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
@@ -91,8 +90,6 @@ class SanDetailActivity : AppCompatActivity() {
         setImageAdapter(sanlist)
         //자동 스크롤 콜백 설정
         setImageCallBack()
-        //이미지 클릭 시 dialog
-        viewImage()
 
     }
 
@@ -210,25 +207,6 @@ class SanDetailActivity : AppCompatActivity() {
                 "${time / 60}시간 ${time % 60}분"
         }
     }
-
-    private fun viewImage() {
-        imageAdapter.imageClick = object : SanImageAdapter.OnClick {
-            override fun onClick(item: String) {
-                val builder = AlertDialog.Builder(binding.vpMountain.context)
-                builder.setTitle("${binding.tvMountain}")
-                builder.setIcon(R.mipmap.ic_launcher)
-
-                val v1 = layoutInflater.inflate(R.layout.dialog, null)
-                builder.setView(v1)
-
-                builder.setNeutralButton("확인", null)
-
-                builder.show()
-            }
-
-        }
-    }
-
 
     // 좋아요 기능
     private fun initBookmark() {
