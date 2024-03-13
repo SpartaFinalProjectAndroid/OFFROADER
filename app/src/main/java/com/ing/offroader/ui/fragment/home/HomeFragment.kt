@@ -26,39 +26,59 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val homeViewModel: HomeViewModel by viewModels { HomeViewModelFactory((requireActivity().application as MyApplication).homeDataRepository) }
-    private lateinit var  myPageAdapter: HomeMultiViewTypeAdapter
+    private val homeViewModel: HomeViewModel by viewModels {
+        HomeViewModelFactory(
+            (requireActivity().application as MyApplication).sanListRepository,
+            (requireActivity().application as MyApplication).eventRepository
+        )
+    }
+    private lateinit var myPageAdapter: HomeMultiViewTypeAdapter
     private var uiData: List<HomeUiData> = listOf()
 
-    private var auth: FirebaseAuth ?= null
+    private var auth: FirebaseAuth? = null
     private val user = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
-        if (user != null) {
-            binding.tvUsername.text = user.email ?: "츄파춥스님, 안녕하세요!"
-            Log.d(TAG, "onViewCreated: ${user.uid}")
-            Log.d(TAG, "onViewCreated: ${user.email}")
-        }
+        // 프래그먼트에 있는 onCreateView 함수에는 페이지 인플레이팅만 들어갑닏다!
+        // onViewCreated에 작성해주세요!
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initObserver()
-        binding.tvUsername.setOnClickListener {
+        initView()
+        initListener()
+
+    }
+
+    private fun initView() {
+        if (user != null) {
+            binding.tvUsername.text = user.email ?: "츄파춥스님, 안녕하세요!"
+            Log.d(TAG, "onViewCreated: ${user.uid}")
+            Log.d(TAG, "onViewCreated: ${user.email}")
+        }
+    }
+
+    private fun initListener() = with(binding) {
+        tvUsername.setOnClickListener {
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
         }
         if (user != null) {
-            binding.tvSignOut.visibility = View.VISIBLE
+            tvSignOut.visibility = View.VISIBLE
         }
-        binding.tvSignOut.setOnClickListener {
+        tvSignOut.setOnClickListener {
             Firebase.auth.signOut()
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
+        }
+        btnAttendance.setOnClickListener {
+            homeViewModel.takeAttendance()
         }
     }
 
@@ -85,7 +105,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateRecyclerView(
-        eventItems: ArrayList<HomeUiData.Fourth>) {
+        eventItems: ArrayList<HomeUiData.Fourth>
+    ) {
         uiData = listOf(
             HomeUiData.First,
         ) + HomeUiData.Second + HomeUiData.Third + eventItems + HomeUiData.Attribute

@@ -2,7 +2,7 @@ package com.ing.offroader.ui.fragment.sanlist.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.ing.offroader.ui.fragment.sanlist.model.SanListRepository
+import com.ing.offroader.data.repository.SanListRepository
 
 class SanListViewModelFactory(private val sanListRepository: SanListRepository): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
