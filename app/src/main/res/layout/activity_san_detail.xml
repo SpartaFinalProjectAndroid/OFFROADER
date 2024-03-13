@@ -467,7 +467,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_weather"
-                tools:listitem="@layout/item_adapter_weather" />
+                tools:listitem="@layout/item_detail_weather" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

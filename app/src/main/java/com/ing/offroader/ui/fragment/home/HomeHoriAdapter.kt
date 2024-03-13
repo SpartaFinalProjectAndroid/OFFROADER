@@ -17,6 +17,10 @@ class HomeHoriAdapter(private val items: ArrayList<HomeUiState> = ArrayList()) :
         return ViewHolder(view)
     }
 
+    override fun getItemCount(): Int {
+        return items.size
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.apply {
             val item = items[position]
@@ -55,9 +59,7 @@ class HomeHoriAdapter(private val items: ArrayList<HomeUiState> = ArrayList()) :
         }
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+
 
     inner class ViewHolder(binding: ItemHomeCardBinding) : RecyclerView.ViewHolder(binding.root) {
         val title = binding.cardTitle

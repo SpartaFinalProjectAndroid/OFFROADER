@@ -3,17 +3,24 @@ package com.ing.offroader.ui.activity.sandetail
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.ing.offroader.R
+import com.ing.offroader.data.model.weather.WeekendWeatherData
+import com.ing.offroader.data.repository.WeatherRepository
 import com.ing.offroader.databinding.ActivitySanDetailBinding
 import com.ing.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModel
 import com.ing.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModelFactory
 import com.ing.offroader.ui.fragment.chatbot.MyApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 private const val TAG = "SanDetailActivity"
@@ -24,31 +31,56 @@ class SanDetailActivity : AppCompatActivity() {
 
     // 자동 스크롤
     private val slideImageHandler: Handler = Handler()
-    private val slideImageRunnable =
-        Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
+    private val slideImageRunnable = Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
 
     private lateinit var imageAdapter: SanImageAdapter
     private val sanDetailViewModel: SanDetailViewModel by viewModels { SanDetailViewModelFactory((application as MyApplication).sanDetailRepository) }
+    //날씨
+    private var weatherData = mutableListOf<WeekendWeatherData>()
+    private val netWorkRepository = WeatherRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivitySanDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Window 관련 설정을 binding.apply 바깥으로 이동
         window.statusBarColor = ContextCompat.getColor(this, R.color.transparent)
-        //전체화면으로 설정하면 상단 parent 아이콘 배치 margin 주어야 함 안그러면 상태바 아래로 기어드감
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        //보고 필요하면 상태바 아이콘 어둡게
-        //window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
+        binding.apply {
+            // 날씨 데이터 로드 부분 수정
+            val recyclerViewAdapter = WeatherRecyclerAdapter(this@SanDetailActivity, weatherData)
+            rvWeather.adapter = recyclerViewAdapter
+            rvWeather.layoutManager = LinearLayoutManager(this@SanDetailActivity)
+
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    val locations = Pair(35.1796, 129.0756) // 예시임
+                    val weatherCurrentData = netWorkRepository.getCurrentList(locations.first, locations.second)
+                    val forecastWeatherData = netWorkRepository.getWeekendList(locations.first, locations.second)
+                    val currentData = weatherCurrentData
+                    val weekendData = forecastWeatherData.list
+                    recyclerViewAdapter.updateData(weekendData)
+                } catch (e: Exception) {
+                    Log.e(TAG, e.message ?: "에러코드 없음")
+                }
+            }
 
 
-        sanDetailViewModel.getSelectedSan(getSanName())
-//        Log.d(TAG, "산이름 : ${sanName}")
+            // <- 날씨 코드
 
 
-        initBackButton()
-        initObserver()
+            initBackButton()
+            initObserver()
+        }
     }
+    //날씨펑션 시작
+
+    private fun convertFormatTemperature(kelvinTemp: Double): String {
+        return String.format("%.1f ℃", kelvinTemp - 273.15)
+    }
+    //날씨펑션 끝
 
     private fun initObserver() {
 

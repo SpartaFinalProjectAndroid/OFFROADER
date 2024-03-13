@@ -41,4 +41,5 @@ class SanImageAdapter(
         mItems.addAll(mItems)
         notifyDataSetChanged()
     }
+
 }
