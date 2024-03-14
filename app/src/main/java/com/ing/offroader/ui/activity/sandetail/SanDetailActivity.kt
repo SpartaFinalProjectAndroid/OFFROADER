@@ -3,6 +3,7 @@ package com.ing.offroader.ui.activity.sandetail
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -10,10 +11,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.ing.offroader.R
+import com.ing.offroader.data.model.weather.WeekendWeatherData
+import com.ing.offroader.data.repository.WeatherRepository
 import com.ing.offroader.databinding.ActivitySanDetailBinding
 import com.ing.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModel
 import com.ing.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModelFactory
 import com.ing.offroader.ui.fragment.chatbot.MyApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 private const val TAG = "SanDetailActivity"
@@ -24,13 +30,14 @@ class SanDetailActivity : AppCompatActivity() {
 
     // 자동 스크롤
     private val slideImageHandler: Handler = Handler()
-    private val slideImageRunnable =
-        Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
+    private val slideImageRunnable = Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
 
     private lateinit var imageAdapter: SanImageAdapter
-    private val sanDetailViewModel: SanDetailViewModel by viewModels {
-        return@viewModels SanDetailViewModelFactory((application as MyApplication).sanListRepository)
-    }
+    private val sanDetailViewModel: SanDetailViewModel by viewModels { return@viewModels SanDetailViewModelFactory((application as MyApplication).sanListRepository) }
+
+    /** 날씨 */
+    private var weatherData = mutableListOf<WeekendWeatherData>()
+    private val netWorkRepository = WeatherRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,10 +50,28 @@ class SanDetailActivity : AppCompatActivity() {
         //보고 필요하면 상태바 아이콘 어둡게
         //window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
-
         sanDetailViewModel.getSelectedSan(getSanName())
 //        Log.d(TAG, "산이름 : ${sanName}")
 
+
+        val coordinates = Pair(37.5665, 126.9780)
+
+        val recyclerViewAdapter = WeatherRecyclerAdapter(this, weatherData)
+        binding.rvWeather.adapter = recyclerViewAdapter
+
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val weatherCurrentList = netWorkRepository.getCurrentList(coordinates.first, coordinates.second)
+                val forecastWeatherData = netWorkRepository.getWeekendList(coordinates.first, coordinates.second)
+
+                val weekendData = forecastWeatherData.list
+                recyclerViewAdapter.updateData(weekendData)
+
+            } catch (e: Exception) {
+                // 네트워크 에러 처리
+                Log.e("NetworkError", e.message ?: "Unknown error")
+            }
+        }
 
         initBackButton()
         initObserver()
