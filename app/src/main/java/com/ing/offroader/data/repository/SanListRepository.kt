@@ -79,15 +79,14 @@ class SanListRepository {
     }
 
     private fun setSanDetail(sanName: String) {
-        db.collection("sanlist").get().addOnSuccessListener { documents ->
+        db.collection("sanTest").get().addOnSuccessListener { documents ->
             documents?.forEach { document ->
                 val sanList = SanDetailDTO(
                     document.getString("name") ?: "none",
                     document.getString("address") ?: "none",
                     document.getLong("difficulty") ?: 0,
                     document.getDouble("height") ?: 0.0,
-                    document.getLong("time_uphill") ?: 0,
-                    document.getLong("time_downhill") ?: 0,
+                    document.getLong("time") ?: 0,
                     document.getString("summary") ?: "none",
                     document.getString("recommend") ?: "none",
                     document["images"] as ArrayList<String>,

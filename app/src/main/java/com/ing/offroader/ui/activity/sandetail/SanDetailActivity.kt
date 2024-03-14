@@ -3,6 +3,7 @@ package com.ing.offroader.ui.activity.sandetail
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -56,6 +57,7 @@ class SanDetailActivity : AppCompatActivity() {
 
         sanDetailViewModel.info.observe(this) {
             initView(it)
+            Log.d(TAG, "initObserver: $it")
         }
     }
 
@@ -167,11 +169,10 @@ class SanDetailActivity : AppCompatActivity() {
 
     private fun setHikingTimeView(sanlist: SanDetailDTO) = with(binding) {
         val uphillTime = sanlist.uphillTime
-        val downhillTime = sanlist.downhillTime
-        val totalTime = uphillTime + downhillTime
+        val totalTime = sanlist.uphillTime
 
         viewHillTime(uphillTime, tvUptimeInfo)
-        viewHillTime(downhillTime, tvDowntimeInfo)
+//        viewHillTime(downhillTime, tvDowntimeInfo)
         viewHillTime(totalTime, tvTimeInfo)    }
 
     // 자세히 보기 클릭 시 텍스트 전부 출력하는 함수
