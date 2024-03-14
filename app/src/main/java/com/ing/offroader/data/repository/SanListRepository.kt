@@ -68,7 +68,7 @@ class SanListRepository {
 
         Log.d(TAG, "initPush 함수 여기에서 데이터베이스에 있는 값 접근")
 
-        db.collection("sanlist").get().addOnSuccessListener { documents ->
+        db.collection("sanTest").get().addOnSuccessListener { documents ->
 
             // 산 리스트 DTO를 가져와주는 함수
             setSanListData(index, documents)
@@ -117,7 +117,6 @@ class SanListRepository {
                 document.getString("recommend") ?: "",
                 document.getString("summary") ?: "",
                 document.getLong("time_downhill") ?: 0,
-                document.getLong("time_uphill") ?: 0,
             )
             if (document.getField<Boolean>("isLiked") == true) {
                 rvItems.add(rec)
@@ -146,7 +145,7 @@ class SanListRepository {
                         sanName = sanInfo["name"] as String,
                         sanDifficulty = sanInfo["difficulty"] as Long?,
                         sanHeight = sanInfo.getLong("height") ?: 0,
-                        sanTimeTotal = (sanInfo["time_uphill"] as Long) + (sanInfo["time_downhill"] as Long),
+                        sanTimeTotal = (sanInfo["time"] as Long),
                         sanSelected = false
                     )
                 )

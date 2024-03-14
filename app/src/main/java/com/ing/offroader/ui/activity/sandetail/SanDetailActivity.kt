@@ -119,6 +119,7 @@ class SanDetailActivity : AppCompatActivity() {
     private fun getSanName() = intent.getStringExtra("name")
 
 
+    @SuppressLint("SetTextI18n")
     private fun setSanInfoView(sanlist: SanDetailDTO) = with(binding){
         tvMountain.text = sanlist.mountain
         tvAddress.text = sanlist.address
