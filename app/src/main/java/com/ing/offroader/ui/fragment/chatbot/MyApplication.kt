@@ -2,18 +2,17 @@ package com.ing.offroader.ui.fragment.chatbot
 
 import android.app.Application
 import android.content.Context
-import com.ing.offroader.ui.activity.sandetail.viewmodel.SanDetailRepository
+import com.ing.offroader.data.repository.EventRepository
+import com.ing.offroader.data.repository.SanListRepository
 import com.ing.offroader.ui.fragment.chatbot.database.BongbongDatabase
 import com.ing.offroader.ui.fragment.chatbot.database.HikeyDatabase
 import com.ing.offroader.ui.fragment.chatbot.viewmodel.BongbongRepository
 import com.ing.offroader.ui.fragment.chatbot.viewmodel.HikeyRepository
-import com.ing.offroader.ui.fragment.home.HomeDataRepository
-import com.ing.offroader.ui.fragment.sanlist.model.SanListRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
 
-class MyApplication: Application() {
+class MyApplication : Application() {
 
     val applicationScope = CoroutineScope(SupervisorJob())
 
@@ -22,10 +21,8 @@ class MyApplication: Application() {
     val bongbongDatabase by lazy { BongbongDatabase.getDatabase(this, applicationScope) }
     val bongbongRepository by lazy { BongbongRepository(bongbongDatabase.getChatBotDao()) }
 
-    val sanListDTO by lazy {}
     val sanListRepository by lazy { SanListRepository() }
-    val homeDataRepository by lazy { HomeDataRepository() }
-    val sanDetailRepository by lazy { SanDetailRepository() }
+    val eventRepository by lazy { EventRepository() }
 
     override fun onCreate() {
         super.onCreate()

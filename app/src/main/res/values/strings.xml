@@ -2,7 +2,7 @@
     <string name="app_name">OFFROADER</string>
 
     <!--    ChatBotFragment-->
-    <string name="chatbot_ask_hint">히키에게 궁금한 것을 물어보세요!</string>
+    <string name="chatbot_ask_hint">궁금한 것을 물어보세요!</string>
     <string name="chatbot_delete_history">기록 지우기</string>
     <string name="chatbot_hikey">히키</string>
     <string name="chatbot_bongbong">봉봉이</string>
@@ -79,5 +79,6 @@
     <string name="san_list_chip_alphabetical_order">가나다순</string>
     <string name="mountain_height_text">고도 :</string>
     <string name="signin_google">GOOGLE LOGIN</string>
+    <string name="home_attendance">출석체크</string>
 
 </resources>
