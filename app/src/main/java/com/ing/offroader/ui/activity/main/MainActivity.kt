@@ -211,6 +211,11 @@ class MainActivity : AppCompatActivity() {
             rvAdapter.submitList(initAdapter(urlList))
         }
 
+        radioListViewModel.channelURL.observe(this@MainActivity) {
+                url ->
+            radioUrl = url
+        }
+
         rvAdapter.itemClick = object : RadioListAdapter.ItemClick {
             override fun onClick(key : String, pos: Int)  {
                 val whoPlay = radioListViewModel.whoPlay.value
@@ -219,15 +224,11 @@ class MainActivity : AppCompatActivity() {
                         val item2 = HttpItem(it, key, radioIcon, pos)
                         //httpNetWork(item)
                         radioListViewModel.getHttpNetWork(item2)
-                        radioListViewModel.channelURL.observe(this@MainActivity) {
-                                url ->
-                            radioUrl = url
-                            preparePlayer()
-                            playingMarkChange()
-                            radioPlay(item2.key, item2.radioIcon)
-                            playingMarkCurrent(item2.key, item2.position)
-                        }
 
+                        preparePlayer()
+                        playingMarkChange()
+                        radioPlay(item2.key, item2.radioIcon)
+                        playingMarkCurrent(item2.key, item2.position)
                     }
                 }
             }

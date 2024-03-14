@@ -3,6 +3,7 @@ package com.ing.offroader.ui.activity.main.repository
 import com.ing.offroader.ui.activity.main.adapters.HttpItem
 import com.ing.offroader.ui.activity.main.models.HttpNetWork
 import com.ing.offroader.ui.activity.main.models.HttpTestInterface
+import okhttp3.internal.wait
 
 class RadioRepository(private val data: HttpItem, inter: HttpTestInterface) {
 
