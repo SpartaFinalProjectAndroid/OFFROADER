@@ -16,12 +16,14 @@
     <string name="san_list_intermediate">중</string>
     <string name="san_list_easy">하</string>
     <string name="san_list_divder">|</string>
+    <string name="san_list_mountain_info">1,947 m | 2h 40m | 상</string>
+    <string name="san_list_chip_alphabetical_order">가나다순</string>
     <!--    MyDetailFragment-->
-    <string name="mydetail_myinfo">내 정보 - 기록</string>
+    <string name="mydetail_myinfo">내 정보</string>
     <string name="mydetail_summary">총 등산 정보</string>
     <string name="mydetail_counttime">100시간</string>
     <string name="mydetail_counttracking">6회</string>
-    <string name="mydetail_recode">기록</string>
+    <string name="mydetail_recode">내가 추가한 산 목록</string>
     <!--    BookmarkAdapter-->
     <string name="item_bookmark_name">지리산</string>
     <string name="item_bookmark_time">총 등산 시간 2 : 40</string>
@@ -75,10 +77,18 @@
     <string name="sandetail_recommend_plus">자세히 보기 ▼</string>
     <string name="sandetail_intro_short">축소하기 ▲</string>
     <string name="sandetail_recommend_short">축소하기 ▲</string>
-    <string name="san_list_mountain_info">1,947 m | 2h 40m | 상</string>
-    <string name="san_list_chip_alphabetical_order">가나다순</string>
+
     <string name="mountain_height_text">고도 :</string>
     <string name="signin_google">GOOGLE LOGIN</string>
     <string name="home_attendance">출석체크</string>
+
+<!--    dialog_lv-->
+    <string name="dialog_lv">레벨</string>
+    <string name="dialog_lv1">Lv. 1</string>
+    <string name="dialog_lv1_title">등린이</string>
+    <string name="dialog_lv2">Lv. 2</string>
+    <string name="dialog_lv2_title">등산러 호소인</string>
+    <string name="dialog_lv3">Lv. 3</string>
+
 
 </resources>
