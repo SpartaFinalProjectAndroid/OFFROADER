@@ -16,6 +16,8 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
@@ -58,11 +60,20 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var rvAdapter: RadioListAdapter
     private lateinit var rvAdapterList: MutableList<RadioChannelItem>
+
+    val database = Firebase.firestore
     
     @OptIn(UnstableApi::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        database.collection("radio_api").get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                for (i in task.result)
+                    Log.d("Minyong", "onCreate: " + i.data.keys)
+            }
+        }
 
         radioPlayer = ExoPlayer.Builder(this)
             .setMediaSourceFactory(DefaultMediaSourceFactory(this).setLiveTargetOffsetMs(5000))
