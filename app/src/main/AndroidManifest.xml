@@ -26,6 +26,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.add_post.AddPostActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.chatbot.ChatbotActivity"
             android:exported="false" />
         <activity
