@@ -1,18 +1,14 @@
 package com.ing.offroader.ui.activity.main
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.ing.offroader.ui.activity.main.adapters.HttpItem
-import com.ing.offroader.ui.activity.main.models.HttpTestInterface
 import com.ing.offroader.ui.activity.main.repository.RadioRepository
-import kotlinx.coroutines.launch
 
 
-class MainViewModel(application: Application) : AndroidViewModel(application), HttpTestInterface {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private var _mainUiState = MutableLiveData<MainUiState>()
 
@@ -29,24 +25,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application), H
     var whoPlay : MutableLiveData<String?> = _whoPlay
     private var whoPlayTest : String ?= null
 
-//    private var _channelURL : MutableLiveData<String?> = MutableLiveData()
-//    val channelURL : LiveData<String?> = _channelURL
+    private var _channelUrl : MutableLiveData<String?> = MutableLiveData()
+    var channelUrl : MutableLiveData<String?> = _channelUrl
 
-    private var radioRepository : RadioRepository?= null
-    private var _channelURL : MutableLiveData<String> = MutableLiveData()
-    val channelURL : LiveData<String> = _channelURL
+    fun getHttpNetWork(item: HttpItem) : String {
+        return RadioRepository().initURL(item)
+    }
 
-
-    fun getHttpNetWork(item: HttpItem) {
-        viewModelScope.launch {
-            radioRepository = RadioRepository(item, object : HttpTestInterface {
-                override fun onReceive(item: String) {
-                    _channelURL.postValue(item)
-                    //_channelURL.value = item
-                }
-            })
-            radioRepository?.initURL()
-        }
+    fun addChannelUrl(url: String) {
+        _channelUrl.value = url
     }
 
     fun addWhoPlay(key: String?) {
@@ -67,9 +54,5 @@ class MainViewModel(application: Application) : AndroidViewModel(application), H
     fun loadRadioData(list : MutableList<String>) {
         copyList = list
         _radioLikeList.value = copyList
-    }
-
-    override fun onReceive(item: String) {
-        Log.i("Minyong Main", item)
     }
 }
