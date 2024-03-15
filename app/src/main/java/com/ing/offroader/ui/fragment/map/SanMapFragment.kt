@@ -195,6 +195,11 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                     resources.getDimensionPixelSize(R.dimen.marker_size_3)
                                 markers[idx]!!.height =
                                     resources.getDimensionPixelSize(R.dimen.marker_size_3)
+                                markers[idx]!!.captionMinZoom = 8.0
+                                markers[idx]!!.isIconPerspectiveEnabled = true
+                                markers[idx]!!.captionColor = Color.WHITE
+                                markers[idx]!!.captionHaloColor = Color.rgb(0, 0, 0)
+                                markers[idx]!!.captionTextSize = 16f
                                 //카메라 변화 감지하여 줌 레벨에 따라 마커의 크기 변경
                                 naverMap.addOnCameraChangeListener { _, _ ->
                                     if (naverMap.cameraPosition.zoom >= 6.5 && naverMap.cameraPosition.zoom < 7.5) {
@@ -202,6 +207,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                             resources.getDimensionPixelSize(R.dimen.marker_size_1)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_1)
+                                        markers[idx]!!.captionTextSize = 13f
                                     } else if (naverMap.cameraPosition.zoom >= 7.5 && naverMap.cameraPosition.zoom < 8.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_2)
@@ -217,6 +223,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                             resources.getDimensionPixelSize(R.dimen.marker_size_4)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_4)
+                                        markers[idx]!!.captionTextSize = 14f
                                     } else if (naverMap.cameraPosition.zoom >= 10.5 && naverMap.cameraPosition.zoom < 11.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_5)
@@ -232,6 +239,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                             resources.getDimensionPixelSize(R.dimen.marker_size_7)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_7)
+                                        markers[idx]!!.captionTextSize = 15f
                                     } else if (naverMap.cameraPosition.zoom >= 13.5 && naverMap.cameraPosition.zoom < 14.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_8)
@@ -249,10 +257,6 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                             resources.getDimensionPixelSize(R.dimen.marker_size_10)
                                     }
                                 }
-                                markers[idx]!!.isIconPerspectiveEnabled = true
-                                markers[idx]!!.captionColor = Color.WHITE
-                                markers[idx]!!.captionHaloColor = Color.rgb(0, 0, 0)
-                                markers[idx]!!.captionTextSize = 16f
                                 //마커 클릭 시 정보창 visibility 유무
                                 markers[idx]!!.setOnClickListener {
                                     if (markerInfo.visibility == View.GONE) {
