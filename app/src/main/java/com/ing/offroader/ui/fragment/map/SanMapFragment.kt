@@ -42,6 +42,7 @@ import com.naver.maps.map.UiSettings
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
+import com.naver.maps.map.util.MapConstants
 import com.naver.maps.map.widget.CompassView
 import com.naver.maps.map.widget.ScaleBarView
 import com.naver.maps.map.widget.ZoomControlView
@@ -153,10 +154,6 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         val scaleBarView: ScaleBarView = binding.scalebar
         scaleBarView.map = naverMap
 
-        // 최대 확대 및 축소 비율 설정
-        this.naverMap.maxZoom = 19.0
-        this.naverMap.minZoom = 10.0
-
         setUpMap()
 
         with(binding) {
@@ -176,7 +173,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             // 마커 정보를 담을 배열 설정
             var markerDTOs: ArrayList<MarkerDTO> = arrayListOf()
             // Firestore에서 markers collection 접근하여 쿼리를 가져옴
-            firestore.collection("sanlist")
+            firestore.collection("sanTest")
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     if (querySnapshot == null) {
                         return@addSnapshotListener
@@ -200,52 +197,52 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                     resources.getDimensionPixelSize(R.dimen.marker_size_3)
                                 //카메라 변화 감지하여 줌 레벨에 따라 마커의 크기 변경
                                 naverMap.addOnCameraChangeListener { _, _ ->
-                                    if (naverMap.cameraPosition.zoom >= 10.0 && naverMap.cameraPosition.zoom < 11.0) {
+                                    if (naverMap.cameraPosition.zoom >= 6.5 && naverMap.cameraPosition.zoom < 7.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_1)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_1)
-                                    } else if (naverMap.cameraPosition.zoom >= 11.0 && naverMap.cameraPosition.zoom < 12.0) {
+                                    } else if (naverMap.cameraPosition.zoom >= 7.5 && naverMap.cameraPosition.zoom < 8.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_2)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_2)
-                                    } else if (naverMap.cameraPosition.zoom >= 12.0 && naverMap.cameraPosition.zoom < 13.0) {
+                                    } else if (naverMap.cameraPosition.zoom >= 8.5 && naverMap.cameraPosition.zoom < 9.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_3)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_3)
-                                    } else if (naverMap.cameraPosition.zoom >= 13.0 && naverMap.cameraPosition.zoom < 14.0) {
+                                    } else if (naverMap.cameraPosition.zoom >= 9.5 && naverMap.cameraPosition.zoom < 10.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_4)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_4)
-                                    } else if (naverMap.cameraPosition.zoom >= 14.0 && naverMap.cameraPosition.zoom < 15.0) {
+                                    } else if (naverMap.cameraPosition.zoom >= 10.5 && naverMap.cameraPosition.zoom < 11.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_5)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_5)
-                                    } else if (naverMap.cameraPosition.zoom >= 15.0 && naverMap.cameraPosition.zoom < 16.0) {
+                                    } else if (naverMap.cameraPosition.zoom >= 11.5 && naverMap.cameraPosition.zoom < 12.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_6)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_6)
-                                    } else if (naverMap.cameraPosition.zoom >= 16.0 && naverMap.cameraPosition.zoom < 17.0) {
+                                    } else if (naverMap.cameraPosition.zoom >= 12.5 && naverMap.cameraPosition.zoom < 13.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_7)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_7)
-                                    } else if (naverMap.cameraPosition.zoom >= 17.0 && naverMap.cameraPosition.zoom < 18.0) {
+                                    } else if (naverMap.cameraPosition.zoom >= 13.5 && naverMap.cameraPosition.zoom < 14.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_8)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_8)
-                                    } else if (naverMap.cameraPosition.zoom >= 18.0 && naverMap.cameraPosition.zoom < 19.0) {
+                                    } else if (naverMap.cameraPosition.zoom >= 14.5 && naverMap.cameraPosition.zoom < 15.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_9)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_9)
-                                    } else if (naverMap.cameraPosition.zoom in 19.0..20.0) {
+                                    } else if (naverMap.cameraPosition.zoom in 15.5..16.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_10)
                                         markers[idx]!!.height =
@@ -369,8 +366,9 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         naverMap.uiSettings.isLocationButtonEnabled = true // 현 위치 버튼 기능
         naverMap.locationTrackingMode = LocationTrackingMode.Follow // 위치를 추적하면서 카메라도 같이 움직임
         // 줌
-        naverMap.maxZoom = 15.0  // (최대 21)
-        naverMap.minZoom = 9.0
+        naverMap.maxZoom = 16.5  // (최대 21)
+        naverMap.minZoom = 6.5
+        naverMap.extent = MapConstants.EXTENT_KOREA
     }
 
     // MapView 라이프 사이클 메서드를 호출
