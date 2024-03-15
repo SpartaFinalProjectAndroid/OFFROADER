@@ -214,15 +214,16 @@ class MainActivity : AppCompatActivity() {
 
         rvAdapter.itemClick = object : RadioListAdapter.ItemClick {
             override fun onClick(key : String, pos: Int)  {
-                val whoPlay = radioListViewModel.whoPlay.value
-                if (whoPlay != key) {
+                if (radioListViewModel.whoPlay.value != key) {
                     urlList[key]?.let {
+
                         val item = HttpItem(it, key, radioIcon, pos)
 
                         CoroutineScope(Dispatchers.Main).launch {
                             val channelUrl = CoroutineScope(Dispatchers.Default).async {
                                 radioListViewModel.getHttpNetWork(item)
                             }.await()
+
                             radioUrl = channelUrl
                             preparePlayer()
                             playingMarkChange()
