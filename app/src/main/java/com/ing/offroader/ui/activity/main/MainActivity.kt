@@ -1,5 +1,6 @@
 package com.ing.offroader.ui.activity.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -21,8 +22,10 @@ import com.google.gson.reflect.TypeToken
 import com.ing.offroader.R
 import com.ing.offroader.data.RadioChannelURL
 import com.ing.offroader.databinding.ActivityMainBinding
+import com.ing.offroader.ui.activity.chatbot.ChatbotActivity
 import com.ing.offroader.ui.activity.main.adapters.RadioChannelItem
 import com.ing.offroader.ui.activity.main.adapters.RadioListAdapter
+import com.ing.offroader.ui.activity.sandetail.SanDetailActivity
 import com.ing.offroader.ui.fragment.chatbot.ChatBotFragment
 import com.ing.offroader.ui.fragment.home.HomeFragment
 import com.ing.offroader.ui.fragment.map.SanMapFragment
@@ -56,6 +59,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.fabChatbot.setOnClickListener {
+            val intent = Intent(this, ChatbotActivity::class.java)
+            startActivity(intent)
+
+        }
+
         radioPlayer = ExoPlayer.Builder(this)
             .setMediaSourceFactory(DefaultMediaSourceFactory(this).setLiveTargetOffsetMs(5000))
             .build()
@@ -74,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         binding.ivRadioBackBtn.setOnClickListener {
             binding.mlMain.transitionToStart()
         }
+
 
 
         bottomNavigationView = binding.navMain

@@ -1,11 +1,11 @@
-package com.ing.offroader.ui.fragment.chatbot.viewmodel
+package com.ing.offroader.data.repository
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import com.ing.offroader.ui.fragment.chatbot.database.BongbongDao
-import com.ing.offroader.ui.fragment.chatbot.database.BongbongData
-import com.ing.offroader.ui.fragment.chatbot.database.HikeyDao
-import com.ing.offroader.ui.fragment.chatbot.database.HikeyData
+import com.ing.offroader.ui.activity.chatbot.database.BongbongDao
+import com.ing.offroader.ui.activity.chatbot.database.BongbongData
+import com.ing.offroader.ui.activity.chatbot.database.HikeyDao
+import com.ing.offroader.ui.activity.chatbot.database.HikeyData
 
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO

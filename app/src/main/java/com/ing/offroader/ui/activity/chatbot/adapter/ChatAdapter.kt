@@ -1,4 +1,4 @@
-package com.ing.offroader.ui.fragment.chatbot.adapter
+package com.ing.offroader.ui.activity.chatbot.adapter
 
 import android.util.Log
 import android.view.LayoutInflater

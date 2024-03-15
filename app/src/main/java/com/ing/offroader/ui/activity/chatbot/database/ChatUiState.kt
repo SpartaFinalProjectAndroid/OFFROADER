@@ -1,4 +1,4 @@
-package com.ing.offroader.ui.fragment.chatbot.database
+package com.ing.offroader.ui.activity.chatbot.database
 
 import com.ing.offroader.data.model.ai.Message
 
