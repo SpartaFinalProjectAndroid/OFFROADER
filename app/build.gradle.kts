@@ -115,8 +115,8 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:$rootProject.roomVersion")
-    androidTestImplementation("androidx.room:room-testing:$rootProject.roomVersion")
+    implementation("androidx.room:room-ktx:2.6.1")
+    androidTestImplementation("androidx.room:room-testing:2.6.1")
 
     //navi
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")

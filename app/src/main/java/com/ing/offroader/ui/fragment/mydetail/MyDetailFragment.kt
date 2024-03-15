@@ -21,7 +21,6 @@ class MyDetailFragment : Fragment() {
 
     private val myDetailViewModel by viewModels<MyDetailViewModel>()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +31,29 @@ class MyDetailFragment : Fragment() {
 
         initLikedRecyclerView()
 
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initBlur()
+        initDialog()
+    }
+
+    private fun initBlur() {
+        val blur = binding.blur
+        with(blur) {
+            setBlurEnabled(true)
+            setBlurRadius(15f)
+        }
+    }
+
+    private fun initDialog() {
+        binding.ivLvInfo.setOnClickListener {
+            val dialog = LvDialogFragment()
+            dialog.show(childFragmentManager, "LvDialog")
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

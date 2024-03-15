@@ -89,6 +89,17 @@
     <string name="dialog_lv2">Lv. 2</string>
     <string name="dialog_lv2_title">등산러 호소인</string>
     <string name="dialog_lv3">Lv. 3</string>
+    <string name="dialog_lv3_title">등산러</string>
+    <string name="dialog_lv4">Lv. 4</string>
+    <string name="dialog_lv4_title">프로 등산러</string>
+    <string name="dialog_lv5">Lv. 5</string>
+    <string name="dialog_lv5_title">산신령</string>
+    <string name="dialog_achieve">업적(개수)</string>
+    <string name="dialog_achieve_lv1">0~9</string>
+    <string name="dialog_achieve_lv2">10~29</string>
+    <string name="dialog_achieve_lv3">30~69</string>
+    <string name="dialog_achieve_lv4">70~149</string>
+    <string name="dialog_achieve_lv5">150~</string>
 
 
 </resources>
