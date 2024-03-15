@@ -3,6 +3,7 @@ package com.ing.offroader.ui.activity.sandetail
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -56,6 +57,7 @@ class SanDetailActivity : AppCompatActivity() {
 
         sanDetailViewModel.info.observe(this) {
             initView(it)
+            Log.d(TAG, "initObserver: $it")
         }
     }
 
@@ -117,6 +119,7 @@ class SanDetailActivity : AppCompatActivity() {
     private fun getSanName() = intent.getStringExtra("name")
 
 
+    @SuppressLint("SetTextI18n")
     private fun setSanInfoView(sanlist: SanDetailDTO) = with(binding){
         tvMountain.text = sanlist.mountain
         tvAddress.text = sanlist.address
@@ -167,8 +170,7 @@ class SanDetailActivity : AppCompatActivity() {
 
     private fun setHikingTimeView(sanlist: SanDetailDTO) = with(binding) {
         val uphillTime = sanlist.uphillTime
-        val downhillTime = sanlist.downhillTime
-        val totalTime = uphillTime + downhillTime
+        val totalTime = sanlist.uphillTime
 
 //        viewHillTime(uphillTime, tvUptimeInfo)
 //        viewHillTime(downhillTime, tvDowntimeInfo)
@@ -209,6 +211,8 @@ class SanDetailActivity : AppCompatActivity() {
                 "${time / 60}시간 ${time % 60}분"
         }
     }
+
+
 
     // 좋아요 기능
     private fun initBookmark() {

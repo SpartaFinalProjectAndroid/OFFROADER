@@ -9,6 +9,5 @@ data class HomeUiState(
     val name: String?,
     val recommend: String?,
     val summary: String?,
-    val timeDownhill: Long?,
-    val timeUphill: Long?
+    val time: Long?
 )

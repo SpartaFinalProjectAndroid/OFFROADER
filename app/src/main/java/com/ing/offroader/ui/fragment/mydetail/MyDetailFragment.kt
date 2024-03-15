@@ -38,9 +38,10 @@ class MyDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initBlur()
-        initDialog()
+        setDialog()
     }
 
+    // 로그인 상태가 아닐 때, blur처리
     private fun initBlur() {
         val blur = binding.blur
         with(blur) {
@@ -49,7 +50,8 @@ class MyDetailFragment : Fragment() {
         }
     }
 
-    private fun initDialog() {
+    // lv 부분에 있는 아이콘 누르면 Dialog 생성
+    private fun setDialog() {
         binding.ivLvInfo.setOnClickListener {
             val dialog = LvDialogFragment()
             dialog.show(childFragmentManager, "LvDialog")

@@ -33,7 +33,7 @@ class LvDialogFragment : DialogFragment() {
     override fun onResume() {
         super.onResume()
 
-        context?.dialogFragmentResize(this, 0.9f, 0.6f)
+        context?.dialogFragmentResize(this, 0.9f, 0.65f)
     }
 
     override fun onDestroyView() {
