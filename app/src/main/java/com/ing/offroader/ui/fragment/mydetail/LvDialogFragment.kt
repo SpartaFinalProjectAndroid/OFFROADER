@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import com.ing.offroader.R
 import com.ing.offroader.databinding.DialogLvBinding
 
 class LvDialogFragment : DialogFragment() {
@@ -34,6 +36,7 @@ class LvDialogFragment : DialogFragment() {
         super.onResume()
 
         context?.dialogFragmentResize(this, 0.9f, 0.65f)
+        context?.dialogRoundedBackground(this)
     }
 
     override fun onDestroyView() {
@@ -69,5 +72,13 @@ class LvDialogFragment : DialogFragment() {
 
             window?.setLayout(x, y)
         }
+    }
+
+    private fun Context.dialogRoundedBackground(dialogFragment: DialogFragment) {
+        val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+
+        dialog?.window?.setBackgroundDrawable(
+            context?.let { ContextCompat.getDrawable(it, R.drawable.ic_rounded_background_dialog) }
+        )
     }
 }
