@@ -37,7 +37,9 @@ class WeatherRecyclerAdapter(private val context: Context, private var data: Mut
         val weatherInfo = data[position]
 
         val splitParts = weatherInfo.dt_txt.split(" ")
+//        val formattedTemp = convertAndFormatTemperature(weatherInfo.main.temp).toDouble().toInt()
         val formattedTemp = convertAndFormatTemperature(weatherInfo.main.temp)
+        Log.d(TAG, "onBindViewHolder: $formattedTemp")
         val icon = weatherInfo.weather[0].icon
         Log.d(TAG, "onBindViewHolder: $icon")
         val iconUrl = "http://openweathermap.org/img/w/$icon.png"
@@ -46,7 +48,7 @@ class WeatherRecyclerAdapter(private val context: Context, private var data: Mut
         holder.apply {
             suffix.text = if (splitParts[1].substring(0, 2).toInt() < 12) "AM" else "PM"
             time.text = "${splitParts[1].substring(0, 2).toInt()}시"
-            thermo.text = "${formattedTemp.toInt()}°"
+            thermo.text = "${formattedTemp}°"
             Glide.with(context)
                 .load(iconUrl)
                 .error(R.drawable.ic_launcher_foreground)
@@ -87,6 +89,8 @@ class WeatherRecyclerAdapter(private val context: Context, private var data: Mut
 }
 
 private fun convertAndFormatTemperature(kelvinTemp: Double): String {
+    //켈빈온도에서 273.15를 빼면 섭씨온도임
     val celsiusTemp = kelvinTemp - 273.15
-    return String.format("%.1f", celsiusTemp)
+//    return String.format("%.1f", celsiusTemp)
+    return Math.round(celsiusTemp).toString()
 }
