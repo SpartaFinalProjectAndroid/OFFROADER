@@ -94,3 +94,4 @@ private fun convertAndFormatTemperature(kelvinTemp: Double): String {
 //    return String.format("%.1f", celsiusTemp)
     return Math.round(celsiusTemp).toString()
 }
+//이상하다?
