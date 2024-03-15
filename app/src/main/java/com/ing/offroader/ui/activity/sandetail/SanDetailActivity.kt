@@ -68,7 +68,6 @@ class SanDetailActivity : AppCompatActivity() {
                 recyclerViewAdapter.updateData(weekendData)
 
             } catch (e: Exception) {
-                // 네트워크 에러 처리
                 Log.e("NetworkError", e.message ?: "Unknown error")
             }
         }
@@ -149,6 +148,16 @@ class SanDetailActivity : AppCompatActivity() {
         val dec = DecimalFormat("#,###")
         val height = sanlist.height
         tvHeightInfo.text = "${dec.format(height)}m"
+
+//        CoroutineScope(Dispatchers.Main).launch {
+//            try {
+//                val weatherCurrentList = netWorkRepository.getCurrentList(coordinates.first, coordinates.second)
+//
+//
+//            } catch (e: Exception) {
+//                Log.e("NetworkError", e.message ?: "Unknown error")
+//            }
+//        }
     }
 
     private fun setMoreView(sanlist: SanDetailDTO) = with(binding){

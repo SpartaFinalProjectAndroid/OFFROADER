@@ -45,8 +45,8 @@ class WeatherRecyclerAdapter(private val context: Context, private var data: Mut
 
         holder.apply {
             suffix.text = if (splitParts[1].substring(0, 2).toInt() < 12) "AM" else "PM"
-            time.text = "${splitParts[1].substring(0, 2)}시"
-            thermo.text = "${formattedTemp}°"
+            time.text = "${splitParts[1].substring(0, 2).toInt()}시"
+            thermo.text = "${formattedTemp.toInt()}°"
             Glide.with(context)
                 .load(iconUrl)
                 .error(R.drawable.ic_launcher_foreground)
