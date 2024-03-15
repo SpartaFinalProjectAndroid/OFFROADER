@@ -25,8 +25,7 @@ import com.ing.offroader.databinding.ActivityMainBinding
 import com.ing.offroader.ui.activity.chatbot.ChatbotActivity
 import com.ing.offroader.ui.activity.main.adapters.RadioChannelItem
 import com.ing.offroader.ui.activity.main.adapters.RadioListAdapter
-import com.ing.offroader.ui.activity.sandetail.SanDetailActivity
-import com.ing.offroader.ui.fragment.chatbot.ChatBotFragment
+import com.ing.offroader.ui.fragment.chatbot.CommunityFragment
 import com.ing.offroader.ui.fragment.home.HomeFragment
 import com.ing.offroader.ui.fragment.map.SanMapFragment
 import com.ing.offroader.ui.fragment.mydetail.MyDetailFragment
@@ -118,7 +117,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.navigation_4 -> {
-                    replaceFragment(ChatBotFragment())
+                    replaceFragment(CommunityFragment())
                     disableStatusBarTrans()
                     binding.mlMain.transitionToStart()
                     true

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ing.offroader.data.model.ai.Message
 import com.ing.offroader.databinding.ItemChatbotBinding
-import com.ing.offroader.ui.fragment.chatbot.viewmodel.ChatBotViewModel
+import com.ing.offroader.ui.activity.chatbot.viewmodel.ChatBotViewModel
 
 class ChatAdapter(private val viewModel: ChatBotViewModel) :
     ListAdapter<Message, RecyclerView.ViewHolder>(

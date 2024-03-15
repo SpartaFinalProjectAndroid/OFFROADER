@@ -1,4 +1,4 @@
-package com.ing.offroader.ui.fragment.chatbot.viewmodel
+package com.ing.offroader.ui.activity.chatbot.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

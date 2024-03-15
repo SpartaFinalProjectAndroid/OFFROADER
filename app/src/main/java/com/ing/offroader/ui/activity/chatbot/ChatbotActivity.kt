@@ -15,8 +15,8 @@ import com.ing.offroader.data.model.ai.Message
 import com.ing.offroader.databinding.ActivityChatbotBinding
 import com.ing.offroader.ui.activity.chatbot.adapter.ChatAdapter
 import com.ing.offroader.ui.fragment.chatbot.MyApplication
-import com.ing.offroader.ui.fragment.chatbot.viewmodel.ChatBotViewModel
-import com.ing.offroader.ui.fragment.chatbot.viewmodel.ChatBotViewModelFactory
+import com.ing.offroader.ui.activity.chatbot.viewmodel.ChatBotViewModel
+import com.ing.offroader.ui.activity.chatbot.viewmodel.ChatBotViewModelFactory
 
 private const val TAG = "ChatbotActivity"
 class ChatbotActivity : AppCompatActivity() {

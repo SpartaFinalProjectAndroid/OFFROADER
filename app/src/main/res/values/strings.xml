@@ -80,5 +80,6 @@
     <string name="mountain_height_text">고도 :</string>
     <string name="signin_google">GOOGLE LOGIN</string>
     <string name="home_attendance">출석체크</string>
+    <string name="community_title">커뮤니티</string>
 
 </resources>
