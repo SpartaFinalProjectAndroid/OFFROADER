@@ -151,15 +151,25 @@ class SanDetailActivity : AppCompatActivity() {
         val height = sanlist.height
         tvHeightInfo.text = "${dec.format(height)}m"
 
-//        CoroutineScope(Dispatchers.Main).launch {
-//            try {
-//                val weatherCurrentList = netWorkRepository.getCurrentList(coordinates.first, coordinates.second)
-//
-//
-//            } catch (e: Exception) {
-//                Log.e("NetworkError", e.message ?: "Unknown error")
-//            }
-//        }
+        /* // 데이터 구조 변경 후 사용
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val weatherCurrentList = netWorkRepository.getCurrentList(sanlist.lat, sanlist.lng)
+                val iconIndex = weatherCurrentList.weather[0]
+                val iconUrl = "http://openweathermap.org/img/w/$iconIndex.png"
+
+                //CoroutineScope로 감싸져 있기 때문에 this의 위치를 SanDetailActivity로 지정해 주어햐 함
+                //그냥 this는 CoroutineScope로 인식함
+                Glide.with(this@SanDetailActivity)
+                    .load(iconUrl)
+                    .into(ivWeather)
+                *//**받아오는 화질 줄이는 방법 사용하기*//*
+
+            } catch (e: Exception) {
+                Log.e("NetworkError", e.message ?: "Unknown error")
+            }
+        }
+        */
     }
 
     private fun setMoreView(sanlist: SanDetailDTO) = with(binding){
