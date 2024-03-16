@@ -17,6 +17,8 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.firestore
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
