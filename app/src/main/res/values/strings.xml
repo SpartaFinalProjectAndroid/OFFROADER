@@ -81,5 +81,10 @@
     <string name="signin_google">GOOGLE LOGIN</string>
     <string name="home_attendance">출석체크</string>
     <string name="community_title">커뮤니티</string>
+    <string name="add_post_select_image">이미지 선택</string>
+    <string name="add_post_complete">완료</string>
+    <string name="add_post_outoften">/10</string>
+    <string name="add_post_title_hint">제목</string>
+    <string name="add_post_content_hint">내용을 입력해주세요.</string>
 
 </resources>

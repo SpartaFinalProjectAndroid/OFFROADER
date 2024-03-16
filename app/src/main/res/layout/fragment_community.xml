@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
     android:background="@color/offroader_background"
     tools:context=".ui.fragment.chatbot.CommunityFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tb_chatbot"
+        android:id="@+id/tb_community"
         android:layout_width="match_parent"
         android:layout_height="@dimen/action_bar_default_height_material"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,6 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:id="@+id/iv_add_post"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/ic_add_post"
@@ -49,20 +51,20 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:dividerColor="#DCDCDC"
-        app:layout_constraintTop_toBottomOf="@id/tb_chatbot"/>
+        app:layout_constraintTop_toBottomOf="@id/tb_community"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_chatbot"
+        android:id="@+id/rv_community"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingTop="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/div_1"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-45dp"
         tools:listitem="@layout/item_post" />
 
     <LinearLayout
