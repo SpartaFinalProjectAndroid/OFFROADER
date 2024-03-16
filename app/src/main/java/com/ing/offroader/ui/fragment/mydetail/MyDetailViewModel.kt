@@ -33,8 +33,9 @@ class MyDetailViewModel : ViewModel() {
         viewModelScope.launch {
             val timeCheck = measureTimeMillis {
                 test = userRepository.getUserData(userUID = userUID)
+                Log.d("민용뷰모델", "name: $test")
             }
-            //Log.d("민용뷰모델", "name: " + test?.achievements?.sanId?.climb)
+
             Log.d("민용타임", "time: $timeCheck")
         }
     }
