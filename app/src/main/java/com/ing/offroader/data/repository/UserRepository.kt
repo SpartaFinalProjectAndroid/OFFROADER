@@ -26,6 +26,8 @@ class UserRepository {
 
     private val TAG = "민용 레포지토리"
 
+    // UID를 받아와서 파이어스토어에서 데이터를 받아와
+    // UserData 클래스에 맞게 저장하고 return 하는 함수
     suspend fun getUserData(userUID: String) : UserData {
 
         return try {

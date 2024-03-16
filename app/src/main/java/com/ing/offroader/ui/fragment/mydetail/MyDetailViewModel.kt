@@ -25,6 +25,9 @@ class MyDetailViewModel : ViewModel() {
 
     private val userRepository : UserRepository = UserRepository()
 
+
+    // UID를 받아와서 UserRepository의 getUserData 함수를 호출 하여
+    // 파이어스토에서 해당 UID에 맞는 데이터를 가져와서 _userData LiveData에 저장한다.
     fun getUserData(userUID: String) {
         viewModelScope.launch {
             val timeCheck = measureTimeMillis {

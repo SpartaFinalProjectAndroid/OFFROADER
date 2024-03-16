@@ -31,7 +31,7 @@ class MyDetailFragment : Fragment() {
     ): View? {
         _binding = FragmentMyDetailBinding.inflate(inflater, container, false)
 
-        myDetailViewModel.getUserData("user_test")
+        myDetailViewModel.getUserData("user_test") // 파이어스토에 해당 유저 UID에 맞는 데이터 가져오기
 
         return binding.root
 
