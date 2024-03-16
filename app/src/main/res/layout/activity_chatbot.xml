@@ -68,7 +68,7 @@
         app:layout_constraintTop_toBottomOf="@id/tb_community"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_community"
+        android:id="@+id/rv_chatbot"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingTop="10dp"

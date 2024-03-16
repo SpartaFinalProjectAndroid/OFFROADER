@@ -6,14 +6,14 @@ import com.ing.offroader.data.repository.SanListRepository
 import com.ing.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModel
 
 
-class CommunityViewModelFactory(private val sanListRepository: SanListRepository) :
-    ViewModelProvider.Factory {
-
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(SanDetailViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return CommunityViewModel(sanListRepository) as T
-        }
-        throw IllegalArgumentException("gg")
-    }
-}
+//class CommunityViewModelFactory(private val sanListRepository: SanListRepository) :
+//    ViewModelProvider.Factory {
+//
+//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//        if (modelClass.isAssignableFrom(SanDetailViewModel::class.java)) {
+//            @Suppress("UNCHECKED_CAST")
+//            return CommunityViewModel(sanListRepository) as T
+//        }
+//        throw IllegalArgumentException("gg")
+//    }
+//}
