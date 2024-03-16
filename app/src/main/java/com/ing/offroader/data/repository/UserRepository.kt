@@ -6,6 +6,11 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import com.ing.offroader.data.model.userInfo.Achievements
+import com.ing.offroader.data.model.userInfo.Attendance
+import com.ing.offroader.data.model.userInfo.Post
+import com.ing.offroader.data.model.userInfo.SanID
+import com.ing.offroader.data.model.userInfo.UserData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -21,41 +26,8 @@ class UserRepository {
 
     private val TAG = "민용 레포지토리"
 
-    data class UserData(
-        var user_name : Any ?= null,
-        var user_email : Any ?= null,
-        var user_age : Any ?= null,
-        var achievements : Achievements ?= null,
-        var community : Post ?= null,
-    )
-
-    data class Achievements(
-        var san_id: SanID ?= null,
-        var attendance: Attendance ?= null,
-    )
-
-    data class SanID(
-        var badge_total : Any ?= null,
-        var climb : Any ?= null,
-        var distance : Any ?= null,
-    )
-
-    data class Attendance(
-        var attendance_record : Any ?= null,
-    )
-
-    data class Post(
-        var title : Any ?= null,
-        var post_id : Any ?= null,
-        var san : Any ?= null,
-        var upload_date : Any ?= null,
-        var contents : Any ?= null,
-        var images : Any ?= null,
-        var like : Any ?= null
-    )
-
     suspend fun getUserData(userUID: String) : UserData {
-        
+
         return try {
             val userData = FirebaseFirestore.getInstance().collection("User").document(userUID)
 
@@ -74,7 +46,7 @@ class UserRepository {
             userDataClass
 
         } catch (e: Exception) {
-            Log.e(TAG, "FireStore Error: $e", )
+            Log.e(TAG, "FireStore Error: $e")
             return UserData()
         }
     }
