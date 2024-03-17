@@ -86,5 +86,6 @@
     <string name="add_post_outoften">/10</string>
     <string name="add_post_title_hint">제목</string>
     <string name="add_post_content_hint">내용을 입력해주세요.</string>
+    <string name="default_web_client_id">399146829257-9m5hulcsutibi2c360od30de3fqqedp7.apps.googleusercontent.com</string>
 
 </resources>
