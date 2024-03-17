@@ -22,8 +22,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val radioLikeList : LiveData<MutableList<String>> = _radioLikeList
 
     private var _whoPlay : MutableLiveData<String?> = MutableLiveData()
-    var whoPlay : MutableLiveData<String?> = _whoPlay
+    val whoPlay : MutableLiveData<String?> = _whoPlay
     private var whoPlayTest : String ?= null
+
+    private var _isPlaying : MutableLiveData<Boolean> = MutableLiveData(false)
+    val isPlaying : LiveData<Boolean> = _isPlaying
 
     private var _channelUrl : MutableLiveData<String?> = MutableLiveData()
     var channelUrl : MutableLiveData<String?> = _channelUrl
@@ -54,5 +57,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun loadRadioData(list : MutableList<String>) {
         copyList = list
         _radioLikeList.value = copyList
+    }
+
+    fun checkIsPlaying(isPlay: Boolean) {
+        _isPlaying.value = isPlay
     }
 }

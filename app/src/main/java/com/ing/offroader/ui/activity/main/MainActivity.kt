@@ -57,8 +57,6 @@ class MainActivity : AppCompatActivity() {
     private var isRadioLikeTab = false
 
     private val radioListViewModel by viewModels<MainViewModel>()
-    private var radioUrl : String ?= null
-    private var isPlay : Boolean = false
     private var lastTimeBackPressed:Long=-1500
 
     private lateinit var rvAdapter: RadioListAdapter
@@ -173,7 +171,7 @@ class MainActivity : AppCompatActivity() {
     // 각 방송국과 즐겨찾기 라디오 채널 리스트 초기화
     @OptIn(UnstableApi::class) private fun radioSetting() = with(binding) {
 
-        //firstSetting()
+        firstSetting()
         broadcastInit(RadioChannelURL.RADIO_API_URL, R.drawable.ic_favorite)
 
         cvFavorites.setOnClickListener { broadcastInit(RadioChannelURL.RADIO_API_URL, R.drawable.ic_favorite) }
@@ -182,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         cvMbc.setOnClickListener { broadcastInit(RadioChannelURL.MBC_LIST, R.drawable.ic_mbc_radio) }
 
         llRadioPlayBtn.setOnClickListener {
-            if (isPlay) { radioPause() }
+            if (radioListViewModel.isPlaying.value == true) { radioPause() }
             else {
                 preparePlayer()
                 radioListViewModel.whoPlay.value?.let { bottomRadioPlay(it) }
@@ -192,13 +190,14 @@ class MainActivity : AppCompatActivity() {
 
     // 처음 앱 시작시 KBS 1Radio로 시작하도록 초기화
     // 추후에 마지막으로 들었던 채널로 시작하도록 구현 예정
-//    private fun firstSetting() {
-//        RadioChannelURL.KBS_LIST["1Radio"]?.let { httpNetWork(it, "1Radio", R.drawable.ic_kbs_radio, 3) }
-//        preparePlayer()
-//        radioPause()
-//        radioListViewModel.addWhoPlay("1Radio")
-//        binding.ivRadioProfile.setImageResource(R.drawable.ic_kbs_radio)
-//    }
+    private fun firstSetting() {
+        if (radioListViewModel.isPlaying.value == true) {
+            preparePlayer()
+            radioPlay("test", R.drawable.ic_favorite)
+        } else {
+            preparePlayer()
+        }
+    }
 
     // 각 방송국들의 채널에 대한 초기화 함수
     // RecyclerView 적용, 아이템 클릭 이벤트
@@ -226,7 +225,7 @@ class MainActivity : AppCompatActivity() {
                                 radioListViewModel.getHttpNetWork(item)
                             }.await()
 
-                            radioUrl = channelUrl
+                            radioListViewModel.addChannelUrl(channelUrl)
                             preparePlayer()
                             playingMarkChange()
                             radioPlay(item.key, item.radioIcon)
@@ -245,7 +244,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     radioListViewModel.addList(key)
                 }
-                saveData()
+                saveData(RadioChannelURL.PREFERENCE_KEY, RadioChannelURL.DATA_KEY, radioListViewModel.radioLikeList.value)
             }
         }
         rvChannelList.adapter = rvAdapter
@@ -295,60 +294,51 @@ class MainActivity : AppCompatActivity() {
         var mediaItem : MediaItem ?= null
 
         viewTest.player?.stop()
-        radioListViewModel.addChannelUrl(radioUrl.toString())
+        //radioListViewModel.addChannelUrl(radioUrl.toString())
+        val test = radioListViewModel.channelUrl.value
 
-        radioListViewModel.channelUrl.observe(this@MainActivity) {
-            mediaItem = radioUrl?.let { MediaItem.fromUri(it) }
-            mediaItem?.let { viewTest.player?.setMediaItem(it) }
-            viewTest.player?.prepare()
-            viewTest.player?.playWhenReady = true
-        }
-        //val mediaItem = radioUrl?.let { MediaItem.fromUri(it) }
-
-        //val mediaItem = radioListViewModel.channelURL?.let { MediaItem.fromUri(it) }
-        //val mediaItem = MediaItem.fromUri(item.toString())
-//        if (mediaItem != null) {
-//            viewTest.player?.setMediaItem(mediaItem)
-//        }
-//        viewTest.player?.prepare()
-//        viewTest.player?.playWhenReady = true
+        mediaItem = test?.let { MediaItem.fromUri(test) }
+        mediaItem?.let { item -> viewTest.player?.setMediaItem(item) }
+        viewTest.player?.prepare()
+        viewTest.player?.playWhenReady = true
 
     }
 
     // 하단 라디오 플레이어의 재생 상태를 설정하는 함수
     private fun bottomRadioPlay(key: String?) {
         binding.viewTest.player?.play()
+        radioListViewModel.checkIsPlaying(true)
         binding.ivRadioPlayBtn.setImageResource(R.drawable.ic_pause)
-        isPlay = true
         radioListViewModel.addWhoPlay(key)
     }
 
     // 라디오를 재생 하고 뷰모델 whoPlay 변수에 어떤 채널이 재생 되고 있는지 저장
     private fun radioPlay(key: String?, icon: Int) = with(binding) {
         viewTest.player?.play()
+        radioListViewModel.checkIsPlaying(true)
         ivRadioPlayBtn.setImageResource(R.drawable.ic_pause)
         tvBottomRadioTitle.text = key
         ivRadioProfile.setImageResource(icon)
-        isPlay = true
         radioListViewModel.addWhoPlay(key)
     }
 
     // 라디오 정지
     private fun radioPause() = with(binding) {
         viewTest.player?.stop()
+        radioListViewModel.checkIsPlaying(false)
         ivRadioPlayBtn.setImageResource(R.drawable.ic_play)
-        isPlay = false
     }
 
     // MainViewModel에 있는 좋아요 한 라디오 채널을 담은 radioLikeList를 getSharedPreferences를 사용 하여 로컬에 저장 하기 위한 함수
-    private fun saveData() {
-        val pref = getSharedPreferences(RadioChannelURL.PREFERENCE_KEY, 0)
+    private fun<T> saveData(preferKey: String, dataKey: String, data: T) {
+        val pref = getSharedPreferences(preferKey, 0)
         val edit = pref.edit()
         edit.clear()
         val gson = Gson()
-        val json = gson.toJson(radioListViewModel.radioLikeList.value)
+        //val json = gson.toJson(radioListViewModel.radioLikeList.value)
+        val json = gson.toJson(data)
 
-        edit.putString(RadioChannelURL.DATA_KEY, json)
+        edit.putString(dataKey, json)
         edit.apply()
     }
 
