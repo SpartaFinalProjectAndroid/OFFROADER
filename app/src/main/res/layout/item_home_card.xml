@@ -21,6 +21,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <!-- 메인 이미지 -->
+
+        <!-- 어두운 그라데이션 한 스푼 추가 -->
         <ImageView
             android:id="@+id/iv_main_image"
             android:layout_width="match_parent"
@@ -28,7 +30,6 @@
             android:scaleType="centerCrop"
             android:src="@drawable/img_test" />
 
-        <!-- 어두운 그라데이션 한 스푼 추가 -->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="60dp"

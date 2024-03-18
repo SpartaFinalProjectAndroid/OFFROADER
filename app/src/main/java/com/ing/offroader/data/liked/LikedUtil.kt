@@ -11,7 +11,6 @@ object LikedUtil {
     fun isSavedInLikedMountain(mountainName: String): Boolean =
         getLiked().find { it.mountain == mountainName } != null
 
-
     fun savedLiked(bookmark: MutableList<SanDetailDTO>) {
         val context = MyApplication.appContext
 

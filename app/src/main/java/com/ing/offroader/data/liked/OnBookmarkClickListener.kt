@@ -6,16 +6,16 @@ import com.ing.offroader.ui.activity.sandetail.SanDetailDTO
 object OnBookmarkClickListener {
     private val TAG = "OnBookmarkClicked"
 
-    fun onBookmarkClick(sanData: SanDetailDTO) {
+    fun onBookmarkClick(sanlist: SanDetailDTO) {
         val likedMountain = LikedUtil.getLiked().toMutableList()
         Log.d(TAG, "before_likedMountain.size = ${likedMountain.size}")
 
-        if(sanData.isLiked) {
-            if(!LikedUtil.isSavedInLikedMountain(sanData.mountain)){
-                likedMountain.add(sanData)
+        if(sanlist.isLiked) {
+            if(!LikedUtil.isSavedInLikedMountain(sanlist.mountain)){
+                likedMountain.add(sanlist)
             }
         } else {
-            likedMountain.find { it.mountain == sanData.mountain }?.let{
+            likedMountain.find { it.mountain == sanlist.mountain }?.let{
                 likedMountain.remove(it)
             }
         }
