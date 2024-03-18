@@ -55,7 +55,6 @@ class MyDetailFragment : Fragment() {
         with(blur) {
             setupWith(this)
                 .setBlurEnabled(true)
-                .setBlurRadius(15f)
         }
     }
 
@@ -64,7 +63,6 @@ class MyDetailFragment : Fragment() {
         binding.ivLvInfo.setOnClickListener {
             val dialog = LvDialogFragment()
             dialog.show(childFragmentManager, "LvDialog")
-
         }
     }
 
@@ -75,6 +73,11 @@ class MyDetailFragment : Fragment() {
 
             startActivity(intent)
         }
+    }
+
+    // 톱니바퀴 누르면 setting
+    private fun goToSettingFragment() {
+        binding.ivSetting.setOnClickListener {  }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

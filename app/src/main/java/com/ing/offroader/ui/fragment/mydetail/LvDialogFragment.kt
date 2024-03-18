@@ -75,7 +75,6 @@ class LvDialogFragment : DialogFragment() {
     }
 
     private fun Context.dialogRoundedBackground(dialogFragment: DialogFragment) {
-        val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
         dialog?.window?.setBackgroundDrawable(
             context?.let { ContextCompat.getDrawable(it, R.drawable.ic_rounded_background_dialog) }
