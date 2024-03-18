@@ -45,6 +45,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
+private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
@@ -73,92 +74,113 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    @OptIn(UnstableApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initView()
+        initObserver()
+    }
+
+    private fun initObserver() {
+        radioListViewModel.radioLikeList.observe(this) {
+            setRadioView(it.size)
+        }
+    }
+
+    private fun setRadioView(size: Int) {
+        if (size == 0 && isRadioLikeTab) {
+            binding.tvFavoriteNotify.visibility = View.VISIBLE
+            binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
+        } else {
+            binding.tvFavoriteNotify.visibility = View.GONE
+            binding.tvFavoriteNotify.text = ""
+            database.collection("radio_api").get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (i in task.result)
+                        Log.d("Minyong", "onCreate: " + i.data.keys)
+                }
+            }
+        }
+    }
+
+    private fun initView() {
+        setUpListeners()
+        setRadioPlayer()
+        setBottomNavigation()
+        initRadio()
+    }
+
+    private fun setBottomNavigation() {
+        bottomNavigationView = binding.navMain
+
+        replaceFragment(HomeFragment())
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+            // 아이콘 색상 변경
+
+            // 각 아이템에 따라 적절한 작업 수행
+            when (menuItem.itemId) {
+                R.id.navigation_1 -> {
+                    replaceFragment(HomeFragment())
+
+                    Log.d(TAG, "onCreate: HomeFragment")
+                    binding.mlMain.transitionToStart()
+                    disableStatusBarTrans()
+                    //애니메이션 쓸거면 여기
+                    true
+                }
+
+                R.id.navigation_2 -> {
+                    replaceFragment(SanListFragment())
+                    binding.mlMain.transitionToStart()
+                    enableStatusBarTrans()
+                    true
+                }
+
+                R.id.navigation_3 -> {
+                    replaceFragment(SanMapFragment())
+                    binding.mlMain.transitionToStart()
+                    disableStatusBarTrans()
+                    true
+                }
+
+                R.id.navigation_4 -> {
+                    replaceFragment(CommunityFragment())
+                    disableStatusBarTrans()
+                    binding.mlMain.transitionToStart()
+                    true
+                }
+
+                R.id.navigation_5 -> {
+                    replaceFragment(MyDetailFragment())
+                    binding.mlMain.transitionToStart()
+                    disableStatusBarTrans()
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
+
+    @OptIn(UnstableApi::class)
+    private fun setRadioPlayer() {
+        radioPlayer = ExoPlayer.Builder(this)
+            .setMediaSourceFactory(DefaultMediaSourceFactory(this).setLiveTargetOffsetMs(5000))
+            .build()
+        binding.viewTest.player = radioPlayer
+    }
+
+    private fun setUpListeners() {
         binding.fabChatbot.setOnClickListener {
             val intent = Intent(this, ChatbotActivity::class.java)
             startActivity(intent)
 
         }
-
-        radioPlayer = ExoPlayer.Builder(this)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(this).setLiveTargetOffsetMs(5000))
-            .build()
-        binding.viewTest.player = radioPlayer
-
-        radioListViewModel.radioLikeList.observe(this) {
-            if (it.size == 0 && isRadioLikeTab) {
-                binding.tvFavoriteNotify.visibility = View.VISIBLE
-                binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
-            } else {
-                binding.tvFavoriteNotify.visibility = View.GONE
-                binding.tvFavoriteNotify.text = ""
-                database.collection("radio_api").get().addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (i in task.result)
-                            Log.d("Minyong", "onCreate: " + i.data.keys)
-                    }
-                }
-
-
-
-
-                bottomNavigationView = binding.navMain
-
-        replaceFragment(HomeFragment())
-
-                bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
-                    // 아이콘 색상 변경
-
-                    // 각 아이템에 따라 적절한 작업 수행
-                    when (menuItem.itemId) {
-                        R.id.navigation_1 -> {
-                            replaceFragment(HomeFragment())
-                            binding.mlMain.transitionToStart()
-                            disableStatusBarTrans()
-                            //애니메이션 쓸거면 여기
-                            true
-                        }
-
-                        R.id.navigation_2 -> {
-                            replaceFragment(SanListFragment())
-                            binding.mlMain.transitionToStart()
-                            enableStatusBarTrans()
-                            true
-                        }
-
-                        R.id.navigation_3 -> {
-                            replaceFragment(SanMapFragment())
-                            binding.mlMain.transitionToStart()
-                            disableStatusBarTrans()
-                            true
-                        }
-
-                        R.id.navigation_4 -> {
-                            replaceFragment(CommunityFragment())
-                            disableStatusBarTrans()
-                            binding.mlMain.transitionToStart()
-                            true
-                        }
-
-                        R.id.navigation_5 -> {
-                            replaceFragment(MyDetailFragment())
-                            binding.mlMain.transitionToStart()
-                            disableStatusBarTrans()
-                            true
-                        }
-
-                        else -> false
-                    }
-                }
-                initRadio()
-            }
-        }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -179,7 +201,7 @@ class MainActivity : AppCompatActivity() {
         binding.viewTest.player = mediaSession.player
     }
 
-    // <-------------------------------- 라디오 관련 설정들 --------------------------------------->
+// <-------------------------------- 라디오 관련 설정들 --------------------------------------->
 
     // 라디오 관련 기능들 초기화
     private fun initRadio() {
@@ -244,7 +266,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 처음 앱 시작시 KBS 1Radio로 시작하도록 초기화
-    // 추후에 마지막으로 들었던 채널로 시작하도록 구현 예정
+// 추후에 마지막으로 들었던 채널로 시작하도록 구현 예정
     private fun firstSetting() {
         if (radioListViewModel.isPlaying.value == true) {
             preparePlayer()
@@ -255,7 +277,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 각 방송국들의 채널에 대한 초기화 함수
-    // RecyclerView 적용, 아이템 클릭 이벤트
+// RecyclerView 적용, 아이템 클릭 이벤트
     private fun broadcastInit(urlList: Map<String, String>, radioIcon: Int) =
         with(binding) {
 
@@ -339,7 +361,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // RadioListAdapter 초기화 함수
-    // 즐겨찾기
+// 즐겨찾기
     private fun initAdapter(map: Map<String, String>): MutableList<RadioChannelItem> {
         val channelItemList: MutableList<RadioChannelItem> = mutableListOf()
         map.keys.forEach { channelItemList.add(RadioChannelItem(it)) }
