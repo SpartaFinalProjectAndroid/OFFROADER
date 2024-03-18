@@ -1,5 +1,6 @@
 package com.ing.offroader.ui.activity.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -78,7 +79,8 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView = binding.navMain
 
-        replaceFragment(HomeFragment())
+//        replaceFragment(HomeFragment())
+        showFragment(HomeFragment(), "HOME_FRAGMENT")
 
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             // 아이콘 색상 변경
@@ -86,41 +88,30 @@ class MainActivity : AppCompatActivity() {
             // 각 아이템에 따라 적절한 작업 수행
             when (menuItem.itemId) {
                 R.id.navigation_1 -> {
-                    replaceFragment(HomeFragment())
-                    disableStatusBarTrans()
+                    showFragment(HomeFragment(), "HOME_FRAGMENT")
                     binding.mlMain.transitionToStart()
-                    //애니메이션 쓸거면 여기
                     true
                 }
-
                 R.id.navigation_2 -> {
-                    replaceFragment(SanListFragment())
-                    enableStatusBarTrans()
+                    showFragment(SanListFragment(), "SAN_LIST_FRAGMENT")
                     binding.mlMain.transitionToStart()
                     true
                 }
-
                 R.id.navigation_3 -> {
-                    replaceFragment(SanMapFragment())
-                    disableStatusBarTrans()
+                    showFragment(SanMapFragment(), "SAN_MAP_FRAGMENT")
                     binding.mlMain.transitionToStart()
                     true
                 }
-
                 R.id.navigation_4 -> {
-                    replaceFragment(ChatBotFragment())
-                    disableStatusBarTrans()
+                    showFragment(ChatBotFragment(), "CHAT_BOT_FRAGMENT")
                     binding.mlMain.transitionToStart()
                     true
                 }
-
                 R.id.navigation_5 -> {
-                    replaceFragment(MyDetailFragment())
-                    disableStatusBarTrans()
+                    showFragment(MyDetailFragment(), "MY_DETAIL_FRAGMENT")
                     binding.mlMain.transitionToStart()
                     true
                 }
-
                 else -> false
             }
         }
@@ -139,6 +130,35 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fl_main, fragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
+    }
+
+    private fun showFragment(fragment: Fragment, tag: String) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+        var previousFragment = supportFragmentManager.findFragmentByTag(tag)
+        if (previousFragment == null) {
+            previousFragment = when(tag) {
+                "HOME_FRAGMENT" -> HomeFragment()
+                "SAN_LIST_FRAGMENT" -> SanListFragment()
+                "SAN_MAP_FRAGMENT" -> SanMapFragment()
+                "CHAT_BOT_FRAGMENT" -> ChatBotFragment()
+                "MY_DETAIL_FRAGMENT" -> MyDetailFragment()
+                else -> null
+            }
+
+            previousFragment?.let { fragmentTransaction.add(R.id.fl_main, it, tag) }
+        }
+
+        val currentFragments = supportFragmentManager.fragments
+        for (fragment in currentFragments) {
+            if (fragment != previousFragment) {
+                fragmentTransaction.hide(fragment)
+            }
+        }
+
+        previousFragment?.let { fragmentTransaction.show(it) }
+
+        fragmentTransaction.commit()
     }
 
     // <-------------------------------- 라디오 관련 설정들 --------------------------------------->
@@ -518,6 +538,7 @@ class MainActivity : AppCompatActivity() {
 //        window.decorView.systemUiVisibility = 8191
     }
 
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         // (현재 버튼 누른 시간-이전에 버튼 누른 시간) <=1.5초일 때 동작
         if(System.currentTimeMillis()-lastTimeBackPressed<=1500)

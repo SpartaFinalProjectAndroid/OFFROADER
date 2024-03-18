@@ -106,7 +106,7 @@ class SanDetailActivity : AppCompatActivity() {
         // 숫자에 따라 난이도 부여 & 색상 부여
         setDifficultyView(sanlist)
         //상행시간, 하행시간, 총 등산시간
-        setHikingTimeView(sanlist)
+//        setHikingTimeView(sanlist)
         // 뷰페이저 어댑터 기본 설정
         initImage(sanlist)
     }
@@ -212,10 +212,10 @@ class SanDetailActivity : AppCompatActivity() {
     }
 
     private fun setHikingTimeView(sanlist: SanDetailDTO) = with(binding) {
-        val uphillTime = sanlist.uphillTime
-        val totalTime = sanlist.uphillTime
+        val uphillTime = sanlist.time
+        val totalTime = sanlist.time
 
-        viewHillTime(uphillTime, tvUptimeInfo)
+//        viewHillTime(uphillTime, tvUptimeInfo)
 //        viewHillTime(downhillTime, tvDowntimeInfo)
         viewHillTime(totalTime, tvTimeInfo)    }
 
