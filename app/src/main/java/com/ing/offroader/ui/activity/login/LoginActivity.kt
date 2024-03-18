@@ -2,7 +2,7 @@ package com.ing.offroader.ui.activity.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -13,8 +13,12 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 import com.ing.offroader.R
+import com.ing.offroader.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
+
+    private var _binding: ActivityLoginBinding? = null
+    private val binding get() = _binding!!
 
     private val loginViewModel by viewModels<LoginViewModel>()
 
@@ -22,8 +26,13 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        _binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initGoogleSignInClient()
+        signInUsingGoolge()
 
     }
+
     private fun initGoogleSignInClient() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -66,30 +75,20 @@ class LoginActivity : AppCompatActivity() {
     private fun signInWithGoogleAuthCredential(googleAuthCredential: AuthCredential) {
 
         loginViewModel.signInWithGoogle(googleAuthCredential)
-        loginViewModel.authenticateUserLiveData.observe(this, {
-            authenticatedUser - >
-            when (authenticatedUser) {
-                is ResponseState.Error -
-                    > {
-                    authenticatedUser.message ? .let {
-                        context ? .toast(it)
+        loginViewModel.authenticateUserLiveData.observe(this) { authenticatedUser ->
+             when (authenticatedUser) {
+                is ResponseState.Error -> {
+                    authenticatedUser.message?.let {
+                        Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
                     }
                 }
-
-                is ResponseState.Success -
-                    > {
-                    if (authenticatedUser.data != null)
-                    //update ui
-                }
-
-                is ResponseState.Loading -
-                    > {
-                    //show progress
-                }
-            }
-        })
+                 is ResponseState.Loading -> TODO()
+                 is ResponseState.Success -> TODO()
+             }
+        }
 
     }
+
     companion object {
         private const val TAG = "LoginActivity"
         private const val RC_SIGN_IN = 9001
