@@ -48,4 +48,10 @@ class MyDetailFragment : Fragment() {
         myBookmarkAdapter.onBookmarkClickedInMyLikedListener = listOf()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+
+    }
+
 }

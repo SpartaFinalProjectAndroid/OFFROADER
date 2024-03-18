@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         LoginViewModelFactory((this.application as MyApplication).authRepository)
     }
 
-    lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
         Log.d(TAG, "signInUsingGoolge: send Intent")
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d(TAG, "onActivityResult: start")
@@ -68,13 +69,11 @@ class LoginActivity : AppCompatActivity() {
                     val account = task.getResult(ApiException::class.java)!!
                     Log.d(TAG, "onActivityResult: Successfully got account $account")
                     Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                    if (account != null) {
-                        Log.d(
-                            TAG,
-                            "onActivityResult: account is not null so it is sent to getGoogleAuthCredential"
-                        )
-                        getGoogleAuthCredential(account)
-                    }
+                    Log.d(
+                        TAG,
+                        "onActivityResult: account is not null so it is sent to getGoogleAuthCredential"
+                    )
+                    getGoogleAuthCredential(account)
 
 
                 } catch (e: ApiException) {

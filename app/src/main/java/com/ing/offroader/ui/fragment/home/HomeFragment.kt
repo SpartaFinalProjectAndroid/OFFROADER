@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
     private var uiData: List<HomeUiData> = listOf()
 
     private var auth: FirebaseAuth? = null
-    private val user = FirebaseAuth.getInstance().currentUser
+    var user = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -45,28 +45,26 @@ class HomeFragment : Fragment() {
         // 프래그먼트에 있는 onCreateView 함수에는 페이지 인플레이팅만 들어갑닏다!
         // onViewCreated에 작성해주세요!
         return binding.root
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initObserver()
-        initView()
         initListener()
-
     }
 
     private fun initView() {
+        val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             binding.tvUsername.text = user.email ?: "츄파춥스님, 안녕하세요!"
             Log.d(TAG, "onViewCreated: ${user.uid}")
             Log.d(TAG, "onViewCreated: ${user.email}")
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initView()
     }
 
     private fun initListener() = with(binding) {

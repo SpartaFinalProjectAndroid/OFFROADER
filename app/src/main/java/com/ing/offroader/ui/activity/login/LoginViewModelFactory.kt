@@ -2,6 +2,7 @@ package com.ing.offroader.ui.activity.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.ing.offroader.data.repository.AuthRepository
 
 class LoginViewModelFactory(private val authRepository: AuthRepository) :
     ViewModelProvider.Factory {

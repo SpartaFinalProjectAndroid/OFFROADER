@@ -47,5 +47,10 @@ class CommunityFragment : Fragment() {
 
 // 뷰 모델 옵져빙해주는 함수
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 
 }

@@ -8,7 +8,7 @@ import com.ing.offroader.ui.activity.chatbot.database.BongbongDatabase
 import com.ing.offroader.ui.activity.chatbot.database.HikeyDatabase
 import com.ing.offroader.data.repository.BongbongRepository
 import com.ing.offroader.data.repository.HikeyRepository
-import com.ing.offroader.ui.activity.login.AuthRepository
+import com.ing.offroader.data.repository.AuthRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 

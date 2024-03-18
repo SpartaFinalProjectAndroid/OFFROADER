@@ -202,8 +202,12 @@ class SanListFragment : Fragment() {
                 intent.putExtra("name", sanName)
             }
             startActivity(intent)
-
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
 
     }
 }
