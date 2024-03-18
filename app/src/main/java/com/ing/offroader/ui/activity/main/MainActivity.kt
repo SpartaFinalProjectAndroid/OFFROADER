@@ -1,6 +1,7 @@
 package com.ing.offroader.ui.activity.main
 
 
+import android.content.ComponentName
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,11 +12,16 @@ import androidx.annotation.OptIn
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.media3.common.ForwardingPlayer
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import androidx.media3.session.MediaController
+import androidx.media3.session.MediaSession
+import androidx.media3.session.SessionToken
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.common.util.concurrent.MoreExecutors
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -33,17 +39,13 @@ import com.ing.offroader.R
 import com.ing.offroader.data.RadioChannelURL
 import com.ing.offroader.databinding.ActivityMainBinding
 import com.ing.offroader.ui.activity.main.adapters.RadioListAdapter
+import com.ing.offroader.ui.activity.main.mediasession.PlaybackService
 import com.ing.offroader.ui.fragment.chatbot.ChatBotFragment
 import com.ing.offroader.ui.fragment.home.HomeFragment
 import com.ing.offroader.ui.fragment.map.SanMapFragment
 import com.ing.offroader.ui.fragment.mydetail.MyDetailFragment
 import com.ing.offroader.ui.fragment.sanlist.SanListFragment
 import kotlinx.coroutines.async
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
 import org.json.JSONObject
 import org.json.JSONTokener
 import java.io.IOException
@@ -63,7 +65,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvAdapterList: MutableList<RadioChannelItem>
 
     val database = Firebase.firestore
-    
+
+    override fun onStart() {
+        super.onStart()
+
+        val sessionToken = SessionToken(this, ComponentName(this, PlaybackService::class.java))
+        val controllerFuture = MediaController.Builder(this, sessionToken).buildAsync()
+
+        controllerFuture.addListener(
+            {binding.viewTest.player = controllerFuture.get()},
+            MoreExecutors.directExecutor()
+        )
+    }
     @OptIn(UnstableApi::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -76,10 +89,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        radioPlayer = ExoPlayer.Builder(this)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(this).setLiveTargetOffsetMs(5000))
-            .build()
-        binding.viewTest.player = radioPlayer
+//        radioPlayer = ExoPlayer.Builder(this)
+//            .setMediaSourceFactory(DefaultMediaSourceFactory(this).setLiveTargetOffsetMs(5000))
+//            .build()
+//        binding.viewTest.player = radioPlayer
+//
+//        mediaSessionTest(radioPlayer)
 
         bottomNavigationView = binding.navMain
 
@@ -144,6 +159,11 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fl_main, fragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
+    }
+
+    private fun mediaSessionTest(player: ExoPlayer) {
+        val mediaSession = MediaSession.Builder(this, player).build()
+        binding.viewTest.player = mediaSession.player
     }
 
     // <-------------------------------- 라디오 관련 설정들 --------------------------------------->
