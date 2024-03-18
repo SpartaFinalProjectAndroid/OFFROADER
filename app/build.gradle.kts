@@ -158,14 +158,15 @@ dependencies {
 
 
     // androidx.media3
-    implementation ("androidx.media3:media3-session:1.2.1")
-    implementation ("androidx.media3:media3-exoplayer:1.2.1")
-    implementation("androidx.media3:media3-exoplayer-dash:1.2.1")
-    implementation("androidx.media3:media3-exoplayer-smoothstreaming:1.2.1")
-    implementation("androidx.media3:media3-exoplayer-hls:1.2.1")
-    implementation("androidx.media3:media3-exoplayer-rtsp:1.2.1")
-    implementation("androidx.media3:media3-ui:1.2.1")
-    implementation("androidx.media3:media3-ui-leanback:1.2.1")
+    implementation ("androidx.media3:media3-session:1.3.0")
+    implementation ("androidx.media3:media3-exoplayer:1.3.0")
+    implementation("androidx.media3:media3-exoplayer-dash:1.3.0")
+    implementation("androidx.media3:media3-exoplayer-smoothstreaming:1.3.0")
+    implementation("androidx.media3:media3-exoplayer-hls:1.3.0")
+    implementation("androidx.media3:media3-exoplayer-rtsp:1.3.0")
+    implementation("androidx.media3:media3-ui:1.3.0")
+    implementation("androidx.media3:media3-ui-leanback:1.3.0")
+    implementation("androidx.media3:media3-common:1.3.0")
 
     //구글 로그인 지원용
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
@@ -174,4 +175,5 @@ dependencies {
     // optional - needed for credentials support from play services, for devices running
     // Android 13 and below.
     implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha01")
+
 }
