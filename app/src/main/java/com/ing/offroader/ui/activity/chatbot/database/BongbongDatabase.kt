@@ -1,4 +1,4 @@
-package com.ing.offroader.ui.fragment.chatbot.database
+package com.ing.offroader.ui.activity.chatbot.database
 
 import android.content.Context
 import androidx.room.Database
@@ -8,9 +8,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [HikeyData::class], exportSchema = false, version = 1)
-abstract class HikeyDatabase : RoomDatabase() {
-    abstract fun getChatBotDao(): HikeyDao
+@Database(entities = [BongbongData::class], exportSchema = false, version = 1)
+abstract class BongbongDatabase : RoomDatabase() {
+    abstract fun getChatBotDao(): BongbongDao
 
     private class ChatBotDatabaseCallback(
         private val scope: CoroutineScope
@@ -31,22 +31,22 @@ abstract class HikeyDatabase : RoomDatabase() {
 
 
     companion object {
-        private var INSTANCE: HikeyDatabase? = null
+        private var INSTANCE: BongbongDatabase? = null
 
         fun getDatabase(
             context: Context
             ,
             scope: CoroutineScope
-        ): HikeyDatabase {
+        ): BongbongDatabase {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(
-                    context, HikeyDatabase::class.java, "hikey"
+                    context, BongbongDatabase::class.java, "bongbong"
                 )
                     .addCallback(ChatBotDatabaseCallback(scope))
                     .fallbackToDestructiveMigration()
                     .build()
             }
-            return INSTANCE as HikeyDatabase
+            return INSTANCE as BongbongDatabase
         }
     }
 
