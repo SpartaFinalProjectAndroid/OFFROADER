@@ -11,10 +11,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.ing.offroader.R
+import com.ing.offroader.data.model.weather.WeekendWeatherData
+import com.ing.offroader.data.repository.WeatherRepository
 import com.ing.offroader.databinding.ActivitySanDetailBinding
 import com.ing.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModel
 import com.ing.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModelFactory
 import com.ing.offroader.ui.fragment.chatbot.MyApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 private const val TAG = "SanDetailActivity"
@@ -25,13 +30,14 @@ class SanDetailActivity : AppCompatActivity() {
 
     // 자동 스크롤
     private val slideImageHandler: Handler = Handler()
-    private val slideImageRunnable =
-        Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
+    private val slideImageRunnable = Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
 
     private lateinit var imageAdapter: SanImageAdapter
-    private val sanDetailViewModel: SanDetailViewModel by viewModels {
-        return@viewModels SanDetailViewModelFactory((application as MyApplication).sanListRepository)
-    }
+    private val sanDetailViewModel: SanDetailViewModel by viewModels { return@viewModels SanDetailViewModelFactory((application as MyApplication).sanListRepository) }
+
+    /** 날씨 */
+    private var weatherData = mutableListOf<WeekendWeatherData>()
+    private val netWorkRepository = WeatherRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +50,27 @@ class SanDetailActivity : AppCompatActivity() {
         //보고 필요하면 상태바 아이콘 어둡게
         //window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
-
         sanDetailViewModel.getSelectedSan(getSanName())
 //        Log.d(TAG, "산이름 : ${sanName}")
 
+
+        val coordinates = Pair(37.5665, 126.9780)
+
+        val recyclerViewAdapter = WeatherRecyclerAdapter(this, weatherData)
+        binding.rvWeather.adapter = recyclerViewAdapter
+
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val weatherCurrentList = netWorkRepository.getCurrentList(coordinates.first, coordinates.second)
+                val forecastWeatherData = netWorkRepository.getWeekendList(coordinates.first, coordinates.second)
+
+                val weekendData = forecastWeatherData.list
+                recyclerViewAdapter.updateData(weekendData)
+
+            } catch (e: Exception) {
+                Log.e("NetworkError", e.message ?: "Unknown error")
+            }
+        }
 
         initBackButton()
         initObserver()
@@ -89,21 +112,24 @@ class SanDetailActivity : AppCompatActivity() {
     }
     // 자동 스크롤되는 ViewPager2 이미지
     private fun initImage(sanlist : SanDetailDTO) {
+        Log.d("SanDetailImage", "산 이미지 개수 : ${sanlist.img.size}")
 
         // 뷰페이저 어댑터 기본 설정
         setImageAdapter(sanlist)
-        //자동 스크롤 콜백 설정
-        setImageCallBack()
+        // 자동 스크롤 콜백 설정
+        setImageCallBack(sanlist)
 
     }
 
-    private fun setImageCallBack() {
+    private fun setImageCallBack(sanlist: SanDetailDTO) {
+        val imageSize = sanlist.img.size
+
         binding.vpMountain.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 slideImageHandler.removeCallbacks(slideImageRunnable)
-                slideImageHandler.postDelayed(slideImageRunnable, 5000)
+                if(imageSize > 2) slideImageHandler.postDelayed(slideImageRunnable, 5000)
             }
         })
     }
@@ -127,6 +153,26 @@ class SanDetailActivity : AppCompatActivity() {
         val dec = DecimalFormat("#,###")
         val height = sanlist.height
         tvHeightInfo.text = "${dec.format(height)}m"
+
+        /* // 데이터 구조 변경 후 사용
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val weatherCurrentList = netWorkRepository.getCurrentList(sanlist.lat, sanlist.lng)
+                val iconIndex = weatherCurrentList.weather[0]
+                val iconUrl = "http://openweathermap.org/img/w/$iconIndex.png"
+
+                //CoroutineScope로 감싸져 있기 때문에 this의 위치를 SanDetailActivity로 지정해 주어햐 함
+                //그냥 this는 CoroutineScope로 인식함
+                Glide.with(this@SanDetailActivity)
+                    .load(iconUrl)
+                    .into(ivWeather)
+                *//**받아오는 화질 줄이는 방법 사용하기*//*
+
+            } catch (e: Exception) {
+                Log.e("NetworkError", e.message ?: "Unknown error")
+            }
+        }
+        */
     }
 
     private fun setMoreView(sanlist: SanDetailDTO) = with(binding){

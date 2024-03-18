@@ -25,9 +25,10 @@ class SanImageAdapter(
             .into(holder.mountainImage)
 
 
-        if (position == mItems.size - 1) {
+        if (mItems.size > 1 && position == mItems.size - 1) {
             viewPager2.post(runnable)
         }
+
     }
 
     override fun getItemCount(): Int {

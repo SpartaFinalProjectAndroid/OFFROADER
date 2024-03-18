@@ -23,13 +23,17 @@ class MyDetailFragment : Fragment() {
 
     private val myDetailViewModel by viewModels<MyDetailViewModel>()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMyDetailBinding.inflate(inflater, container, false)
 
+        myDetailViewModel.getUserData("user_test") // 파이어스토에 해당 유저 UID에 맞는 데이터 가져오기
+
         return binding.root
+
 
         initLikedRecyclerView()
 
