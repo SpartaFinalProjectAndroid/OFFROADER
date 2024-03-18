@@ -107,6 +107,10 @@
     <string name="dialog_achieve_lv3">30~69</string>
     <string name="dialog_achieve_lv4">70~149</string>
     <string name="dialog_achieve_lv5">150~</string>
+    <string name="achieve_achieve">업적</string>
+    <string name="achieve_anumberof_badge">뱃지 갯수</string>
 
+
+    <!--    Achieve Activity-->
 
 </resources>
