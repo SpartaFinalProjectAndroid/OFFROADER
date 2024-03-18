@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
     android:background="@color/offroader_background"
-    tools:context=".ui.fragment.chatbot.ChatBotFragment">
+    tools:context=".ui.fragment.chatbot.CommunityFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tb_chatbot"
+        android:id="@+id/tb_community"
         android:layout_width="match_parent"
         android:layout_height="@dimen/action_bar_default_height_material"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,42 +22,27 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="5dp">
 
+            <TextView
+                android:id="@+id/tv_community"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bm_hanna_11yrs_old"
+                android:text="@string/community_title"
+                android:textColor="@color/offroader_green"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
-                android:id="@+id/iv_bot"
+                android:id="@+id/iv_add_post"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_bongbong"
-                app:layout_constraintEnd_toEndOf="@+id/tv_bot_mbti"
-                app:layout_constraintStart_toStartOf="@id/tv_bot_mbti"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_bot_mbti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/chatbot_hikey"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_bot" />
-
-            <Spinner
-                android:id="@+id/sp_bot"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:gravity="end"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_bot_mbti"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_clear_chat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/chatbot_delete_history"
-                android:textColor="@color/offroader_description"
-                android:textSize="12sp"
+                android:src="@drawable/ic_add_post"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="2dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -65,19 +51,21 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:dividerColor="#DCDCDC"
-        app:layout_constraintTop_toBottomOf="@id/tb_chatbot"/>
+        app:layout_constraintTop_toBottomOf="@id/tb_community"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_chatbot"
+        android:id="@+id/rv_community"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingTop="10dp"
         android:clipToPadding="false"
+        android:paddingTop="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/div_1"
-        tools:listitem="@layout/item_chatbot" />
-
+        tools:listitem="@layout/item_post" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -87,23 +75,6 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <View
-            android:id="@+id/v_divider_bottom"
-            style="@style/Divider.Horizontal.Grey" />
-
-        <EditText
-            android:id="@+id/et_ask"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="8dp"
-            android:autofillHints=""
-            android:background="@drawable/rounded_corner"
-            android:gravity="bottom"
-            android:hint="@string/chatbot_ask_hint"
-            android:inputType="text"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="12dp"
-            android:textSize="16sp" />
 
     </LinearLayout>
 

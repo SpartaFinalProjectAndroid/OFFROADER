@@ -39,9 +39,14 @@
         </service>
 
         <activity
-            android:name=".ui.activity.login.LoginActivity"
+            android:name=".ui.activity.add_post.AddPostActivity"
             android:exported="false" />
-        <!-- <meta-data -->
+        <activity
+            android:name=".ui.activity.chatbot.ChatbotActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.login.LoginActivity"
+            android:exported="false" /> <!-- <meta-data -->
         <!-- android:name="com.naver.maps.map.CLIENT_ID" -->
         <!-- android:value="@string/naver_map_sdk_client_id" /> -->
         <activity

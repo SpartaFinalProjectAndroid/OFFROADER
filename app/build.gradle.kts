@@ -95,6 +95,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:24.10.3")
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
     implementation("com.google.firebase:firebase-auth:22.3.1")
+    implementation("androidx.activity:activity:1.8.0")
     kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     // viewModel

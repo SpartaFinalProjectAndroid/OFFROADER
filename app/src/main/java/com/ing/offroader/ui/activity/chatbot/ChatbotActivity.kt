@@ -1,58 +1,45 @@
-package com.ing.offroader.ui.fragment.chatbot
+package com.ing.offroader.ui.activity.chatbot
 
 import android.os.Bundle
-import com.ing.offroader.data.model.ai.Message
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.ing.offroader.R
-import com.ing.offroader.databinding.FragmentChatBotBinding
-import com.ing.offroader.ui.activity.main.MainActivity
-import com.ing.offroader.ui.fragment.chatbot.adapter.ChatAdapter
-import com.ing.offroader.ui.fragment.chatbot.viewmodel.ChatBotViewModel
-import com.ing.offroader.ui.fragment.chatbot.viewmodel.ChatBotViewModelFactory
+import com.ing.offroader.data.model.ai.Message
+import com.ing.offroader.databinding.ActivityChatbotBinding
+import com.ing.offroader.ui.activity.chatbot.adapter.ChatAdapter
+import com.ing.offroader.ui.fragment.chatbot.MyApplication
+import com.ing.offroader.ui.activity.chatbot.viewmodel.ChatBotViewModel
+import com.ing.offroader.ui.activity.chatbot.viewmodel.ChatBotViewModelFactory
 
-private const val TAG = "ChatBotFragment"
+private const val TAG = "ChatbotActivity"
+class ChatbotActivity : AppCompatActivity() {
 
-class ChatBotFragment : Fragment() {
-
-
-    private var _binding: FragmentChatBotBinding? = null
+    private var _binding: ActivityChatbotBinding? = null
     private val binding get() = _binding!!
     private val chatBotViewModel: ChatBotViewModel by viewModels {
         ChatBotViewModelFactory(
-            (requireActivity().application as MyApplication).hikeyRepository,
-            (requireActivity().application as MyApplication).bongbongRepository
+            (this.application as MyApplication).hikeyRepository,
+            (this.application as MyApplication).bongbongRepository
         )
     }
     private val chatAdapter: ChatAdapter by lazy {
         ChatAdapter(chatBotViewModel)
 
     }
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentChatBotBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        _binding = ActivityChatbotBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         binding.rvChatbot.adapter = chatAdapter
         initView()
         initObserver()
-
     }
 
     // 뷰 모델 옵져빙해주는 함수
@@ -60,7 +47,7 @@ class ChatBotFragment : Fragment() {
 
 
         // conversationUiState가 옵져빙되면 스피너에서 봉봉이랑 하이키의 값이 바뀌었을 때 채팅 화면을 바꾸어줌.
-        chatBotViewModel.conversationUiState.observe(viewLifecycleOwner) {
+        chatBotViewModel.conversationUiState.observe(this) {
             Log.d(TAG, it?.chat.toString())
             if (it == null) {
                 chatAdapter.submitList(listOf())
@@ -74,7 +61,7 @@ class ChatBotFragment : Fragment() {
 
         // hikeyUiState는 hikey 대화내역이 DB에 저장되면 옵져브됨
         // 옵져빙되면 chatAdapter에 대화내역 넣어서 화면에 보여줌.
-        chatBotViewModel.hikeyUiState.observe(viewLifecycleOwner) {
+        chatBotViewModel.hikeyUiState.observe(this) {
             if (it == null) {
                 chatAdapter.submitList(listOf())
 
@@ -86,7 +73,7 @@ class ChatBotFragment : Fragment() {
 
         // bongbongUiState는 bongbong 대화내역이 DB에 저장되면 옵져브됨
         // 옵져빙되면 chatAdapter에 대화내역 넣어서 화면에 보여줌.
-        chatBotViewModel.bongbongUiState.observe(viewLifecycleOwner) {
+        chatBotViewModel.bongbongUiState.observe(this) {
             if (it == null) {
                 chatAdapter.submitList(listOf())
 
@@ -157,7 +144,7 @@ class ChatBotFragment : Fragment() {
         binding.etAsk.setOnEditorActionListener { textView, actionId, _ ->
 
             if (textView.text.toString().isBlank()) {
-                Toast.makeText(requireContext(),"궁금한 것을 입력해주세요",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"궁금한 것을 입력해주세요", Toast.LENGTH_SHORT).show()
                 true
 
             } else {
@@ -177,7 +164,7 @@ class ChatBotFragment : Fragment() {
     // 채팅 봇 "스피너"를 셋팅해주는 함수
     private fun setBotServiceProvider() {
         binding.spBot.adapter = ArrayAdapter(
-            activity as MainActivity,
+            this ,
             android.R.layout.simple_spinner_dropdown_item,
             listOf(
                 getString(R.string.chatbot_mbti_t),
@@ -211,5 +198,4 @@ class ChatBotFragment : Fragment() {
             }
         }
     }
-
 }
