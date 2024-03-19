@@ -2,12 +2,12 @@ package com.ing.offroader.ui.fragment.chatbot
 
 import android.app.Application
 import android.content.Context
+import com.ing.offroader.data.repository.BongbongRepository
 import com.ing.offroader.data.repository.EventRepository
+import com.ing.offroader.data.repository.HikeyRepository
 import com.ing.offroader.data.repository.SanListRepository
-import com.ing.offroader.ui.fragment.chatbot.database.BongbongDatabase
-import com.ing.offroader.ui.fragment.chatbot.database.HikeyDatabase
-import com.ing.offroader.ui.fragment.chatbot.viewmodel.BongbongRepository
-import com.ing.offroader.ui.fragment.chatbot.viewmodel.HikeyRepository
+import com.ing.offroader.ui.activity.chatbot.database.BongbongDatabase
+import com.ing.offroader.ui.activity.chatbot.database.HikeyDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
@@ -27,6 +27,7 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
+//        SanListRepository().setSanDetail("dlfma")
     }
 
     companion object {

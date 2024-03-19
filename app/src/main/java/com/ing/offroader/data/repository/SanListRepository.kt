@@ -7,7 +7,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.getField
 import com.ing.offroader.ui.activity.sandetail.SanDetailDTO
-import com.ing.offroader.ui.fragment.home.HomeUiData
 import com.ing.offroader.ui.fragment.home.HomeUiState
 import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
 
@@ -38,6 +37,7 @@ class SanListRepository {
     init {
         Log.d(TAG, "init 함수")
         initPush(0)
+        initRecommendedSan()
     }
 
 
@@ -73,12 +73,47 @@ class SanListRepository {
             // 산 리스트 DTO를 가져와주는 함수
             setSanListData(index, documents)
             // 홈 화면에 추천 산을 가져와주는 함수
-            setHomeData(documents)
+
         }
 
     }
 
-    private fun setSanDetail(sanName: String) {
+    fun initRecommendedSan() {
+
+        val rvItems: ArrayList<HomeUiState> = arrayListOf()
+
+        db.collection("sanTest").whereEqualTo("isLiked", true).get()
+            .addOnSuccessListener { documents ->
+                documents.forEach { document ->
+
+                    val rec = HomeUiState(
+                        document.getString("address") ?: "",
+                        document.getLong("difficulty") ?: 0,
+                        document.getLong("height") ?: 0,
+                        document["images"] as ArrayList<String>,
+                        document.getBoolean("isLiked") ?: false,
+                        document.getString("name") ?: "",
+                        document.getString("recommend") ?: "",
+                        document.getString("summary") ?: "",
+                        document.getLong("time_downhill") ?: 0,
+                    )
+                    if (document.getField<Boolean>("isLiked") == true) {
+                        rvItems.add(rec)
+
+                        //데이터 로딩이 완료되면 리사이클러 뷰를 업데이트 한다
+                        //                        updateRecyclerView()
+                    }
+                    _recItems.value = rvItems
+                    Log.d(TAG, "rv : ${recItems.value?.size}")
+
+
+                }
+
+            }
+
+    }
+
+    fun setSanDetail(sanName: String) {
         db.collection("sanTest").get().addOnSuccessListener { documents ->
             documents?.forEach { document ->
                 val sanList = SanDetailDTO(
@@ -94,42 +129,12 @@ class SanListRepository {
                 )
                 if (sanList.mountain == sanName) {
                     _detailInfo.value = sanList
-                    Log.d(
-                        TAG, "initSanData: $sanList -> ${detailInfo.value}"
-                    )
+                    Log.d(TAG, "initSanData: $sanList -> ${detailInfo.value}")
                 }
             }
         }
     }
 
-    private fun setHomeData(documents: QuerySnapshot) {
-        val rvItems: ArrayList<HomeUiState> = arrayListOf()
-
-        documents.forEach { document ->
-
-            val rec = HomeUiState(
-                document.getString("address") ?: "",
-                document.getLong("difficulty") ?: 0,
-                document.getLong("height") ?: 0,
-                document["images"] as ArrayList<String>,
-                document.getBoolean("isLiked") ?: false,
-                document.getString("name") ?: "",
-                document.getString("recommend") ?: "",
-                document.getString("summary") ?: "",
-                document.getLong("time_downhill") ?: 0,
-            )
-            if (document.getField<Boolean>("isLiked") == true) {
-                rvItems.add(rec)
-
-                //데이터 로딩이 완료되면 리사이클러 뷰를 업데이트 한다
-//                        updateRecyclerView()
-            }
-            _recItems.value = rvItems
-            Log.d(TAG, "rv : ${recItems.value?.size}")
-
-
-        }
-    }
 
 
     private fun setSanListData(index: Int, documents: QuerySnapshot?) {
@@ -138,7 +143,7 @@ class SanListRepository {
         if (documents != null) {
             for (i in documents.documents.indices) {
                 val sanInfo = documents.documents[i]
-                //////////
+                //
                 sanArrayList.add(
                     SanDTO(
                         sanImage = sanInfo["images"] as ArrayList<String>,

@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.CAMERA" /> <!-- 위치권한 추가 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/> <!-- 포그라운드 권한 추가 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/> <!-- 포그라운드 권한 추가 -->
 
     <application
         android:name=".ui.fragment.chatbot.MyApplication"
@@ -25,10 +27,29 @@
         android:theme="@style/Base.Theme.OFFROADER"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <service
+            android:name=".ui.activity.main.mediasession.PlaybackService"
+            android:foregroundServiceType="mediaPlayback"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaLibraryService"/>
+                <action android:name="android.media.browse.MediaBrowserService"/>
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".ui.activity.add_post.AddPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.chatbot.ChatbotActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.achievement.AchievementActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.login.LoginActivity"
-            android:exported="false" />
-        <!-- <meta-data -->
+            android:exported="false" /> <!-- <meta-data -->
         <!-- android:name="com.naver.maps.map.CLIENT_ID" -->
         <!-- android:value="@string/naver_map_sdk_client_id" /> -->
         <activity

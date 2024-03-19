@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.achievement.AchievementActivity">
+
+    <TextView
+        android:id="@+id/tv_achieve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:fontFamily="@font/bm_hanna_11yrs_old"
+        android:text="@string/achieve_achieve"
+        android:textColor="@color/offroader_green"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_anumberof_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/pretendard_bold"
+        android:text="@string/achieve_anumberof_badge"
+        android:textColor="@color/offroader_green"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:id="@+id/pb_achieve"
+        android:layout_width="250dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="20dp"
+        android:indeterminate="false"
+        android:progressBackgroundTint="#F6F6F6"
+        android:progressTint="#00542D"
+        app:layout_constraintEnd_toStartOf="@id/iv_trophies"
+        app:layout_constraintStart_toEndOf="@id/iv_flag"
+        app:layout_constraintTop_toBottomOf="@id/tv_anumberof_badge" />
+
+    <ImageView
+        android:id="@+id/iv_flag"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_flag"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_achieve"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iv_trophies"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_trophies"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toTopOf="@id/iv_flag"
+        app:layout_constraintBottom_toBottomOf="@id/iv_flag"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_achieve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pb_achieve"
+        tools:listitem="@layout/item_san_list" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/offroader_description"
+        app:layout_constraintTop_toBottomOf="@id/rv_achieve" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        tools:listitem="@layout/item_san_list" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

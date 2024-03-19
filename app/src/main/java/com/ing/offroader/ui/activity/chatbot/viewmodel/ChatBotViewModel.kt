@@ -1,4 +1,4 @@
-package com.ing.offroader.ui.fragment.chatbot.viewmodel
+package com.ing.offroader.ui.activity.chatbot.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,9 +8,11 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.ing.offroader.data.model.ai.Message
 import com.ing.offroader.data.repository.AiRepository
-import com.ing.offroader.ui.fragment.chatbot.database.BongbongData
-import com.ing.offroader.ui.fragment.chatbot.database.ChatUiState
-import com.ing.offroader.ui.fragment.chatbot.database.HikeyData
+import com.ing.offroader.data.repository.BongbongRepository
+import com.ing.offroader.data.repository.HikeyRepository
+import com.ing.offroader.ui.activity.chatbot.database.BongbongData
+import com.ing.offroader.ui.activity.chatbot.database.ChatUiState
+import com.ing.offroader.ui.activity.chatbot.database.HikeyData
 import kotlinx.coroutines.launch
 import java.util.UUID
 

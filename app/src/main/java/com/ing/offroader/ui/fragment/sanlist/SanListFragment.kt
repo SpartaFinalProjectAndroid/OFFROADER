@@ -30,8 +30,10 @@ class SanListFragment : Fragment() {
     private val sanListAdapter: SanListAdapter by lazy { SanListAdapter(sanListViewModel) }
     private val sanListViewModel: SanListViewModel by viewModels {
         SanListViewModelFactory((requireActivity().application as MyApplication).sanListRepository)
-
     }
+
+    private var startTime : Long? = null
+    private var endTime : Long? = null
 
 
     override fun onCreateView(
@@ -39,6 +41,9 @@ class SanListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSanListBinding.inflate(inflater, container, false)
+
+        startTime = System.nanoTime()
+
         return binding.root
     }
 
@@ -110,7 +115,16 @@ class SanListFragment : Fragment() {
         sanListViewModel.sanList.observe(viewLifecycleOwner) {
             Log.d(TAG, "sanListRepository OBSERVED")
             sanListAdapter.submitList(it)
+            endTime = System.nanoTime()
+            val duration = endTime!! - startTime!!
+
+            // 결과 로그 출력
+            //        Log.d(TAG, "시간: ${startTime}ns, ${endTime}ns")
+            Log.d(TAG, "프래그먼트로 데이터 전송에 걸린 시간: ${duration}ns")
         }
+
+
+
     }
 
     @SuppressLint("SetTextI18n") //하드코딩 하지말라는 경고를 타이틀 어노테이션을 통해 무시함.

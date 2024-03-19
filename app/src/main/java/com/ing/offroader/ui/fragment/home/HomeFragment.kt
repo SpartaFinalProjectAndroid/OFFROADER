@@ -38,6 +38,9 @@ class HomeFragment : Fragment() {
     private var auth: FirebaseAuth? = null
     private val user = FirebaseAuth.getInstance().currentUser
 
+    private var startTime : Long? = null
+    private var endTime : Long? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -50,10 +53,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 시작 시간 기록 (나노초 단위로 더 정밀한 측정 가능)
+        startTime = System.nanoTime()
+
         initObserver()
         initView()
         initListener()
-
     }
 
     private fun initView() {
@@ -111,13 +117,21 @@ class HomeFragment : Fragment() {
             HomeUiData.First,
         ) + HomeUiData.Second + HomeUiData.Third + eventItems + HomeUiData.Attribute
 
-        Log.d(TAG, "업데이트 : ${uiData.toList()}")
+//        Log.d(TAG, "업데이트 : ${uiData.toList()}")
         myPageAdapter.submitList(uiData.toList())
+
+        // 종료 시간 기록 및 계산
+        endTime = System.nanoTime()
+        val duration = endTime!! - startTime!!
+
+        // 결과 로그 출력
+//        Log.d(TAG, "시간: ${startTime}ns, ${endTime}ns")
+//        Log.d(TAG, "프래그먼트로 데이터 전송에 걸린 시간: ${duration}ns")
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }

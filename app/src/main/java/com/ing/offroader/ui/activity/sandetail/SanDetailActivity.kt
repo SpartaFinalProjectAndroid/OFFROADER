@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.ing.offroader.R
+import com.ing.offroader.data.liked.OnBookmarkClickListener
 import com.ing.offroader.data.model.weather.WeekendWeatherData
 import com.ing.offroader.data.repository.WeatherRepository
 import com.ing.offroader.databinding.ActivitySanDetailBinding
@@ -30,10 +31,15 @@ class SanDetailActivity : AppCompatActivity() {
 
     // 자동 스크롤
     private val slideImageHandler: Handler = Handler()
-    private val slideImageRunnable = Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
+    private val slideImageRunnable =
+        Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
 
     private lateinit var imageAdapter: SanImageAdapter
-    private val sanDetailViewModel: SanDetailViewModel by viewModels { return@viewModels SanDetailViewModelFactory((application as MyApplication).sanListRepository) }
+    private val sanDetailViewModel: SanDetailViewModel by viewModels {
+        return@viewModels SanDetailViewModelFactory(
+            (application as MyApplication).sanListRepository
+        )
+    }
 
     /** 날씨 */
     private var weatherData = mutableListOf<WeekendWeatherData>()
@@ -61,8 +67,10 @@ class SanDetailActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val weatherCurrentList = netWorkRepository.getCurrentList(coordinates.first, coordinates.second)
-                val forecastWeatherData = netWorkRepository.getWeekendList(coordinates.first, coordinates.second)
+                val weatherCurrentList =
+                    netWorkRepository.getCurrentList(coordinates.first, coordinates.second)
+                val forecastWeatherData =
+                    netWorkRepository.getWeekendList(coordinates.first, coordinates.second)
 
                 val weekendData = forecastWeatherData.list
                 recyclerViewAdapter.updateData(weekendData)
@@ -106,27 +114,34 @@ class SanDetailActivity : AppCompatActivity() {
         // 숫자에 따라 난이도 부여 & 색상 부여
         setDifficultyView(sanlist)
         //상행시간, 하행시간, 총 등산시간
-//        setHikingTimeView(sanlist)
+        setHikingTimeView(sanlist)
         // 뷰페이저 어댑터 기본 설정
         initImage(sanlist)
+        // 좋아요 기능
+        initBookmark(sanlist)
     }
+
     // 자동 스크롤되는 ViewPager2 이미지
-    private fun initImage(sanlist : SanDetailDTO) {
+    private fun initImage(sanlist: SanDetailDTO) {
+        Log.d("SanDetailImage", "산 이미지 개수 : ${sanlist.img.size}")
 
         // 뷰페이저 어댑터 기본 설정
         setImageAdapter(sanlist)
-        //자동 스크롤 콜백 설정
-        setImageCallBack()
+        // 자동 스크롤 콜백 설정
+        setImageCallBack(sanlist)
 
     }
 
-    private fun setImageCallBack() {
+    private fun setImageCallBack(sanlist: SanDetailDTO) {
+        val imageSize = sanlist.img.size
+
         binding.vpMountain.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 slideImageHandler.removeCallbacks(slideImageRunnable)
-                slideImageHandler.postDelayed(slideImageRunnable, 5000)
+                // 이미지 사진이 1장일 때 자동 스크롤 방지
+                if (imageSize > 2) slideImageHandler.postDelayed(slideImageRunnable, 5000)
             }
         })
     }
@@ -137,13 +152,15 @@ class SanDetailActivity : AppCompatActivity() {
         binding.vpMountain.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
-    private fun getImageAdapter(sanlist: SanDetailDTO) = SanImageAdapter(sanlist.img, binding.vpMountain)
+    private fun getImageAdapter(sanlist: SanDetailDTO) =
+        SanImageAdapter(sanlist.img, binding.vpMountain)
+
     // 인텐트로 넘오는 산 이름 받아줌.
     private fun getSanName() = intent.getStringExtra("name")
 
 
     @SuppressLint("SetTextI18n")
-    private fun setSanInfoView(sanlist: SanDetailDTO) = with(binding){
+    private fun setSanInfoView(sanlist: SanDetailDTO) = with(binding) {
         tvMountain.text = sanlist.mountain
         tvAddress.text = sanlist.address
 
@@ -163,23 +180,25 @@ class SanDetailActivity : AppCompatActivity() {
                 Glide.with(this@SanDetailActivity)
                     .load(iconUrl)
                     .into(ivWeather)
-                *//**받아오는 화질 줄이는 방법 사용하기*//*
+                */
+        /**받아오는 화질 줄이는 방법 사용하기*//*
 
             } catch (e: Exception) {
                 Log.e("NetworkError", e.message ?: "Unknown error")
             }
         }
         */
+
     }
 
-    private fun setMoreView(sanlist: SanDetailDTO) = with(binding){
+    private fun setMoreView(sanlist: SanDetailDTO) = with(binding) {
         tvIntroInfo.text = sanlist.summary
         tvRecommendInfo.text = sanlist.recommend
         viewMoreText(tvIntroInfo, tvIntroPlus, tvIntroShort)
         viewMoreText(tvRecommendInfo, tvRecommendPlus, tvRecommendShort)
     }
 
-    private fun setDifficultyView(sanlist: SanDetailDTO) = with(binding){
+    private fun setDifficultyView(sanlist: SanDetailDTO) = with(binding) {
         val difficulty = sanlist.difficulty
         tvDifficultyInfo.text = when (difficulty) {
             1L -> "하"
@@ -212,12 +231,10 @@ class SanDetailActivity : AppCompatActivity() {
     }
 
     private fun setHikingTimeView(sanlist: SanDetailDTO) = with(binding) {
-        val uphillTime = sanlist.time
         val totalTime = sanlist.time
 
-//        viewHillTime(uphillTime, tvUptimeInfo)
-//        viewHillTime(downhillTime, tvDowntimeInfo)
-        viewHillTime(totalTime, tvTimeInfo)    }
+        viewHillTime(totalTime, tvTimeInfo)
+    }
 
     // 자세히 보기 클릭 시 텍스트 전부 출력하는 함수
     private fun viewMoreText(info: TextView, plus: TextView, short: TextView) {
@@ -256,18 +273,22 @@ class SanDetailActivity : AppCompatActivity() {
     }
 
 
-
     // 좋아요 기능
-    private fun initBookmark() {
-//        if (sanlist.isLiked) ivBookmark.setImageResource(R.drawable.ic_bookmark_on2)
-//
-//        ivBookmark.setOnClickListener {
-//            sanlist.isLiked = !sanlist.isLiked
-//            binding.ivBookmark.setImageResource(
-//                if (sanlist.isLiked) R.drawable.ic_bookmark_on2 else R.drawable.ic_bookmark_off2
-//            )
-//            OnBookmarkClickListener.onBookmarkClick(sanlist)
-//        }
+    private fun initBookmark(sanlist: SanDetailDTO) {
+
+        with(binding) {
+            if (sanlist.isLiked) ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
+
+            ivBookmark.setOnClickListener {
+                sanlist.isLiked = !sanlist.isLiked
+                ivBookmark.setImageResource(
+                    if (sanlist.isLiked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
+                )
+                Log.d(TAG, "좋아요 클릭")
+                OnBookmarkClickListener.onBookmarkClick(sanlist)
+            }
+        }
+
     }
 
     // 뒤로가기 버튼

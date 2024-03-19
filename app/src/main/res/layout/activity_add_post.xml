@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/offroader_background"
+    tools:context=".ui.activity.add_post.AddPostActivity">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_add_post"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_default_height_material"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="5dp">
+
+            <ImageView
+                android:id="@+id/iv_camera"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_camera"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_community"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/bm_hanna_11yrs_old"
+                android:text="@string/add_post_select_image"
+                android:textColor="@color/offroader_green"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_camera"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:text="@string/add_post_complete"
+                android:textColor="@color/lb_grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_add_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/tb_add_post"
+
+        tools:listitem="@layout/item_post_image" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/div_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        app:dividerColor="#DCDCDC"
+        app:layout_constraintTop_toBottomOf="@id/rv_add_image" />
+
+    <EditText
+        android:id="@+id/et_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/edit_text_border"
+        android:fontFamily="@font/pretendard_semibold"
+        android:hint="@string/add_post_title_hint"
+        android:inputType="text"
+        android:maxLines="2"
+        android:padding="15dp"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/div_1" />
+
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_margin="15dp"
+        android:background="@drawable/edit_text_border"
+        android:fontFamily="@font/pretendard_semibold"
+        android:gravity="top"
+        android:hint="@string/add_post_content_hint"
+        android:inputType="textMultiLine"
+        android:isScrollContainer="true"
+        android:maxLines="10"
+        android:padding="15dp"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/et_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
