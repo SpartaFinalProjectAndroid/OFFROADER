@@ -284,118 +284,183 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_info_box" />
 
-            <TextView
-                android:id="@+id/tv_intro"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_intro"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="160dp"
-                android:fontFamily="@font/bm_hanna_11yrs_old"
-                android:text="@string/sandetail_intro"
-                android:textColor="@color/offroader_green"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/ic_rounded_background_line"
+                app:layout_constraintTop_toBottomOf="@id/v_line_cut">
 
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tv_intro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:fontFamily="@font/bm_hanna_11yrs_old"
+                    android:text="@string/sandetail_intro"
+                    android:textColor="@color/offroader_green"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_intro_info"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/iv_intro_toggle"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_toggle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_intro_accordian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="10dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_intro_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:letterSpacing="0.03"
+                        android:lineSpacingExtra="10dp"
+                        android:padding="15dp"
+                        android:text="@string/sandetail_intro_info"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/tv_intro_plus"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginEnd="15dp"-->
+            <!--                android:fontFamily="@font/pretendard_bold"-->
+            <!--                android:hint="@string/sandetail_intro_plus"-->
+            <!--                android:textSize="14sp"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/tv_intro_info" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/tv_intro_short"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginEnd="15dp"-->
+            <!--                android:fontFamily="@font/pretendard_bold"-->
+            <!--                android:hint="@string/sandetail_intro_short"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/tv_intro_info" />-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_recommend"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/pretendard_medium"
-                android:letterSpacing="0.03"
-                android:lineSpacingExtra="10dp"
-                android:maxLines="5"
-                android:padding="15dp"
-                android:text="@string/sandetail_intro_info"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_intro" />
+                android:layout_marginTop="20dp"
+                android:background="@drawable/ic_rounded_background_line"
+                app:layout_constraintTop_toBottomOf="@id/cl_intro">
 
-            <TextView
-                android:id="@+id/tv_intro_plus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:fontFamily="@font/pretendard_bold"
-                android:hint="@string/sandetail_intro_plus"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_intro_info" />
+                <TextView
+                    android:id="@+id/tv_recommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:fontFamily="@font/bm_hanna_11yrs_old"
+                    android:text="@string/sandetail_recommend"
+                    android:textColor="@color/offroader_green"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_intro_short"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:fontFamily="@font/pretendard_bold"
-                android:hint="@string/sandetail_intro_short"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_intro_info" />
+                <ImageView
+                    android:id="@+id/iv_recommend_toggle"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_toggle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_recommend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="60dp"
-                android:fontFamily="@font/bm_hanna_11yrs_old"
-                android:text="@string/sandetail_recommend"
-                android:textColor="@color/offroader_green"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_intro_info" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_recommend_accordian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="10dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tv_recommend_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/pretendard_medium"
-                android:letterSpacing="0.03"
-                android:lineSpacingExtra="10dp"
-                android:maxLines="5"
-                android:padding="15dp"
-                android:text="@string/sandetail_recommend_info"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommend" />
+                    <TextView
+                        android:id="@+id/tv_recommend_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:letterSpacing="0.03"
+                        android:lineSpacingExtra="10dp"
+                        android:padding="15dp"
+                        android:text="@string/sandetail_recommend_info"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_recommend_plus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:fontFamily="@font/pretendard_bold"
-                android:hint="@string/sandetail_recommend_plus"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommend_info" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/tv_recommend_short"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:fontFamily="@font/pretendard_bold"
-                android:hint="@string/sandetail_recommend_short"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommend_info" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/tv_recommend_plus"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginEnd="15dp"-->
+            <!--                android:fontFamily="@font/pretendard_bold"-->
+            <!--                android:hint="@string/sandetail_recommend_plus"-->
+            <!--                android:textSize="14sp"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/tv_recommend_info" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/tv_recommend_short"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginEnd="15dp"-->
+            <!--                android:fontFamily="@font/pretendard_bold"-->
+            <!--                android:hint="@string/sandetail_recommend_short"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/tv_recommend_info" />-->
 
             <TextView
                 android:id="@+id/tv_weather"
@@ -409,7 +474,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommend_info" />
+                app:layout_constraintTop_toBottomOf="@id/cl_recommend" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_weather"
