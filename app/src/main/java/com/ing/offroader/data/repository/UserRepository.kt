@@ -41,6 +41,7 @@ class UserRepository {
             val post = userCommunity.document("post").get().await().toObject(Post::class.java)
 
             val userDataClass: UserData? = userData.get().await().toObject(UserData::class.java)
+
             userDataClass?.achievements = Achievements(sanID, attendance)
             userDataClass?.community = post
 

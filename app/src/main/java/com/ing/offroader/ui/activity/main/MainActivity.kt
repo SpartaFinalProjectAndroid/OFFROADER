@@ -196,10 +196,6 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    private fun mediaSessionTest(player: ExoPlayer) {
-        val mediaSession = MediaSession.Builder(this, player).build()
-        binding.viewTest.player = mediaSession.player
-    }
 
 // <-------------------------------- 라디오 관련 설정들 --------------------------------------->
 
@@ -226,6 +222,15 @@ class MainActivity : AppCompatActivity() {
     // 각 방송국과 즐겨찾기 라디오 채널 리스트 초기화
     @OptIn(UnstableApi::class)
     private fun radioSetting() = with(binding) {
+
+        radioListViewModel.isPlaying.observe(this@MainActivity){
+            if (it) {
+
+            } else {
+                val item = radioListViewModel.httpItem.value
+                playingMarkChange()
+            }
+        }
 
         firstSetting()
         broadcastInit(RadioChannelURL.RADIO_API_URL, R.drawable.ic_favorite)
@@ -301,7 +306,7 @@ class MainActivity : AppCompatActivity() {
                         urlList[key]?.let {
 
                             val item = HttpItem(it, key, radioIcon, pos)
-
+                            radioListViewModel.addHttpItem(item)
                             CoroutineScope(Dispatchers.Main).launch {
                                 val channelUrl =
                                     CoroutineScope(Dispatchers.Default).async {
