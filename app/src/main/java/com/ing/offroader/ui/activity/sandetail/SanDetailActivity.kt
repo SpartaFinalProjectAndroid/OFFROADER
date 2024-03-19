@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.ing.offroader.R
@@ -34,7 +35,6 @@ class SanDetailActivity : AppCompatActivity() {
     private val slideImageRunnable =
         Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
 
-    private lateinit var imageAdapter: SanImageAdapter
     private val sanDetailViewModel: SanDetailViewModel by viewModels {
         return@viewModels SanDetailViewModelFactory(
             (application as MyApplication).sanListRepository
@@ -194,8 +194,23 @@ class SanDetailActivity : AppCompatActivity() {
     private fun setMoreView(sanlist: SanDetailDTO) = with(binding) {
         tvIntroInfo.text = sanlist.summary
         tvRecommendInfo.text = sanlist.recommend
-        viewMoreText(tvIntroInfo, tvIntroPlus, tvIntroShort)
-        viewMoreText(tvRecommendInfo, tvRecommendPlus, tvRecommendShort)
+        var isExp: Boolean = false
+
+        ivIntroToggle.setOnClickListener {
+            viewMoreText(it, !isExp, clIntroAccordian)
+
+            // 확대 & 축소 전환
+            if(clIntroAccordian.visibility == View.VISIBLE) isExp = true
+            else isExp = false
+        }
+
+        ivRecommendToggle.setOnClickListener {
+            viewMoreText(it, !isExp, clRecommendAccordian)
+
+            // 확대 & 축소 전환
+            if(clRecommendAccordian.visibility == View.VISIBLE) isExp = true
+            else isExp = false
+        }
     }
 
     private fun setDifficultyView(sanlist: SanDetailDTO) = with(binding) {
@@ -236,27 +251,13 @@ class SanDetailActivity : AppCompatActivity() {
         viewHillTime(totalTime, tvTimeInfo)
     }
 
-    // 자세히 보기 클릭 시 텍스트 전부 출력하는 함수
-    private fun viewMoreText(info: TextView, plus: TextView, short: TextView) {
-        info.post {
-            val lineCount = info.layout.lineCount
-            if (lineCount > 0) {
-                if (info.layout.getEllipsisCount(lineCount - 1) > 0) {
-                    plus.visibility = View.VISIBLE
-
-                    plus.setOnClickListener {
-                        info.maxLines = Int.MAX_VALUE
-                        plus.visibility = View.GONE
-                        short.visibility = View.VISIBLE
-                    }
-
-                    short.setOnClickListener {
-                        info.maxLines = 5
-                        plus.visibility = View.VISIBLE
-                        short.visibility = View.GONE
-                    }
-                }
-            }
+    // 아코디언 UI
+    private fun viewMoreText(view: View, isExpanded: Boolean, layoutExpand: ConstraintLayout) {
+        ToggleAnimation.toggleArrow(view, isExpanded)
+        if(isExpanded) {
+            ToggleAnimation.expand(layoutExpand)
+        } else {
+            ToggleAnimation.collapse(layoutExpand)
         }
     }
 
