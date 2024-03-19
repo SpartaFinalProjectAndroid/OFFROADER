@@ -1,9 +1,4 @@
-package com.ing.offroader.ui.fragment.chatbot.viewmodel
-
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.ing.offroader.data.repository.SanListRepository
-import com.ing.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModel
+package com.ing.offroader.ui.fragment.community.viewmodel
 
 
 //class CommunityViewModelFactory(private val sanListRepository: SanListRepository) :

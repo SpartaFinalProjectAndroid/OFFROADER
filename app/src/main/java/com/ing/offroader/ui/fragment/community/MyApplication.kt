@@ -1,4 +1,4 @@
-package com.ing.offroader.ui.fragment.chatbot
+package com.ing.offroader.ui.fragment.community
 
 import android.app.Application
 import android.content.Context

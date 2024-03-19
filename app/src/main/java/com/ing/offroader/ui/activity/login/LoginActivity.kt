@@ -15,7 +15,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 import com.ing.offroader.R
 import com.ing.offroader.databinding.ActivityLoginBinding
-import com.ing.offroader.ui.fragment.chatbot.MyApplication
+import com.ing.offroader.ui.fragment.community.MyApplication
 
 class LoginActivity : AppCompatActivity() {
 

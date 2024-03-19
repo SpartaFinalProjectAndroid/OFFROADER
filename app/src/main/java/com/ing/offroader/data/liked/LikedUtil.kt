@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.ing.offroader.ui.activity.sandetail.SanDetailDTO
-import com.ing.offroader.ui.fragment.chatbot.MyApplication
+import com.ing.offroader.ui.fragment.community.MyApplication
 
 object LikedUtil {
 
