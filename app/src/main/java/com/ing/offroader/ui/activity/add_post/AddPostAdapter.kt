@@ -15,8 +15,8 @@ import com.ing.offroader.databinding.ItemSanListBinding
 import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
 import com.ing.offroader.ui.fragment.sanlist.viewmodel.SanListViewModel
 
-class AddPostAdapter(private val viewModel: AddPostViewModel) :
-
-
-
-}
+//class AddPostAdapter(private val viewModel: AddPostViewModel) :
+//
+//
+//
+//}
