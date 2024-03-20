@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -194,23 +195,13 @@ class SanDetailActivity : AppCompatActivity() {
     private fun setMoreView(sanlist: SanDetailDTO) = with(binding) {
         tvIntroInfo.text = sanlist.summary
         tvRecommendInfo.text = sanlist.recommend
-        var isExp: Boolean = false
 
-        ivIntroToggle.setOnClickListener {
-            viewMoreText(it, !isExp, clIntroAccordian)
+        // 산 개요 옆 화살표 토글
+        setOnClickToggle(ivIntroToggle, clIntroAccordian)
 
-            // 확대 & 축소 전환
-            if(clIntroAccordian.visibility == View.VISIBLE) isExp = true
-            else isExp = false
-        }
+        // 추천 이유 옆 화살표 토글
+        setOnClickToggle(ivRecommendToggle, clRecommendAccordian)
 
-        ivRecommendToggle.setOnClickListener {
-            viewMoreText(it, !isExp, clRecommendAccordian)
-
-            // 확대 & 축소 전환
-            if(clRecommendAccordian.visibility == View.VISIBLE) isExp = true
-            else isExp = false
-        }
     }
 
     private fun setDifficultyView(sanlist: SanDetailDTO) = with(binding) {
@@ -251,13 +242,25 @@ class SanDetailActivity : AppCompatActivity() {
         viewHillTime(totalTime, tvTimeInfo)
     }
 
-    // 아코디언 UI
+    // 아코디언 UI 텍스트 편
     private fun viewMoreText(view: View, isExpanded: Boolean, layoutExpand: ConstraintLayout) {
         ToggleAnimation.toggleArrow(view, isExpanded)
         if(isExpanded) {
             ToggleAnimation.expand(layoutExpand)
         } else {
             ToggleAnimation.collapse(layoutExpand)
+        }
+    }
+
+    // 토글 클릭 시 아코디언 UI 펼첬다 접었다 하기
+    private fun setOnClickToggle(toggle: ImageView, accordian: ConstraintLayout) {
+        var isExp = false
+
+        toggle.setOnClickListener {
+            viewMoreText(it, !isExp, accordian)
+
+            isExp = if(accordian.visibility == View.VISIBLE) true
+            else false
         }
     }
 
