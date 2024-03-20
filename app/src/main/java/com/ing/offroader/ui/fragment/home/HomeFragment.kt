@@ -54,11 +54,14 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        myPageAdapter = HomeMultiViewTypeAdapter(requireContext(), homeViewModel, null)
+        binding.rvHome.adapter = myPageAdapter
+
         // 시작 시간 기록 (나노초 단위로 더 정밀한 측정 가능)
         startTime = System.nanoTime()
-
-        initObserver()
         initView()
+        initObserver()
+
         initListener()
     }
 
@@ -68,6 +71,9 @@ class HomeFragment : Fragment() {
             Log.d(TAG, "onViewCreated: ${user.uid}")
             Log.d(TAG, "onViewCreated: ${user.email}")
         }
+        myPageAdapter = HomeMultiViewTypeAdapter(requireContext(), homeViewModel, arrayListOf<HomeUiState>())
+        binding.rvHome.adapter = myPageAdapter
+        binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun initListener() = with(binding) {
@@ -89,14 +95,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun initObserver() {
+        Log.d(TAG, "initObserver")
 
         uiData = listOf(
             HomeUiData.First,
             HomeUiData.Third,
             HomeUiData.Attribute
         )
+        myPageAdapter.submitList(uiData.toList())
 
         homeViewModel.recItems.observe(viewLifecycleOwner) {
+        Log.d(TAG, "recItems 옵져빙")
             myPageAdapter = HomeMultiViewTypeAdapter(requireContext(), homeViewModel, it)
             binding.rvHome.adapter = myPageAdapter
             binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
@@ -104,6 +113,7 @@ class HomeFragment : Fragment() {
         }
 
         homeViewModel.eventItems.observe(viewLifecycleOwner) {
+        Log.d(TAG, "eventItems 옵져빙")
             CoroutineScope(Dispatchers.Main).launch {
                 updateRecyclerView(it)
             }

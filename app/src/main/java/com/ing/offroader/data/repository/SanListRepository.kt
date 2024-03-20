@@ -5,10 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.getField
+import com.ing.offroader.data.model.sanInfo.AllSanDTO
 import com.ing.offroader.ui.activity.sandetail.SanDetailDTO
 import com.ing.offroader.ui.fragment.home.HomeUiState
 import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
+import kotlinx.coroutines.tasks.await
 
 class SanListRepository {
     companion object {
@@ -39,7 +40,6 @@ class SanListRepository {
         initPush(0)
         initRecommendedSan()
     }
-
 
     fun editSelectedItem(selectedItem: SanDTO) {
         val position = sanListDTO.value?.indexOf(selectedItem)
@@ -78,37 +78,135 @@ class SanListRepository {
 
     }
 
+
+
+
+    suspend fun loadAllSanList() {
+        val sanItems: ArrayList<AllSanDTO?> = arrayListOf()
+
+        val testtt = FirebaseFirestore.getInstance().collection("AllSanList")
+//        Log.d(TAG, "loadAllSanList: $testtt")
+
+
+        // 수정된 코드
+
+        testtt.get().await().documents.forEach {
+            val testCode : AllSanDTO? = it.toObject(AllSanDTO::class.java)
+            sanItems.add(testCode)
+        }
+
+        sanItems.forEach {
+//            Log.d(TAG, "loadAllSanList: $it")
+        }
+
+
+
+
+
+        /*
+
+            suspend fun getUserData(userUID: String) : UserData {
+
+        try {
+            val userData = FirebaseFirestore.getInstance().collection("User").document(userUID)
+
+            val userAchievements = userData.collection("Achievements")
+            val sanID = userAchievements.document("san_id").get().await().toObject(SanID::class.java)
+            val attendance = userAchievements.document("attendance").get().await().toObject(Attendance::class.java)
+
+            val userCommunity = userData.collection("Community")
+            val post = userCommunity.document("post").get().await().toObject(Post::class.java)
+
+            val userDataClass: UserData? = userData.get().await().toObject(UserData::class.java)
+            userDataClass?.achievements = Achievements(sanID, attendance)
+            userDataClass?.community = post
+
+            //if (userDataClass == null) return UserData()
+            //userDataClass
+
+            return userDataClass ?: UserData()
+
+        } catch (e: Exception) {
+            Log.e(TAG, "FireStore Error: $e")
+            return UserData()
+        }
+    }
+
+        */
+
+
+//        db.collection("sanTest").whereEqualTo("isLiked", true).get().addOnSuccessListener { documents ->
+//                documents.forEach { document ->
+//
+//                    val rec = HomeUiState(
+//                        document.getString("address") ?: "",
+//                        document.getLong("difficulty") ?: 0,
+//                        document.getLong("height") ?: 0,
+//                        document["images"] as ArrayList<String>,
+//                        document.getBoolean("isLiked") ?: false,
+//                        document.getString("name") ?: "",
+//                        document.getString("recommend") ?: "",
+//                        document.getString("summary") ?: "",
+//                        document.getLong("time_downhill") ?: 0,
+//                    )
+//
+//                    if (document.getField<Boolean>("isLiked") == true) {
+//                        rvItems.add(rec)
+//
+//                        //데이터 로딩이 완료되면 리사이클러 뷰를 업데이트 한다
+//                        //updateRecyclerView()
+//                    }
+//
+//                    /** 데이터 전달 부분임 */
+//                    _recItems.value = rvItems
+//                    Log.d(TAG, "rv : ${recItems.value?.size}")
+//
+//
+//                }
+//
+//            }
+
+    }
+
+
+
+
+
+
     fun initRecommendedSan() {
+        Log.d(TAG, "initRecommendedSan 실행")
 
         val rvItems: ArrayList<HomeUiState> = arrayListOf()
 
-        db.collection("sanTest").whereEqualTo("isLiked", true).get()
+        db.collection("AllSanList").whereEqualTo("isliked", true).get()
             .addOnSuccessListener { documents ->
+                Log.d(TAG, "OnSuccess 됨 $documents, ${documents.size()}")
+
                 documents.forEach { document ->
+                    Log.d(TAG, "For문 돌아간다아")
 
                     val rec = HomeUiState(
                         document.getString("address") ?: "",
                         document.getLong("difficulty") ?: 0,
                         document.getLong("height") ?: 0,
                         document["images"] as ArrayList<String>,
-                        document.getBoolean("isLiked") ?: false,
+                        document.getBoolean("isliked") ?: false,
                         document.getString("name") ?: "",
                         document.getString("recommend") ?: "",
                         document.getString("summary") ?: "",
-                        document.getLong("time_downhill") ?: 0,
+                        document.getLong("time") ?: 0,
                     )
-                    if (document.getField<Boolean>("isLiked") == true) {
-                        rvItems.add(rec)
-
-                        //데이터 로딩이 완료되면 리사이클러 뷰를 업데이트 한다
-                        //                        updateRecyclerView()
-                    }
+                    rvItems.add(rec)
                     _recItems.value = rvItems
                     Log.d(TAG, "rv : ${recItems.value?.size}")
 
 
                 }
 
+            }.addOnCanceledListener{
+                Log.d(TAG, "CANCELLED")
+            }.addOnFailureListener{
+                Log.d(TAG, "FAILED")
             }
 
     }
@@ -129,12 +227,11 @@ class SanListRepository {
                 )
                 if (sanList.mountain == sanName) {
                     _detailInfo.value = sanList
-                    Log.d(TAG, "initSanData: $sanList -> ${detailInfo.value}")
+                    //Log.d(TAG, "initSanData: $sanList -> ${detailInfo.value}")
                 }
             }
         }
     }
-
 
 
     private fun setSanListData(index: Int, documents: QuerySnapshot?) {
@@ -158,14 +255,14 @@ class SanListRepository {
             }
         }
 
-        Log.d(
-            TAG,
-            "DocumentSnapshot Data: ${documents?.documents}"
-        ) // HashMap 타입으로 값을 받아옴. 이 그대로 저장해줘도 될듯?
+        //Log.d(
+          //  TAG,
+            //"DocumentSnapshot Data: ${documents?.documents}"
+        //) // HashMap 타입으로 값을 받아옴. 이 그대로 저장해줘도 될듯?
 
         sanArrayList[index].sanSelected = true
 
-        Log.d(TAG, "값 다 가져옴 $sanArrayList")
+        //Log.d(TAG, "값 다 가져옴 $sanArrayList")
         _sanListDTO.value = sanArrayList
 
     }

@@ -17,7 +17,7 @@ class UserRepository {
     // UserData 클래스에 맞게 저장하고 return 하는 함수
     suspend fun getUserData(userUID: String) : UserData {
 
-        return try {
+        try {
             val userData = FirebaseFirestore.getInstance().collection("User").document(userUID)
 
             val userAchievements = userData.collection("Achievements")
@@ -31,8 +31,10 @@ class UserRepository {
             userDataClass?.achievements = Achievements(sanID, attendance)
             userDataClass?.community = post
 
-            if (userDataClass == null) return UserData()
-            userDataClass
+            //if (userDataClass == null) return UserData()
+            //userDataClass
+
+            return userDataClass ?: UserData()
 
         } catch (e: Exception) {
             Log.e(TAG, "FireStore Error: $e")

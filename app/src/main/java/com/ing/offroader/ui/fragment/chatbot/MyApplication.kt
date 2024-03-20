@@ -9,7 +9,9 @@ import com.ing.offroader.data.repository.SanListRepository
 import com.ing.offroader.ui.activity.chatbot.database.BongbongDatabase
 import com.ing.offroader.ui.activity.chatbot.database.HikeyDatabase
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 
 class MyApplication : Application() {
@@ -27,7 +29,13 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
+        
 //        SanListRepository().setSanDetail("dlfma")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            SanListRepository().loadAllSanList()
+        }
+
     }
 
     companion object {
