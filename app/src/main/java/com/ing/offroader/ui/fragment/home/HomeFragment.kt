@@ -135,8 +135,8 @@ class HomeFragment : Fragment() {
         val duration = endTime!! - startTime!!
 
         // 결과 로그 출력
-//        Log.d(TAG, "시간: ${startTime}ns, ${endTime}ns")
-//        Log.d(TAG, "프래그먼트로 데이터 전송에 걸린 시간: ${duration}ns")
+        Log.d(TAG, "시간: ${startTime}ns, ${endTime}ns")
+        Log.d(TAG, "프래그먼트로 데이터 전송에 걸린 시간: ${duration}ns")
 
     }
 

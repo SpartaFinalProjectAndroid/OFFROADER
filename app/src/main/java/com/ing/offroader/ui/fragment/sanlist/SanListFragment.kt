@@ -94,7 +94,7 @@ class SanListFragment : Fragment() {
 
         // sanListUiState 안에 있는 selectedItem 변수는 리사이클러뷰에서 선택된 아이템이다!
         sanListViewModel.sanListUiState.observe(viewLifecycleOwner) {
-            Log.d(TAG, "sanListUiState OBSERVED ${it?.selectedItem}")
+//            Log.d(TAG, "sanListUiState OBSERVED ${it?.selectedItem}")
             if (it?.selectedItem == null) {
 
                 // 선택된 아이템의 테두리를 추가해주기 위해서 산 디티오의 selectedItem의 값을 확인해주는 함수
@@ -113,7 +113,7 @@ class SanListFragment : Fragment() {
             }
         }
         sanListViewModel.sanList.observe(viewLifecycleOwner) {
-            Log.d(TAG, "sanListRepository OBSERVED")
+//            Log.d(TAG, "sanListRepository OBSERVED")
             sanListAdapter.submitList(it)
             endTime = System.nanoTime()
             val duration = endTime!! - startTime!!
@@ -131,7 +131,7 @@ class SanListFragment : Fragment() {
 
     // 선택된 산 디테일 정보를 표시해주는 코드
     private fun setSelectedSan(selectedItem: SanDTO) {
-        Log.d(TAG, "setSelectedSan 화면 구성 $selectedItem")
+//        Log.d(TAG, "setSelectedSan 화면 구성 $selectedItem")
 
         Glide.with(this).load(selectedItem.sanImage?.get(0)).into(binding.ivSelectedImage)
 
@@ -191,7 +191,7 @@ class SanListFragment : Fragment() {
 
     // 리사이클러뷰 그리드 레이아웃으로 설정하는 코드
     private fun setRecyclerViewGridLayout() {
-        Log.d(TAG, "setRecyclerViewGridLayout")
+//        Log.d(TAG, "setRecyclerViewGridLayout")
         val gridLayoutManager = GridLayoutManager(requireContext(), 4)
         binding.rvSanList.layoutManager = gridLayoutManager
 
@@ -207,7 +207,7 @@ class SanListFragment : Fragment() {
 
         // 디테일 액티비티로 넘어감.
         binding.ivSelectedImage.setOnClickListener {
-            Log.d(TAG, "Selected Image $sanName")
+//            Log.d(TAG, "Selected Image $sanName")
             val intent = Intent(requireActivity(), SanDetailActivity::class.java)
 
             if (sanName == null) {
