@@ -60,6 +60,7 @@ class HomeFragment : Fragment() {
             Log.d(TAG, "onViewCreated: ${user.uid}")
             Log.d(TAG, "onViewCreated: ${user.email}")
         }
+        myPageAdapter = HomeMultiViewTypeAdapter(requireContext(), homeViewModel, arrayListOf<HomeUiState>())
     }
 
     override fun onResume() {
@@ -115,6 +116,7 @@ class HomeFragment : Fragment() {
         ) + HomeUiData.Second + HomeUiData.Third + eventItems + HomeUiData.Attribute
 
         Log.d(TAG, "업데이트 : ${uiData.toList()}")
+
         myPageAdapter.submitList(uiData.toList())
     }
 

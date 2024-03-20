@@ -21,6 +21,11 @@ class AuthRepository {
 
     private val db = FirebaseFirestore.getInstance()
 
+
+    fun addPost() {
+
+    }
+
     // Sign in using google
     fun firebaseSignInWithGoogle(googleAuthCredential: AuthCredential): MutableLiveData<ResponseState<LoginUser>> {
         val authenticatedUserMutableLiveData: MutableLiveData<ResponseState<LoginUser>> =

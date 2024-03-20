@@ -26,6 +26,7 @@ class MyApplication : Application() {
     val authRepository by lazy { AuthRepository() }
     val eventRepository by lazy { EventRepository() }
 
+
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
