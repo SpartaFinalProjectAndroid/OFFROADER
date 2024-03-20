@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 import com.ing.offroader.databinding.FragmentCommunityBinding
 import com.ing.offroader.ui.activity.add_post.AddPostActivity
 import com.ing.offroader.ui.activity.main.MainActivity
@@ -22,7 +24,7 @@ class CommunityFragment : Fragment() {
 //    private val chatAdapter: CommunityAdapter by lazy {
 ////        CommunityAdapter(chatBotViewModel)
 
-
+    private val user = FirebaseAuth.getInstance().currentUser
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,8 +51,13 @@ class CommunityFragment : Fragment() {
 
     private fun setAddPostButton() {
         binding.ivAddPost.setOnClickListener {
-            val intent = Intent(requireActivity(), AddPostActivity::class.java)
-            startActivity(intent)
+            if (user == null) {
+                Toast.makeText(requireActivity(),"회원가입을 해야만 포스팅이 가능합니다.",Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(requireActivity(), AddPostActivity::class.java)
+                startActivity(intent)
+            }
+
         }
     }
 
