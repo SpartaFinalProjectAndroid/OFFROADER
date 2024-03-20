@@ -225,9 +225,9 @@ class MainActivity : AppCompatActivity() {
 
         radioListViewModel.isPlaying.observe(this@MainActivity){
             if (it) {
-
-            } else {
                 val item = radioListViewModel.httpItem.value
+                //playingMarkCurrent(item?.key, item?.position)
+            } else {
                 playingMarkChange()
             }
         }
