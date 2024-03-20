@@ -139,8 +139,9 @@ class MyDetailFragment : Fragment() {
     private fun initBlur() {
         val blur = binding.blur
         with(blur) {
-            setupWith(this)
+            setupWith(binding.clMyInfo)
                 .setBlurEnabled(true)
+                .setBlurRadius(15f)
         }
     }
 

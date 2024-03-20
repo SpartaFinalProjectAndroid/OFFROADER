@@ -16,7 +16,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="300dp"
             app:contentScrim="@color/transparent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -288,15 +288,20 @@
                 android:id="@+id/cl_intro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="50dp"
-                android:background="@drawable/ic_rounded_background_line"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_rounded_background_accordian"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/v_line_cut">
 
                 <TextView
                     android:id="@+id/tv_intro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
+                    android:layout_margin="5dp"
+                    android:padding="10dp"
                     android:fontFamily="@font/bm_hanna_11yrs_old"
                     android:text="@string/sandetail_intro"
                     android:textColor="@color/offroader_green"
@@ -307,9 +312,9 @@
 
                 <ImageView
                     android:id="@+id/iv_intro_toggle"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="10dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="15dp"
                     android:src="@drawable/ic_toggle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -318,10 +323,10 @@
                     android:id="@+id/cl_intro_accordian"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="50dp"
+                    android:padding="5dp"
                     android:visibility="gone"
+                    android:background="@drawable/ic_rounded_background_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -353,15 +358,20 @@
                 android:id="@+id/cl_recommend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/ic_rounded_background_line"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_rounded_background_accordian"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_intro">
 
                 <TextView
                     android:id="@+id/tv_recommend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
+                    android:layout_margin="5dp"
+                    android:padding="10dp"
                     android:fontFamily="@font/bm_hanna_11yrs_old"
                     android:text="@string/sandetail_recommend"
                     android:textColor="@color/offroader_green"
@@ -372,9 +382,9 @@
 
                 <ImageView
                     android:id="@+id/iv_recommend_toggle"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="10dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="15dp"
                     android:src="@drawable/ic_toggle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -383,10 +393,10 @@
                     android:id="@+id/cl_recommend_accordian"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="50dp"
+                    android:padding="5dp"
                     android:visibility="gone"
+                    android:background="@drawable/ic_rounded_background_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -414,31 +424,48 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/tv_weather"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_weather"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="60dp"
-                android:fontFamily="@font/bm_hanna_11yrs_old"
-                android:text="@string/sandetail_weather"
-                android:textColor="@color/offroader_green"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/ic_rounded_background_accordian"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_recommend" />
+                app:layout_constraintTop_toBottomOf="@id/cl_recommend"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_weather"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_weather"
-                tools:listitem="@layout/item_detail_weather" />
+                <TextView
+                    android:id="@+id/tv_weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:fontFamily="@font/bm_hanna_11yrs_old"
+                    android:text="@string/sandetail_weather"
+                    android:textColor="@color/offroader_green"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_weather"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:listitem="@layout/item_detail_weather" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
