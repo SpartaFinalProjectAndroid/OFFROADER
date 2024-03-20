@@ -13,7 +13,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.ing.offroader.R
-import com.ing.offroader.data.liked.OnBookmarkClickListener
 import com.ing.offroader.data.model.weather.WeekendWeatherData
 import com.ing.offroader.data.repository.WeatherRepository
 import com.ing.offroader.databinding.ActivitySanDetailBinding
@@ -284,12 +283,19 @@ class SanDetailActivity : AppCompatActivity() {
             if (sanlist.isLiked) ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
 
             ivBookmark.setOnClickListener {
+
+                //ViewModel LiveData로 저장
+                if(sanlist.isLiked) {
+                    sanDetailViewModel.removeSanLikedList(sanlist.mountain)
+                } else {
+                    sanDetailViewModel.addSanLikedList(sanlist.mountain)
+                }
+
                 sanlist.isLiked = !sanlist.isLiked
                 ivBookmark.setImageResource(
                     if (sanlist.isLiked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
                 )
                 Log.d(TAG, "좋아요 클릭")
-                OnBookmarkClickListener.onBookmarkClick(sanlist)
             }
         }
 
