@@ -8,10 +8,20 @@ import kotlinx.coroutines.launch
 
 class AddPostViewModel: ViewModel() {
 
-    private val _addPostUiState : MutableLiveData<AddPostUiState> = MutableLiveData()
-    val addPostUiState : LiveData<AddPostUiState> = _addPostUiState
+    private val _addPostUiState : MutableLiveData<AddPostUiState?> = MutableLiveData()
+    val addPostUiState : LiveData<AddPostUiState?> = _addPostUiState
 
     private val addPostRepository : AddPostRepository = AddPostRepository()
+
+    init {
+        _addPostUiState.value = AddPostUiState(
+            title = null,
+            content = null,
+            image = "null", // 이미지 추가하는 코드를 아직 작성하지 않았기 때문에 이미지 부분을 지금 임시로 추가해둠.
+            errorMessage = "",
+            cycle = true
+        )
+    }
     fun titleChangedListener(title : String) {
         _addPostUiState.value = addPostUiState.value?.copy(
             title = title
@@ -42,6 +52,7 @@ class AddPostViewModel: ViewModel() {
                 addPostRepository.addPost(addPostUiState.value?.title!!, addPostUiState.value?.content, addPostUiState.value?.image)
             }
             _addPostUiState.value = addPostUiState.value?.copy(
+                errorMessage = null,
                 cycle = false
             )
         }

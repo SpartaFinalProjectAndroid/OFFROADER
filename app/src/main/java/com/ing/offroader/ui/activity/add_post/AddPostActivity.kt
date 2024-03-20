@@ -1,6 +1,7 @@
 package com.ing.offroader.ui.activity.add_post
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -24,14 +25,17 @@ class AddPostActivity : AppCompatActivity() {
 
     private fun initObserver() {
         addPostViewModel.addPostUiState.observe(this) {
-            if (!it.errorMessage.isNullOrBlank()) {
-                Toast.makeText(this,it.errorMessage,Toast.LENGTH_SHORT).show()
-            }
-            if (!it.cycle) {
-                finish()
+            if (it == null) {
+                Log.d(TAG, "initObserver: homeuistate가 널")
+            } else {
+                if (it.errorMessage == null) {
+                    Log.d(TAG, "initObserver: finish")
+                    finish()
+                } else {
+                    Toast.makeText(this,it.errorMessage,Toast.LENGTH_SHORT).show()
+                }
             }
         }
-
     }
 
     private fun initView() {
