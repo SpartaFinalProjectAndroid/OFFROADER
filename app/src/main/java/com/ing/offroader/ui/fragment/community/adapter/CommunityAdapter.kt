@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -58,6 +59,7 @@ class CommunityAdapter(private val viewModel: CommunityViewModel) :
             likeCount.text = item.like.toString()
             userLevel.visibility = View.INVISIBLE
 
+            Glide.with(holder.profileImage.context).load(user?.photoUrl).into(holder.profileImage)
 
             val ds = item.upload_date.toString()
             val formattedDate =
