@@ -7,8 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import com.ing.offroader.databinding.FragmentMyDetailBinding
 import com.ing.offroader.ui.activity.achievement.AchievementActivity
+import com.ing.offroader.ui.fragment.chatbot.MyApplication
+import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModel
+import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModelFactory
 
 class MyDetailFragment : Fragment() {
 
@@ -19,9 +23,13 @@ class MyDetailFragment : Fragment() {
     private var _binding: FragmentMyDetailBinding? = null
     private val binding get() = _binding!!
 
-//    private lateinit var myBookmarkAdapter: MyBookmarkAdapter
+    private val mItems = mutableListOf<MyDetailDTO>()
 
-    private val myDetailViewModel by viewModels<MyDetailViewModel>()
+    private val myDetailViewModel: MyDetailViewModel by viewModels {
+        return@viewModels MyDetailViewModelFactory(
+            (requireActivity().application as MyApplication).sanListRepository
+        )
+    }
 
 
     override fun onCreateView(
@@ -34,14 +42,12 @@ class MyDetailFragment : Fragment() {
 
         return binding.root
 
-
-        initLikedRecyclerView()
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initObserver()
 
         initBlur()
 
@@ -52,6 +58,14 @@ class MyDetailFragment : Fragment() {
         goToAchieveActivity()
 
     }
+
+    private fun initObserver() {
+        myDetailViewModel.myDetailDTO.observe(viewLifecycleOwner) {
+//            binding.rvRecode.adapter = MyBookmarkAdapter(mItems)
+            binding.rvRecode.layoutManager = GridLayoutManager(context, 4)
+        }
+    }
+
 
     // 로그인 상태가 아닐 때, blur처리
     private fun initBlur() {

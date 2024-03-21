@@ -3,7 +3,7 @@ package com.ing.offroader.ui.fragment.mydetail
 interface OnBookmarkClickedInMyLikedListener{
     fun onBookmarkClicked()
 }
-//class MyBookmarkAdapter(val mItems: MutableList<MyDetailUiState>) : RecyclerView.Adapter<MyBookmarkAdapter.Holder>(), OnBookmarkClickedInMyLikedListener {
+//class MyBookmarkAdapter(val mItems: MutableList<MyDetailDTO>) : RecyclerView.Adapter<MyBookmarkAdapter.Holder>(), OnBookmarkClickedInMyLikedListener {
 //
 //    var onBookmarkClickedInMyLikedListener: List<OnBookmarkClickedInMyLikedListener>? = null
 //    private var bookmarkedItem = LikedUtil.getLiked()
@@ -12,13 +12,15 @@ interface OnBookmarkClickedInMyLikedListener{
 //        return Holder(binding)
 //    }
 //
-////    override fun onBindViewHolder(holder: Holder, position: Int) {
-////        holder.bind(bookmarkedItem[position])
-////    }
-////
-////    override fun getItemCount(): Int {
-////        return bookmarkedItem.size
-////    }
+//    override fun onBindViewHolder(holder: Holder, position: Int) {
+//        if (bookmarkedItem == mItems){
+//            holder.bind(mItems[position])
+//        }
+//    }
+//
+//    override fun getItemCount(): Int {
+//        return bookmarkedItem?.size ?: 0
+//    }
 //
 //    fun refreshRecyclerView() {
 //        bookmarkedItem = LikedUtil.getLiked()
@@ -34,7 +36,7 @@ interface OnBookmarkClickedInMyLikedListener{
 //        var mountainImage = binding.ivSanImage
 //        var mountainName = binding.tvSanName
 //
-//        fun bind(item: SanDetailDTO) {
+//        fun bind(item: MyDetailDTO) {
 //            mountainName.text = item.mountain
 //
 //            Glide.with(mountainImage.context)
@@ -43,3 +45,5 @@ interface OnBookmarkClickedInMyLikedListener{
 //        }
 //    }
 //}
+
+

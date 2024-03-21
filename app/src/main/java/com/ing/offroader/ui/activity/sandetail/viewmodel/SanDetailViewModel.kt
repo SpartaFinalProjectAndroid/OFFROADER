@@ -23,16 +23,23 @@ class SanDetailViewModel(sanListRepository: SanListRepository) : ViewModel() {
     // ---------------------------------- 산 좋아요 기능 구현부 -----------------------------------
 
     private val _sanLikedList : MutableLiveData<MutableList<String>> = MutableLiveData()
-    private val sanLikedCopyList : MutableList<String> = mutableListOf()
+    private var sanLikedCopyList : MutableList<String> = mutableListOf()
     val sanLikedList : LiveData<MutableList<String>> = _sanLikedList
 
-    fun addSanLikedList(name: String) {
-        sanLikedCopyList.add(name)
+    fun addSanLikedList(data: String) {
+        sanLikedCopyList.add(data)
         _sanLikedList.value = sanLikedCopyList
+//        Log.d(TAG, "addSanLikedList = ${data}")
     }
 
-    fun removeSanLikedList(name: String) {
-        sanLikedCopyList.remove(name)
+    fun removeSanLikedList(data: String) {
+        sanLikedCopyList.remove(data)
+        _sanLikedList.value = sanLikedCopyList
+//        Log.d(TAG, "removeSanLikedList = ${data}")
+    }
+    
+    fun loadSanLikedList(data: MutableList<String>) {
+        sanLikedCopyList = data
         _sanLikedList.value = sanLikedCopyList
     }
 
