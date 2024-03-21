@@ -48,19 +48,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_profil"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_margin="20dp"
             android:src="@drawable/ic_lv3"
-            android:background="@drawable/ic_rounded_background_profil"
+            app:shapeAppearanceOverlay="@style/circleImageView"
             android:clipToOutline="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tv_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="로그인이 필요합니다."
@@ -121,6 +122,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="100dp"
@@ -319,10 +321,12 @@
             app:layout_constraintTop_toTopOf="@id/iv_my_post" />
 
         <TextView
+            android:id="@+id/tv_my_post_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_medium"
             android:text="10"
+            android:inputType="number"
             android:textColor="@color/offroader_name"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@id/tv_my_post"
