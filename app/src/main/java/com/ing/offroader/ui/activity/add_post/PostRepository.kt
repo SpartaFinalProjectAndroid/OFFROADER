@@ -21,7 +21,7 @@ class PostRepository {
     /** 사진 전송 관련 */
     private val specifiedStorage = Firebase.storage("gs://offroader-event.appspot.com")
 
-    suspend fun setPost() {
+
     suspend fun setPost(): MutableList<DocumentSnapshot>? {
         Log.d(TAG, "setPost: ")
         return try {
@@ -34,7 +34,7 @@ class PostRepository {
     }
 
 
-    suspend fun addPost(title: String, content: String?, image: String?) {
+    suspend fun addPost(title: String, content: String?, image: ByteArray?) {
 
         try {
             Log.d(TAG, "addPost uid: ${user?.uid}")
@@ -43,7 +43,8 @@ class PostRepository {
             val postId = UUID.randomUUID().toString()
 
             // 이미지를 저장할 위치를 지정
-            val storageRef = specifiedStorage.reference.child("Offroader_res/post_image/${postId}.jpg")
+            val storageRef =
+                specifiedStorage.reference.child("Offroader_res/post_image/${postId}.jpg")
 
             //putBytes 함수를 사용해 전달받은 이미지를 firebase에 업로드
             val uploadTask = storageRef.putBytes(image!!)

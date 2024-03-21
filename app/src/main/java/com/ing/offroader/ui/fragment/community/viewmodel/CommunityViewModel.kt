@@ -33,18 +33,13 @@ class CommunityViewModel: ViewModel() {
         Log.d(TAG, "setPosts: ")
         viewModelScope.launch {
             Log.d(TAG, "viewModelScope Launched")
-            val postDocumentSnapshot = postRepository.setPost()
-            if (postDocumentSnapshot.isNullOrEmpty()) {
-                Log.e(TAG, "setPosts: 파이어베이스에서 포스트를 받아오지 못함.", )
-            } else {
-                postItems = arrayListOf()
-                postDocumentSnapshot.forEach {
-                    val post = it.toObject(PostDTO::class.java)
-                    postItems!!.add(post)
-                }
-                Log.d(TAG, "setPosts: postItems : $postItems")
+            postItems = arrayListOf()
+            postRepository.setPost()?.forEach {
+                val post = it.toObject(PostDTO::class.java)
+                postItems!!.add(post)
             }
-            if(postItems != null) {
+            Log.d(TAG, "setPosts: postItems : $postItems")
+            if (postItems != null) {
 //                updateUiState
                 _communityUiState.value = CommunityUiState(postItems = postItems)
                 Log.d(TAG, "setPosts: ${communityUiState.value}")
