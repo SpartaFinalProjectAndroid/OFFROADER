@@ -1,27 +1,38 @@
 package com.ing.offroader.data.liked
 
-import com.ing.offroader.ui.activity.sandetail.SanDetailDTO
+private const val TAG = "LikedUtil"
 
 object LikedUtil {
-
-    fun savedLiked(sanlist: List<SanDetailDTO>) {
+//
+//    fun isSavedInLiked(mountain: String): Boolean =
+//        (getLiked()?.find { it.mountain == mountain } != null)
+//
+//
+//    // SharedPreferences에 저장된 데이터를 가져오는 함수 수정
+//    fun getLiked(): List<SanDetailDTO> {
 //        val context = MyApplication.appContext
-//
 //        val prefs = context?.getSharedPreferences(LikedConstants.LIKED_PREFS, Context.MODE_PRIVATE)
+//        val json = prefs?.getString(LikedConstants.LIKED_PREF_KEY, null)
 //
-//        prefs?.edit()?.putString(LikedConstants.LIKED_PREF_KEY, sanlist)?.apply()
-
-    }
-
-//    fun getLiked(): Pair<String?, String?> {
-////        val context = MyApplication.appContext
-////
-////        val loadNamePrefs = context?.getSharedPreferences(LikedConstants.LIKED_PREFS_NAME, 0)
-////        val name = loadNamePrefs?.getString(LikedConstants.LIKED_PREF_NAME_KEY, null)
-////
-////        val loadImgPrefs = context?.getSharedPreferences(LikedConstants.LIKED_PREFS_IMG, 0)
-////        val img = loadImgPrefs?.getString(LikedConstants.LIKED_PREF_IMG_KEY, null)
-////
-////        return Pair(name, img)
+//        Log.d(TAG, "getLiked: json = $json")
+//
+//        return if (json != null) {
+//            val type = object : TypeToken<List<SanDetailDTO>>() {}.type
+//            Gson().fromJson(json, type)
+//        } else {
+//            emptyList()
+//        }
+//    }
+//
+//    // SharedPreferences에 데이터를 저장하는 함수 수정
+//    fun saveLiked(itemList: List<SanDetailDTO>) {
+//        val context = MyApplication.appContext
+//        val prefs = context?.getSharedPreferences(LikedConstants.LIKED_PREFS, Context.MODE_PRIVATE)
+//        val editor = prefs?.edit()
+//
+//        // SanDetailDTO 리스트를 JSON 문자열로 변환하여 저장
+//        val gson = Gson()
+//        val json = gson.toJson(itemList)
+//        editor?.putString(LikedConstants.LIKED_PREF_KEY, json)?.apply()
 //    }
 }

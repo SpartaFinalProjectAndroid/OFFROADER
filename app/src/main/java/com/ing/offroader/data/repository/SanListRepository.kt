@@ -7,8 +7,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.getField
 import com.ing.offroader.ui.activity.sandetail.SanDetailDTO
-import com.ing.offroader.ui.fragment.home.HomeUiData
 import com.ing.offroader.ui.fragment.home.HomeUiState
+import com.ing.offroader.ui.fragment.mydetail.MyDetailDTO
 import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
 
 class SanListRepository {
@@ -32,6 +32,10 @@ class SanListRepository {
 
     private val _detailInfo: MutableLiveData<SanDetailDTO> = MutableLiveData()
     val detailInfo: LiveData<SanDetailDTO> = _detailInfo
+
+    // My Detail Fragment
+    private val _myInfo: MutableLiveData<MyDetailDTO> = MutableLiveData()
+    val myInfo: LiveData<MyDetailDTO> = _myInfo
 
 
     // 초기 실행
@@ -163,6 +167,30 @@ class SanListRepository {
         Log.d(TAG, "값 다 가져옴 $sanArrayList")
         _sanListDTO.value = sanArrayList
 
+    }
+
+    private fun setMyDetail(sanName: String) {
+        db.collection("sanTest").get().addOnSuccessListener { documents ->
+            documents?.forEach { document ->
+                val sanList = MyDetailDTO(
+                    document.getString("name") ?: "none",
+                    document.getString("address") ?: "none",
+                    document.getLong("difficulty") ?: 0,
+                    document.getDouble("height") ?: 0.0,
+                    document.getLong("time") ?: 0,
+                    document.getString("summary") ?: "none",
+                    document.getString("recommend") ?: "none",
+                    document["images"] as ArrayList<String>,
+                    document.getBoolean("isLiked") ?: false
+                )
+                if (sanList.mountain == sanName) {
+                    _myInfo.value = sanList
+                    Log.d(
+                        TAG, "initSanData: $sanList -> ${myInfo.value}"
+                    )
+                }
+            }
+        }
     }
 }
 
