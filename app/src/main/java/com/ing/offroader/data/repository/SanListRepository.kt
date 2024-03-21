@@ -13,7 +13,8 @@ import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
 
 class SanListRepository {
     companion object {
-        private const val TAG = "SanListRepository"
+        private const val TAG = "태그 : SanListRepository"
+        private const val TIME = "태그 : 파이어스토어 데이터 로딩 시간"
     }
 
     // db 인스턴스 생성
@@ -68,6 +69,17 @@ class SanListRepository {
 
         Log.d(TAG, "initPush 함수 여기에서 데이터베이스에 있는 값 접근")
 
+        val startTime = System.currentTimeMillis()
+        db.collection("sanTest").get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val endTime = System.currentTimeMillis()
+                val duration = endTime - startTime
+                Log.d(TIME, "데이터를 받아오는 데 걸린 시간: $duration ms")
+            } else {
+                // 요청 실패 처리
+                Log.d(TIME, "데이터 요청 실패: ${task.exception}")
+            }
+        }
         db.collection("sanTest").get().addOnSuccessListener { documents ->
 
             // 산 리스트 DTO를 가져와주는 함수
@@ -76,9 +88,21 @@ class SanListRepository {
             setHomeData(documents)
         }
 
+
     }
 
     private fun setSanDetail(sanName: String) {
+        val startTime = System.currentTimeMillis()
+        db.collection("sanTest").get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val endTime = System.currentTimeMillis()
+                val duration = endTime - startTime
+                Log.d(TIME, "데이터를 받아오는 데 걸린 시간: $duration ms")
+            } else {
+                // 요청 실패 처리
+                Log.d(TIME, "데이터 요청 실패: ${task.exception}")
+            }
+        }
         db.collection("sanTest").get().addOnSuccessListener { documents ->
             documents?.forEach { document ->
                 val sanList = SanDetailDTO(

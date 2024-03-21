@@ -15,7 +15,7 @@ import com.google.firebase.ktx.Firebase
 import com.ing.offroader.databinding.FragmentHomeBinding
 import com.ing.offroader.ui.activity.login.LoginActivity
 import com.ing.offroader.ui.activity.main.MainActivity
-import com.ing.offroader.ui.fragment.chatbot.MyApplication
+import com.ing.offroader.ui.fragment.community.MyApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,32 +36,36 @@ class HomeFragment : Fragment() {
     private var uiData: List<HomeUiData> = listOf()
 
     private var auth: FirebaseAuth? = null
-    private val user = FirebaseAuth.getInstance().currentUser
+    private var user = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        // 프래그먼트에 있는 onCreateView 함수에는 페이지 인플레이팅만 들어갑닏다!
+        // 프래그먼트에 있는 onCreateView 함수에는 페이지 인플레이팅만 들어갑니다!
         // onViewCreated에 작성해주세요!
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initObserver()
-        initView()
         initListener()
-
     }
 
     private fun initView() {
+        val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             binding.tvUsername.text = user.email ?: "츄파춥스님, 안녕하세요!"
             Log.d(TAG, "onViewCreated: ${user.uid}")
             Log.d(TAG, "onViewCreated: ${user.email}")
         }
+        myPageAdapter = HomeMultiViewTypeAdapter(requireContext(), homeViewModel, arrayListOf<HomeUiState>())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initView()
     }
 
     private fun initListener() = with(binding) {
@@ -112,6 +116,7 @@ class HomeFragment : Fragment() {
         ) + HomeUiData.Second + HomeUiData.Third + eventItems + HomeUiData.Attribute
 
         Log.d(TAG, "업데이트 : ${uiData.toList()}")
+
         myPageAdapter.submitList(uiData.toList())
     }
 
