@@ -7,5 +7,6 @@ data class PostDTO(
     val post_id : Any ?= null,
     val san : Any ?= null,
     val title : Any ?= null,
+    val uid : Any ?= null,
     val upload_date : Any ?= null
 )
