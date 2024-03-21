@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.ing.offroader.ui.fragment.community.model.CommunityUiState
@@ -36,7 +37,7 @@ class PostRepository {
         Log.d(TAG, "setPost: ")
 
         var postItems: ArrayList<PostDTO?> = arrayListOf()
-        db.collection("Community").orderBy("upload_date").get().addOnSuccessListener { it ->
+        db.collection("Community").orderBy("upload_date", Query.Direction.DESCENDING).get().addOnSuccessListener { it ->
             it.documents.forEach {
                 val post = it.toObject(PostDTO::class.java)
                 postItems.add(post)
