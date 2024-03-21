@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ing.offroader.databinding.FragmentMyDetailBinding
 import com.ing.offroader.ui.activity.achievement.AchievementActivity
+import com.ing.offroader.ui.activity.login.LoginActivity
 
 class MyDetailFragment : Fragment() {
 
@@ -42,6 +43,7 @@ class MyDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
 
         initBlur()
 
@@ -50,6 +52,18 @@ class MyDetailFragment : Fragment() {
 
         // 업적창으로 이동
         goToAchieveActivity()
+
+    }
+
+    private fun initView() {
+        setUpListeners()
+    }
+
+    private fun setUpListeners() =with(binding){
+        tvLogin.setOnClickListener {
+            val intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 

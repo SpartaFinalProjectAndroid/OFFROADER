@@ -75,10 +75,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initListener() = with(binding) {
-        tvUsername.setOnClickListener {
-            val intent = Intent(activity, LoginActivity::class.java)
-            startActivity(intent)
-        }
+
         if (user != null) {
             tvSignOut.visibility = View.VISIBLE
         }
