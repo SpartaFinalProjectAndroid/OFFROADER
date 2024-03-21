@@ -46,11 +46,13 @@ class CommunityFragment : Fragment() {
 
     private fun initObserver() {
         Log.d(TAG, "initObserver: 옵져빙 시작!")
-        communityViewModel.communityUiState.observe(viewLifecycleOwner) {
+        communityViewModel.postItems.observe(viewLifecycleOwner) {
             Log.d(TAG, "initObserver: 커뮤니티유아이스테이트 옵져빙 됨.")
             if (it != null) {
-                Log.d(TAG, "initObserver: postItem 업데이트 ${it.postItems}")
-                setItemView(it.postItems)
+                Log.d(TAG, "initObserver: postItem 업데이트 ${it}")
+                setItemView(it)
+            } else {
+                Log.d(TAG, "initObserver: 옵져빙된 값이 널이라서 업데이트가 안됨.")
             }
 
         }

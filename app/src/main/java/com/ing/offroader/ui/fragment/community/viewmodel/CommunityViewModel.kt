@@ -18,6 +18,8 @@ class CommunityViewModel: ViewModel() {
 
     private val postRepository : PostRepository = PostRepository()
 
+    val postItems : LiveData<ArrayList<PostDTO?>?> = postRepository.setPostItems
+
     init {
         setPosts()
     }
@@ -28,24 +30,9 @@ class CommunityViewModel: ViewModel() {
 
     }
     fun setPosts() {
-        var postItems: ArrayList<PostDTO?>? = null
 
         Log.d(TAG, "setPosts: ")
-        viewModelScope.launch {
-            Log.d(TAG, "viewModelScope Launched")
-            postItems = arrayListOf()
-            postRepository.setPost()?.forEach {
-                val post = it.toObject(PostDTO::class.java)
-                postItems!!.add(post)
-            }
-            Log.d(TAG, "setPosts: postItems : $postItems")
-            if (postItems != null) {
-//                updateUiState
-                _communityUiState.value = CommunityUiState(postItems = postItems)
-                Log.d(TAG, "setPosts: ${communityUiState.value}")
-            }
-
-        }
+        postRepository.setPost()
 
     }
 

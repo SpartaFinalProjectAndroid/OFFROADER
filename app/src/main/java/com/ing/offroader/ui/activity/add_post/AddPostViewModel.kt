@@ -1,5 +1,6 @@
 package com.ing.offroader.ui.activity.add_post
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -50,12 +51,14 @@ class AddPostViewModel : ViewModel() {
         } else {
             // TODO : 디비에 저장하기 & 포스팅 액티비티 종료시키기
             viewModelScope.launch {
-                postRepository.addPost(
+                var successfullyAdded = postRepository.addPost(
                     addPostUiState.value?.title!!,
                     addPostUiState.value?.content,
                     addPostUiState.value?.image
                 )
             }
+
+
             _addPostUiState.value = addPostUiState.value?.copy(
                 errorMessage = null,
                 cycle = false
