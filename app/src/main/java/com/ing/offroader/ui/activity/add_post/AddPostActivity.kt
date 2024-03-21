@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.ing.offroader.databinding.ActivityAddPostBinding
+import com.ing.offroader.ui.fragment.community.MyApplication
+import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModelFactory
 import org.apache.commons.io.output.ByteArrayOutputStream
 
 private const val TAG = "AddPostActivity"
@@ -20,7 +22,9 @@ private const val TAG = "AddPostActivity"
 class AddPostActivity : AppCompatActivity() {
     private var _binding: ActivityAddPostBinding? = null
     private val binding get() = _binding!!
-    private val addPostViewModel by viewModels<AddPostViewModel>()
+    private val addPostViewModel by viewModels<AddPostViewModel> {
+        AddPostViewModelFactory((this.application as MyApplication).postRepository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

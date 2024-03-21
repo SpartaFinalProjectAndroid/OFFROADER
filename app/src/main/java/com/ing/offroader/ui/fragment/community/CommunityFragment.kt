@@ -15,6 +15,9 @@ import com.ing.offroader.ui.activity.add_post.AddPostActivity
 import com.ing.offroader.ui.fragment.community.adapter.CommunityAdapter
 import com.ing.offroader.ui.fragment.community.model.PostDTO
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModel
+import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModelFactory
+import com.ing.offroader.ui.fragment.sanlist.viewmodel.SanListViewModel
+import com.ing.offroader.ui.fragment.sanlist.viewmodel.SanListViewModelFactory
 
 private const val TAG = "태그 : ChatBotFragment"
 
@@ -22,8 +25,9 @@ class CommunityFragment : Fragment() {
 
     private var _binding: FragmentCommunityBinding? = null
     private val binding get() = _binding!!
-    private val communityViewModel: CommunityViewModel by viewModels()
-
+    private val communityViewModel: CommunityViewModel by viewModels {
+        CommunityViewModelFactory((requireActivity().application as MyApplication).postRepository)
+    }
     private val communityAdapter: CommunityAdapter by lazy {
         CommunityAdapter(communityViewModel)
     }
@@ -40,7 +44,7 @@ class CommunityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        initObserver()
+
 
     }
 
@@ -90,6 +94,11 @@ class CommunityFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initObserver()
     }
 
 

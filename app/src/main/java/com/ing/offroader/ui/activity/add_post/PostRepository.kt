@@ -22,46 +22,40 @@ class PostRepository {
     private val db = FirebaseFirestore.getInstance()
 
     // setPostItems
-    private val _setPostItems : MutableLiveData<ArrayList<PostDTO?>?> = MutableLiveData()
-    val setPostItems : LiveData<ArrayList<PostDTO?>?> = _setPostItems
+    private val _setPostItems: MutableLiveData<ArrayList<PostDTO?>?> = MutableLiveData()
+    val setPostItems: LiveData<ArrayList<PostDTO?>?> = _setPostItems
 
     /** 사진 전송 관련 */
     private val specifiedStorage = Firebase.storage("gs://offroader-event.appspot.com")
 
+    init {
+        setPost()
+    }
+
     fun setPost() {
         Log.d(TAG, "setPost: ")
-        var postItems: ArrayList<PostDTO?>? = null
-        try {
-            postItems = arrayListOf()
-            db.collection("Community").orderBy("upload_date").get().addOnSuccessListener {
-                it.documents.forEach {
-                    val post = it.toObject(PostDTO::class.java)
-                    postItems!!.add(post)
-                }
-                Log.d(
-                    TAG,
-                    "setPosts: postItems : $postItems"
-                )
-                if (postItems != null) {
-//                updateUiState
 
-                    _setPostItems.value = postItems
-                    Log.d(TAG, "setPosts: ${setPostItems.value}")
-                } else {
-                    Log.d(TAG, "setPosts: post아이템이 널이라서 .. 추가가 안됨.")
-                }
-
-
+        var postItems: ArrayList<PostDTO?> = arrayListOf()
+        db.collection("Community").orderBy("upload_date").get().addOnSuccessListener { it ->
+            it.documents.forEach {
+                val post = it.toObject(PostDTO::class.java)
+                postItems.add(post)
             }
-        } catch (e: Exception) {
-            Log.e(TAG, "FireStore Error: $e")
-            null
+            Log.d(
+                TAG,
+                "setPosts: postItems : $postItems"
+            )
+            //                updateUiState
+
+            val items = postItems
+            _setPostItems.value = items
+            Log.d(TAG, "setPosts: ${setPostItems.value}")
         }
 
     }
 
 
-    suspend fun addPost(title: String, content: String?, image: ByteArray?): Boolean {
+    fun addPost(title: String, content: String?, image: ByteArray?) {
         Log.d(TAG, "addPost uid: ${user?.uid}")
 
 
@@ -75,9 +69,10 @@ class PostRepository {
         val uploadTask = storageRef.putBytes(image!!)
         //성공,실패 여부 확인 로그
         uploadTask.addOnFailureListener {
-            Log.d(TAG, "테스트: 실패")
+            Log.d(TAG, "사진 업로드 성공여부: 실패")
         }.addOnSuccessListener { taskSnapshot ->
-            Log.d(TAG, "테스트: 성공")
+            Log.d(TAG, "사진 업로드 성공여부: 성공")
+            setPost()
         }
 
         val date = LocalDateTime.now()
@@ -96,13 +91,21 @@ class PostRepository {
             "upload_date" to dateToLong
         )
 
-        return try {
-            db.collection("Community").document(postId).set(newPost).await()
-            true
+        try {
+            db.collection("Community").document(postId).set(newPost).addOnSuccessListener {
+                // 온 석세스가 되었을 때 디비에서 값을 다시 받아와서 옵져빙 해줄 수 있도록 해주기
+                Log.d(TAG, "addPost: 게시물 디비에 저장하기 success 이제 setPost 함수 실행")
+
+            }.addOnFailureListener {
+                Log.d(TAG, "addPost: 게시물 올리기 Fail !")
+            }.addOnCompleteListener {
+                Log.d(TAG, "addPost: 온콤플릿 리스너는 업로드 실행이 끝날때까지 기다렸다가 실행되는건감?")
+                // 아니네 전에 실행되네...
+
+            }
 
         } catch (e: Exception) {
             Log.e(TAG, "FireStore Error: $e")
-            false
         }
     }
 

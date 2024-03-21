@@ -7,12 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class AddPostViewModel : ViewModel() {
+class AddPostViewModel(private val postRepository: PostRepository) : ViewModel() {
 
     private val _addPostUiState: MutableLiveData<AddPostUiState?> = MutableLiveData()
     val addPostUiState: LiveData<AddPostUiState?> = _addPostUiState
 
-    private val postRepository: PostRepository = PostRepository()
 
     init {
         _addPostUiState.value = AddPostUiState(
@@ -50,13 +49,11 @@ class AddPostViewModel : ViewModel() {
             )
         } else {
             // TODO : 디비에 저장하기 & 포스팅 액티비티 종료시키기
-            viewModelScope.launch {
-                var successfullyAdded = postRepository.addPost(
-                    addPostUiState.value?.title!!,
-                    addPostUiState.value?.content,
-                    addPostUiState.value?.image
-                )
-            }
+            postRepository.addPost(
+                addPostUiState.value?.title!!,
+                addPostUiState.value?.content,
+                addPostUiState.value?.image
+            )
 
 
             _addPostUiState.value = addPostUiState.value?.copy(

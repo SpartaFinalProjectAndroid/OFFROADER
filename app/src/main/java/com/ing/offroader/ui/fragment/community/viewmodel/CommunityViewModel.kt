@@ -11,17 +11,16 @@ import com.ing.offroader.ui.fragment.community.model.PostDTO
 import kotlinx.coroutines.launch
 
 private const val TAG = "태그 : CommunityViewModel"
-class CommunityViewModel: ViewModel() {
+class CommunityViewModel(postRepository: PostRepository): ViewModel() {
 
     private val _communityUiState : MutableLiveData<CommunityUiState?> = MutableLiveData()
     val communityUiState : LiveData<CommunityUiState?> = _communityUiState
 
-    private val postRepository : PostRepository = PostRepository()
 
     val postItems : LiveData<ArrayList<PostDTO?>?> = postRepository.setPostItems
 
     init {
-        setPosts()
+//        setPosts()
     }
     fun updateUiState(postItems: ArrayList<PostDTO?>?) {
         _communityUiState.value = communityUiState.value?.copy(
@@ -29,12 +28,12 @@ class CommunityViewModel: ViewModel() {
         )
 
     }
-    fun setPosts() {
-
-        Log.d(TAG, "setPosts: ")
-        postRepository.setPost()
-
-    }
+//    fun setPosts() {
+//
+//        Log.d(TAG, "setPosts: ")
+//        postRepository.setPost()
+//
+//    }
 
 
 
