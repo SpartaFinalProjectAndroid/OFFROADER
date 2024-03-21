@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/offroader_background"
-    tools:context=".ui.fragment.chatbot.CommunityFragment">
+    tools:context=".ui.fragment.community.CommunityFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_community"
