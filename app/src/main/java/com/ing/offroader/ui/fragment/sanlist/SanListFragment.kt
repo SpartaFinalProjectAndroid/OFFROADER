@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.ing.offroader.databinding.FragmentSanListBinding
 import com.ing.offroader.ui.activity.sandetail.SanDetailActivity
-import com.ing.offroader.ui.fragment.chatbot.MyApplication
+import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.fragment.sanlist.adapter.SanListAdapter
 import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
 import com.ing.offroader.ui.fragment.sanlist.viewmodel.SanListViewModel
@@ -216,8 +216,12 @@ class SanListFragment : Fragment() {
                 intent.putExtra("name", sanName)
             }
             startActivity(intent)
-
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
 
     }
 }

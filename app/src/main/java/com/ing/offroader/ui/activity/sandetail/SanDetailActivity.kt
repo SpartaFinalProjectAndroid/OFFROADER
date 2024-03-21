@@ -17,7 +17,7 @@ import com.ing.offroader.data.repository.WeatherRepository
 import com.ing.offroader.databinding.ActivitySanDetailBinding
 import com.ing.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModel
 import com.ing.offroader.ui.activity.sandetail.viewmodel.SanDetailViewModelFactory
-import com.ing.offroader.ui.fragment.chatbot.MyApplication
+import com.ing.offroader.ui.fragment.community.MyApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -12,7 +12,10 @@ import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
 import kotlinx.coroutines.tasks.await
 
 class SanListRepository {
-    companion object { private const val TAG = "SanListRepository" }
+    companion object {
+        private const val TAG = "태그 : SanListRepository"
+        private const val TIME = "태그 : 파이어스토어 데이터 로딩 시간"
+    }
 
     // db 인스턴스 생성
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -149,7 +152,12 @@ class SanListRepository {
             }
         }
 
-        sanArrayList[index].sanSelected = true
+//        sanArrayList[index].sanSelected = true
+        if (index >= 0) { //인덱스는 양수값, 산 100개니까 0부터 99
+            sanArrayList[index].sanSelected = true
+        } else {
+            Log.d(TAG, "퉤! $index")
+        }
 
         //Log.d(TAG, "값 다 가져옴 $sanArrayList")
         _sanListDTO.value = sanArrayList

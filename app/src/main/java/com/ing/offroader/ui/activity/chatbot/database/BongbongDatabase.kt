@@ -29,7 +29,6 @@ abstract class BongbongDatabase : RoomDatabase() {
         }
     }
 
-
     companion object {
         private var INSTANCE: BongbongDatabase? = null
 

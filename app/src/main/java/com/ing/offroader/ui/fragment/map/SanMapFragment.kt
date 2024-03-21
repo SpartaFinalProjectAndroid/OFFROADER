@@ -404,6 +404,8 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     override fun onDestroyView() {
         super.onDestroyView()
         mapView.onDestroy()
+        _binding = null
+
     }
 
     override fun onLowMemory() {
