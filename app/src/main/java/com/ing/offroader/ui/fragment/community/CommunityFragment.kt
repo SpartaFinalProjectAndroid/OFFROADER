@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.ing.offroader.databinding.FragmentCommunityBinding
 import com.ing.offroader.ui.activity.add_post.AddPostActivity
-import com.ing.offroader.ui.activity.main.MainActivity
+import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModel
 
 private const val TAG = "ChatBotFragment"
 
@@ -19,10 +20,10 @@ class CommunityFragment : Fragment() {
 
     private var _binding: FragmentCommunityBinding? = null
     private val binding get() = _binding!!
-//    private val chatBotViewModel: CommunityViewModel by viewModels()
+    private val communityViewModel: CommunityViewModel by viewModels()
 //    }
 //    private val chatAdapter: CommunityAdapter by lazy {
-////        CommunityAdapter(chatBotViewModel)
+//        CommunityAdapter(chatBotViewModel)
 
     private val user = FirebaseAuth.getInstance().currentUser
     override fun onCreateView(
@@ -37,8 +38,13 @@ class CommunityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 //        binding.rvChatbot.adapter = chatAdapter
         initView()
+        initViewModel()
         initObserver()
 
+    }
+
+    private fun initViewModel() {
+        communityViewModel.setPosts()
     }
 
     private fun initObserver() {
@@ -47,6 +53,7 @@ class CommunityFragment : Fragment() {
 
     private fun initView() {
         setAddPostButton()
+
     }
 
     private fun setAddPostButton() {
