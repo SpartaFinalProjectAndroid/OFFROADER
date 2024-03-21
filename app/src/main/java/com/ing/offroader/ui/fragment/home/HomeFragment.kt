@@ -63,12 +63,22 @@ class HomeFragment : Fragment() {
         initListener()
     }
 
-    private fun initView() {
+    override fun onResume() {
+        super.onResume()
+        initUser()
+    }
+
+    private fun initUser() {
+        user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             binding.tvUsername.text = user!!.email ?: "츄파춥스님, 안녕하세요!"
             Log.d(TAG, "onViewCreated: ${user!!.uid}")
             Log.d(TAG, "onViewCreated: ${user!!.email}")
         }
+    }
+
+    private fun initView() {
+
         myPageAdapter = HomeMultiViewTypeAdapter(requireContext(), homeViewModel, arrayListOf<HomeUiState>())
         binding.rvHome.adapter = myPageAdapter
         binding.rvHome.layoutManager = LinearLayoutManager(requireContext())

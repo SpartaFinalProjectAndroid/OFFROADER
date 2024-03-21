@@ -2,6 +2,7 @@ package com.ing.offroader.ui.fragment.mydetail
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,7 @@ import okhttp3.internal.wait
 class MyDetailFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MyDetailFragment()
+        private const val TAG = "태그 : MyDetailFragment"
     }
 
     private var _binding: FragmentMyDetailBinding? = null
@@ -29,7 +30,7 @@ class MyDetailFragment : Fragment() {
     private val myDetailViewModel by viewModels<MyDetailViewModel>()
 
     // 사용자 정보 가져오기
-    private val user = FirebaseAuth.getInstance().currentUser
+    private var user = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +53,7 @@ class MyDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
+        
 
         initBlur()
 
@@ -64,13 +65,22 @@ class MyDetailFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: ")
+        initView()
+    }
+
     private fun initView() {
+        Log.d(TAG, "initView: ")
         setUpUserDetail()
         setUpListeners()
 
     }
 
     private fun setUpUserDetail() {
+        user = FirebaseAuth.getInstance().currentUser
+        Log.d(TAG, "setUpUserDetail: ${user?.uid}")
         when (user?.uid) {
             null -> setNoLoggedInUser()
             else -> setUserInformation()

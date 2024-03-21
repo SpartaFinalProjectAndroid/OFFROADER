@@ -33,9 +33,17 @@ class LoginActivity : AppCompatActivity() {
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Log.d(TAG, "onCreate: start")
-        initGoogleSignInClient()
-        signInUsingGoolge()
+        initView()
 
+
+    }
+
+    private fun initView() {
+
+        binding.googleSignInButton.setOnClickListener {
+            initGoogleSignInClient()
+            signInUsingGoolge()
+        }
     }
 
     private fun initGoogleSignInClient() {
@@ -114,11 +122,11 @@ class LoginActivity : AppCompatActivity() {
 
                 is ResponseState.Success -> {
                     Log.d(TAG, "signInWithGoogleAuthCredential: ResponseState is Success")
-
+                    finish()
                 }
 
             }
-            finish()
+//            finish()
         }
 
     }
