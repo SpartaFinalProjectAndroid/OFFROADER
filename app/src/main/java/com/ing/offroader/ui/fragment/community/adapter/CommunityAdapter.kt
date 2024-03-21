@@ -13,7 +13,7 @@ import com.ing.offroader.databinding.ItemPostBinding
 import com.ing.offroader.ui.fragment.community.model.PostDTO
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModel
 
-class CommunityAdapter(private val viewModel: CommunityViewModel):
+class CommunityAdapter(private val viewModel: CommunityViewModel) :
     ListAdapter<PostDTO, RecyclerView.ViewHolder>(
         DIFF_CALLBACK
     ) {
@@ -34,15 +34,14 @@ class CommunityAdapter(private val viewModel: CommunityViewModel):
             title.text = item.title.toString()
             content.text = item.contents.toString()
             likeCount.text = item.like.toString()
+            userLevel.visibility = View.INVISIBLE
 
-//            if (item.images != null or "null")
-//            sanImage.bringToFront()
-//
-//            sanOutline.isVisible = item.sanSelected
-//            if (item.sanImage != null) {
-//                Glide.with(itemView).load(item.sanImage[0]).into(sanImage)
-//            }
-//            sanName.text = item.sanName
+
+            val ds = item.upload_date.toString()
+            val formattedDate =
+                ds[0].toString() + ds[1].toString() + ds[2].toString() + ds[3].toString() + "." + ds[4].toString() + ds[5].toString() + "." + ds[6].toString() + ds[7].toString()
+            date.text = formattedDate
+
         }
     }
 
@@ -54,15 +53,15 @@ class CommunityAdapter(private val viewModel: CommunityViewModel):
         val profileImage = binding.ivProfileImage
         val userid = binding.tvId
         val userLevel = binding.tvLevel
-        val uploadDate = binding.tvDate
         val title = binding.tvTitle
         val content = binding.tvContent
         val postImage = binding.ivUploadedImage
         val likeCount = binding.tvLikeCount
-//
-//        init {
-//            sanListItem.setOnClickListener(this)
-//        }
+        val date = binding.tvDate
+
+        init {
+            postItem.setOnClickListener(this)
+        }
 
         override fun onClick(p0: View?) {
             val position = adapterPosition.takeIf { it != RecyclerView.NO_POSITION } ?: return

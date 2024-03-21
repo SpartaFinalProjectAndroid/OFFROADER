@@ -14,7 +14,6 @@ import androidx.core.widget.addTextChangedListener
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.ing.offroader.databinding.ActivityAddPostBinding
 import com.ing.offroader.ui.fragment.community.MyApplication
-import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModelFactory
 import org.apache.commons.io.output.ByteArrayOutputStream
 
 private const val TAG = "AddPostActivity"
