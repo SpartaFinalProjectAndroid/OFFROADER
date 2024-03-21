@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.ing.offroader.databinding.FragmentMyDetailBinding
 import com.ing.offroader.ui.activity.achievement.AchievementActivity
 import com.ing.offroader.ui.activity.login.LoginActivity
+import com.ing.offroader.ui.activity.my_post.MyPostActivity
 import okhttp3.internal.wait
 
 class MyDetailFragment : Fragment() {
@@ -115,7 +116,10 @@ class MyDetailFragment : Fragment() {
     }
 
     private fun setUpListeners() = with(binding) {
-
+        clMyPost.setOnClickListener {
+            val intent = Intent(requireActivity(), MyPostActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 

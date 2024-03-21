@@ -1,14 +1,11 @@
 package com.ing.offroader.ui.fragment.community.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.ing.offroader.ui.activity.add_post.PostRepository
 import com.ing.offroader.ui.fragment.community.model.CommunityUiState
 import com.ing.offroader.ui.fragment.community.model.PostDTO
-import kotlinx.coroutines.launch
 
 private const val TAG = "태그 : CommunityViewModel"
 class CommunityViewModel(postRepository: PostRepository): ViewModel() {
