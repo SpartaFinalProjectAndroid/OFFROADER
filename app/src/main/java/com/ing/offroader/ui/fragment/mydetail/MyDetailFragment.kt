@@ -19,7 +19,7 @@ class MyDetailFragment : Fragment() {
     private var _binding: FragmentMyDetailBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var myBookmarkAdapter: MyBookmarkAdapter
+//    private lateinit var myBookmarkAdapter: MyBookmarkAdapter
 
     private val myDetailViewModel by viewModels<MyDetailViewModel>()
 
@@ -91,7 +91,7 @@ class MyDetailFragment : Fragment() {
     }
 
     private fun initLikedRecyclerView() {
-        myBookmarkAdapter.onBookmarkClickedInMyLikedListener = listOf()
+//        myBookmarkAdapter.onBookmarkClickedInMyLikedListener = listOf()
     }
 
 }

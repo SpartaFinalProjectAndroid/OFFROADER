@@ -283,6 +283,7 @@ class SanDetailActivity : AppCompatActivity() {
             if (sanlist.isLiked) ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
 
             ivBookmark.setOnClickListener {
+                Log.d(TAG, "좋아요 클릭")
 
                 //ViewModel LiveData로 저장
                 if(sanlist.isLiked) {
@@ -295,7 +296,8 @@ class SanDetailActivity : AppCompatActivity() {
                 ivBookmark.setImageResource(
                     if (sanlist.isLiked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
                 )
-                Log.d(TAG, "좋아요 클릭")
+
+//                LikedUtil.savedLiked(sanlist.mountain, sanlist.img[0])
             }
         }
 
