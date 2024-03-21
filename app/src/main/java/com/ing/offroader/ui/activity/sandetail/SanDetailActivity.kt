@@ -231,7 +231,7 @@ class SanDetailActivity : AppCompatActivity() {
     }
 
     private fun setHikingTimeView(sanlist: SanDetailDTO) = with(binding) {
-        val totalTime = sanlist.uphillTime
+        val totalTime = sanlist.time
 
         viewHillTime(totalTime, tvTimeInfo)
     }
