@@ -1,7 +1,5 @@
 package com.ing.offroader.ui.fragment.community.model
 
-import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
-
 data class PostDTO(
     val contents : Any ?= null,
     val images : Any ?= null,
