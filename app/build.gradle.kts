@@ -136,6 +136,9 @@ dependencies {
     //Firebase 분석을 위해 추가
     implementation("com.google.firebase:firebase-analytics")
 
+    //Firebase storage (이미지 remote 저장을 위해 추가)
+    implementation("com.google.firebase:firebase-storage")
+
     //lottie 애니메이션 추가
     implementation("com.airbnb.android:lottie:4.1.0")
 
@@ -156,6 +159,8 @@ dependencies {
     // 현재 위치 반환
     implementation ("com.google.android.gms:play-services-location:21.1.0")
 
+    //픽미픽미픽미업
+    implementation("com.github.dhaval2404:imagepicker:2.1")
 
     // androidx.media3
     implementation ("androidx.media3:media3-session:1.3.0")
@@ -175,5 +180,7 @@ dependencies {
     // optional - needed for credentials support from play services, for devices running
     // Android 13 and below.
     implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha01")
+
+    implementation ("commons-io:commons-io:2.13.0")
 
 }
