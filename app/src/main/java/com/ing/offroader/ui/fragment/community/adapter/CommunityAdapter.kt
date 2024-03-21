@@ -1,5 +1,6 @@
 package com.ing.offroader.ui.fragment.community.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,14 +25,16 @@ class CommunityAdapter(private val viewModel: CommunityViewModel):
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-
+        val user = FirebaseAuth.getInstance().currentUser
         val item = getItem(position)
 
         (holder as PostItemViewHolder).apply {
-            val uid = item.uid
-            userid.text = uid.toString()
+
+            userid.text = user!!.email
             title.text = item.title.toString()
             content.text = item.contents.toString()
+            likeCount.text = item.like.toString()
+
 //            if (item.images != null or "null")
 //            sanImage.bringToFront()
 //
@@ -55,6 +58,7 @@ class CommunityAdapter(private val viewModel: CommunityViewModel):
         val title = binding.tvTitle
         val content = binding.tvContent
         val postImage = binding.ivUploadedImage
+        val likeCount = binding.tvLikeCount
 //
 //        init {
 //            sanListItem.setOnClickListener(this)
@@ -69,12 +73,16 @@ class CommunityAdapter(private val viewModel: CommunityViewModel):
     }
 
     companion object {
+
+        private const val TAG = "태그 : CommunityAdapter"
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PostDTO>() {
             override fun areItemsTheSame(oldItem: PostDTO, newItem: PostDTO): Boolean {
+                Log.d(TAG, "areItemsTheSame: ${oldItem.post_id}, ${newItem.post_id}")
                 return oldItem.post_id == newItem.post_id
             }
 
             override fun areContentsTheSame(oldItem: PostDTO, newItem: PostDTO): Boolean {
+                Log.d(TAG, "areItemsTheSame: ${oldItem}, ${newItem}")
                 return oldItem == newItem
             }
         }

@@ -20,42 +20,11 @@ class PostRepository {
         Log.d(TAG, "setPost: ")
         return try {
             db.collection("Community").orderBy("upload_date").get().await().documents
-//            return try {
-//                var postArray: ArrayList<PostDTO>? = null
-//                db.collection("Community").orderBy("upload_date").get().await().documents.forEach {
-//                    postArray = arrayListOf()
-//                    val post = it.toObject(PostDTO::class.java)
-//                    if (post != null) {
-//                        postArray!!.add(post)
-//                    } else {
-//                        Log.e(TAG, "setPost: 디비에서 아무런 데이터도 넘어오지 않음 !!")
-//                    }
-//                    Log.d(TAG, "setPost: <포스트어레이> $postArray")
-//
-//                }
-//                return postArray
-
-
-
-
-//            val testtt = db.collection("Community").orderBy("upload_date").get().await()
-//            Log.d(TAG, "setPost: db에서 가져오기 <쿼리스냅샷> $testtt")
-//            testtt.documents.forEach {
-//                val post = it.toObject(PostDTO::class.java)
-//                if (post != null) {
-//                    postArray.add(post)
-//                } else {
-//                    Log.e(TAG, "setPost: 디비에서 아무런 데이터도 넘어오지 않음 !!")
-//                }
-//                Log.d(TAG, "setPost: <포스트어레이> $postArray")
-//            }
-//            postArray
 
         } catch (e: Exception) {
             Log.e(TAG, "FireStore Error: $e")
             null
         }
-
     }
 
 
@@ -77,7 +46,7 @@ class PostRepository {
                 "title" to title,
                 "contents" to content,
                 "images" to image,
-                "like" to null,
+                "like" to 0,
                 "post_id" to postId,
                 "san" to null,
                 "upload_date" to dateToLong
