@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.ing.offroader.data.model.sanInfo.AllSanDTO
 import com.ing.offroader.ui.activity.sandetail.SanDetailDTO
+import com.ing.offroader.ui.fragment.home.HomeUiData
 import com.ing.offroader.ui.fragment.home.HomeUiState
 import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
 import kotlinx.coroutines.tasks.await
@@ -31,6 +32,7 @@ class SanListRepository {
     // San Detail Activity
     private val _detailInfo: MutableLiveData<SanDetailDTO> = MutableLiveData()
     val detailInfo: LiveData<SanDetailDTO> = _detailInfo
+
 
     // 초기 실행
     init {

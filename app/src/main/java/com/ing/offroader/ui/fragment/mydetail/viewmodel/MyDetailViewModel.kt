@@ -1,20 +1,20 @@
-package com.ing.offroader.ui.fragment.mydetail
+package com.ing.offroader.ui.fragment.mydetail.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.ing.offroader.data.model.userInfo.UserData
+import com.ing.offroader.data.repository.SanListRepository
 import com.ing.offroader.data.repository.UserRepository
 import kotlinx.coroutines.launch
 import kotlin.system.measureTimeMillis
 
-class MyDetailViewModel : ViewModel() {
-    private var _myDetailUiState = MutableLiveData<MyDetailUiState>()
+class MyDetailViewModel(sanListRepository: SanListRepository) : ViewModel() {
+    private val repo : SanListRepository = sanListRepository
 
-    val myDetailUiState : LiveData<MyDetailUiState> = _myDetailUiState
+//    val myDetailDTO : LiveData<MyDetailDTO> = repo.myInfo
 
 
     // ----------------------------- 업적 레벨 관련 기능들 --------------------------------------
@@ -38,4 +38,18 @@ class MyDetailViewModel : ViewModel() {
             Log.d("민용타임", "time: $timeCheck")
         }
     }
+
+    // -------------------------------- 좋아요 관련 기능들 --------------------------------------
+
+    private val _sanLikedList : MutableLiveData<MutableList<String>> = MutableLiveData()
+    val sanLikedList : LiveData<MutableList<String>> = _sanLikedList
+
+    private var sanLikedCopyList : MutableList<String> = mutableListOf()
+
+    fun loadSanLikedList(data: MutableList<String>) {
+        sanLikedCopyList = data
+        _sanLikedList.value = sanLikedCopyList
+    }
+
+//    fun getLikedSanName()
 }

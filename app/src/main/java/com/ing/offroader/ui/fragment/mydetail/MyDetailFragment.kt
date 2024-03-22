@@ -1,5 +1,6 @@
 package com.ing.offroader.ui.fragment.mydetail
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,11 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.gson.Gson
+import com.google.gson.JsonParseException
+import com.google.gson.reflect.TypeToken
+import com.ing.offroader.data.liked.LikedConstants
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.ing.offroader.databinding.FragmentMyDetailBinding
 import com.ing.offroader.ui.activity.achievement.AchievementActivity
+import com.ing.offroader.ui.fragment.community.MyApplication
+import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModel
+import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModelFactory
 import com.ing.offroader.ui.activity.login.LoginActivity
 import okhttp3.internal.wait
 
@@ -25,9 +33,13 @@ class MyDetailFragment : Fragment() {
     private var _binding: FragmentMyDetailBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var myBookmarkAdapter: MyBookmarkAdapter
+    private val mItems = mutableListOf<MyDetailDTO>()
 
-    private val myDetailViewModel by viewModels<MyDetailViewModel>()
+    private val myDetailViewModel: MyDetailViewModel by viewModels {
+        return@viewModels MyDetailViewModelFactory(
+            (requireActivity().application as MyApplication).sanListRepository
+        )
+    }
 
     // 사용자 정보 가져오기
     private var user = FirebaseAuth.getInstance().currentUser
@@ -39,6 +51,9 @@ class MyDetailFragment : Fragment() {
         _binding = FragmentMyDetailBinding.inflate(inflater, container, false)
 
         myDetailViewModel.getUserData("user_test") // 파이어스토에 해당 유저 UID에 맞는 데이터 가져오기
+        loadData()
+        initBlur()
+        initObserver()
 
         return binding.root
 
@@ -53,7 +68,6 @@ class MyDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
 
         initBlur()
 
@@ -64,6 +78,33 @@ class MyDetailFragment : Fragment() {
         goToAchieveActivity()
 
     }
+
+    private fun initObserver() {
+//        myDetailViewModel.myDetailDTO.observe(viewLifecycleOwner) {
+//            binding.rvRecode.adapter = MyBookmarkAdapter(mItems)
+//            binding.rvRecode.layoutManager = GridLayoutManager(context, 4)
+//        }
+    }
+
+    private fun loadData() {
+        val prefs = activity?.getSharedPreferences(LikedConstants.LIKED_PREFS, Context.MODE_PRIVATE)
+        if (prefs?.contains(LikedConstants.LIKED_PREF_KEY) == true) {
+            val gson = Gson()
+            val json = prefs.getString(LikedConstants.LIKED_PREF_KEY, "")
+            try {
+                val type = object : TypeToken<MutableList<String>>() {}.type
+                val sanStore: MutableList<String> = gson.fromJson(json, type)
+                myDetailViewModel.loadSanLikedList(sanStore)
+
+                Log.d(TAG, "저장된 목록 = $sanStore")
+
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+            }
+        }
+
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -123,8 +164,9 @@ class MyDetailFragment : Fragment() {
     private fun initBlur() {
         val blur = binding.blur
         with(blur) {
-            setupWith(this)
+            setupWith(binding.clMyInfo)
                 .setBlurEnabled(true)
+                .setBlurRadius(15f)
         }
     }
 

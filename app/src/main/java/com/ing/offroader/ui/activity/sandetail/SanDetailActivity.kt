@@ -1,17 +1,23 @@
 package com.ing.offroader.ui.activity.sandetail
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
+import com.google.gson.Gson
+import com.google.gson.JsonParseException
+import com.google.gson.reflect.TypeToken
 import com.ing.offroader.R
-import com.ing.offroader.data.liked.OnBookmarkClickListener
+import com.ing.offroader.data.liked.LikedConstants
 import com.ing.offroader.data.model.weather.WeekendWeatherData
 import com.ing.offroader.data.repository.WeatherRepository
 import com.ing.offroader.databinding.ActivitySanDetailBinding
@@ -34,7 +40,6 @@ class SanDetailActivity : AppCompatActivity() {
     private val slideImageRunnable =
         Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
 
-    private lateinit var imageAdapter: SanImageAdapter
     private val sanDetailViewModel: SanDetailViewModel by viewModels {
         return@viewModels SanDetailViewModelFactory(
             (application as MyApplication).sanListRepository
@@ -80,6 +85,7 @@ class SanDetailActivity : AppCompatActivity() {
             }
         }
 
+        loadData()
         initBackButton()
         initObserver()
     }
@@ -194,8 +200,13 @@ class SanDetailActivity : AppCompatActivity() {
     private fun setMoreView(sanlist: SanDetailDTO) = with(binding) {
         tvIntroInfo.text = sanlist.summary
         tvRecommendInfo.text = sanlist.recommend
-        viewMoreText(tvIntroInfo, tvIntroPlus, tvIntroShort)
-        viewMoreText(tvRecommendInfo, tvRecommendPlus, tvRecommendShort)
+
+        // 산 개요 옆 화살표 토글
+        setOnClickToggle(ivIntroToggle, clIntroAccordian)
+
+        // 추천 이유 옆 화살표 토글
+        setOnClickToggle(ivRecommendToggle, clRecommendAccordian)
+
     }
 
     private fun setDifficultyView(sanlist: SanDetailDTO) = with(binding) {
@@ -236,27 +247,25 @@ class SanDetailActivity : AppCompatActivity() {
         viewHillTime(totalTime, tvTimeInfo)
     }
 
-    // 자세히 보기 클릭 시 텍스트 전부 출력하는 함수
-    private fun viewMoreText(info: TextView, plus: TextView, short: TextView) {
-        info.post {
-            val lineCount = info.layout.lineCount
-            if (lineCount > 0) {
-                if (info.layout.getEllipsisCount(lineCount - 1) > 0) {
-                    plus.visibility = View.VISIBLE
+    // 아코디언 UI 텍스트 편
+    private fun viewMoreText(view: View, isExpanded: Boolean, layoutExpand: ConstraintLayout) {
+        ToggleAnimation.toggleArrow(view, isExpanded)
+        if (isExpanded) {
+            ToggleAnimation.expand(layoutExpand)
+        } else {
+            ToggleAnimation.collapse(layoutExpand)
+        }
+    }
 
-                    plus.setOnClickListener {
-                        info.maxLines = Int.MAX_VALUE
-                        plus.visibility = View.GONE
-                        short.visibility = View.VISIBLE
-                    }
+    // 토글 클릭 시 아코디언 UI 펼첬다 접었다 하기
+    private fun setOnClickToggle(toggle: ImageView, accordian: ConstraintLayout) {
+        var isExp = false
 
-                    short.setOnClickListener {
-                        info.maxLines = 5
-                        plus.visibility = View.VISIBLE
-                        short.visibility = View.GONE
-                    }
-                }
-            }
+        toggle.setOnClickListener {
+            viewMoreText(it, !isExp, accordian)
+
+            isExp = if (accordian.visibility == View.VISIBLE) true
+            else false
         }
     }
 
@@ -275,20 +284,66 @@ class SanDetailActivity : AppCompatActivity() {
 
     // 좋아요 기능
     private fun initBookmark(sanlist: SanDetailDTO) {
-
         with(binding) {
-            if (sanlist.isLiked) ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
+            // 초기화
+            if(sanDetailViewModel.sanLikedList.value?.contains(sanlist.mountain) == true) {
+                sanlist.isLiked = true
+                ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
+            } else {
+                sanlist.isLiked = false
+                ivBookmark.setImageResource(R.drawable.ic_bookmark_off)
+            }
 
             ivBookmark.setOnClickListener {
+                Log.d(TAG, "좋아요 클릭")
+
+                //ViewModel LiveData로 저장
+                if (sanlist.isLiked) {
+                    sanDetailViewModel.removeSanLikedList(sanlist.mountain)
+                } else {
+                    sanDetailViewModel.addSanLikedList(sanlist.mountain)
+                }
+
                 sanlist.isLiked = !sanlist.isLiked
+
                 ivBookmark.setImageResource(
                     if (sanlist.isLiked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
                 )
-                Log.d(TAG, "좋아요 클릭")
-                OnBookmarkClickListener.onBookmarkClick(sanlist)
+
+                saveData(LikedConstants.LIKED_PREFS, LikedConstants.LIKED_PREF_KEY, sanDetailViewModel.sanLikedList.value)
             }
         }
 
+    }
+
+    // SharedPreference 저장
+    private fun <T> saveData(preferKey: String, dataKey: String, data: T) {
+        val prefs = getSharedPreferences(preferKey, Context.MODE_PRIVATE)
+        val edit = prefs.edit()
+        edit.clear()
+
+        val json = Gson().toJson(data)
+
+        edit.putString(dataKey, json).apply()
+        Log.d(TAG, "SavedSanList")
+    }
+
+    // SharedPreference 불러오기
+    private fun loadData() {
+        val prefs = getSharedPreferences(LikedConstants.LIKED_PREFS, Context.MODE_PRIVATE)
+        if (prefs.contains(LikedConstants.LIKED_PREF_KEY)) {
+            val gson = Gson()
+            val json = prefs.getString(LikedConstants.LIKED_PREF_KEY, "")
+            try {
+                val type = object : TypeToken<MutableList<String>>() {}.type
+                val sanStore: MutableList<String> = gson.fromJson(json, type)
+                sanDetailViewModel.loadSanLikedList(sanStore)
+
+                Log.d(TAG, "저장된 목록 : ${sanStore}")
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+            }
+        }
     }
 
     // 뒤로가기 버튼
