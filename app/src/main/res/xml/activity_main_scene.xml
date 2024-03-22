@@ -60,6 +60,15 @@
             app:layout_constraintTop_toBottomOf="@id/v_line2"
             android:layout_marginTop="20dp"
             android:visibility="gone" />
+        <Constraint
+            android:id="@+id/tv_favorite_notify"
+            app:layout_constraintEnd_toEndOf="@id/rv_channel_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@id/rv_channel_list"
+            app:layout_constraintStart_toStartOf="@id/rv_channel_list"
+            android:layout_marginTop="200dp" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -84,6 +93,14 @@
             app:layout_constraintTop_toBottomOf="@id/v_line2"
             android:layout_marginTop="20dp"
             app:layout_constraintBottom_toTopOf="@id/ll_bottom_play" />
+        <Constraint
+            android:id="@+id/tv_favorite_notify"
+            app:layout_constraintEnd_toEndOf="@id/rv_channel_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/rv_channel_list"
+            app:layout_constraintStart_toStartOf="@id/rv_channel_list"
+            android:layout_marginTop="200dp" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/empty">

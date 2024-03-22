@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var radioPlayer: ExoPlayer
-    private var isRadioLikeTab = false
+    private var isRadioLikeTab = true
 
     private val radioListViewModel by viewModels<MainViewModel>()
     private var lastTimeBackPressed: Long = -1500
@@ -61,7 +61,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvAdapter: RadioListAdapter
     private lateinit var rvAdapterList: MutableList<RadioChannelItem>
 
-    val database = Firebase.firestore
 
     override fun onStart() {
         super.onStart()
@@ -97,12 +96,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.tvFavoriteNotify.visibility = View.GONE
             binding.tvFavoriteNotify.text = ""
-            database.collection("radio_api").get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    for (i in task.result)
-                        Log.d("Minyong", "onCreate: " + i.data.keys)
-                }
-            }
         }
     }
 
@@ -233,16 +226,6 @@ class MainActivity : AppCompatActivity() {
         binding.ivRadioBackBtn.setOnClickListener {
             binding.mlMain.transitionToStart()
         }
-
-        radioListViewModel.radioLikeList.observe(this) {
-            if (it.size == 0 && isRadioLikeTab) {
-                binding.tvFavoriteNotify.visibility = View.VISIBLE
-                binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
-            } else {
-                binding.tvFavoriteNotify.visibility = View.GONE
-                binding.tvFavoriteNotify.text = ""
-            }
-        }
     }
 
     // 각 방송국과 즐겨찾기 라디오 채널 리스트 초기화
@@ -262,24 +245,28 @@ class MainActivity : AppCompatActivity() {
         broadcastInit(RadioChannelURL.RADIO_API_URL, R.drawable.ic_favorite)
 
         cvFavorites.setOnClickListener {
+            isRadioLikeTab = true
             broadcastInit(
                 RadioChannelURL.RADIO_API_URL,
                 R.drawable.ic_favorite
             )
         }
         cvKbs.setOnClickListener {
+            isRadioLikeTab = false
             broadcastInit(
                 RadioChannelURL.KBS_LIST,
                 R.drawable.ic_kbs_radio
             )
         }
         cvSbs.setOnClickListener {
+            isRadioLikeTab = false
             broadcastInit(
                 RadioChannelURL.SBS_LIST,
                 R.drawable.ic_sbs_radio
             )
         }
         cvMbc.setOnClickListener {
+            isRadioLikeTab = false
             broadcastInit(
                 RadioChannelURL.MBC_LIST,
                 R.drawable.ic_mbc_radio
