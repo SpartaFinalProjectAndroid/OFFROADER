@@ -147,14 +147,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_3 -> {
                     showFragment(SanMapFragment(), "SAN_MAP_FRAGMENT")
                     binding.mlMain.setTransition(R.id.trs_empty)
-                    binding.mlMain.transitionToEnd()
+                    binding.mlMain.transitionToStart()
 
                     true
                 }
                 R.id.navigation_4 -> {
                     showFragment(CommunityFragment(), "CHAT_BOT_FRAGMENT")
                     binding.mlMain.setTransition(R.id.trs_empty)
-                    binding.mlMain.transitionToEnd()
+                    binding.mlMain.transitionToStart()
                     true
                 }
                 R.id.navigation_5 -> {
