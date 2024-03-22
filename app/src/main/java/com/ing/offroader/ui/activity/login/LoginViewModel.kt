@@ -12,14 +12,13 @@ private const val TAG = "태그 : LoginViewModel"
 class LoginViewModel(private val authRepository: AuthRepository) :
     ViewModel() {
 
-    private var _authenticateUserLiveData: MutableLiveData<ResponseState<LoginUser>> =
-        MutableLiveData()
-    val authenticateUserLiveData: LiveData<ResponseState<LoginUser>> = _authenticateUserLiveData
+
+    val authenticateUserLiveData: LiveData<ResponseState<LoginUser>> = authRepository.authenticatedUserMutableLiveData
 
     fun signInWithGoogle(googleAuthCredential: AuthCredential) {
-        val new = authRepository.firebaseSignInWithGoogle(googleAuthCredential)
-        _authenticateUserLiveData.value = new.value
-        Log.d(TAG, "signInWithGoogle: Got into ViewModel ${new.value}")
+        authRepository.firebaseSignInWithGoogle(googleAuthCredential)
+//        _authenticateUserLiveData.value = new.value
+        Log.d(TAG, "signInWithGoogle: Got into ViewModel ")
 
     }
 

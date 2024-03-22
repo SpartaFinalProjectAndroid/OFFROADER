@@ -1,6 +1,7 @@
 package com.ing.offroader.data.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -21,16 +22,16 @@ class AuthRepository {
 
     private val db = FirebaseFirestore.getInstance()
 
+    private val _authenticatedUserMutableLiveData: MutableLiveData<ResponseState<LoginUser>> = MutableLiveData()
+    val authenticatedUserMutableLiveData: LiveData<ResponseState<LoginUser>> = _authenticatedUserMutableLiveData
 
-    fun addPost() {
-
-    }
 
     // Sign in using google
     fun firebaseSignInWithGoogle(googleAuthCredential: AuthCredential): MutableLiveData<ResponseState<LoginUser>> {
-        val authenticatedUserMutableLiveData: MutableLiveData<ResponseState<LoginUser>> =
-            MutableLiveData()
+
+
         Log.d(TAG, "firebaseSignInWithGoogle: repository start")
+
         firebaseAuth.signInWithCredential(googleAuthCredential).addOnCompleteListener { authTask ->
             if (authTask.isSuccessful) {
                 Log.d(TAG, "firebaseSignInWithGoogle: task is 성공적")
@@ -46,7 +47,7 @@ class AuthRepository {
                     val user = LoginUser(uid = uid, name = name, email = email)
 
                     user.isNew = isNewUser
-                    authenticatedUserMutableLiveData.value = ResponseState.Success(user)
+                    _authenticatedUserMutableLiveData.value = ResponseState.Success(user)
 
                     Log.d(
                         TAG,
@@ -57,7 +58,7 @@ class AuthRepository {
                         "user_age" to 0,
                         "user_email" to email,
                         "user_name" to "은이",
-                        )
+                    )
 
                     db.collection("User").document(uid).set(userDatabaseStructure)
                 }
@@ -66,7 +67,7 @@ class AuthRepository {
             } else {
                 Log.d(TAG, "firebaseSignInWithGoogle: UNSUCCESSFUL")
 
-                authenticatedUserMutableLiveData.value = authTask.exception?.message?.let {
+                _authenticatedUserMutableLiveData.value = authTask.exception?.message?.let {
                     ResponseState.Error(it)
                 }
 
@@ -74,7 +75,7 @@ class AuthRepository {
 
 
         }
-        return authenticatedUserMutableLiveData
+        return _authenticatedUserMutableLiveData
     }
 
 }
