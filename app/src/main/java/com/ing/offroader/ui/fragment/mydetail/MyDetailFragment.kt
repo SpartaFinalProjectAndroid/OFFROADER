@@ -9,20 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import com.ing.offroader.data.liked.LikedConstants
-import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import com.ing.offroader.databinding.FragmentMyDetailBinding
 import com.ing.offroader.ui.activity.achievement.AchievementActivity
+import com.ing.offroader.ui.activity.login.LoginActivity
 import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModel
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModelFactory
-import com.ing.offroader.ui.activity.login.LoginActivity
-import okhttp3.internal.wait
 
 class MyDetailFragment : Fragment() {
 
@@ -61,7 +59,7 @@ class MyDetailFragment : Fragment() {
          *  작업만 해주고 모든 초기화및 함수 로직은 onViewCreated에서 해줘야한다고 튜터님께서 말씀해주셨어요
          *  꼬일수도 있다고 하셨던 것 같습니다!
          **/
-        initLikedRecyclerView()
+//        initLikedRecyclerView()
 
 
     }
@@ -197,9 +195,9 @@ class MyDetailFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    private fun initLikedRecyclerView() {
-        myBookmarkAdapter.onBookmarkClickedInMyLikedListener = listOf()
-    }
+//    private fun initLikedRecyclerView() {
+//        myBookmarkAdapter.onBookmarkClickedInMyLikedListener = listOf()
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

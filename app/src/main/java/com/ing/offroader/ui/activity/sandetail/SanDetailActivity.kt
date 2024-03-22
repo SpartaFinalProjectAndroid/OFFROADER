@@ -2,6 +2,7 @@ package com.ing.offroader.ui.activity.sandetail
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -13,6 +14,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.google.android.material.appbar.AppBarLayout
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
@@ -28,10 +35,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
+import kotlin.math.abs
 
 private const val TAG = "SanDetailActivity"
 
-class SanDetailActivity : AppCompatActivity() {
+class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
     private var _binding: ActivitySanDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -55,6 +63,9 @@ class SanDetailActivity : AppCompatActivity() {
         _binding = ActivitySanDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //스크롤 오프셋을 감지하는 리스너를 툴바에 연결
+        binding.appbar.addOnOffsetChangedListener(this)
+
         window.statusBarColor = ContextCompat.getColor(this, R.color.transparent)
         //전체화면으로 설정하면 상단 parent 아이콘 배치 margin 주어야 함 안그러면 상태바 아래로 기어드감
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -64,34 +75,26 @@ class SanDetailActivity : AppCompatActivity() {
         sanDetailViewModel.getSelectedSan(getSanName())
 //        Log.d(TAG, "산이름 : ${sanName}")
 
-
-        val coordinates = Pair(37.5665, 126.9780)
-
-        val recyclerViewAdapter = WeatherRecyclerAdapter(this, weatherData)
-        binding.rvWeather.adapter = recyclerViewAdapter
-
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                val weatherCurrentList =
-                    netWorkRepository.getCurrentList(coordinates.first, coordinates.second)
-                val forecastWeatherData =
-                    netWorkRepository.getWeekendList(coordinates.first, coordinates.second)
-
-                val weekendData = forecastWeatherData.list
-                recyclerViewAdapter.updateData(weekendData)
-
-            } catch (e: Exception) {
-                Log.e("NetworkError", e.message ?: "Unknown error")
-            }
-        }
-
         loadData()
         initBackButton()
         initObserver()
     }
 
-    private fun initObserver() {
+    //본문 읽는 중 사진 자동 스크롤 중지
+    override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
+        //화면 세로 오프셋 절대값과 앱바의 위치가 동인한지 확인, abs는 절대값을 구하는 함수
+        val isToolbarCollapsed = abs(verticalOffset) == appBarLayout.totalScrollRange
 
+        //툴바가 상단에 닿았을 경우 멈춤
+        //아닌 경우 자동 스크롤 재시작
+        if (isToolbarCollapsed) {
+            onPause() //아래 액티비티 종료시 메서드 사용
+        } else {
+            onResume() //아래 액티비티 시작시 메서드 사용
+        }
+    }
+
+    private fun initObserver() {
         sanDetailViewModel.info.observe(this) {
             initView(it)
             Log.d(TAG, "initObserver: $it")
@@ -173,6 +176,64 @@ class SanDetailActivity : AppCompatActivity() {
         val dec = DecimalFormat("#,###")
         val height = sanlist.height
         tvHeightInfo.text = "${dec.format(height)}m"
+
+        //날씨
+        val coordinates = Pair(sanlist.lat, sanlist.lng)
+
+
+        val recyclerViewAdapter = WeatherRecyclerAdapter(this@SanDetailActivity, weatherData)
+        binding.rvWeather.adapter = recyclerViewAdapter
+
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val weatherCurrentData =
+                    netWorkRepository.getCurrentList(coordinates.first, coordinates.second)
+                val forecastWeatherData =
+                    netWorkRepository.getWeekendList(coordinates.first, coordinates.second)
+
+                val currentData = weatherCurrentData
+
+                val icon = currentData.weather.first().icon
+                val iconUrl = "http://openweathermap.org/img/w/$icon.png"
+                Log.d(TAG, "onBindViewHolder: $iconUrl")
+
+
+                Glide.with(this@SanDetailActivity)
+                    .load(iconUrl)
+                    .placeholder(R.drawable.ic_gif_loading)
+                    .error(R.drawable.ic_gif_loading)
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            Log.e(TAG, "Glide load failed", e)
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            return false
+                        }
+                    })
+                    .into(ivWeather)
+
+
+                val weekendData = forecastWeatherData.list
+                recyclerViewAdapter.updateData(weekendData)
+
+            } catch (e: Exception) {
+                Log.e("NetworkError", e.message ?: "Unknown error")
+            }
+        }
+
 
         /* // 데이터 구조 변경 후 사용
         CoroutineScope(Dispatchers.Main).launch {
@@ -286,7 +347,7 @@ class SanDetailActivity : AppCompatActivity() {
     private fun initBookmark(sanlist: SanDetailDTO) {
         with(binding) {
             // 초기화
-            if(sanDetailViewModel.sanLikedList.value?.contains(sanlist.mountain) == true) {
+            if (sanDetailViewModel.sanLikedList.value?.contains(sanlist.mountain) == true) {
                 sanlist.isLiked = true
                 ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
             } else {
@@ -310,7 +371,11 @@ class SanDetailActivity : AppCompatActivity() {
                     if (sanlist.isLiked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
                 )
 
-                saveData(LikedConstants.LIKED_PREFS, LikedConstants.LIKED_PREF_KEY, sanDetailViewModel.sanLikedList.value)
+                saveData(
+                    LikedConstants.LIKED_PREFS,
+                    LikedConstants.LIKED_PREF_KEY,
+                    sanDetailViewModel.sanLikedList.value
+                )
             }
         }
 
