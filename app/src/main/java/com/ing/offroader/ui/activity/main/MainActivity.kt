@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -121,30 +122,37 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             // 아이콘 색상 변경
 
+
             // 각 아이템에 따라 적절한 작업 수행
             when (menuItem.itemId) {
                 R.id.navigation_1 -> {
                     showFragment(HomeFragment(), "HOME_FRAGMENT")
+                    binding.mlMain.setTransition(R.id.trs_basic)
                     binding.mlMain.transitionToStart()
                     true
                 }
                 R.id.navigation_2 -> {
                     showFragment(SanListFragment(), "SAN_LIST_FRAGMENT")
+                    binding.mlMain.setTransition(R.id.trs_basic)
                     binding.mlMain.transitionToStart()
                     true
                 }
                 R.id.navigation_3 -> {
                     showFragment(SanMapFragment(), "SAN_MAP_FRAGMENT")
-                    binding.mlMain.transitionToStart()
+                    binding.mlMain.setTransition(R.id.trs_empty)
+                    binding.mlMain.transitionToEnd()
+
                     true
                 }
                 R.id.navigation_4 -> {
                     showFragment(CommunityFragment(), "CHAT_BOT_FRAGMENT")
-                    binding.mlMain.transitionToStart()
+                    binding.mlMain.setTransition(R.id.trs_empty)
+                    binding.mlMain.transitionToEnd()
                     true
                 }
                 R.id.navigation_5 -> {
                     showFragment(MyDetailFragment(), "MY_DETAIL_FRAGMENT")
+                    binding.mlMain.setTransition(R.id.trs_basic)
                     binding.mlMain.transitionToStart()
                     true
                 }
