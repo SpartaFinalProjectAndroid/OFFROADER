@@ -15,6 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -27,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/bm_hanna_11yrs_old"
                 android:text="@string/community_title"
+                android:visibility="visible"
                 android:textColor="@color/offroader_green"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"

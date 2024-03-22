@@ -64,11 +64,9 @@ class CommunityFragment : Fragment() {
 
     private fun setItemView(postItems: ArrayList<PostDTO?>?){
         Log.d(TAG, "setItemView: 셋 아이템 뷰 여기서 서브밋 함.")
-//        val newPostItem = postItems?.sortedByDescending { it?.upload_date as Comparable<Any> }?.toMutableList()
-//        val newPostItem = postItems?
-//        Log.d(TAG, "setItemView: $newPostItem")
         Log.d(TAG, "setItemView: $postItems")
-        communityAdapter.submitList(postItems)
+        val sortedItems = postItems?.sortedByDescending { it?.upload_date as Comparable<Any> }
+        communityAdapter.submitList(sortedItems)
     }
 
     private fun initView() {
