@@ -10,6 +10,10 @@
         <item name="colorPrimaryDark">@color/offroader_background</item>
         <item name="android:windowLightStatusBar">true</item>
 
+        <item name="windowSplashScreenBackground">@color/offroader_background</item>
+        <item name="windowSplashScreenAnimationDuration">1</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@drawable/ic_favorite</item>
+
 
     </style>
 

@@ -9,7 +9,7 @@ data class SanDetailDTO(
     val address: String,
     val difficulty: Long,
     val height: Double,
-    val uphillTime: Long,
+    val time: Long,
     val summary: String,
     val recommend: String,
     val img: ArrayList<String>,

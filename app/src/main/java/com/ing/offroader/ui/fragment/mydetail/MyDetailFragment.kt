@@ -15,7 +15,7 @@ import com.google.gson.reflect.TypeToken
 import com.ing.offroader.data.liked.LikedConstants
 import com.ing.offroader.databinding.FragmentMyDetailBinding
 import com.ing.offroader.ui.activity.achievement.AchievementActivity
-import com.ing.offroader.ui.fragment.chatbot.MyApplication
+import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModel
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModelFactory
 
@@ -130,6 +130,12 @@ class MyDetailFragment : Fragment() {
 
     private fun initLikedRecyclerView() {
 //        myBookmarkAdapter.onBookmarkClickedInMyLikedListener = listOf()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+
     }
 
 }
