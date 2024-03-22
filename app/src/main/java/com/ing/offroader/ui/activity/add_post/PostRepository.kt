@@ -74,6 +74,8 @@ class PostRepository {
             Log.d(TAG, "사진 업로드 성공여부: 실패")
         }.addOnSuccessListener { taskSnapshot ->
             Log.d(TAG, "사진 업로드 성공여부: 성공")
+
+        }.addOnCompleteListener {
             setPost()
         }
 
