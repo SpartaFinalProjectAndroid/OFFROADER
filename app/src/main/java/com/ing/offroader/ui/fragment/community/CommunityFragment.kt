@@ -78,8 +78,10 @@ class CommunityFragment : Fragment() {
     }
 
     private fun setAddPostButton() {
-        user = FirebaseAuth.getInstance().currentUser
+
+        Log.d(TAG, "setAddPostButton: $user")
         binding.ivAddPost.setOnClickListener {
+            user = FirebaseAuth.getInstance().currentUser
             if (user == null) {
                 Toast.makeText(requireActivity(), "회원가입을 해야만 포스팅이 가능합니다.", Toast.LENGTH_SHORT)
                     .show()

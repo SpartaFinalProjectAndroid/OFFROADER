@@ -2,7 +2,6 @@ package com.ing.offroader.ui.fragment.mydetail
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,22 +11,25 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
+import com.ing.offroader.R
 import com.ing.offroader.data.liked.LikedConstants
 import com.ing.offroader.databinding.FragmentMyDetailBinding
 import com.ing.offroader.ui.activity.achievement.AchievementActivity
 import com.ing.offroader.ui.activity.login.LoginActivity
+import com.ing.offroader.ui.activity.main.MainActivity
 import com.ing.offroader.ui.activity.my_post.MyPostActivity
 import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.fragment.community.adapter.CommunityAdapter
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModel
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModelFactory
-import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModel
-import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModelFactory
-import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModel
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModelFactory
 
@@ -148,7 +150,8 @@ class MyDetailFragment : Fragment() {
     }
 
     private fun setUserInformation() = with(binding) {
-        tvLogin.visibility = View.INVISIBLE
+        tvLogin.visibility = View.VISIBLE
+        tvLogin.text = "로그아웃"
         tvId.visibility= View.INVISIBLE
         tvName.visibility= View.VISIBLE
         tvName.text = user?.displayName
@@ -177,8 +180,15 @@ class MyDetailFragment : Fragment() {
             startActivity(intent)
         }
         tvLogin.setOnClickListener {
-            val intent = Intent(requireActivity(), LoginActivity::class.java)
-            startActivity(intent)
+            user = FirebaseAuth.getInstance().currentUser
+            if (user == null) {
+                val intent = Intent(requireActivity(), LoginActivity::class.java)
+                startActivity(intent)
+            } else {
+                Firebase.auth.signOut()
+                val intent = Intent(activity, MainActivity::class.java)
+                startActivity(intent)
+            }
         }
 
     }

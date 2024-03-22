@@ -26,6 +26,7 @@ class AuthRepository {
     val authenticatedUserMutableLiveData: LiveData<ResponseState<LoginUser>> = _authenticatedUserMutableLiveData
 
 
+
     // Sign in using google
     fun firebaseSignInWithGoogle(googleAuthCredential: AuthCredential): MutableLiveData<ResponseState<LoginUser>> {
 

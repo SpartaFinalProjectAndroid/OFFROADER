@@ -3,7 +3,6 @@ package com.ing.offroader.ui.activity.sandetail
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -15,9 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
-import com.google.gson.Gson
-import com.google.gson.JsonParseException
-import com.google.gson.reflect.TypeToken
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
