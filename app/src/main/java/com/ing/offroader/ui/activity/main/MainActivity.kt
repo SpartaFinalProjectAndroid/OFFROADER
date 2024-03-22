@@ -45,7 +45,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-private const val TAG = "MainActivity"
+private const val TAG = "태그 : MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
@@ -83,6 +83,20 @@ class MainActivity : AppCompatActivity() {
         initObserver()
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart: ")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause: ")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop: ")
+    }
     private fun initObserver() {
         radioListViewModel.radioLikeList.observe(this) {
             setRadioView(it.size)

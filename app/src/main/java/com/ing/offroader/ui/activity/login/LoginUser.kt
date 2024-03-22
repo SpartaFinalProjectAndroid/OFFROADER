@@ -10,10 +10,4 @@ data class LoginUser(
     var isNew: Boolean? = false,
     var isCreated: Boolean = false
 
-) : Serializable {
-
-    constructor() : this("","","") {
-
-    }
-
-}
+)

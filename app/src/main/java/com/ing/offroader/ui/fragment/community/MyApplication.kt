@@ -9,6 +9,7 @@ import com.ing.offroader.data.repository.SanListRepository
 import com.ing.offroader.ui.activity.chatbot.database.BongbongDatabase
 import com.ing.offroader.ui.activity.chatbot.database.HikeyDatabase
 import com.ing.offroader.data.repository.AuthRepository
+import com.ing.offroader.ui.activity.add_post.PostRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -25,6 +26,7 @@ class MyApplication : Application() {
     val bongbongRepository by lazy { BongbongRepository(bongbongDatabase.getChatBotDao()) }
 
     val sanListRepository by lazy { SanListRepository() }
+    val postRepository by lazy { PostRepository() }
     val authRepository by lazy { AuthRepository() }
     val eventRepository by lazy { EventRepository() }
 
