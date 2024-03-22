@@ -8,18 +8,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
-import com.ing.offroader.R
 import com.ing.offroader.data.liked.LikedConstants
 import com.ing.offroader.databinding.FragmentMyDetailBinding
 import com.ing.offroader.ui.activity.achievement.AchievementActivity
@@ -161,7 +159,7 @@ class MyDetailFragment : Fragment() {
         tvProfilInfo.visibility= View.INVISIBLE
         clAddress.visibility = View.INVISIBLE
         Glide.with(requireActivity()).load(user?.photoUrl).into(ivProfil)
-
+        clMyPost.isClickable = true
 
     }
 
@@ -172,12 +170,20 @@ class MyDetailFragment : Fragment() {
         tvName.visibility = View.INVISIBLE
         tvNameNim.visibility= View.INVISIBLE
         tvProfilInfo.visibility= View.INVISIBLE
+        clMyPost.isClickable = false
+
+
     }
 
     private fun setUpListeners() = with(binding) {
         clMyPost.setOnClickListener {
-            val intent = Intent(requireActivity(), MyPostActivity::class.java)
-            startActivity(intent)
+            user = FirebaseAuth.getInstance().currentUser
+            if (user == null) {
+                Toast.makeText(activity,"로그인 후 확인 가능합니다.",Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(requireActivity(), MyPostActivity::class.java)
+                startActivity(intent)
+            }
         }
         tvLogin.setOnClickListener {
             user = FirebaseAuth.getInstance().currentUser

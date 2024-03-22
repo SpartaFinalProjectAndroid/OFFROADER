@@ -61,7 +61,14 @@ class MyPostActivity : AppCompatActivity() {
         Log.d(TAG, "initView: ")
         binding.rvMyPost.adapter = myPostAdapter
         setAddPostButton()
+        setBackButton()
 
+    }
+
+    private fun setBackButton() {
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun setAddPostButton() {
