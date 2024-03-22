@@ -7,7 +7,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.ing.offroader.data.model.sanInfo.AllSanDTO
 import com.ing.offroader.ui.activity.sandetail.SanDetailDTO
-import com.ing.offroader.ui.fragment.home.HomeUiData
 import com.ing.offroader.ui.fragment.home.HomeUiState
 import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
 import kotlinx.coroutines.tasks.await
@@ -124,7 +123,9 @@ class SanListRepository {
                     document.getString("summary") ?: "none",
                     document.getString("recommend") ?: "none",
                     document["images"] as ArrayList<String>,
-                    document.getBoolean("isLiked") ?: false
+                    document.getBoolean("isLiked") ?: false,
+                    document.getDouble("lat") ?: 0.0,
+                    document.getDouble("lng") ?: 0.0
                 )
                 if (sanList.mountain == sanName) {
                     _detailInfo.value = sanList
