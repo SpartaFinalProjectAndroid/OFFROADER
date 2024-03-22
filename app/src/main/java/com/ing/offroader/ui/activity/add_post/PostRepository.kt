@@ -12,6 +12,7 @@ import com.ing.offroader.ui.fragment.community.model.PostDTO
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.UUID
+import kotlin.math.log
 
 class PostRepository {
     private val TAG = "태그 : AddPostRepository"
@@ -23,11 +24,45 @@ class PostRepository {
     private val _setPostItems: MutableLiveData<ArrayList<PostDTO?>?> = MutableLiveData()
     val setPostItems: LiveData<ArrayList<PostDTO?>?> = _setPostItems
 
+    // myPostItems
+    private val _myPostItems: MutableLiveData<ArrayList<PostDTO?>?> = MutableLiveData()
+    val myPostItems: LiveData<ArrayList<PostDTO?>?> = _myPostItems
+
     /** 사진 전송 관련 */
     private val specifiedStorage = Firebase.storage("gs://offroader-event.appspot.com")
 
     init {
         setPost()
+
+    }
+
+    fun setMyPost() {
+        Log.d(TAG, "setMyPost: ")
+        if (user == null) {
+            Log.e(TAG, "유저 없음.", )
+        }
+        try {
+            var myPostItemArray: ArrayList<PostDTO?> = arrayListOf()
+            db.collection("Community").whereEqualTo("uid", user?.uid.toString())
+                .get()
+                .addOnSuccessListener { it ->
+                    it.documents.forEach {
+                        val post = it.toObject(PostDTO::class.java)
+                        myPostItemArray.add(post)
+                    }
+                    Log.d(
+                        TAG,
+                        "setMyPost: postItems : $myPostItemArray"
+                    )
+                    //                updateUiState
+                    val items = myPostItemArray
+                    _myPostItems.value = items
+
+                    Log.d(TAG, "setMyPost: ${myPostItems.value}")
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "FireStore Error: $e")
+        }
     }
 
     fun setPost() {
@@ -35,22 +70,26 @@ class PostRepository {
 
         try {
             var postItems: ArrayList<PostDTO?> = arrayListOf()
-            db.collection("Community").orderBy("upload_date", Query.Direction.DESCENDING).get().addOnSuccessListener { it ->
-                it.documents.forEach {
-                    val post = it.toObject(PostDTO::class.java)
-                    postItems.add(post)
-                }
-                Log.d(
-                    TAG,
-                    "setPosts: postItems : $postItems"
-                )
-                //                updateUiState
+            db.collection("Community").orderBy("upload_date", Query.Direction.DESCENDING).get()
+                .addOnSuccessListener { it ->
+                    it.documents.forEach {
+                        val post = it.toObject(PostDTO::class.java)
+                        postItems.add(post)
+                    }
+                    Log.d(
+                        TAG,
+                        "setPosts: postItems : $postItems"
+                    )
+                    //                updateUiState
 
-                val items = postItems
-                _setPostItems.value = items
-                Log.d(TAG, "setPosts: ${setPostItems.value}")
-            }
-        }catch (e: Exception) {
+                    val items = postItems
+                    _setPostItems.value = items
+                    Log.d(TAG, "setPosts: ${setPostItems.value}")
+                }.addOnCompleteListener {
+                    val items = postItems
+                    _setPostItems.value = items
+                }
+        } catch (e: Exception) {
             Log.e(TAG, "FireStore Error: $e")
         }
 

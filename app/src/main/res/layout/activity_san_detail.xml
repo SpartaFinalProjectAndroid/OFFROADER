@@ -44,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
                 android:layout_gravity="bottom"
+                android:clickable="false"
                 app:layout_collapseMode="pin" />
 
             <androidx.cardview.widget.CardView
@@ -150,7 +151,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <!-- InfoBox 구현부 -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_info_box"
                 android:layout_width="match_parent"
