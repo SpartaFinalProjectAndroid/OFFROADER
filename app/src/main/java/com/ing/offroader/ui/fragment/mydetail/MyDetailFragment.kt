@@ -3,12 +3,12 @@ package com.ing.offroader.ui.fragment.mydetail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
@@ -45,6 +45,9 @@ class MyDetailFragment : Fragment() {
         _binding = FragmentMyDetailBinding.inflate(inflater, container, false)
 
         myDetailViewModel.getUserData("user_test") // 파이어스토에 해당 유저 UID에 맞는 데이터 가져오기
+        loadData()
+        initBlur()
+        initObserver()
 
         return binding.root
 
@@ -52,12 +55,6 @@ class MyDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        loadData()
-
-        initObserver()
-
-        initBlur()
 
         // Lv Dialog
         setLvDialog()
@@ -68,10 +65,10 @@ class MyDetailFragment : Fragment() {
     }
 
     private fun initObserver() {
-        myDetailViewModel.myDetailDTO.observe(viewLifecycleOwner) {
+//        myDetailViewModel.myDetailDTO.observe(viewLifecycleOwner) {
 //            binding.rvRecode.adapter = MyBookmarkAdapter(mItems)
-            binding.rvRecode.layoutManager = GridLayoutManager(context, 4)
-        }
+//            binding.rvRecode.layoutManager = GridLayoutManager(context, 4)
+//        }
     }
 
     private fun loadData() {
@@ -81,7 +78,10 @@ class MyDetailFragment : Fragment() {
             val json = prefs.getString(LikedConstants.LIKED_PREF_KEY, "")
             try {
                 val type = object : TypeToken<MutableList<String>>() {}.type
-                return gson.fromJson(json, type)
+                val sanStore: MutableList<String> = gson.fromJson(json, type)
+                myDetailViewModel.loadSanLikedList(sanStore)
+
+                Log.d(TAG, "저장된 목록 = $sanStore")
 
             } catch (e: JsonParseException) {
                 e.printStackTrace()
@@ -126,10 +126,6 @@ class MyDetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         // TODO: Use the ViewModel
-    }
-
-    private fun initLikedRecyclerView() {
-//        myBookmarkAdapter.onBookmarkClickedInMyLikedListener = listOf()
     }
 
     override fun onDestroyView() {
