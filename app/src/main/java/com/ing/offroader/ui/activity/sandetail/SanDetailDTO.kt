@@ -14,6 +14,8 @@ data class SanDetailDTO(
     val recommend: String,
     val img: ArrayList<String>,
     var isLiked: Boolean,
+    var lat : Double,
+    var lng : Double,
     var thumbnail: String
 ): Parcelable
 
