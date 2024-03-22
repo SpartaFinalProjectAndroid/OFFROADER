@@ -2,6 +2,7 @@ package com.ing.offroader.ui.fragment.mydetail
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -24,6 +25,9 @@ import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.fragment.community.adapter.CommunityAdapter
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModel
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModelFactory
+import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModel
+import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModelFactory
+import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModel
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModelFactory
 
@@ -50,6 +54,7 @@ class MyDetailFragment : Fragment() {
             (requireActivity().application as MyApplication).sanListRepository
         )
     }
+
 
     // 사용자 정보 가져오기
     private var user = FirebaseAuth.getInstance().currentUser
@@ -82,7 +87,6 @@ class MyDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
 
         initBlur()
 
@@ -92,9 +96,7 @@ class MyDetailFragment : Fragment() {
         // 업적창으로 이동
         goToAchieveActivity()
 
-
     }
-
 
     private fun initObserver() {
 //        myDetailViewModel.myDetailDTO.observe(viewLifecycleOwner) {

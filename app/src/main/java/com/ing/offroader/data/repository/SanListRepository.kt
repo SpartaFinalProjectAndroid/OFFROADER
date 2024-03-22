@@ -94,7 +94,9 @@ class SanListRepository {
                     document.getString("summary") ?: "none",
                     document.getString("recommend") ?: "none",
                     document["images"] as ArrayList<String>,
-                    document.getBoolean("isLiked") ?: false
+                    document.getBoolean("isLiked") ?: false,
+                    document.getDouble("lat") ?: 0.0,
+                    document.getDouble("lng") ?: 0.0
                 )
                 if (sanList.mountain == sanName) {
                     _detailInfo.value = sanList

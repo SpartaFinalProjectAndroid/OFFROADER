@@ -12,3 +12,4 @@ class WeatherRepository {
 }
 //정상 테스트
 //https://api.openweathermap.org/data/2.5/forecast?lat=35.1796&lon=129.0756&appid=e0af01129f537945f596a7ebcaf95d91
+//https://api.openweathermap.org/data/2.5/weather?lat=35.1796&lon=129.0756&appid=e0af01129f537945f596a7ebcaf95d91
