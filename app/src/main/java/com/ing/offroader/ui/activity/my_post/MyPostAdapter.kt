@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.ing.offroader.data.model.userInfo.UserData
 import com.ing.offroader.databinding.ItemPostBinding
 import com.ing.offroader.ui.fragment.community.model.PostDTO
 
@@ -51,15 +53,19 @@ class MyPostAdapter(private val viewModel: MyPostViewModel) :
                 Log.d(TAG, "onBindViewHolder: 사진 받아오는거 실패함. 알아서 하셈.")
             }
 
+            item.uid.toString().let {
+                FirebaseFirestore.getInstance().collection("User").document(it).get().addOnSuccessListener {documentSnapShot ->
+                    val user = documentSnapShot.toObject(UserData::class.java)
+                    userid.text = user?.user_name.toString()
+                    Glide.with(holder.profileImage.context).load(user?.photo_Url).into(profileImage)
+                }
+            }
 
-            userid.text = user!!.displayName
-            Log.d(TAG, "onBindViewHolder: providerData: ${user.providerData}")
             title.text = item.title.toString()
             content.text = (item.contents?: "").toString()
             likeCount.text = item.like.toString()
             userLevel.visibility = View.INVISIBLE
 
-            Glide.with(holder.profileImage.context).load(user.photoUrl).into(holder.profileImage)
 
             val ds = item.upload_date.toString()
             val formattedDate =
