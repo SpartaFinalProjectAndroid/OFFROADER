@@ -89,7 +89,7 @@
     <string name="add_post_content_hint">내용을 입력해주세요.</string>
     <string name="default_web_client_id">399146829257-9m5hulcsutibi2c360od30de3fqqedp7.apps.googleusercontent.com</string>
 
-<!--    dialog_lv-->
+    <!--    dialog_lv-->
     <string name="dialog_lv">레벨</string>
     <string name="dialog_lv1">Lv. 1</string>
     <string name="dialog_lv1_title">등린이</string>
@@ -109,6 +109,7 @@
     <string name="dialog_achieve_lv5">150~</string>
     <string name="achieve_achieve">업적</string>
     <string name="achieve_anumberof_badge">뱃지 갯수</string>
+    <string name="my_post_title">내 게시물</string>
 
 
     <!--    Achieve Activity-->
