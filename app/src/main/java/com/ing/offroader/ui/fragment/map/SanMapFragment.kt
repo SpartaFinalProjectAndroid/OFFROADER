@@ -153,11 +153,10 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         return true
     }
 
+    // 위치 받아와서 저장하는 부분
     val locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult) {
             Log.d("location_test", "result: $result")
-            Log.d(ContentValues.TAG, "last location: ${result.lastLocation}")
-            Log.d(ContentValues.TAG, "locations : ${result.locations}")
             Log.d(ContentValues.TAG, "latitude : ${result.lastLocation!!.latitude}")
             Log.d(ContentValues.TAG, "latitude : ${result.lastLocation!!.longitude}")
             Log.d(ContentValues.TAG, "run: 좌표 저장")
@@ -165,9 +164,6 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             var lastElement: latLng = latLng(0.0, 0.0)
             lastIdx = latLngList.size - 1
             lastElement = latLngList[lastIdx]
-            Log.d(ContentValues.TAG, "size : ${latLngList.size}")
-            Log.d(ContentValues.TAG, "lastIdx : $lastIdx")
-            Log.d(ContentValues.TAG, "lastElement : $lastElement")
             val preLat: Double = lastElement.lat!!
             val preLng: Double = lastElement.lng!!
             latLngList.add(
@@ -329,9 +325,9 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                         ivMarkerInfoImage.visibility = View.VISIBLE
                                         user = FirebaseAuth.getInstance().currentUser
                                         if (user?.uid == null) {
-                                            btnSaveStart.visibility = View.GONE
+                                            btnRecordStart.visibility = View.GONE
                                         } else if (user!!.uid != null) {
-                                            btnSaveStart.visibility = View.VISIBLE
+                                            btnRecordStart.visibility = View.VISIBLE
                                             mName = markerDTOs[idx].name.toString()
                                         }
                                     } else if (markerInfo.visibility == View.VISIBLE) {
@@ -351,7 +347,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                         markerInfo.visibility = View.GONE
                                         ivMarkerInfoImage.visibility = View.GONE
                                         if (startTime == 0.toLong()) {
-                                            btnSaveStart.visibility = View.GONE
+                                            btnRecordStart.visibility = View.GONE
                                         }
                                     }
                                 }
@@ -393,12 +389,12 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             val timeFormat = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm:ss")
             val path = PathOverlay()
             var start = false
-            btnSaveStart.setOnClickListener {
+            btnRecordStart.setOnClickListener {
                 val request =
                     LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).build()
                 if (!start) {
                     start = true
-                    btnSaveStart.text = "등산 종료"
+                    btnRecordStart.text = "등산 종료"
                     startTime = System.currentTimeMillis()
                     latLngList.clear()
                     latLngList.add(
@@ -412,7 +408,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                     )
                 } else {
                     start = false
-                    btnSaveStart.text = "등산 시작"
+                    btnRecordStart.text = "등산 시작"
                     fusedLocationClient.removeLocationUpdates(locationCallback)
                     user = FirebaseAuth.getInstance().currentUser
                     if (user!!.uid != null) {
@@ -448,6 +444,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    // 좌표 간 거리 계산
     private fun calDist(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Long {
         val EARTH_R = 6371000.0
         val rad = Math.PI / 180
@@ -462,6 +459,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         return Math.round(ret) // meter
     }
 
+    // 등산 소요시간 계산
     fun calTime(startTime: Long, endTime: Long): String {
         val time = (endTime - startTime) / 1000
         val sec = time % 60

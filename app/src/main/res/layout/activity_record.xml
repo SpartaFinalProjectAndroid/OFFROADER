@@ -53,7 +53,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintBottom_toBottomOf="@id/map_view"
         app:layout_constraintEnd_toEndOf="@id/map_view" />
 
     <com.naver.maps.map.widget.CompassView
@@ -63,7 +63,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="100dp"
-        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintBottom_toBottomOf="@id/map_view"
         app:layout_constraintStart_toStartOf="parent">
 
     </com.naver.maps.map.widget.CompassView>
@@ -74,12 +74,12 @@
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:minWidth="150dp"
         android:gravity="center"
-        android:text="지리산"
+        android:minWidth="150dp"
+        android:text="@string/record_mountain_name"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/map_view"
-        app:layout_constraintTop_toBottomOf="@+id/map_view" />
+        app:layout_constraintStart_toStartOf="@id/map_view"
+        app:layout_constraintTop_toBottomOf="@id/map_view" />
 
     <TextView
         android:id="@+id/tv_date"
@@ -87,11 +87,12 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:gravity="center|start"
         android:minWidth="150dp"
-        android:gravity="center"
-        android:text="2024-03-21 16:50"
+        android:text="@string/record_date"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_dateText" />
+        app:layout_constraintTop_toBottomOf="@id/tv_dateText" />
 
     <TextView
         android:id="@+id/tv_dateText"
@@ -99,10 +100,11 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="등산일시"
-        app:layout_constraintStart_toStartOf="@+id/map_view"
-        app:layout_constraintTop_toBottomOf="@+id/tv_mountainName" />
+        android:gravity="center|start"
+        android:text="@string/record_date_text"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/map_view"
+        app:layout_constraintTop_toBottomOf="@id/tv_mountainName" />
 
     <TextView
         android:id="@+id/tv_distanceText"
@@ -110,10 +112,11 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="등산거리"
-        app:layout_constraintStart_toStartOf="@+id/map_view"
-        app:layout_constraintTop_toBottomOf="@+id/tv_date" />
+        android:gravity="center|start"
+        android:text="@string/record_distance_text"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/map_view"
+        app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
     <TextView
         android:id="@+id/tv_distance"
@@ -121,10 +124,11 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="1700m"
-        app:layout_constraintStart_toStartOf="@+id/map_view"
-        app:layout_constraintTop_toBottomOf="@+id/tv_distanceText" />
+        android:gravity="center|start"
+        android:text="@string/record_distance"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/map_view"
+        app:layout_constraintTop_toBottomOf="@id/tv_distanceText" />
 
     <TextView
         android:id="@+id/tv_durationText"
@@ -132,10 +136,11 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="소요시간"
-        app:layout_constraintStart_toEndOf="@+id/tv_distanceText"
-        app:layout_constraintTop_toBottomOf="@+id/tv_date" />
+        android:gravity="center|start"
+        android:text="@string/record_duration_text"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/tv_distanceText"
+        app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
     <TextView
         android:id="@+id/tv_duration"
@@ -143,10 +148,10 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="1시간 20분 30초"
-        app:layout_constraintStart_toEndOf="@+id/tv_distance"
-        app:layout_constraintTop_toBottomOf="@+id/tv_durationText" />
-
+        android:gravity="center|start"
+        android:text="@string/record_duration"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@id/tv_distance"
+        app:layout_constraintTop_toBottomOf="@id/tv_durationText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
