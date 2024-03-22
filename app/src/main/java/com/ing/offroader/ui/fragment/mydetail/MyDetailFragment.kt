@@ -112,13 +112,13 @@ class MyDetailFragment : Fragment() {
 
     private fun setUserInformation() = with(binding) {
         tvLogin.visibility = View.INVISIBLE
-        tvId.visibility= View.INVISIBLE
-        tvName.visibility= View.VISIBLE
+        tvId.visibility = View.INVISIBLE
+        tvName.visibility = View.VISIBLE
         tvName.text = user?.displayName
-        tvNameNim.visibility= View.VISIBLE
+        tvNameNim.visibility = View.VISIBLE
         // 아직 구현이 안된 부분이라 숨겨둘 예정
         // 회원 가입 시 로그인 정부 추가 하면 구현할 VISIBLE로 바꿔주고 적절한 값을 추가해주면 되지 않울까욤.
-        tvProfilInfo.visibility= View.INVISIBLE
+        tvProfilInfo.visibility = View.INVISIBLE
         clAddress.visibility = View.INVISIBLE
         Glide.with(requireActivity()).load(user?.photoUrl).into(ivProfil)
 
@@ -131,10 +131,10 @@ class MyDetailFragment : Fragment() {
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
         }
-        tvId.visibility=View.VISIBLE
+        tvId.visibility = View.VISIBLE
         tvName.visibility = View.INVISIBLE
-        tvNameNim.visibility= View.INVISIBLE
-        tvProfilInfo.visibility= View.INVISIBLE
+        tvNameNim.visibility = View.INVISIBLE
+        tvProfilInfo.visibility = View.INVISIBLE
     }
 
     private fun setUpListeners() = with(binding) {
@@ -187,11 +187,19 @@ class MyDetailFragment : Fragment() {
 
     private fun setOnClickSan(san: MutableList<MyLikedSan>) {
         MyBookmarkAdapter(san).sanClick = object : MyBookmarkAdapter.SanClick {
-            override fun onClick(view: View, position: Int) {
-
+            override fun onClick(item: MyLikedSan) {
                 val intent = Intent(requireActivity(), SanDetailActivity::class.java)
-                val sanName = san
+                val sanName = MyLikedSan(mountain = )
+
+                if (sanName == null) {
+                    intent.putExtra("name", "계룡산")
+                } else {
+                    intent.putExtra("name", sanName)
+                }
+
+                startActivity(intent)
             }
+
         }
     }
 

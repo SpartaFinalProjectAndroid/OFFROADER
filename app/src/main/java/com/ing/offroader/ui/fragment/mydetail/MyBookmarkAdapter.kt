@@ -1,7 +1,6 @@
 package com.ing.offroader.ui.fragment.mydetail
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,7 +11,7 @@ class MyBookmarkAdapter(val mItems: MutableList<MyLikedSan>) : RecyclerView.Adap
 
     // 산 클릭 시 기능 추가
     interface SanClick {
-        fun onClick(view: View, position: Int)
+        fun onClick(item: MyLikedSan)
     }
 
     var sanClick: SanClick? = null
@@ -30,7 +29,7 @@ class MyBookmarkAdapter(val mItems: MutableList<MyLikedSan>) : RecyclerView.Adap
             .into(holder.mountainImage)
 
         holder.itemView.setOnClickListener {
-            sanClick?.onClick(it, position)
+            sanClick?.onClick(mItems[position])
         }
     }
 
