@@ -16,7 +16,7 @@ class SanListViewModel(sanListRepository: SanListRepository) : ViewModel() {
 
     val sanListUiState: LiveData<SanListUiState?> = _sanListUiState
 
-    val sanList: LiveData<List<SanDTO>> = repository.sanListDTO
+    val sanList: LiveData<List<SanDTO>> = sanListRepository.sanListDTO
 
     init {
         // 선택된 산 초기화해주기
