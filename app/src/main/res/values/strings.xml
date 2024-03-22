@@ -53,7 +53,7 @@
     <string name="kbs_channel_name_korean_broadcast">한민족방송</string>
 
 
-<!--    SanDetailActivity-->
+    <!--    SanDetailActivity-->
     <string name="sandetail_name">지리산</string>
     <string name="sandetail_address">Address</string>
     <string name="sandetail_difficulty">난이도</string>

@@ -176,7 +176,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             // 마커 정보를 담을 배열 설정
             var markerDTOs: ArrayList<MarkerDTO> = arrayListOf()
             // Firestore에서 markers collection 접근하여 쿼리를 가져옴
-            firestore.collection("sanlist")
+            firestore.collection("AllSanList")
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     if (querySnapshot == null) {
                         return@addSnapshotListener
