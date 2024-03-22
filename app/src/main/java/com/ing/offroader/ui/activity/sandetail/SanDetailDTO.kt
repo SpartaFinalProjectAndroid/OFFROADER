@@ -13,5 +13,11 @@ data class SanDetailDTO(
     val summary: String,
     val recommend: String,
     val img: ArrayList<String>,
-    var isLiked: Boolean
+    var isLiked: Boolean,
+    var thumbnail: String
 ): Parcelable
+
+data class MyLikedSan(
+    val mountain: String,
+    val thumbnail: String
+)

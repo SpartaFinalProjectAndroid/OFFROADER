@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ing.offroader.ui.activity.main.adapters.HttpItem
 import com.ing.offroader.ui.activity.main.repository.RadioRepository
+import com.ing.offroader.ui.activity.sandetail.MyLikedSan
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -14,6 +15,27 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     val mainUiState : LiveData<MainUiState> = _mainUiState
 
+    // <--------------------------- 좋아요 관련 구현들 ---------------------------------->
+    private val _sanLikedList : MutableLiveData<MutableList<MyLikedSan>> = MutableLiveData()
+    private var sanLikedCopyList : MutableList<MyLikedSan> = mutableListOf()
+    val sanLikedList : LiveData<MutableList<MyLikedSan>> = _sanLikedList
+
+    fun addSanLikedList(data: MyLikedSan) {
+        sanLikedCopyList.add(data)
+        _sanLikedList.value = sanLikedCopyList
+//        Log.d(TAG, "addSanLikedList = ${data}")
+    }
+
+    fun removeSanLikedList(data: MyLikedSan) {
+        sanLikedCopyList.remove(data)
+        _sanLikedList.value = sanLikedCopyList
+//        Log.d(TAG, "removeSanLikedList = ${data}")
+    }
+
+    fun loadSanLikedList(data: MutableList<MyLikedSan>) {
+        sanLikedCopyList = data
+        _sanLikedList.value = sanLikedCopyList
+    }
 
     // <--------------------------- 라디오 관련 구현들 ---------------------------------->
 

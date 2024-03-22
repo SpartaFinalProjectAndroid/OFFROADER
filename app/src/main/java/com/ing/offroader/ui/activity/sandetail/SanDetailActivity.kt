@@ -285,8 +285,10 @@ class SanDetailActivity : AppCompatActivity() {
     // 좋아요 기능
     private fun initBookmark(sanlist: SanDetailDTO) {
         with(binding) {
+            val myLikedSan = MyLikedSan(sanlist.mountain, sanlist.thumbnail)
+
             // 초기화
-            if(sanDetailViewModel.sanLikedList.value?.contains(sanlist.mountain) == true) {
+            if(sanDetailViewModel.sanLikedList.value?.contains(myLikedSan) == true) {
                 sanlist.isLiked = true
                 ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
             } else {
@@ -299,9 +301,9 @@ class SanDetailActivity : AppCompatActivity() {
 
                 //ViewModel LiveData로 저장
                 if (sanlist.isLiked) {
-                    sanDetailViewModel.removeSanLikedList(sanlist.mountain)
+                    sanDetailViewModel.removeSanLikedList(myLikedSan)
                 } else {
-                    sanDetailViewModel.addSanLikedList(sanlist.mountain)
+                    sanDetailViewModel.addSanLikedList(myLikedSan)
                 }
 
                 sanlist.isLiked = !sanlist.isLiked
@@ -335,8 +337,8 @@ class SanDetailActivity : AppCompatActivity() {
             val gson = Gson()
             val json = prefs.getString(LikedConstants.LIKED_PREF_KEY, "")
             try {
-                val type = object : TypeToken<MutableList<String>>() {}.type
-                val sanStore: MutableList<String> = gson.fromJson(json, type)
+                val type = object : TypeToken<MutableList<MyLikedSan>>() {}.type
+                val sanStore: MutableList<MyLikedSan> = gson.fromJson(json, type)
                 sanDetailViewModel.loadSanLikedList(sanStore)
 
                 Log.d(TAG, "저장된 목록 : ${sanStore}")

@@ -8,13 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.ing.offroader.data.model.userInfo.UserData
 import com.ing.offroader.data.repository.SanListRepository
 import com.ing.offroader.data.repository.UserRepository
+import com.ing.offroader.ui.fragment.mydetail.MyDetailDTO
 import kotlinx.coroutines.launch
 import kotlin.system.measureTimeMillis
 
 class MyDetailViewModel(sanListRepository: SanListRepository) : ViewModel() {
     private val repo : SanListRepository = sanListRepository
 
-//    val myDetailDTO : LiveData<MyDetailDTO> = repo.myInfo
+    val myDetailDTO : LiveData<MyDetailDTO> = repo.myInfo
 
 
     // ----------------------------- 업적 레벨 관련 기능들 --------------------------------------
@@ -51,5 +52,7 @@ class MyDetailViewModel(sanListRepository: SanListRepository) : ViewModel() {
         _sanLikedList.value = sanLikedCopyList
     }
 
-//    fun getLikedSanName()
+    fun getLikedSanName() {
+        repo.getLikedItemFromRepository(sanLikedCopyList)
+    }
 }

@@ -7,8 +7,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.ing.offroader.data.model.sanInfo.AllSanDTO
 import com.ing.offroader.ui.activity.sandetail.SanDetailDTO
-import com.ing.offroader.ui.fragment.home.HomeUiData
 import com.ing.offroader.ui.fragment.home.HomeUiState
+import com.ing.offroader.ui.fragment.mydetail.MyDetailDTO
 import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
 import kotlinx.coroutines.tasks.await
 
@@ -32,6 +32,10 @@ class SanListRepository {
     // San Detail Activity
     private val _detailInfo: MutableLiveData<SanDetailDTO> = MutableLiveData()
     val detailInfo: LiveData<SanDetailDTO> = _detailInfo
+
+    // My Detail Fragment
+    private val _myInfo: MutableLiveData<MyDetailDTO> = MutableLiveData()
+    val myInfo: LiveData<MyDetailDTO> = _myInfo
 
 
     // 초기 실행
@@ -57,6 +61,14 @@ class SanListRepository {
             setSanDetail(sanName)
         }
         Log.d(TAG, "getSelectedItemFromRepository: $sanName")
+    }
+
+    // 좋아요 한 산의 데이터 받아오기
+    fun getLikedItemFromRepository(likedSan: MutableList<String>) {
+        for (i in likedSan.indices) {
+            setMyDetail(likedSan[i])
+            Log.d(TAG, likedSan[i])
+        }
     }
 
     fun initPush(index: Int) {
@@ -124,7 +136,8 @@ class SanListRepository {
                     document.getString("summary") ?: "none",
                     document.getString("recommend") ?: "none",
                     document["images"] as ArrayList<String>,
-                    document.getBoolean("isLiked") ?: false
+                    document.getBoolean("isLiked") ?: false,
+                    document.getString("thumbnail") ?: "none"
                 )
                 if (sanList.mountain == sanName) {
                     _detailInfo.value = sanList
@@ -163,6 +176,22 @@ class SanListRepository {
 
         //Log.d(TAG, "값 다 가져옴 $sanArrayList")
         _sanListDTO.value = sanArrayList
+    }
+
+    private fun setMyDetail(sanName: String) {
+        db.collection("SanTest").get().addOnSuccessListener { documents ->
+            documents?.forEach { document ->
+                val sanList = MyDetailDTO (
+                    document.getString("name") ?: "none",
+                    document["image"] as ArrayList<String>
+                )
+
+                if(sanList.mountain == sanName) {
+                    _myInfo.value = sanList
+                }
+                Log.d(TAG, "받아온 정보 : ${_myInfo}")
+            }
+        }
     }
 }
 
