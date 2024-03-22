@@ -32,7 +32,7 @@ class CommunityFragment : Fragment() {
         CommunityAdapter(communityViewModel)
     }
 
-    private val user = FirebaseAuth.getInstance().currentUser
+    private var user = FirebaseAuth.getInstance().currentUser
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,8 +44,6 @@ class CommunityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-
-
     }
 
     private fun initObserver() {
@@ -62,7 +60,7 @@ class CommunityFragment : Fragment() {
         }
     }
 
-    private fun setItemView(postItems: ArrayList<PostDTO?>?){
+    private fun setItemView(postItems: ArrayList<PostDTO?>?) {
         Log.d(TAG, "setItemView: 셋 아이템 뷰 여기서 서브밋 함.")
         Log.d(TAG, "setItemView: $postItems")
         val sortedItems = postItems?.sortedByDescending { it?.upload_date as Comparable<Any> }
@@ -80,9 +78,11 @@ class CommunityFragment : Fragment() {
     }
 
     private fun setAddPostButton() {
+        user = FirebaseAuth.getInstance().currentUser
         binding.ivAddPost.setOnClickListener {
             if (user == null) {
-                Toast.makeText(requireActivity(),"회원가입을 해야만 포스팅이 가능합니다.",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "회원가입을 해야만 포스팅이 가능합니다.", Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 val intent = Intent(requireActivity(), AddPostActivity::class.java)
                 startActivity(intent)

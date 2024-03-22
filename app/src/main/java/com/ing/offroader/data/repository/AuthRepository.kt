@@ -44,7 +44,8 @@ class AuthRepository {
                     val uid = firebaseUser.uid
                     val name = firebaseUser.displayName
                     val email = firebaseUser.email
-                    val user = LoginUser(uid = uid, name = name, email = email)
+                    val photoUrl = firebaseUser.photoUrl
+                    val user = LoginUser(uid = uid, name = name, email = email, photoUrl = photoUrl)
 
                     user.isNew = isNewUser
                     _authenticatedUserMutableLiveData.value = ResponseState.Success(user)
@@ -57,9 +58,11 @@ class AuthRepository {
                     val userDatabaseStructure = hashMapOf(
                         "user_age" to 0,
                         "user_email" to email,
-                        "user_name" to "은이",
+                        "user_name" to name,
+                        "photo_Url" to photoUrl
                     )
 
+                    // 파이어스토어 데이터베이스에 코드를 추가하는 부분 !
                     db.collection("User").document(uid).set(userDatabaseStructure)
                 }
 
