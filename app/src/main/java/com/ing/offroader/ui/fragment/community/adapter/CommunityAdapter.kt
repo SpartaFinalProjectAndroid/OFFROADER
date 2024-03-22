@@ -56,11 +56,11 @@ class CommunityAdapter(private val viewModel: CommunityViewModel) :
             userid.text = user!!.displayName
             Log.d(TAG, "onBindViewHolder: providerData: ${user.providerData}")
             title.text = item.title.toString()
-            content.text = item.contents.toString()
+            content.text = (item.contents?: "").toString()
             likeCount.text = item.like.toString()
             userLevel.visibility = View.INVISIBLE
 
-            Glide.with(holder.profileImage.context).load(user?.photoUrl).into(holder.profileImage)
+            Glide.with(holder.profileImage.context).load(user.photoUrl).into(holder.profileImage)
 
             val ds = item.upload_date.toString()
             val formattedDate =
