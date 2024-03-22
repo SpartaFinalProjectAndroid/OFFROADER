@@ -17,6 +17,7 @@ import com.ing.offroader.ui.activity.achievement.AchievementActivity
 import com.ing.offroader.ui.activity.login.LoginActivity
 import com.ing.offroader.ui.activity.main.MainViewModel
 import com.ing.offroader.ui.activity.sandetail.MyLikedSan
+import com.ing.offroader.ui.activity.sandetail.SanDetailActivity
 import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModel
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModelFactory
@@ -180,6 +181,18 @@ class MyDetailFragment : Fragment() {
     private fun initLikedRecyclerView(sanlist: MutableList<MyLikedSan>) {
         binding.rvRecode.adapter = MyBookmarkAdapter(sanlist)
         binding.rvRecode.layoutManager = GridLayoutManager(context, 4)
+
+        setOnClickSan(sanlist)
+    }
+
+    private fun setOnClickSan(san: MutableList<MyLikedSan>) {
+        MyBookmarkAdapter(san).sanClick = object : MyBookmarkAdapter.SanClick {
+            override fun onClick(view: View, position: Int) {
+
+                val intent = Intent(requireActivity(), SanDetailActivity::class.java)
+                val sanName = san
+            }
+        }
     }
 
     override fun onDestroyView() {
