@@ -10,6 +10,10 @@
         <item name="colorPrimaryDark">@color/offroader_background</item>
         <item name="android:windowLightStatusBar">true</item>
 
+<!--        <item name="windowSplashScreenBackground">@color/offroader_background</item>-->
+<!--        <item name="windowSplashScreenAnimationDuration">1</item>-->
+<!--        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@drawable/ic_favorite</item>-->
+
 
     </style>
 
@@ -17,8 +21,11 @@
 
 <!--    <style name="Theme.OFFROADER" parent="Base.Theme.OFFROADER" />-->
 
-    <style name="SplashActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="SplashActivity" parent="Base.Theme.OFFROADER">
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
 <!--    <style name="Theme.App.Starting" parent="Theme.SplashScreen">-->

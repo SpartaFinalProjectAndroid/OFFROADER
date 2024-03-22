@@ -65,8 +65,8 @@ android {
     }
     buildFeatures {
         viewBinding = true
-        dataBinding = true
         buildConfig = true
+        dataBinding = true
     }
 }
 
@@ -94,6 +94,10 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx:24.10.3")
     implementation("com.google.firebase:firebase-firestore:24.10.3")
     implementation("androidx.activity:activity:1.8.0")
+    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
+    implementation("com.google.firebase:firebase-auth:22.3.1")
+    implementation("androidx.activity:activity:1.8.0")
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
     kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     // viewModel
@@ -114,8 +118,8 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:$rootProject.roomVersion")
-    androidTestImplementation("androidx.room:room-testing:$rootProject.roomVersion")
+    implementation("androidx.room:room-ktx:2.6.1")
+    androidTestImplementation("androidx.room:room-testing:2.6.1")
 
     //navi
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
@@ -133,6 +137,9 @@ dependencies {
 
     //Firebase 분석을 위해 추가
     implementation("com.google.firebase:firebase-analytics")
+
+    //Firebase storage (이미지 remote 저장을 위해 추가)
+    implementation("com.google.firebase:firebase-storage")
 
     //lottie 애니메이션 추가
     implementation("com.airbnb.android:lottie:4.1.0")
@@ -154,16 +161,28 @@ dependencies {
     // 현재 위치 반환
     implementation ("com.google.android.gms:play-services-location:21.1.0")
 
+    //픽미픽미픽미업
+    implementation("com.github.dhaval2404:imagepicker:2.1")
 
     // androidx.media3
-    implementation ("androidx.media3:media3-session:1.2.1")
-    implementation ("androidx.media3:media3-exoplayer:1.2.1")
-    implementation("androidx.media3:media3-exoplayer-dash:1.2.1")
-    implementation("androidx.media3:media3-exoplayer-smoothstreaming:1.2.1")
-    implementation("androidx.media3:media3-exoplayer-hls:1.2.1")
-    implementation("androidx.media3:media3-exoplayer-rtsp:1.2.1")
-    implementation("androidx.media3:media3-ui:1.2.1")
-    implementation("androidx.media3:media3-ui-leanback:1.2.1")
-    implementation("com.google.android.gms:play-services-location:21.1.0")
+    implementation ("androidx.media3:media3-session:1.3.0")
+    implementation ("androidx.media3:media3-exoplayer:1.3.0")
+    implementation("androidx.media3:media3-exoplayer-dash:1.3.0")
+    implementation("androidx.media3:media3-exoplayer-smoothstreaming:1.3.0")
+    implementation("androidx.media3:media3-exoplayer-hls:1.3.0")
+    implementation("androidx.media3:media3-exoplayer-rtsp:1.3.0")
+    implementation("androidx.media3:media3-ui:1.3.0")
+    implementation("androidx.media3:media3-ui-leanback:1.3.0")
+    implementation("androidx.media3:media3-common:1.3.0")
+
+    //구글 로그인 지원용
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+    implementation("androidx.credentials:credentials:1.3.0-alpha01")
+    // optional - needed for credentials support from play services, for devices running
+    // Android 13 and below.
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha01")
+
+    implementation ("commons-io:commons-io:2.13.0")
 
 }

@@ -2,9 +2,151 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.record.RecordActivity">
+
+    <!--    <androidx.fragment.app.FragmentContainerView-->
+    <!--        android:id="@+id/map"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:name="com.naver.maps.map.MapFragment" />-->
+
+    <com.naver.maps.map.MapView
+        android:id="@+id/map_view"
+        android:layout_width="0dp"
+        android:layout_height="500dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.naver.maps.map.MapView>
+
+    <!--    <FrameLayout-->
+    <!--        android:id="@+id/map_view"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
+
+    <!--    <com.naver.maps.map.widget.LogoView-->
+    <!--        android:id="@+id/logo"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginBottom="32dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@id/map_view"-->
+    <!--        app:layout_constraintStart_toStartOf="@id/map_view" />-->
+
+    <!--    <com.naver.maps.map.widget.LocationButtonView-->
+    <!--        android:id="@+id/location"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentTop="true"-->
+    <!--        android:layout_alignParentRight="true"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="@id/map_view" />-->
+
+    <com.naver.maps.map.widget.ZoomControlView
+        android:id="@+id/zoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintEnd_toEndOf="@id/map_view" />
+
+    <com.naver.maps.map.widget.CompassView
+        android:id="@+id/compass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </com.naver.maps.map.widget.CompassView>
+
+    <TextView
+        android:id="@+id/tv_mountainName"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:minWidth="150dp"
+        android:gravity="center"
+        android:text="지리산"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/map_view"
+        app:layout_constraintTop_toBottomOf="@+id/map_view" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:minWidth="150dp"
+        android:gravity="center"
+        android:text="2024-03-21 16:50"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dateText" />
+
+    <TextView
+        android:id="@+id/tv_dateText"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="등산일시"
+        app:layout_constraintStart_toStartOf="@+id/map_view"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mountainName" />
+
+    <TextView
+        android:id="@+id/tv_distanceText"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="등산거리"
+        app:layout_constraintStart_toStartOf="@+id/map_view"
+        app:layout_constraintTop_toBottomOf="@+id/tv_date" />
+
+    <TextView
+        android:id="@+id/tv_distance"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="1700m"
+        app:layout_constraintStart_toStartOf="@+id/map_view"
+        app:layout_constraintTop_toBottomOf="@+id/tv_distanceText" />
+
+    <TextView
+        android:id="@+id/tv_durationText"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="소요시간"
+        app:layout_constraintStart_toEndOf="@+id/tv_distanceText"
+        app:layout_constraintTop_toBottomOf="@+id/tv_date" />
+
+    <TextView
+        android:id="@+id/tv_duration"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="1시간 20분 30초"
+        app:layout_constraintStart_toEndOf="@+id/tv_distance"
+        app:layout_constraintTop_toBottomOf="@+id/tv_durationText" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

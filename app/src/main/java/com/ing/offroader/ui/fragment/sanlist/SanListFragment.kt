@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.ing.offroader.databinding.FragmentSanListBinding
 import com.ing.offroader.ui.activity.sandetail.SanDetailActivity
-import com.ing.offroader.ui.fragment.chatbot.MyApplication
+import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.fragment.sanlist.adapter.SanListAdapter
 import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
 import com.ing.offroader.ui.fragment.sanlist.viewmodel.SanListViewModel
@@ -30,8 +30,10 @@ class SanListFragment : Fragment() {
     private val sanListAdapter: SanListAdapter by lazy { SanListAdapter(sanListViewModel) }
     private val sanListViewModel: SanListViewModel by viewModels {
         SanListViewModelFactory((requireActivity().application as MyApplication).sanListRepository)
-
     }
+
+    private var startTime : Long? = null
+    private var endTime : Long? = null
 
 
     override fun onCreateView(
@@ -39,6 +41,9 @@ class SanListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSanListBinding.inflate(inflater, container, false)
+
+        startTime = System.nanoTime()
+
         return binding.root
     }
 
@@ -89,7 +94,7 @@ class SanListFragment : Fragment() {
 
         // sanListUiState 안에 있는 selectedItem 변수는 리사이클러뷰에서 선택된 아이템이다!
         sanListViewModel.sanListUiState.observe(viewLifecycleOwner) {
-            Log.d(TAG, "sanListUiState OBSERVED ${it?.selectedItem}")
+//            Log.d(TAG, "sanListUiState OBSERVED ${it?.selectedItem}")
             if (it?.selectedItem == null) {
 
                 // 선택된 아이템의 테두리를 추가해주기 위해서 산 디티오의 selectedItem의 값을 확인해주는 함수
@@ -108,16 +113,25 @@ class SanListFragment : Fragment() {
             }
         }
         sanListViewModel.sanList.observe(viewLifecycleOwner) {
-            Log.d(TAG, "sanListRepository OBSERVED")
+//            Log.d(TAG, "sanListRepository OBSERVED")
             sanListAdapter.submitList(it)
+            endTime = System.nanoTime()
+            val duration = endTime!! - startTime!!
+
+            // 결과 로그 출력
+            //        Log.d(TAG, "시간: ${startTime}ns, ${endTime}ns")
+            Log.d(TAG, "프래그먼트로 데이터 전송에 걸린 시간: ${duration}ns")
         }
+
+
+
     }
 
     @SuppressLint("SetTextI18n") //하드코딩 하지말라는 경고를 타이틀 어노테이션을 통해 무시함.
 
     // 선택된 산 디테일 정보를 표시해주는 코드
     private fun setSelectedSan(selectedItem: SanDTO) {
-        Log.d(TAG, "setSelectedSan 화면 구성 $selectedItem")
+//        Log.d(TAG, "setSelectedSan 화면 구성 $selectedItem")
 
         Glide.with(this).load(selectedItem.sanImage?.get(0)).into(binding.ivSelectedImage)
 
@@ -177,7 +191,7 @@ class SanListFragment : Fragment() {
 
     // 리사이클러뷰 그리드 레이아웃으로 설정하는 코드
     private fun setRecyclerViewGridLayout() {
-        Log.d(TAG, "setRecyclerViewGridLayout")
+//        Log.d(TAG, "setRecyclerViewGridLayout")
         val gridLayoutManager = GridLayoutManager(requireContext(), 4)
         binding.rvSanList.layoutManager = gridLayoutManager
 
@@ -193,7 +207,7 @@ class SanListFragment : Fragment() {
 
         // 디테일 액티비티로 넘어감.
         binding.ivSelectedImage.setOnClickListener {
-            Log.d(TAG, "Selected Image $sanName")
+//            Log.d(TAG, "Selected Image $sanName")
             val intent = Intent(requireActivity(), SanDetailActivity::class.java)
 
             if (sanName == null) {
@@ -202,8 +216,12 @@ class SanListFragment : Fragment() {
                 intent.putExtra("name", sanName)
             }
             startActivity(intent)
-
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
 
     }
 }

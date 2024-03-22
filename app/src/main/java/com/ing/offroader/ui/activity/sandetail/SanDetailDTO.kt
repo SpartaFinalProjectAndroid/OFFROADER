@@ -9,10 +9,11 @@ data class SanDetailDTO(
     val address: String,
     val difficulty: Long,
     val height: Double,
-    val uphillTime: Long,
-    val downhillTime: Long,
+    val time: Long,
     val summary: String,
     val recommend: String,
     val img: ArrayList<String>,
-    var isLiked: Boolean
+    var isLiked: Boolean,
+    var lat : Double,
+    var lng : Double
 ): Parcelable

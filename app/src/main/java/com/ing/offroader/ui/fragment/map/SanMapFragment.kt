@@ -1,12 +1,16 @@
 package com.ing.offroader.ui.fragment.map
 
 import android.Manifest
+import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Outline
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,11 +27,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ing.offroader.BuildConfig
 import com.ing.offroader.R
 import com.ing.offroader.databinding.FragmentSanMapBinding
+import com.ing.offroader.ui.activity.record.RecordActivity
 import com.ing.offroader.ui.activity.sandetail.SanDetailActivity
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
@@ -41,11 +51,15 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.UiSettings
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
+import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.FusedLocationSource
+import com.naver.maps.map.util.MapConstants
 import com.naver.maps.map.widget.CompassView
 import com.naver.maps.map.widget.ScaleBarView
 import com.naver.maps.map.widget.ZoomControlView
 import java.text.NumberFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class SanMapFragment : Fragment(), OnMapReadyCallback {
@@ -70,7 +84,15 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var uiSettings: UiSettings
 
+    private var user = FirebaseAuth.getInstance().currentUser
     private val firestore = FirebaseFirestore.getInstance()
+
+    lateinit var latLngList: ArrayList<latLng>
+    val date = LocalDateTime.now()
+    var startTime: Long = 0
+    var endTime: Long = 0
+    private lateinit var mName: String
+    private var userDistance: Long = 0
 
     private val requestMultiplePermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -131,6 +153,40 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         return true
     }
 
+    val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(result: LocationResult) {
+            Log.d("location_test", "result: $result")
+            Log.d(ContentValues.TAG, "last location: ${result.lastLocation}")
+            Log.d(ContentValues.TAG, "locations : ${result.locations}")
+            Log.d(ContentValues.TAG, "latitude : ${result.lastLocation!!.latitude}")
+            Log.d(ContentValues.TAG, "latitude : ${result.lastLocation!!.longitude}")
+            Log.d(ContentValues.TAG, "run: 좌표 저장")
+            var lastIdx: Int = 0
+            var lastElement: latLng = latLng(0.0, 0.0)
+            lastIdx = latLngList.size - 1
+            lastElement = latLngList[lastIdx]
+            Log.d(ContentValues.TAG, "size : ${latLngList.size}")
+            Log.d(ContentValues.TAG, "lastIdx : $lastIdx")
+            Log.d(ContentValues.TAG, "lastElement : $lastElement")
+            val preLat: Double = lastElement.lat!!
+            val preLng: Double = lastElement.lng!!
+            latLngList.add(
+                latLng(
+                    result.lastLocation!!.latitude,
+                    result.lastLocation!!.longitude
+                )
+            )
+            Log.d(ContentValues.TAG, "coordinateList: ${latLngList}")
+            val distance = calDist(
+                preLat,
+                preLng,
+                result.lastLocation!!.latitude,
+                result.lastLocation!!.longitude
+            )
+            userDistance += distance
+        }
+    }
+
     // 지도 그리는 부분
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
@@ -152,10 +208,6 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
 
         val scaleBarView: ScaleBarView = binding.scalebar
         scaleBarView.map = naverMap
-
-        // 최대 확대 및 축소 비율 설정
-        this.naverMap.maxZoom = 19.0
-        this.naverMap.minZoom = 10.0
 
         setUpMap()
 
@@ -198,64 +250,68 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                     resources.getDimensionPixelSize(R.dimen.marker_size_3)
                                 markers[idx]!!.height =
                                     resources.getDimensionPixelSize(R.dimen.marker_size_3)
+                                markers[idx]!!.captionMinZoom = 8.0
+                                markers[idx]!!.isIconPerspectiveEnabled = true
+                                markers[idx]!!.captionColor = Color.WHITE
+                                markers[idx]!!.captionHaloColor = Color.rgb(0, 0, 0)
+                                markers[idx]!!.captionTextSize = 16f
                                 //카메라 변화 감지하여 줌 레벨에 따라 마커의 크기 변경
                                 naverMap.addOnCameraChangeListener { _, _ ->
-                                    if (naverMap.cameraPosition.zoom >= 10.0 && naverMap.cameraPosition.zoom < 11.0) {
+                                    if (naverMap.cameraPosition.zoom >= 6.5 && naverMap.cameraPosition.zoom < 7.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_1)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_1)
-                                    } else if (naverMap.cameraPosition.zoom >= 11.0 && naverMap.cameraPosition.zoom < 12.0) {
+                                        markers[idx]!!.captionTextSize = 13f
+                                    } else if (naverMap.cameraPosition.zoom >= 7.5 && naverMap.cameraPosition.zoom < 8.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_2)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_2)
-                                    } else if (naverMap.cameraPosition.zoom >= 12.0 && naverMap.cameraPosition.zoom < 13.0) {
+                                    } else if (naverMap.cameraPosition.zoom >= 8.5 && naverMap.cameraPosition.zoom < 9.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_3)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_3)
-                                    } else if (naverMap.cameraPosition.zoom >= 13.0 && naverMap.cameraPosition.zoom < 14.0) {
+                                    } else if (naverMap.cameraPosition.zoom >= 9.5 && naverMap.cameraPosition.zoom < 10.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_4)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_4)
-                                    } else if (naverMap.cameraPosition.zoom >= 14.0 && naverMap.cameraPosition.zoom < 15.0) {
+                                        markers[idx]!!.captionTextSize = 14f
+                                    } else if (naverMap.cameraPosition.zoom >= 10.5 && naverMap.cameraPosition.zoom < 11.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_5)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_5)
-                                    } else if (naverMap.cameraPosition.zoom >= 15.0 && naverMap.cameraPosition.zoom < 16.0) {
+                                    } else if (naverMap.cameraPosition.zoom >= 11.5 && naverMap.cameraPosition.zoom < 12.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_6)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_6)
-                                    } else if (naverMap.cameraPosition.zoom >= 16.0 && naverMap.cameraPosition.zoom < 17.0) {
+                                    } else if (naverMap.cameraPosition.zoom >= 12.5 && naverMap.cameraPosition.zoom < 13.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_7)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_7)
-                                    } else if (naverMap.cameraPosition.zoom >= 17.0 && naverMap.cameraPosition.zoom < 18.0) {
+                                        markers[idx]!!.captionTextSize = 15f
+                                    } else if (naverMap.cameraPosition.zoom >= 13.5 && naverMap.cameraPosition.zoom < 14.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_8)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_8)
-                                    } else if (naverMap.cameraPosition.zoom >= 18.0 && naverMap.cameraPosition.zoom < 19.0) {
+                                    } else if (naverMap.cameraPosition.zoom >= 14.5 && naverMap.cameraPosition.zoom < 15.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_9)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_9)
-                                    } else if (naverMap.cameraPosition.zoom in 19.0..20.0) {
+                                    } else if (naverMap.cameraPosition.zoom in 15.5..16.5) {
                                         markers[idx]!!.width =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_10)
                                         markers[idx]!!.height =
                                             resources.getDimensionPixelSize(R.dimen.marker_size_10)
                                     }
                                 }
-                                markers[idx]!!.isIconPerspectiveEnabled = true
-                                markers[idx]!!.captionColor = Color.WHITE
-                                markers[idx]!!.captionHaloColor = Color.rgb(0, 0, 0)
-                                markers[idx]!!.captionTextSize = 16f
                                 //마커 클릭 시 정보창 visibility 유무
                                 markers[idx]!!.setOnClickListener {
                                     if (markerInfo.visibility == View.GONE) {
@@ -271,6 +327,13 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                         roundLeft(ivMarkerInfoImage, 15f)
                                         markerInfo.visibility = View.VISIBLE
                                         ivMarkerInfoImage.visibility = View.VISIBLE
+                                        user = FirebaseAuth.getInstance().currentUser
+                                        if (user?.uid == null) {
+                                            btnSaveStart.visibility = View.GONE
+                                        } else if (user!!.uid != null) {
+                                            btnSaveStart.visibility = View.VISIBLE
+                                            mName = markerDTOs[idx].name.toString()
+                                        }
                                     } else if (markerInfo.visibility == View.VISIBLE) {
                                         markerInfo.visibility = View.GONE
                                         ivMarkerInfoImage.visibility = View.GONE
@@ -287,6 +350,9 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                     if (markerInfo.visibility == View.VISIBLE) {
                                         markerInfo.visibility = View.GONE
                                         ivMarkerInfoImage.visibility = View.GONE
+                                        if (startTime == 0.toLong()) {
+                                            btnSaveStart.visibility = View.GONE
+                                        }
                                     }
                                 }
                                 markers[idx]!!.map = naverMap
@@ -323,6 +389,92 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                     }
 
                 }
+            latLngList = arrayListOf<latLng>()
+            val timeFormat = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm:ss")
+            val path = PathOverlay()
+            var start = false
+            btnSaveStart.setOnClickListener {
+                val request =
+                    LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).build()
+                if (!start) {
+                    start = true
+                    btnSaveStart.text = "등산 종료"
+                    startTime = System.currentTimeMillis()
+                    latLngList.clear()
+                    latLngList.add(
+                        latLng(
+                            locationSource.lastLocation!!.latitude,
+                            locationSource.lastLocation!!.longitude
+                        )
+                    )
+                    fusedLocationClient.requestLocationUpdates(
+                        request, locationCallback, Looper.myLooper()!!
+                    )
+                } else {
+                    start = false
+                    btnSaveStart.text = "등산 시작"
+                    fusedLocationClient.removeLocationUpdates(locationCallback)
+                    user = FirebaseAuth.getInstance().currentUser
+                    if (user!!.uid != null) {
+                        val documentFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm")
+                        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                        val docString = date.format(documentFormatter)
+                        val nowString = date.format(dateFormatter)
+                        endTime = System.currentTimeMillis()
+                        val duration = calTime(startTime, endTime)
+                        val listData = hashMapOf(
+                            "distance" to userDistance,
+                            "date" to nowString,
+                            "duration" to duration,
+                            "latLng" to latLngList
+                        )
+                        Log.d(TAG, "listData : $listData")
+                        Log.d(TAG, "duration : $duration")
+                        firestore.collection("polyLine").document(user!!.uid).collection(mName)
+                            .document(docString).set(listData)
+                            .addOnSuccessListener { Log.d(TAG, "저장 성공") }
+                            .addOnFailureListener { e -> Log.d(TAG, "저장 실패", e) }
+                        startTime = 0
+                        endTime = 0
+                        val intent = Intent(activity, RecordActivity::class.java)
+                        intent.putExtra("name", mName)
+                        intent.putExtra("date", docString)
+                        intent.putExtra("distance", userDistance)
+                        startActivity(intent)
+                    }
+                }
+            }
+
+        }
+    }
+
+    private fun calDist(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Long {
+        val EARTH_R = 6371000.0
+        val rad = Math.PI / 180
+        val radLat1 = rad * lat1
+        val radLat2 = rad * lat2
+        val radDist = rad * (lon1 - lon2)
+
+        var distance = Math.sin(radLat1) * Math.sin(radLat2)
+        distance = distance + Math.cos(radLat1) * Math.cos(radLat2) * Math.cos(radDist)
+        val ret = EARTH_R * Math.acos(distance)
+
+        return Math.round(ret) // meter
+    }
+
+    fun calTime(startTime: Long, endTime: Long): String {
+        val time = (endTime - startTime) / 1000
+        val sec = time % 60
+        val min = time / 60 % 60
+        val hour = time / 3600
+
+        Log.d(ContentValues.TAG, "startTime: $startTime")
+        Log.d(ContentValues.TAG, "endTime: $endTime")
+
+        return when {
+            hour > 0 -> "${hour}시 ${min}분 ${sec}초"
+            min > 0 -> "${min}분 ${sec}초"
+            else -> "${sec}초"
         }
     }
 
@@ -369,8 +521,9 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         naverMap.uiSettings.isLocationButtonEnabled = true // 현 위치 버튼 기능
         naverMap.locationTrackingMode = LocationTrackingMode.Follow // 위치를 추적하면서 카메라도 같이 움직임
         // 줌
-        naverMap.maxZoom = 15.0  // (최대 21)
-        naverMap.minZoom = 9.0
+        naverMap.maxZoom = 16.5  // (최대 21)
+        naverMap.minZoom = 6.5
+        naverMap.extent = MapConstants.EXTENT_KOREA
     }
 
     // MapView 라이프 사이클 메서드를 호출
@@ -402,6 +555,8 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     override fun onDestroyView() {
         super.onDestroyView()
         mapView.onDestroy()
+        _binding = null
+
     }
 
     override fun onLowMemory() {

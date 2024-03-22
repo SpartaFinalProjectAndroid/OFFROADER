@@ -23,6 +23,7 @@
             android:src="@drawable/logo_offroader" />
 
         <TextView
+            android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center"
@@ -48,6 +49,16 @@
         android:alpha="0.03"
         android:src="@drawable/apply_gradation_shadow_black"
         app:layout_constraintTop_toTopOf="@id/rv_home"/>
+
+    <Button
+        android:id="@+id/btn_attendance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/home_attendance"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- 커스텀 토스트?바 -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,5 +115,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_sign_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="200dp"
+        android:text="로그아웃"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/tb_title"
+        app:layout_constraintEnd_toEndOf="@id/tb_title"
+        app:layout_constraintTop_toTopOf="@id/tb_title" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

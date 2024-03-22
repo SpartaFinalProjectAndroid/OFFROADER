@@ -2,7 +2,7 @@
     <string name="app_name">OFFROADER</string>
 
     <!--    ChatBotFragment-->
-    <string name="chatbot_ask_hint">히키에게 궁금한 것을 물어보세요!</string>
+    <string name="chatbot_ask_hint">궁금한 것을 물어보세요!</string>
     <string name="chatbot_delete_history">기록 지우기</string>
     <string name="chatbot_hikey">히키</string>
     <string name="chatbot_bongbong">봉봉이</string>
@@ -16,12 +16,14 @@
     <string name="san_list_intermediate">중</string>
     <string name="san_list_easy">하</string>
     <string name="san_list_divder">|</string>
+    <string name="san_list_mountain_info">1,947 m | 2h 40m | 상</string>
+    <string name="san_list_chip_alphabetical_order">가나다순</string>
     <!--    MyDetailFragment-->
-    <string name="mydetail_myinfo">내 정보 - 기록</string>
+    <string name="mydetail_myinfo">내 정보</string>
     <string name="mydetail_summary">총 등산 정보</string>
     <string name="mydetail_counttime">100시간</string>
     <string name="mydetail_counttracking">6회</string>
-    <string name="mydetail_recode">기록</string>
+    <string name="mydetail_recode">내가 추가한 산 목록</string>
     <!--    BookmarkAdapter-->
     <string name="item_bookmark_name">지리산</string>
     <string name="item_bookmark_time">총 등산 시간 2 : 40</string>
@@ -75,8 +77,40 @@
     <string name="sandetail_recommend_plus">자세히 보기 ▼</string>
     <string name="sandetail_intro_short">축소하기 ▲</string>
     <string name="sandetail_recommend_short">축소하기 ▲</string>
-    <string name="san_list_mountain_info">1,947 m | 2h 40m | 상</string>
-    <string name="san_list_chip_alphabetical_order">가나다순</string>
+
     <string name="mountain_height_text">고도 :</string>
+    <string name="signin_google">GOOGLE LOGIN</string>
+    <string name="home_attendance">출석체크</string>
+    <string name="community_title">커뮤니티</string>
+    <string name="add_post_select_image">이미지 선택</string>
+    <string name="add_post_complete">완료</string>
+    <string name="add_post_outoften">/10</string>
+    <string name="add_post_title_hint">제목</string>
+    <string name="add_post_content_hint">내용을 입력해주세요.</string>
+    <string name="default_web_client_id">399146829257-9m5hulcsutibi2c360od30de3fqqedp7.apps.googleusercontent.com</string>
+
+<!--    dialog_lv-->
+    <string name="dialog_lv">레벨</string>
+    <string name="dialog_lv1">Lv. 1</string>
+    <string name="dialog_lv1_title">등린이</string>
+    <string name="dialog_lv2">Lv. 2</string>
+    <string name="dialog_lv2_title">등산러 호소인</string>
+    <string name="dialog_lv3">Lv. 3</string>
+    <string name="dialog_lv3_title">등산러</string>
+    <string name="dialog_lv4">Lv. 4</string>
+    <string name="dialog_lv4_title">프로 등산러</string>
+    <string name="dialog_lv5">Lv. 5</string>
+    <string name="dialog_lv5_title">산신령</string>
+    <string name="dialog_achieve">업적(개수)</string>
+    <string name="dialog_achieve_lv1">0~9</string>
+    <string name="dialog_achieve_lv2">10~29</string>
+    <string name="dialog_achieve_lv3">30~69</string>
+    <string name="dialog_achieve_lv4">70~149</string>
+    <string name="dialog_achieve_lv5">150~</string>
+    <string name="achieve_achieve">업적</string>
+    <string name="achieve_anumberof_badge">뱃지 갯수</string>
+
+
+    <!--    Achieve Activity-->
 
 </resources>

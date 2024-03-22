@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ing.offroader.R
 import com.ing.offroader.databinding.ItemRadioChannelListBinding
 import com.ing.offroader.ui.activity.main.MainViewModel
+import com.ing.offroader.ui.activity.main.adapters.RadioChannelItem
 
 class RadioListAdapter(private val mainViewModel: MainViewModel)
     : ListAdapter<RadioChannelItem, RadioListAdapter.Holder>(differCallback) {
@@ -64,11 +65,11 @@ class RadioListAdapter(private val mainViewModel: MainViewModel)
                 heartClick?.heartClick(key)
 
                 if (isLike) {
-                    binding.ivHeart.setImageResource(R.drawable.ic_empty_heart)
                     isLike = false
+                    binding.ivHeart.setImageResource(R.drawable.ic_empty_heart)
                 } else {
-                    binding.ivHeart.setImageResource(R.drawable.ic_fill_heart)
                     isLike = true
+                    binding.ivHeart.setImageResource(R.drawable.ic_fill_heart)
                 }
             }
         }
