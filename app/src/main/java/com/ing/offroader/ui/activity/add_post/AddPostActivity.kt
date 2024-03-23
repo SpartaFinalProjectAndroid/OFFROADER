@@ -75,7 +75,7 @@ class AddPostActivity : AppCompatActivity() {
 
     private fun imgPickerCamera() {
         ImagePicker.with(this)
-            .cameraOnly() //갤러리에서만 사진을 불러올 수 있도록 지정
+            .cameraOnly() //카메라에서만 사진을 불러올 수 있도록 지정
             .compress(1024) //일메가로압축
             .maxResultSize(1080, 1080) //또는 이미지크기 가세로 1080 제한
             .cropSquare() //사진의 비율을 1:1로 지정

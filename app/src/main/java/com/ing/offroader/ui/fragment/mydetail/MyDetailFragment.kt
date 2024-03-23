@@ -25,7 +25,6 @@ import com.ing.offroader.ui.activity.login.LoginActivity
 import com.ing.offroader.ui.activity.main.MainActivity
 import com.ing.offroader.ui.activity.my_post.MyPostActivity
 import com.ing.offroader.ui.fragment.community.MyApplication
-import com.ing.offroader.ui.fragment.community.adapter.CommunityAdapter
 import com.ing.offroader.ui.fragment.community.model.PostDTO
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModel
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModelFactory
@@ -93,10 +92,10 @@ class MyDetailFragment : Fragment() {
         initBlur()
 
         // Lv Dialog
-        setLvDialog()
+//        setLvDialog()
 
         // 업적창으로 이동
-        goToAchieveActivity()
+//        goToAchieveActivity()
 
     }
 
@@ -216,6 +215,17 @@ class MyDetailFragment : Fragment() {
                 startActivity(intent)
             }
         }
+        //내 정보 필드 - 레벨
+        clLevel.setOnClickListener {
+            val dialog = LvDialogFragment()
+            dialog.show(childFragmentManager, "LvDialog")
+        }
+        //내 정보 필드 - 업적
+        clAchievement.setOnClickListener {
+            val intent = Intent(requireActivity(), AchievementActivity::class.java)
+            startActivity(intent)
+        }
+
 
     }
 
@@ -230,23 +240,23 @@ class MyDetailFragment : Fragment() {
     }
 
     // lv 부분에 있는 아이콘 누르면 Dialog 생성
-    private fun setLvDialog() {
-        binding.ivLvInfo.setOnClickListener {
-            val dialog = LvDialogFragment()
-            dialog.show(childFragmentManager, "LvDialog")
-        }
-    }
+//    private fun setLvDialog() {
+//        binding.ivLvInfo.setOnClickListener {
+//            val dialog = LvDialogFragment()
+//            dialog.show(childFragmentManager, "LvDialog")
+//        }
+//    }
 
     // 업적 버튼을 누르면 업적 창으로 이동
-    private fun goToAchieveActivity() {
-        binding.ivAchieveInfo.setOnClickListener {
-            val intent = Intent(requireActivity(), AchievementActivity::class.java)
+//    private fun goToAchieveActivity() {
+//        binding.ivAchieveInfo.setOnClickListener {
+//            val intent = Intent(requireActivity(), AchievementActivity::class.java)
+//
+//            startActivity(intent)
+//        }
+//    }
 
-            startActivity(intent)
-        }
-    }
-
-    // 톱니바퀴 누르면 setting
+    //톱니바퀴 누르면 setting
     private fun goToSettingFragment() {
         binding.ivSetting.setOnClickListener { }
     }
