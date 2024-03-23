@@ -74,7 +74,6 @@ class MyPostActivity : AppCompatActivity() {
     }
 
     private fun setItemView(postItems: ArrayList<PostDTO?>?) {
-        Log.d(TAG, "setItemView: 셋 아이템 뷰 여기서 서브밋 함.")
         Log.d(TAG, "setItemView: $postItems")
         val sortedItems = postItems?.sortedByDescending { it?.upload_date as Comparable<Any> }
         myPostAdapter.submitList(sortedItems)
@@ -97,43 +96,8 @@ class MyPostActivity : AppCompatActivity() {
 
                 if (user == null) {
 
-
                 } else {
-                    val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_my, null)
-                    val bottomSheetDialog = BottomSheetDialog(this@MyPostActivity)
-                    bottomSheetDialog.setContentView(bottomSheetView)
-                    val deleteButton: ConstraintLayout? =
-                        bottomSheetDialog.findViewById(R.id.cl_delete)
-                    val editButton: ConstraintLayout? = bottomSheetDialog.findViewById(R.id.cl_edit)
-                    deleteButton?.setOnClickListener {
-                        bottomSheetDialog.dismiss()
-                        ToastMessage("게시물 삭제")
-                        // 삭제 다이얼로그 띄우기
-                        val builder = AlertDialog.Builder(this@MyPostActivity)
-                        builder.setTitle("게시물 삭제").setMessage("정말 게시물을 삭제하시겠습니까? (게시물은 영구 삭제됩니다.)")
-                            .setPositiveButton(
-                                "확인"
-                            ) { _, _ ->
-                                //TODO
-                                bottomSheetDialog.dismiss()
-                                ToastMessage("확인")
-                            }.setNegativeButton(
-                                "취소"
-                            ) { _, _ ->
-                                //TODO
-                                ToastMessage("취소")
-                            }
-                        builder.show()
-
-
-                    }
-                    editButton?.setOnClickListener {
-                        ToastMessage("게시물 수정")     // 토스트 메세지 띄워주는 함수
-                        setEditPostView(item)              // 수정 페이지로 넘어가는 코드
-                        bottomSheetDialog.dismiss()        // 바텀시트 다이얼로그 내려줌.
-
-                    }
-                    bottomSheetDialog.show()
+                    setBottomSheetDialog(item)
 
 
                 }
@@ -142,16 +106,54 @@ class MyPostActivity : AppCompatActivity() {
         }
     }
 
+    private fun setBottomSheetDialog(item: PostDTO?) {
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_my, null)
+        val bottomSheetDialog = BottomSheetDialog(this@MyPostActivity)
+
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        val deleteButton: ConstraintLayout? =
+            bottomSheetDialog.findViewById(R.id.cl_delete)
+        val editButton: ConstraintLayout? = bottomSheetDialog.findViewById(R.id.cl_edit)
+
+        deleteButton?.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            ToastMessage("게시물 삭제")
+            // 삭제 다이얼로그 띄우기
+            setUpDeleteDialog(bottomSheetDialog)
+
+        }
+        editButton?.setOnClickListener {
+            ToastMessage("게시물 수정")     // 토스트 메세지 띄워주는 함수
+            setEditPostView(item)              // 수정 페이지로 넘어가는 코드
+            bottomSheetDialog.dismiss()        // 바텀시트 다이얼로그 내려줌.
+
+        }
+        bottomSheetDialog.show()
+    }
+
+    private fun setUpDeleteDialog(bottomSheetDialog: BottomSheetDialog) {
+        val builder = AlertDialog.Builder(this@MyPostActivity)
+        builder.setTitle("게시물 삭제").setMessage("정말 게시물을 삭제하시겠습니까? (게시물은 영구 삭제됩니다.)")
+            .setPositiveButton(
+                "확인"
+            ) { _, _ ->
+                //TODO
+                bottomSheetDialog.dismiss()
+                ToastMessage("확인")
+            }.setNegativeButton(
+                "취소"
+            ) { _, _ ->
+                //TODO
+                ToastMessage("취소")
+            }
+        builder.show()
+    }
+
     private fun setEditPostView(item: PostDTO?) {
-
-
 
         val intent = Intent(this@MyPostActivity, AddPostActivity::class.java)
         try {
-
-            val storage = Firebase.storage("gs://offroader-event.appspot.com")
-            val storageRef =
-                storage.reference.child("Offroader_res/post_image/${item?.post_id}.jpg")
 
             intent.putExtra(
                 "POST_INFO",
