@@ -8,7 +8,7 @@
     tools:context=".ui.fragment.community.CommunityFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tb_community"
+        android:id="@+id/tb_my_post"
         android:layout_width="match_parent"
         android:layout_height="@dimen/action_bar_default_height_material"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,17 +22,28 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="5dp">
 
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_radio_back"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
             <TextView
-                android:id="@+id/tv_community"
+                android:id="@+id/tv_my_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/bm_hanna_11yrs_old"
-                android:text="@string/community_title"
+                android:text="@string/my_post_title"
                 android:visibility="visible"
                 android:textColor="@color/offroader_green"
+                android:layout_marginStart="10dp"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_back"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -52,11 +63,11 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:dividerColor="#DCDCDC"
-        app:layout_constraintTop_toBottomOf="@id/tb_community"/>
+        app:layout_constraintTop_toBottomOf="@id/tb_my_post"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_community"
+        android:id="@+id/rv_my_post"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
