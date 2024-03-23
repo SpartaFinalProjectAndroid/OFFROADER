@@ -149,11 +149,21 @@ class MainActivity : AppCompatActivity() {
 
         TabLayoutMediator(binding.tlBottomTab, binding.vpMain) { tab, position ->
             when(position) {
-                0 -> tab.text = "Home"
-                1 -> tab.text = "San"
-                2 -> tab.text = "Map"
-                3 -> tab.text = "Community"
-                4 -> tab.text = "MyPage"
+                0 -> {
+                    tab.text = "Home"
+                }
+                1 -> {
+                    tab.text = "San"
+                }
+                2 -> {
+                    tab.text = "Map"
+                }
+                3 -> {
+                    tab.text = "Community"
+                }
+                4 -> {
+                    tab.text = "MyPage"
+                }
             }
         }.attach()
 
