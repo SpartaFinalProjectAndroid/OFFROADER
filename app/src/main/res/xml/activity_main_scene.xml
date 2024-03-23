@@ -3,83 +3,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ConstraintSet android:id="@+id/start">
-        <Constraint
-            android:id="@+id/nav_main"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            app:layout_constraintBottom_toBottomOf="parent" />
-        <Constraint
-            android:id="@+id/cl_radio_container"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:layout_constraintBottom_toTopOf="@id/nav_main"
-            android:layout_marginBottom="0dp" />
-        <Constraint
-            android:id="@+id/tv_radio_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="parent"
-            android:visibility="invisible" />
-        <Constraint
-            android:id="@+id/fl_main"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/ll_bottom_play"
-            app:layout_constraintTop_toTopOf="parent" />
-        <Constraint
-            android:id="@+id/ll_bottom_play"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tl_bottom_tab" />
-        <Constraint
-            android:id="@+id/lv_channel_list"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:layout_constraintBottom_toBottomOf="@id/ll_bottom_play"
-            android:layout_marginTop="20dp"
-            android:visibility="invisible" />
-        <Constraint
-            android:id="@+id/ll_radio_channels"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/fl_main"
-            android:visibility="invisible" />
-        <Constraint
-            android:id="@+id/v_line"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            app:layout_constraintBottom_toTopOf="parent"
-            android:visibility="invisible" />
+        <Constraint android:id="@+id/iv_image" />
         <Constraint
             android:id="@+id/rv_channel_list"
             android:layout_width="match_parent"
-            android:layout_height="-1dp"
-            app:layout_constraintBottom_toTopOf="parent"
-            android:visibility="invisible" />
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/ll_bottom_play"
+            app:layout_constraintTop_toBottomOf="@id/v_line2"
+            android:layout_marginTop="20dp"
+            android:visibility="gone" />
         <Constraint
-            android:id="@+id/v_line2"
+            android:id="@+id/cl_radio_container"
             android:layout_width="match_parent"
-            android:layout_height="-1dp"
-            app:layout_constraintBottom_toTopOf="parent"
-            android:visibility="invisible" />
-        <Constraint
-            android:id="@+id/view_test"
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            app:layout_constraintBottom_toTopOf="parent"
-            android:visibility="invisible" />
+            android:layout_height="match_parent"
+            app:layout_editor_absoluteY="567dp"
+            android:visibility="gone" />
         <Constraint
             android:id="@+id/tv_favorite_notify"
             app:layout_constraintEnd_toEndOf="@id/rv_channel_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="@id/rv_channel_list"
             app:layout_constraintStart_toStartOf="@id/rv_channel_list"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="200dp" />
+        <Constraint
+            android:id="@+id/v_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/ll_radio_channels"
+            android:layout_marginTop="-1dp"
+            android:visibility="gone" />
+        <Constraint
+            android:id="@+id/v_line2"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            app:layout_constraintTop_toBottomOf="@id/v_line"
+            android:visibility="gone" />
+        <Constraint
+            android:id="@+id/ll_radio_channels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="50dp"
+            android:visibility="gone" />
+        <Constraint
+            android:id="@+id/view_test"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
             android:visibility="invisible" />
+        <Constraint
+            android:id="@+id/tv_radio_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:visibility="gone" />
         <Constraint
             android:id="@+id/iv_radio_back_btn"
             app:layout_constraintEnd_toEndOf="parent"
@@ -87,7 +68,13 @@
             android:layout_height="30dp"
             android:layout_marginEnd="10dp"
             app:layout_constraintTop_toTopOf="@id/tv_radio_title"
-            android:visibility="invisible" />
+            android:visibility="gone" />
+        <Constraint
+            android:id="@+id/fl_main"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/ll_bottom_play"
+            app:layout_constraintTop_toTopOf="parent" />
         <Constraint
             android:id="@+id/tl_bottom_tab"
             android:layout_width="match_parent"
@@ -96,11 +83,56 @@
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
+        <Constraint android:id="@id/iv_image" />
         <Constraint
-            android:id="@+id/nav_main"
+            android:id="@+id/rv_channel_list"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/v_line2"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toTopOf="@id/ll_bottom_play" />
+        <Constraint
+            android:id="@+id/cl_radio_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/ll_bottom_play" />
+        <Constraint
+            android:id="@+id/tv_favorite_notify"
+            app:layout_constraintEnd_toEndOf="@id/rv_channel_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@id/rv_channel_list"
+            app:layout_constraintStart_toStartOf="@id/rv_channel_list"
+            android:layout_marginTop="200dp" />
+        <Constraint
+            android:id="@+id/v_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/ll_radio_channels"
+            android:layout_marginTop="-1dp" />
+        <Constraint
+            android:id="@+id/v_line2"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            app:layout_constraintTop_toBottomOf="@id/v_line" />
+        <Constraint
+            android:id="@+id/ll_radio_channels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="50dp" />
+        <Constraint
+            android:id="@+id/view_test"
+            android:layout_width="1dp"
+            android:layout_height="1dp" />
+        <Constraint
+            android:id="@+id/iv_radio_back_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintTop_toTopOf="@id/tv_radio_title" />
         <Constraint
             android:id="@+id/tv_radio_title"
             android:layout_width="wrap_content"
@@ -113,56 +145,10 @@
             android:id="@+id/fl_main"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            app:layout_constraintBottom_toTopOf="@id/nav_main" />
-        <Constraint
-            android:id="@+id/ll_bottom_play"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/nav_main" />
-        <Constraint
-            android:id="@+id/lv_channel_list"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/v_line"
-            android:layout_marginTop="20dp"
-            app:layout_constraintBottom_toTopOf="@id/ll_bottom_play" />
-        <Constraint
-            android:id="@+id/cl_radio_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_editor_absoluteY="567dp" />
-        <Constraint
-            android:id="@+id/ll_radio_channels"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="50dp" />
-        <Constraint
-            android:id="@+id/rv_channel_list"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/v_line"
-            android:layout_marginTop="20dp"
-            app:layout_constraintBottom_toTopOf="@id/ll_bottom_play" />
-        <Constraint
-            android:id="@+id/v_line"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            app:layout_constraintTop_toBottomOf="@id/ll_radio_channels" />
-        <Constraint
-            android:id="@+id/v_line2"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            app:layout_constraintTop_toBottomOf="@id/v_line" />
-        <Constraint
-            android:id="@+id/tv_favorite_notify"
-            app:layout_constraintEnd_toEndOf="@id/rv_channel_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/rv_channel_list"
-            app:layout_constraintStart_toStartOf="@id/rv_channel_list"
-            android:layout_marginTop="200dp" />
+            app:layout_constraintBottom_toTopOf="@id/ll_bottom_play"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="invisible" />
         <Constraint
             android:id="@+id/tl_bottom_tab"
             android:layout_width="match_parent"
@@ -172,34 +158,9 @@
 
     <Transition
         app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@+id/start"
-        app:duration="161">
-        <KeyFrameSet >
-            <KeyAttribute
-                app:motionTarget="@+id/ll_radio_channels"
-                app:framePosition="0"
-                android:alpha="0" />
-            <KeyAttribute
-                app:motionTarget="@+id/ll_radio_channels"
-                app:framePosition="90"
-                android:alpha="0" />
-            <KeyAttribute
-                app:motionTarget="@+id/tv_radio_title"
-                app:framePosition="0"
-                android:alpha="0" />
-            <KeyAttribute
-                app:motionTarget="@+id/tv_radio_title"
-                app:framePosition="90"
-                android:alpha="0" />
-            <KeyAttribute
-                app:motionTarget="@+id/fl_main"
-                app:framePosition="90"
-                android:scaleX="0" />
-            <KeyAttribute
-                app:motionTarget="@+id/fl_main"
-                app:framePosition="30"
-                android:alpha="0" />
-        </KeyFrameSet>
+        app:constraintSetStart="@+id/start" >
         <OnClick app:targetId="@+id/ll_bottom_play" />
     </Transition>
+
+
 </MotionScene>
