@@ -12,16 +12,13 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
-import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.ing.offroader.data.model.addpost.EditPostDTO
 import com.ing.offroader.databinding.ActivityAddPostBinding
 import com.ing.offroader.ui.fragment.community.MyApplication
-import com.ing.offroader.ui.fragment.community.adapter.CommunityAdapter
 import org.apache.commons.io.output.ByteArrayOutputStream
 
 private const val TAG = "AddPostActivity"
@@ -76,21 +73,33 @@ class AddPostActivity : AppCompatActivity() {
             } else {
                 etContent.setText(editPostInfo?.content)
             }
-            val storage = Firebase.storage("gs://offroader-event.appspot.com")
-            val storageRef =
-                storage.reference.child("Offroader_res/post_image/${editPostInfo?.postId}.jpg")
+            setEditImage(editPostInfo?.postId)
 
-            // 디비 스토리지에서 받아온 값을 메모리에 저장하려고 함. 앱 메모리보다 큰 사진을 불러오면 크래시가 나기 때문에 불러올 때 메모리의 크기 제한을 둠.
-            val ONE_MEGABYTE: Long = 1024 * 1024
-            storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
-                // 바이트어레이를 비트맵으로 변환해주는 코드
-                val image = BitmapFactory.decodeByteArray(it, 0, it.size)
-                // 비트맵을 바인딩해주는 코드
-                ivSelectedImg.setImageBitmap(image)
-            }.addOnFailureListener {
-                Log.d(TAG, "onBindViewHolder: 사진 받아오는거 실패함. 알아서 하셈.")
-            }
+        }
+        addPostViewModel.titleChangedListener(etTitle.text.toString())
 
+    }
+
+    private fun setEditImage(postId: String?) {
+        val storage = Firebase.storage("gs://offroader-event.appspot.com")
+        val storageRef =
+            storage.reference.child("Offroader_res/post_image/${postId}.jpg")
+
+        // 디비 스토리지에서 받아온 값을 메모리에 저장하려고 함. 앱 메모리보다 큰 사진을 불러오면 크래시가 나기 때문에 불러올 때 메모리의 크기 제한을 둠.
+        val ONE_MEGABYTE: Long = 1024 * 1024
+        storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
+            // 바이트어레이를 비트맵으로 변환해주는 코드
+            val image = BitmapFactory.decodeByteArray(it, 0, it.size)
+            // 비트맵을 바인딩해주는 코드
+            binding.ivSelectedImg.setImageBitmap(image)
+
+            val baos = ByteArrayOutputStream()
+            image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
+
+            addPostViewModel.addImageUri(data)
+        }.addOnFailureListener {
+            Log.d(TAG, "onBindViewHolder: 사진 받아오는거 실패함. 알아서 하셈.")
         }
     }
 
