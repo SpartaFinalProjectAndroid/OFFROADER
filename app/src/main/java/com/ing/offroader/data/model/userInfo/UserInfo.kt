@@ -8,6 +8,7 @@ data class UserData(
         var user_name : Any ?= null,
         var user_email : Any ?= null,
         var user_age : Any ?= null,
+        var photo_Url : Any ?= null,
         var achievements : Achievements ?= null,
         var community : Post ?= null,
 )

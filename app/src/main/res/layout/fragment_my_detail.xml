@@ -41,12 +41,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <eightbitlab.com.blurview.BlurView
-            android:id="@+id/blur"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <eightbitlab.com.blurview.BlurView
+                android:id="@+id/blur"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </androidx.cardview.widget.CardView>
+
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_profil"
@@ -332,15 +341,6 @@
             app:layout_constraintEnd_toEndOf="@id/tv_my_post"
             app:layout_constraintStart_toStartOf="@id/tv_my_post"
             app:layout_constraintTop_toBottomOf="@id/tv_my_post" />
-
-        <ImageView
-            android:id="@+id/iv_my_post_info"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_margin="12dp"
-            android:src="@drawable/ic_info"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

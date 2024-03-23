@@ -32,7 +32,7 @@ class CommunityFragment : Fragment() {
         CommunityAdapter(communityViewModel)
     }
 
-    private val user = FirebaseAuth.getInstance().currentUser
+    private var user = FirebaseAuth.getInstance().currentUser
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,14 +44,12 @@ class CommunityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-
-
     }
 
     private fun initObserver() {
         Log.d(TAG, "initObserver: 옵져빙 시작!")
         communityViewModel.postItems.observe(viewLifecycleOwner) {
-            Log.d(TAG, "initObserver: 커뮤니티유아이스테이트 옵져빙 됨.")
+            Log.d(TAG, "initObserver: 포스트아이템즈 옵져빙 됨.")
             if (it != null) {
                 Log.d(TAG, "initObserver: postItem 업데이트 ${it}")
                 setItemView(it)
@@ -62,13 +60,11 @@ class CommunityFragment : Fragment() {
         }
     }
 
-    private fun setItemView(postItems: ArrayList<PostDTO?>?){
+    private fun setItemView(postItems: ArrayList<PostDTO?>?) {
         Log.d(TAG, "setItemView: 셋 아이템 뷰 여기서 서브밋 함.")
-//        val newPostItem = postItems?.sortedByDescending { it?.upload_date as Comparable<Any> }?.toMutableList()
-//        val newPostItem = postItems?
-//        Log.d(TAG, "setItemView: $newPostItem")
         Log.d(TAG, "setItemView: $postItems")
-        communityAdapter.submitList(postItems)
+        val sortedItems = postItems?.sortedByDescending { it?.upload_date as Comparable<Any> }
+        communityAdapter.submitList(sortedItems)
     }
 
     private fun initView() {
@@ -82,9 +78,13 @@ class CommunityFragment : Fragment() {
     }
 
     private fun setAddPostButton() {
+
+        Log.d(TAG, "setAddPostButton: $user")
         binding.ivAddPost.setOnClickListener {
+            user = FirebaseAuth.getInstance().currentUser
             if (user == null) {
-                Toast.makeText(requireActivity(),"회원가입을 해야만 포스팅이 가능합니다.",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "회원가입을 해야만 포스팅이 가능합니다.", Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 val intent = Intent(requireActivity(), AddPostActivity::class.java)
                 startActivity(intent)

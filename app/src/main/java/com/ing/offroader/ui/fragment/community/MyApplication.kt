@@ -36,9 +36,9 @@ class MyApplication : Application() {
 
 //        SanListRepository().setSanDetail("dlfma")
 
-        CoroutineScope(Dispatchers.IO).launch {
-            SanListRepository().loadAllSanList()
-        }
+//        CoroutineScope(Dispatchers.IO).launch {
+//            SanListRepository().loadAllSanList()
+//        }
 
     }
 
