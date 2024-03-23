@@ -34,8 +34,8 @@ class HomeFragment : Fragment() {
     private lateinit var myPageAdapter: HomeMultiViewTypeAdapter
     private var uiData: List<HomeUiData> = listOf()
 
-    private var auth: FirebaseAuth? = null
-    private var user = FirebaseAuth.getInstance().currentUser
+    private var auth: FirebaseAuth? = FirebaseAuth.getInstance()
+    private var user = auth?.currentUser
 
     private var startTime : Long? = null
     private var endTime : Long? = null
