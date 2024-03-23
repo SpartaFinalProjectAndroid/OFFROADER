@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ing.offroader.R
 import com.ing.offroader.databinding.ItemRadioChannelListBinding
 import com.ing.offroader.ui.activity.main.MainViewModel
-import com.ing.offroader.ui.activity.main.adapters.RadioChannelItem
 
 class RadioListAdapter(private val mainViewModel: MainViewModel)
     : ListAdapter<RadioChannelItem, RadioListAdapter.Holder>(differCallback) {

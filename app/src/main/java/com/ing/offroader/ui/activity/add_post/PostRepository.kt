@@ -75,20 +75,21 @@ class PostRepository {
             var postItems: ArrayList<PostDTO?> = arrayListOf()
             db.collection("Community").orderBy("upload_date", Query.Direction.DESCENDING)
                 .addSnapshotListener { value, error ->
+
+                    // 에러가 있을경우 다시 받아오도록 코드 작성
                     if (error != null) {
                         Log.e(TAG, "Failed with ${error.message}.", error)
                         return@addSnapshotListener
                     }
+
+                    // 다큐먼츠 돌려서 모든 포스팅 정보를 postItems에 저장
                     value?.documents?.forEach {
                         val post = it.toObject(PostDTO::class.java)
                         postItems.add(post)
                     }
-                    Log.d(
-                        TAG,
-                        "setPosts: postItems : $postItems"
-                    )
-                    //                updateUiState
+                    Log.d(TAG, "setPosts: postItems : $postItems")
 
+                    // 업데이트된 포스트아이템즈를 라이브데이터에 저장
                     val items = postItems
                     _setPostItems.value = items
                     Log.d(TAG, "setPosts: ${setPostItems.value}")
