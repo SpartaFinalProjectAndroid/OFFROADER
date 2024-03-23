@@ -1,10 +1,12 @@
 package com.ing.offroader.ui.activity.my_post
 
+import android.app.Dialog
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -15,8 +17,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.ing.offroader.data.model.userInfo.UserData
+import com.ing.offroader.data.model.weather.Wind
 import com.ing.offroader.databinding.ItemPostBinding
 import com.ing.offroader.ui.fragment.community.model.PostDTO
+import kotlin.coroutines.coroutineContext
 
 class MyPostAdapter(private val viewModel: MyPostViewModel) :
     ListAdapter<PostDTO, RecyclerView.ViewHolder>(
@@ -76,7 +80,7 @@ class MyPostAdapter(private val viewModel: MyPostViewModel) :
     }
 
     inner class PostItemViewHolder(binding: ItemPostBinding) :
-        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+        RecyclerView.ViewHolder(binding.root), View.OnClickListener, View.OnLongClickListener {
 
         private var postItem: ConstraintLayout = binding.clItemPost
 
@@ -91,6 +95,7 @@ class MyPostAdapter(private val viewModel: MyPostViewModel) :
 
         init {
             postItem.setOnClickListener(this)
+            postItem.setOnLongClickListener(this)
         }
 
         override fun onClick(p0: View?) {
@@ -99,7 +104,18 @@ class MyPostAdapter(private val viewModel: MyPostViewModel) :
 
 //            viewModel.getSelectedItem(item)
         }
+
+        override fun onLongClick(v: View?): Boolean {
+            val position = adapterPosition.takeIf { it != RecyclerView.NO_POSITION } ?: return false
+            Log.d(TAG, "onLongClick: ${getItem(position).title.toString()}")
+            val dialog = Dialog(v!!.context)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.show()
+            return true
+        }
     }
+
+
 
     companion object {
 
