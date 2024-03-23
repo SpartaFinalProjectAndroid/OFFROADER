@@ -26,6 +26,7 @@ import com.ing.offroader.ui.activity.main.MainActivity
 import com.ing.offroader.ui.activity.my_post.MyPostActivity
 import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.fragment.community.adapter.CommunityAdapter
+import com.ing.offroader.ui.fragment.community.model.PostDTO
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModel
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModelFactory
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModel
@@ -46,12 +47,13 @@ class MyDetailFragment : Fragment() {
     private val communityViewModel: CommunityViewModel by viewModels {
         CommunityViewModelFactory((requireActivity().application as MyApplication).postRepository)
     }
-    private val communityAdapter: CommunityAdapter by lazy {
-        CommunityAdapter(communityViewModel)
-    }
+//    private val communityAdapter: CommunityAdapter by lazy {
+//        CommunityAdapter(communityViewModel)
+//    }
     private val myDetailViewModel: MyDetailViewModel by viewModels {
         return@viewModels MyDetailViewModelFactory(
-            (requireActivity().application as MyApplication).sanListRepository
+            (requireActivity().application as MyApplication).sanListRepository,
+            (requireActivity().application as MyApplication).postRepository
         )
     }
 
@@ -59,7 +61,7 @@ class MyDetailFragment : Fragment() {
     // 사용자 정보 가져오기
     private var user = FirebaseAuth.getInstance().currentUser
 
-    private var myPosts : Boolean = false
+    private var myPosts : ArrayList<PostDTO?>? = null
 
     @SuppressLint("InflateParams")
     override fun onCreateView(
@@ -103,6 +105,18 @@ class MyDetailFragment : Fragment() {
 //            binding.rvRecode.adapter = MyBookmarkAdapter(mItems)
 //            binding.rvRecode.layoutManager = GridLayoutManager(context, 4)
 //        }
+
+        myDetailViewModel.myPostItems.observe(viewLifecycleOwner) {
+            Log.d(TAG, "initObserver: ${it?.size}")
+            if (it != null) {
+                Log.d(TAG, "initObserver: postItem 업데이트 ${it}")
+                myPosts = it
+                setUpUserDetail()
+
+            } else {
+                Log.d(TAG, "initObserver: 옵져빙된 값이 널이라서 업데이트가 안됨.")
+            }
+        }
     }
 
     private fun loadData() {
@@ -128,6 +142,7 @@ class MyDetailFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume: ")
+        myDetailViewModel.setRepository()
         initView()
     }
 
@@ -160,7 +175,11 @@ class MyDetailFragment : Fragment() {
         clAddress.visibility = View.INVISIBLE
         Glide.with(requireActivity()).load(user?.photoUrl).into(ivProfil)
         clMyPost.isClickable = true
-
+        if (myPosts.isNullOrEmpty()) {
+            tvMyPostCount.text = "0"
+        } else {
+            tvMyPostCount.text = myPosts?.size.toString()
+        }
     }
 
     private fun setNoLoggedInUser() = with(binding) {
@@ -171,6 +190,7 @@ class MyDetailFragment : Fragment() {
         tvNameNim.visibility= View.INVISIBLE
         tvProfilInfo.visibility= View.INVISIBLE
         clMyPost.isClickable = false
+        tvMyPostCount.text = "-"
 
 
     }
@@ -238,5 +258,6 @@ class MyDetailFragment : Fragment() {
         _binding = null
 
     }
+
 
 }

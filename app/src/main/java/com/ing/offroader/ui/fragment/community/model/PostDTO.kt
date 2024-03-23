@@ -1,5 +1,9 @@
 package com.ing.offroader.ui.fragment.community.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+
 data class PostDTO(
     val contents : Any ?= null,
     val images : Any ?= null,
