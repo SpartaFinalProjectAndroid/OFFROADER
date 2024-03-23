@@ -6,7 +6,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.ing.offroader.databinding.ActivityMyPostBinding
 import com.ing.offroader.ui.activity.add_post.AddPostActivity
@@ -98,7 +97,8 @@ class MyPostActivity : AppCompatActivity() {
     override fun onResume() {
         Log.d(TAG, "onResume: ")
         super.onResume()
-        initObserver()
         myDetailViewModel.setRepository()
+        initObserver()
+
     }
 }
