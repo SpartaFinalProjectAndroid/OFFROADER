@@ -42,7 +42,9 @@ class AddPostActivity : AppCompatActivity() {
                     Log.d(TAG, "initObserver: finish")
                     finish()
                 } else {
-                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                    if (it.errorMessage.isEmpty().not()) {
+                        Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
