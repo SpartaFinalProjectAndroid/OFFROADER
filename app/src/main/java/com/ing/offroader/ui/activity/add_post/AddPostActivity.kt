@@ -59,6 +59,7 @@ class AddPostActivity : AppCompatActivity() {
         etContent.addTextChangedListener { addPostViewModel.contentChangedListener(etContent.text.toString()) }
         tvComplete.setOnClickListener { addPostViewModel.setOnCompleteButton() }
         ivAddImage.setOnClickListener { imgPicker() }
+        ivAddPhoto.setOnClickListener { imgPickerCamera() }
         // TODO : 2. 카메라로 이동해서 사진 찍는 코드
     }
 
@@ -66,6 +67,15 @@ class AddPostActivity : AppCompatActivity() {
     private fun imgPicker() {
         ImagePicker.with(this)
             .galleryOnly() //갤러리에서만 사진을 불러올 수 있도록 지정
+            .compress(1024) //일메가로압축
+            .maxResultSize(1080, 1080) //또는 이미지크기 가세로 1080 제한
+            .cropSquare() //사진의 비율을 1:1로 지정
+            .createIntent { intent -> imageResult.launch(intent) } //class 처음에 작성한 이미지 선택 Intent 실행
+    }
+
+    private fun imgPickerCamera() {
+        ImagePicker.with(this)
+            .cameraOnly() //갤러리에서만 사진을 불러올 수 있도록 지정
             .compress(1024) //일메가로압축
             .maxResultSize(1080, 1080) //또는 이미지크기 가세로 1080 제한
             .cropSquare() //사진의 비율을 1:1로 지정
