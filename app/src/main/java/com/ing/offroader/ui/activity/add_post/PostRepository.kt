@@ -39,14 +39,17 @@ class PostRepository {
     fun setMyPost() {
         Log.d(TAG, "setMyPost: ")
         if (user == null) {
-            Log.e(TAG, "유저 없음.", )
+            Log.e(TAG, "유저 없음.")
         }
         try {
             var myPostItemArray: ArrayList<PostDTO?> = arrayListOf()
             db.collection("Community").whereEqualTo("uid", user?.uid.toString())
-                .get()
-                .addOnSuccessListener { it ->
-                    it.documents.forEach {
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "Failed with ${error.message}.", error)
+                        return@addSnapshotListener
+                    }
+                    value?.documents?.forEach {
                         val post = it.toObject(PostDTO::class.java)
                         myPostItemArray.add(post)
                     }
@@ -70,9 +73,13 @@ class PostRepository {
 
         try {
             var postItems: ArrayList<PostDTO?> = arrayListOf()
-            db.collection("Community").orderBy("upload_date", Query.Direction.DESCENDING).get()
-                .addOnSuccessListener { it ->
-                    it.documents.forEach {
+            db.collection("Community").orderBy("upload_date", Query.Direction.DESCENDING)
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "Failed with ${error.message}.", error)
+                        return@addSnapshotListener
+                    }
+                    value?.documents?.forEach {
                         val post = it.toObject(PostDTO::class.java)
                         postItems.add(post)
                     }
@@ -85,14 +92,10 @@ class PostRepository {
                     val items = postItems
                     _setPostItems.value = items
                     Log.d(TAG, "setPosts: ${setPostItems.value}")
-                }.addOnCompleteListener {
-                    val items = postItems
-                    _setPostItems.value = items
                 }
         } catch (e: Exception) {
             Log.e(TAG, "FireStore Error: $e")
         }
-
     }
 
 

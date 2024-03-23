@@ -49,7 +49,7 @@ class CommunityFragment : Fragment() {
     private fun initObserver() {
         Log.d(TAG, "initObserver: 옵져빙 시작!")
         communityViewModel.postItems.observe(viewLifecycleOwner) {
-            Log.d(TAG, "initObserver: 커뮤니티유아이스테이트 옵져빙 됨.")
+            Log.d(TAG, "initObserver: 포스트아이템즈 옵져빙 됨.")
             if (it != null) {
                 Log.d(TAG, "initObserver: postItem 업데이트 ${it}")
                 setItemView(it)

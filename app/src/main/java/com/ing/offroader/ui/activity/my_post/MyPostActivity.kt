@@ -11,6 +11,8 @@ import com.ing.offroader.databinding.ActivityMyPostBinding
 import com.ing.offroader.ui.activity.add_post.AddPostActivity
 import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.fragment.community.model.PostDTO
+import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModel
+import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModelFactory
 
 private const val TAG = "태그 : MyPostActivity"
 
@@ -25,6 +27,13 @@ class MyPostActivity : AppCompatActivity() {
     private val myPostAdapter: MyPostAdapter by lazy {
         MyPostAdapter(myPostViewModel)
     }
+    private val myDetailViewModel: MyDetailViewModel by viewModels {
+        return@viewModels MyDetailViewModelFactory(
+            (this.application as MyApplication).sanListRepository,
+            (this.application as MyApplication).postRepository
+        )
+    }
+
 
     private val user = FirebaseAuth.getInstance().currentUser
 
@@ -38,7 +47,7 @@ class MyPostActivity : AppCompatActivity() {
 
     private fun initObserver() {
         Log.d(TAG, "initObserver: ")
-        myPostViewModel.myPostItems.observe(this) {
+        myDetailViewModel.myPostItems.observe(this) {
             Log.d(TAG, "initObserver: ${it?.size}")
             if (it != null) {
                 Log.d(TAG, "initObserver: postItem 업데이트 ${it}")
@@ -60,8 +69,16 @@ class MyPostActivity : AppCompatActivity() {
 
         Log.d(TAG, "initView: ")
         binding.rvMyPost.adapter = myPostAdapter
+        setItemView(myDetailViewModel.myPostItems.value)
         setAddPostButton()
+        setBackButton()
 
+    }
+
+    private fun setBackButton() {
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun setAddPostButton() {
@@ -80,7 +97,8 @@ class MyPostActivity : AppCompatActivity() {
     override fun onResume() {
         Log.d(TAG, "onResume: ")
         super.onResume()
+        myDetailViewModel.setRepository()
         initObserver()
-        myPostViewModel.setRepository()
+
     }
 }

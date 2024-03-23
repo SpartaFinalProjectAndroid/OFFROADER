@@ -63,7 +63,7 @@ class CommunityAdapter(private val viewModel: CommunityViewModel) :
             item.uid.toString().let{
                 FirebaseFirestore.getInstance().collection("User").document(it).get().addOnSuccessListener { documentSnapshot ->
                     val user = documentSnapshot.toObject(UserData::class.java)
-                    Log.d(TAG, "onBindViewHolder: $user")
+//                    Log.d(TAG, "onBindViewHolder: $user")
                     userid.text = user?.user_name.toString()
                     Glide.with(holder.profileImage.context).load(user?.photo_Url).into(holder.profileImage)
 
@@ -120,12 +120,12 @@ class CommunityAdapter(private val viewModel: CommunityViewModel) :
         private const val TAG = "태그 : CommunityAdapter"
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PostDTO>() {
             override fun areItemsTheSame(oldItem: PostDTO, newItem: PostDTO): Boolean {
-                Log.d(TAG, "areItemsTheSame: ${oldItem.post_id}, ${newItem.post_id}")
+//                Log.d(TAG, "areItemsTheSame: ${oldItem.post_id}, ${newItem.post_id}")
                 return oldItem.post_id == newItem.post_id
             }
 
             override fun areContentsTheSame(oldItem: PostDTO, newItem: PostDTO): Boolean {
-                Log.d(TAG, "areItemsTheSame: ${oldItem}, ${newItem}")
+//                Log.d(TAG, "areItemsTheSame: ${oldItem}, ${newItem}")
                 return oldItem == newItem
             }
         }
