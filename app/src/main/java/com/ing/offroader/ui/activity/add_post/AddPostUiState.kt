@@ -5,5 +5,6 @@ data class AddPostUiState(
     var content: String?,
     val image : ByteArray?,
     val errorMessage : String?,
-    val cycle : Boolean = true
+    val cycle : Boolean = true,
+    val edit : String? = null
 )

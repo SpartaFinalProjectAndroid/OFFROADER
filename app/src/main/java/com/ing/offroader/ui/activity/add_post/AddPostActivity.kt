@@ -66,6 +66,8 @@ class AddPostActivity : AppCompatActivity() {
 
     private fun setUpEditActivity() = with(binding){
         if (editPostInfo != null) {
+            addPostViewModel.setEditMode(editPostInfo?.postId)
+
             etTitle.setText(editPostInfo?.title)
             if (editPostInfo?.content == "null") {
                 Log.d(TAG, "setUpEditActivity: ${editPostInfo?.content}")
