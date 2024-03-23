@@ -14,34 +14,21 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/ll_bottom_play"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_main"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:itemBackground="@color/transparent"
-        app:itemIconTint="@color/nav_item_color"
-        android:paddingHorizontal="5dp"
-        app:itemPaddingBottom="12dp"
-        app:itemActiveIndicatorStyle="@color/transparent"
-        app:itemRippleColor="@color/transparent"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_nav_menu">
-
-        <com.google.android.material.divider.MaterialDivider
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_main"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:alpha="0.6"
-            android:layout_marginTop="1dp"
-            android:layout_gravity="top"
-            app:dividerColor="@color/offroader_description"/>
+            android:layout_height="match_parent"/>
+    </FrameLayout>
 
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tl_bottom_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    </com.google.android.material.tabs.TabLayout>
+
 
 
     <!--    여기서 부터는 라디오 관련 설정들 입니다.-->
@@ -82,7 +69,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/nav_main"
+        app:layout_constraintBottom_toTopOf="@id/tl_bottom_tab"
         android:layout_marginBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
@@ -94,7 +81,7 @@
         android:layout_height="50dp"
         android:background="@color/white"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/nav_main">
+        app:layout_constraintBottom_toTopOf="@id/tl_bottom_tab">
 
 
         <androidx.cardview.widget.CardView

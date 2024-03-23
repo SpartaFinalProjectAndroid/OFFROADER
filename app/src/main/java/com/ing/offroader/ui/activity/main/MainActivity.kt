@@ -21,6 +21,8 @@ import androidx.media3.session.MediaController
 import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionToken
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.common.util.concurrent.MoreExecutors
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
@@ -34,6 +36,7 @@ import com.ing.offroader.ui.activity.chatbot.ChatbotActivity
 import com.ing.offroader.ui.activity.main.adapters.HttpItem
 import com.ing.offroader.ui.activity.main.adapters.RadioChannelItem
 import com.ing.offroader.ui.activity.main.adapters.RadioListAdapter
+import com.ing.offroader.ui.activity.main.adapters.ViewPagerAdapter
 import com.ing.offroader.ui.activity.main.mediasession.PlaybackService
 import com.ing.offroader.ui.fragment.community.CommunityFragment
 import com.ing.offroader.ui.fragment.home.HomeFragment
@@ -81,6 +84,7 @@ class MainActivity : AppCompatActivity() {
 
         initView()
         initObserver()
+
     }
 
     override fun onRestart() {
@@ -127,44 +131,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBottomNavigation() {
-        bottomNavigationView = binding.navMain
 
 //        replaceFragment(HomeFragment())
-        showFragment(HomeFragment(), "HOME_FRAGMENT")
+        //showFragment(HomeFragment(), "HOME_FRAGMENT")
 
-        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
-            // 아이콘 색상 변경
+        binding.vpMain.isUserInputEnabled = false
+        binding.tlBottomTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab?) {
 
-            // 각 아이템에 따라 적절한 작업 수행
-            when (menuItem.itemId) {
-                R.id.navigation_1 -> {
-                    showFragment(HomeFragment(), "HOME_FRAGMENT")
-                    binding.mlMain.transitionToStart()
-                    true
-                }
-                R.id.navigation_2 -> {
-                    showFragment(SanListFragment(), "SAN_LIST_FRAGMENT")
-                    binding.mlMain.transitionToStart()
-                    true
-                }
-                R.id.navigation_3 -> {
-                    showFragment(SanMapFragment(), "SAN_MAP_FRAGMENT")
-                    binding.mlMain.transitionToStart()
-                    true
-                }
-                R.id.navigation_4 -> {
-                    showFragment(CommunityFragment(), "CHAT_BOT_FRAGMENT")
-                    binding.mlMain.transitionToStart()
-                    true
-                }
-                R.id.navigation_5 -> {
-                    showFragment(MyDetailFragment(), "MY_DETAIL_FRAGMENT")
-                    binding.mlMain.transitionToStart()
-                    true
-                }
-                else -> false
             }
-        }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+        })
+
+        binding.vpMain.adapter = ViewPagerAdapter(this)
+
+        TabLayoutMediator(binding.tlBottomTab, binding.vpMain) { tab, position ->
+            when(position) {
+                0 -> tab.text = "Home"
+                1 -> tab.text = "San"
+                2 -> tab.text = "Map"
+                3 -> tab.text = "Community"
+                4 -> tab.text = "MyPage"
+            }
+        }.attach()
+
     }
 
     @OptIn(UnstableApi::class)
