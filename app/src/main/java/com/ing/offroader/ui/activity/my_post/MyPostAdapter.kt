@@ -122,12 +122,12 @@ class MyPostAdapter(private val viewModel: MyPostViewModel) :
         private const val TAG = "태그 : CommunityAdapter"
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PostDTO>() {
             override fun areItemsTheSame(oldItem: PostDTO, newItem: PostDTO): Boolean {
-                Log.d(TAG, "areItemsTheSame: ${oldItem.post_id}, ${newItem.post_id}")
+//                Log.d(TAG, "areItemsTheSame: ${oldItem.post_id}, ${newItem.post_id}")
                 return oldItem.post_id == newItem.post_id
             }
 
             override fun areContentsTheSame(oldItem: PostDTO, newItem: PostDTO): Boolean {
-                Log.d(TAG, "areItemsTheSame: ${oldItem}, ${newItem}")
+//                Log.d(TAG, "areItemsTheSame: ${oldItem}, ${newItem}")
                 return oldItem == newItem
             }
         }
