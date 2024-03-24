@@ -276,31 +276,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fabChatbot.setOnClickListener { view ->
-//            view.animate()
-//                .x(view.rootView.width.toFloat() / 2 - (view.width / 2))
-//                .y(view.rootView.height.toFloat() / 2 - (view.height / 2))
-//                .setDuration(300)
-//                .withEndAction {
-//                    // 첫 번째 애니메이션이 끝나면 뷰의 크기를 확대하는 애니메이션 실행
-//                    view.animate()
-//                        .scaleX(70f) // 뷰의 너비를 2배로 확대
-//                        .scaleY(70f) // 뷰의 높이를 2배로 확대
-//                        .setDuration(300) // 애니메이션 지속 시간 설정
-//                        .setInterpolator(AccelerateInterpolator())
-//                        .withEndAction {
-//                            // 크기 확대 애니메이션이 끝나면 새 액티비티 시작
-//                                val intent = Intent(this@MainActivity, ChatbotActivity::class.java)
-//                                startActivity(intent)
-//                            Handler(Looper.getMainLooper()).postDelayed({
-//                                view.scaleX = 1f // 뷰의 너비를 원래대로
-//                                view.scaleY = 1f // 뷰의 높이를 원래대로
-//                                apply {max(0f, min(view.y, view.rootView.height - view.height.toFloat())) }
-//                            }, 1000) // 1초 뒤에 실행
-//
-//                        }
-//                        .start()
-//                }
-//                .start()
             val intent = Intent(this@MainActivity, ChatbotActivity::class.java)
             startActivity(intent)
         }
