@@ -1,6 +1,7 @@
 package com.ing.offroader.ui.activity.main.adapters
 
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
@@ -25,7 +26,7 @@ class RadioListAdapter(private val mainViewModel: MainViewModel)
             }
         }
     }
-    //val differ = AsyncListDiffer(this, differCallback)
+
     interface ItemClick { fun onClick(key: String, pos: Int) }
     interface HeartClick { fun heartClick(key: String) }
 
@@ -36,8 +37,13 @@ class RadioListAdapter(private val mainViewModel: MainViewModel)
         private var isLike = false
 
         fun bind(pos: Int) {
+            val checkIsPlaying = mainViewModel.isPlaying.value
+            val checkWhoPlayName = mainViewModel.whoPlay.value == currentList[pos].title
+            val checkListIsPlay = currentList[pos].isPlay
+
             binding.tvChannelTitle.text = currentList[pos].title
-            if (currentList[pos].isPlay || mainViewModel.whoPlay.value == currentList[pos].title) {
+
+            if ( checkIsPlaying == true && (checkListIsPlay || checkWhoPlayName)) {
                 binding.cvPlayStatus.visibility = VISIBLE
                 binding.clRadioChannelItem.setBackgroundResource(R.color.offroader_outline)
                 currentList[pos].isPlay = true

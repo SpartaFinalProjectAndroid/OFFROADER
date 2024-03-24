@@ -26,8 +26,4 @@ class PlaybackService : MediaSessionService() {
 
         super.onDestroy()
     }
-
-    fun test() {
-
-    }
 }

@@ -14,9 +14,9 @@ import com.ing.offroader.R
 import com.ing.offroader.data.model.ai.Message
 import com.ing.offroader.databinding.ActivityChatbotBinding
 import com.ing.offroader.ui.activity.chatbot.adapter.ChatAdapter
-import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.activity.chatbot.viewmodel.ChatBotViewModel
 import com.ing.offroader.ui.activity.chatbot.viewmodel.ChatBotViewModelFactory
+import com.ing.offroader.ui.fragment.community.MyApplication
 
 private const val TAG = "ChatbotActivity"
 class ChatbotActivity : AppCompatActivity() {
@@ -49,10 +49,13 @@ class ChatbotActivity : AppCompatActivity() {
         // conversationUiState가 옵져빙되면 스피너에서 봉봉이랑 하이키의 값이 바뀌었을 때 채팅 화면을 바꾸어줌.
         chatBotViewModel.conversationUiState.observe(this) {
             Log.d(TAG, it?.chat.toString())
+            Log.d(TAG, "리스트 사이즈: ${it?.chat?.size}")
             if (it == null) {
+                bgDismiss(0)
                 chatAdapter.submitList(listOf())
                 chooseAiChatBot(listOf(), "hikey")
             } else {
+                bgDismiss(it.chat.size)
                 chatAdapter.submitList(it.chat)
                 chooseAiChatBot(it.chat, it.position)
             }
@@ -63,9 +66,10 @@ class ChatbotActivity : AppCompatActivity() {
         // 옵져빙되면 chatAdapter에 대화내역 넣어서 화면에 보여줌.
         chatBotViewModel.hikeyUiState.observe(this) {
             if (it == null) {
+                bgDismiss(0)
                 chatAdapter.submitList(listOf())
-
             } else {
+                bgDismiss(it.chat.size)
                 chatAdapter.submitList(it.chat)
             }
 
@@ -75,9 +79,10 @@ class ChatbotActivity : AppCompatActivity() {
         // 옵져빙되면 chatAdapter에 대화내역 넣어서 화면에 보여줌.
         chatBotViewModel.bongbongUiState.observe(this) {
             if (it == null) {
+                bgDismiss(0)
                 chatAdapter.submitList(listOf())
-
             } else {
+                bgDismiss(it.chat.size)
                 chatAdapter.submitList(it.chat)
             }
 
@@ -101,11 +106,13 @@ class ChatbotActivity : AppCompatActivity() {
             "hikey" -> {
                 binding.ivBot.setImageResource(R.drawable.ic_hikey)
                 binding.tvBotMbti.text = getString(R.string.chatbot_hikey)
+                binding.tvChatBg.text = "${binding.tvBotMbti.text}에게 등산 관련 질문은 해보세요!"
             }
 
             "bongbong" -> {
                 binding.ivBot.setImageResource(R.drawable.ic_bongbong)
                 binding.tvBotMbti.text = getString(R.string.chatbot_bongbong)
+                binding.tvChatBg.text = "${binding.tvBotMbti.text}에게 등산 관련 질문은 해보세요!"
             }
         }
 
@@ -130,6 +137,16 @@ class ChatbotActivity : AppCompatActivity() {
         setClear()
     }
 
+    private fun bgDismiss(listSize : Int) {
+        if (listSize >= 1) {
+            binding.ivChatBg.visibility = View.GONE
+            binding.tvChatBg.visibility = View.GONE
+        } else {
+            binding.ivChatBg.visibility = View.VISIBLE
+            binding.tvChatBg.visibility = View.VISIBLE
+        }
+    }
+
     // 대화내역 삭제하기 버튼 누르면 대화내역 삭제
     private fun setClear() {
         binding.tvClearChat.setOnClickListener {
@@ -149,6 +166,8 @@ class ChatbotActivity : AppCompatActivity() {
 
             } else {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    bgDismiss(1)
 
                     chatBotViewModel.setSearch(textView.text.toString())
                     (binding.etAsk as TextView).text = getString(R.string.chatbot_clear)
