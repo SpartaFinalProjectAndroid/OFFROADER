@@ -34,14 +34,14 @@
 
     <!--    여기서 부터는 라디오 관련 설정들 입니다.-->
 
-    <LinearLayout
-        android:id="@+id/ll_bottom_play_touch"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_marginEnd="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+<!--    <LinearLayout-->
+<!--        android:id="@+id/ll_bottom_play_touch"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="@color/white"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginEnd="60dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"/>-->
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
