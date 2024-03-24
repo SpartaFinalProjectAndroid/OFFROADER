@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -21,20 +20,14 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.MediaController
-import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionToken
-import androidx.viewpager2.adapter.FragmentViewHolder
-import com.google.android.gms.location.LocationCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.common.util.concurrent.MoreExecutors
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
-import com.ing.offroader.BuildConfig
 import com.ing.offroader.R
 import com.ing.offroader.data.RadioChannelURL
 import com.ing.offroader.databinding.ActivityMainBinding
@@ -49,11 +42,6 @@ import com.ing.offroader.ui.fragment.home.HomeFragment
 import com.ing.offroader.ui.fragment.map.SanMapFragment
 import com.ing.offroader.ui.fragment.mydetail.MyDetailFragment
 import com.ing.offroader.ui.fragment.sanlist.SanListFragment
-import com.naver.maps.map.MapFragment
-import com.naver.maps.map.NaverMap
-import com.naver.maps.map.NaverMapSdk
-import com.naver.maps.map.OnMapReadyCallback
-import com.naver.maps.map.util.FusedLocationSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -261,7 +249,8 @@ class MainActivity : AppCompatActivity() {
 
                         //최종 세로값의 한계 좌표를 지정
                         //clRadioContainer와 bottomNav를 빼줘야 하는데 민용님 뷰페이저 작업중이라 일단 임시값으로 지정
-                        val finalY = max(0f + moveMargin, min(view.y, view.rootView.height - view.height.toFloat() - binding.clRadioContainer.height - 400 - moveMargin))
+                        //현재 문제 : 하단 제한값이 적용되지 않고 있고, xml레이아웃에서 초기위치 마진이 tablayout으로 변경된 후 조정할 수 없는 문제가 있음
+                        val finalY = max(0f + moveMargin, min(view.y, view.rootView.height - view.height.toFloat() - binding.clRadioContainer.height - binding.tlBottomTab.height - 125- moveMargin))
 
                         //ACTION_UP 시점 위치에서 계산한 스냅 위치로 애니메이션 이동
                         view.animate()
