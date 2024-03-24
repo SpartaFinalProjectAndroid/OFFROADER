@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -22,13 +23,18 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.MediaController
 import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionToken
+import androidx.viewpager2.adapter.FragmentViewHolder
+import com.google.android.gms.location.LocationCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.common.util.concurrent.MoreExecutors
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
+import com.ing.offroader.BuildConfig
 import com.ing.offroader.R
 import com.ing.offroader.data.RadioChannelURL
 import com.ing.offroader.databinding.ActivityMainBinding
@@ -36,12 +42,18 @@ import com.ing.offroader.ui.activity.chatbot.ChatbotActivity
 import com.ing.offroader.ui.activity.main.adapters.HttpItem
 import com.ing.offroader.ui.activity.main.adapters.RadioChannelItem
 import com.ing.offroader.ui.activity.main.adapters.RadioListAdapter
+import com.ing.offroader.ui.activity.main.adapters.ViewPagerAdapter
 import com.ing.offroader.ui.activity.main.mediasession.PlaybackService
 import com.ing.offroader.ui.fragment.community.CommunityFragment
 import com.ing.offroader.ui.fragment.home.HomeFragment
 import com.ing.offroader.ui.fragment.map.SanMapFragment
 import com.ing.offroader.ui.fragment.mydetail.MyDetailFragment
 import com.ing.offroader.ui.fragment.sanlist.SanListFragment
+import com.naver.maps.map.MapFragment
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.NaverMapSdk
+import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.util.FusedLocationSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -57,16 +69,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var radioPlayer: ExoPlayer
-    private var isRadioLikeTab = false
+    private var isRadioLikeTab = true
 
     private val radioListViewModel by viewModels<MainViewModel>()
     private var lastTimeBackPressed: Long = -1500
 
     private lateinit var rvAdapter: RadioListAdapter
     private lateinit var rvAdapterList: MutableList<RadioChannelItem>
-
-    val database = Firebase.firestore
-
+    
     override fun onStart() {
         super.onStart()
 
@@ -86,6 +96,7 @@ class MainActivity : AppCompatActivity() {
 
         initView()
         initObserver()
+
     }
 
     override fun onRestart() {
@@ -116,12 +127,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.tvFavoriteNotify.visibility = View.GONE
             binding.tvFavoriteNotify.text = ""
-            database.collection("radio_api").get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    for (i in task.result)
-                        Log.d("Minyong", "onCreate: " + i.data.keys)
-                }
-            }
         }
     }
 
@@ -132,50 +137,53 @@ class MainActivity : AppCompatActivity() {
         initRadio()
     }
 
+
     private fun setBottomNavigation() {
-        bottomNavigationView = binding.navMain
 
-//        replaceFragment(HomeFragment())
-        showFragment(HomeFragment(), "HOME_FRAGMENT")
+        binding.vpMain.isUserInputEnabled = false
+        binding.tlBottomTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab?) {
 
-        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
-            // 아이콘 색상 변경
-
-            // 각 아이템에 따라 적절한 작업 수행
-            when (menuItem.itemId) {
-                R.id.navigation_1 -> {
-                    showFragment(HomeFragment(), "HOME_FRAGMENT")
-                    binding.mlMain.transitionToStart()
-                    true
-                }
-
-                R.id.navigation_2 -> {
-                    showFragment(SanListFragment(), "SAN_LIST_FRAGMENT")
-                    binding.mlMain.transitionToStart()
-                    true
-                }
-
-                R.id.navigation_3 -> {
-                    showFragment(SanMapFragment(), "SAN_MAP_FRAGMENT")
-                    binding.mlMain.transitionToStart()
-                    true
-                }
-
-                R.id.navigation_4 -> {
-                    showFragment(CommunityFragment(), "CHAT_BOT_FRAGMENT")
-                    binding.mlMain.transitionToStart()
-                    true
-                }
-
-                R.id.navigation_5 -> {
-                    showFragment(MyDetailFragment(), "MY_DETAIL_FRAGMENT")
-                    binding.mlMain.transitionToStart()
-                    true
-                }
-
-                else -> false
             }
-        }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+        })
+
+        binding.vpMain.adapter = ViewPagerAdapter(this)
+
+
+        TabLayoutMediator(binding.tlBottomTab, binding.vpMain) { tab, position ->
+            when(position) {
+                0 -> {
+                    tab.text = "홈"
+                    tab.setIcon(R.drawable.ic_nav_home)
+                }
+                1 -> {
+                    tab.text = "리스트"
+                    tab.setIcon(R.drawable.ic_nav_san)
+                }
+                2 -> {
+                    tab.text = "지도"
+                    tab.setIcon(R.drawable.ic_nav_map)
+                }
+                3 -> {
+                    tab.text = "커뮤니티"
+                    tab.setIcon(R.drawable.ic_nav_chat)
+                }
+                4 -> {
+                    tab.text = "내 정보"
+                    tab.setIcon(R.drawable.ic_nav_my)
+                }
+            }
+        }.attach()
+
     }
 
     @OptIn(UnstableApi::class)
@@ -297,10 +305,6 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    private fun mediaSessionTest(player: ExoPlayer) {
-        val mediaSession = MediaSession.Builder(this, player).build()
-        binding.viewTest.player = mediaSession.player
-    }
 
     // <-------------------------------- 라디오 관련 설정들 --------------------------------------->
     private fun showFragment(fragment: Fragment, tag: String) {
@@ -342,44 +346,47 @@ class MainActivity : AppCompatActivity() {
         binding.ivRadioBackBtn.setOnClickListener {
             binding.mlMain.transitionToStart()
         }
-
-        radioListViewModel.radioLikeList.observe(this) {
-            if (it.size == 0 && isRadioLikeTab) {
-                binding.tvFavoriteNotify.visibility = View.VISIBLE
-                binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
-            } else {
-                binding.tvFavoriteNotify.visibility = View.GONE
-                binding.tvFavoriteNotify.text = ""
-            }
-        }
     }
 
     // 각 방송국과 즐겨찾기 라디오 채널 리스트 초기화
     @OptIn(UnstableApi::class)
     private fun radioSetting() = with(binding) {
 
+        radioListViewModel.isPlaying.observe(this@MainActivity){
+            if (it) {
+                val item = radioListViewModel.httpItem.value
+                //playingMarkCurrent(item?.key, item?.position)
+            } else {
+                playingMarkChange()
+            }
+        }
+
         firstSetting()
         broadcastInit(RadioChannelURL.RADIO_API_URL, R.drawable.ic_favorite)
 
         cvFavorites.setOnClickListener {
+            isRadioLikeTab = true
             broadcastInit(
                 RadioChannelURL.RADIO_API_URL,
                 R.drawable.ic_favorite
             )
         }
         cvKbs.setOnClickListener {
+            isRadioLikeTab = false
             broadcastInit(
                 RadioChannelURL.KBS_LIST,
                 R.drawable.ic_kbs_radio
             )
         }
         cvSbs.setOnClickListener {
+            isRadioLikeTab = false
             broadcastInit(
                 RadioChannelURL.SBS_LIST,
                 R.drawable.ic_sbs_radio
             )
         }
         cvMbc.setOnClickListener {
+            isRadioLikeTab = false
             broadcastInit(
                 RadioChannelURL.MBC_LIST,
                 R.drawable.ic_mbc_radio
@@ -432,7 +439,7 @@ class MainActivity : AppCompatActivity() {
                         urlList[key]?.let {
 
                             val item = HttpItem(it, key, radioIcon, pos)
-
+                            radioListViewModel.addHttpItem(item)
                             CoroutineScope(Dispatchers.Main).launch {
                                 val channelUrl =
                                     CoroutineScope(Dispatchers.Default).async {

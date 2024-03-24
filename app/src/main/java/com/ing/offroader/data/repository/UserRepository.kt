@@ -8,6 +8,9 @@ import com.ing.offroader.data.model.userInfo.Post
 import com.ing.offroader.data.model.userInfo.SanID
 import com.ing.offroader.data.model.userInfo.UserData
 import kotlinx.coroutines.tasks.await
+import okhttp3.internal.wait
+import kotlin.math.log
+import kotlin.system.measureTimeMillis
 
 class UserRepository {
 
@@ -28,6 +31,7 @@ class UserRepository {
             val post = userCommunity.document("post").get().await().toObject(Post::class.java)
 
             val userDataClass: UserData? = userData.get().await().toObject(UserData::class.java)
+
             userDataClass?.achievements = Achievements(sanID, attendance)
             userDataClass?.community = post
 
