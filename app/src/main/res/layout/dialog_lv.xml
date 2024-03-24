@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/offroader_background"
+    android:paddingBottom="35dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/iv_lv"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_lv"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,6 +23,7 @@
         android:layout_height="wrap_content"
         android:text="@string/dialog_lv"
         android:layout_marginStart="20dp"
+        android:paddingTop="5dp"
         android:textSize="24sp"
         android:textColor="@color/offroader_green"
         android:fontFamily="@font/bm_hanna_11yrs_old"
@@ -34,7 +36,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="100dp"
         android:src="@drawable/ic_lv1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -198,7 +200,7 @@
         android:id="@+id/tv_achive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="60dp"
         android:hint="@string/dialog_achieve"
         app:layout_constraintEnd_toEndOf="parent"
@@ -265,8 +267,9 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:src="@drawable/ic_back_black"
-        android:layout_margin="20dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_lv"
+        app:layout_constraintBottom_toBottomOf="@id/iv_lv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

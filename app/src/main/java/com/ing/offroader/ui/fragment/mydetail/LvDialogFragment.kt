@@ -35,7 +35,9 @@ class LvDialogFragment : DialogFragment() {
     override fun onResume() {
         super.onResume()
 
-        context?.dialogFragmentResize(this, 0.9f, 0.65f)
+//        context?.dialogFragmentResize(this, 0.9f, 0.65f)
+        //추후 가로 넓이가 긴 디바이스의 경우 max width를 적당한 크기로 지정해 주는 것을 고려해야 함
+        dialog?.window?.setLayout((resources.displayMetrics.widthPixels * 0.9f).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
         context?.dialogRoundedBackground(this)
     }
 
