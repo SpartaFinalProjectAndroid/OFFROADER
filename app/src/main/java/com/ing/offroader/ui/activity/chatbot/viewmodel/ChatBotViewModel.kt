@@ -45,7 +45,7 @@ class ChatBotViewModel(
 
 
     init {
-        _conversationUiState.value = ChatUiState.init()
+        _conversationUiState.value = ChatUiState(hikeyUiState.value?.chat ?: listOf(), "hikey")
     }
 
 

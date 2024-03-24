@@ -51,10 +51,12 @@ class ChatbotActivity : AppCompatActivity() {
             Log.d(TAG, it?.chat.toString())
             Log.d(TAG, "리스트 사이즈: ${it?.chat?.size}")
             if (it == null) {
+                Log.d(TAG, "initObserver: it is null")
                 bgDismiss(0)
-                chatAdapter.submitList(listOf())
-                chooseAiChatBot(listOf(), "hikey")
+                chatAdapter.submitList(chatBotViewModel.hikeyUiState.value?.chat)
+                chooseAiChatBot(chatBotViewModel.hikeyUiState.value?.chat, "hikey")
             } else {
+                Log.d(TAG, "initObserver: it is not null $it")
                 bgDismiss(it.chat.size)
                 chatAdapter.submitList(it.chat)
                 chooseAiChatBot(it.chat, it.position)
@@ -65,12 +67,16 @@ class ChatbotActivity : AppCompatActivity() {
         // hikeyUiState는 hikey 대화내역이 DB에 저장되면 옵져브됨
         // 옵져빙되면 chatAdapter에 대화내역 넣어서 화면에 보여줌.
         chatBotViewModel.hikeyUiState.observe(this) {
+            Log.d(TAG, "하이키사이즈: ${it?.chat?.size}")
             if (it == null) {
                 bgDismiss(0)
                 chatAdapter.submitList(listOf())
             } else {
                 bgDismiss(it.chat.size)
                 chatAdapter.submitList(it.chat)
+                //로딩 애니메이션 로띠를 재생할 가라 뷰 만들어서 표시
+                setLoadingIndicator(it.chat)
+                scrollToBottom(it.chat)
             }
 
         }
@@ -84,6 +90,9 @@ class ChatbotActivity : AppCompatActivity() {
             } else {
                 bgDismiss(it.chat.size)
                 chatAdapter.submitList(it.chat)
+                //로딩 애니메이션 로띠를 재생할 가라 뷰 만들어서 표시
+                setLoadingIndicator(it.chat)
+                scrollToBottom(it.chat)
             }
 
         }
@@ -91,16 +100,21 @@ class ChatbotActivity : AppCompatActivity() {
 
     }
 
+    private fun setLoadingIndicator(dbMessageList : List<Message>) {
+        if (dbMessageList.size.rem(2) == 1){
+            val lottieMessage = Message("lottie","")
+            chatAdapter.submitList(dbMessageList + lottieMessage)
+        } else {
+            chatAdapter.submitList(dbMessageList)
+        }
+    }
+
     // 스피너로 선택된 AI에 맞기 UI 수정하는 함수
     private fun chooseAiChatBot(message: List<Message>?, position: String) {
         chatAdapter.submitList(message)
 
         // 스크롤 유지
-        if (message != null) {
-            if (message.isNotEmpty()) {
-                binding.rvChatbot.smoothScrollToPosition(message.lastIndex)
-            }
-        }
+        scrollToBottom(message)
 
         when (position) {
             "hikey" -> {
@@ -116,6 +130,12 @@ class ChatbotActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun scrollToBottom(message: List<Message>?) {
+        if (message.isNullOrEmpty().not()) {
+            binding.rvChatbot.smoothScrollToPosition(message!!.size)
+        }
     }
 
 
@@ -170,16 +190,21 @@ class ChatbotActivity : AppCompatActivity() {
 
             } else {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-
                     bgDismiss(1)
-
                     chatBotViewModel.setSearch(textView.text.toString())
                     (binding.etAsk as TextView).text = getString(R.string.chatbot_clear)
+                    //조건 1 = 하이키 일때
+                    //조건 2 = 봉봉 일때
+                    when(chatBotViewModel.conversationUiState.value?.position){
+                        "hikey" -> scrollToBottom(chatBotViewModel.hikeyUiState.value?.chat)
+                        else -> scrollToBottom(chatBotViewModel.bongbongUiState.value?.chat)
+                    }
 
                     // handled가 false이면 검색 클릭 이후 키보드가 비활성화된다.
                 }
                 // handled 가 항상 false이기 때문에 그냥 false 리턴해줌
-                false
+                //대화중에는 키보드가 사라지지 않아야 하기 때문에 true 리턴으로 변경함!!
+                true
             }
         }
     }
@@ -212,7 +237,6 @@ class ChatbotActivity : AppCompatActivity() {
                 Log.d(TAG, "1. 스피너 선택 position : $position")
 
                 chatBotViewModel.setBotSpinner(position)
-
             }
 
             // 스피너가 선택되지 않았을 때 (초기 상태) : 초기에 봉봉이를 선택해 둠.
