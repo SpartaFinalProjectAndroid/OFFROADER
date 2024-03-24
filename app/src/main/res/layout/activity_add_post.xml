@@ -131,7 +131,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/action_bar_default_height_material"
         android:background="@color/white"
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="15dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
@@ -141,8 +141,19 @@
             android:layout_marginVertical="10dp"
             android:adjustViewBounds="true"
             android:contentDescription="사진을 선택하는 버튼 입니다"
-            android:src="@drawable/ic_favorite"
+            android:src="@drawable/ic_post_photo"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_add_photo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="10dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="사진을 선택하는 버튼 입니다"
+            android:src="@drawable/ic_post_camera"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/iv_add_image"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ml_main"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ml_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F7F6F2"
@@ -21,6 +21,7 @@
             android:layout_height="match_parent"/>
     </FrameLayout>
 
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tl_bottom_tab"
         android:layout_width="match_parent"
@@ -28,11 +29,11 @@
         android:background="@color/white"
         app:tabIndicatorColor="@color/offroader_green"
         app:layout_constraintBottom_toBottomOf="parent">
-
     </com.google.android.material.tabs.TabLayout>
 
 
     <!--    여기서 부터는 라디오 관련 설정들 입니다.-->
+
     <LinearLayout
         android:id="@+id/ll_bottom_play_touch"
         android:layout_width="match_parent"
@@ -41,6 +42,20 @@
         android:orientation="horizontal"
         android:layout_marginEnd="60dp"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_chatbot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:elevation="150dp"
+        android:outlineSpotShadowColor="@color/transparent"
+        android:backgroundTint="@color/transparent"
+        android:foreground="@drawable/ic_chat_bubble"
+        android:layout_marginBottom="66dp"
+        app:layout_constraintBottom_toTopOf="@id/ll_bottom_play"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
         android:id="@+id/ll_bottom_play"
@@ -138,15 +153,6 @@
             app:layout_constraintTop_toTopOf="@id/iv_radio_back_btn"
             app:layout_constraintBottom_toBottomOf="@id/iv_radio_back_btn"/>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="parent"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp"
-            android:id="@+id/fab_chatbot" />
-
 
     <LinearLayout
         android:id="@+id/ll_radio_channels"
@@ -227,8 +233,8 @@
         android:id="@+id/v_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#C5C5C5"
         android:layout_marginTop="-1dp"
+        android:background="#C5C5C5"
         app:layout_constraintTop_toBottomOf="@id/ll_radio_channels" />
 
     <View
@@ -247,17 +253,18 @@
         app:layout_constraintTop_toBottomOf="@id/v_line2"/>
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/tv_favorite_notify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_marginTop="200dp"
-        android:textSize="30sp"
         android:fontFamily="@font/pretendard_regular"
+        android:gravity="center"
         android:text="즐겨찾기 목록이 없습니다."
-        app:layout_constraintTop_toTopOf="@id/rv_channel_list"
+        android:textSize="30sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/rv_channel_list"
-        app:layout_constraintStart_toStartOf="@id/rv_channel_list" />
+        app:layout_constraintStart_toStartOf="@id/rv_channel_list"
+        app:layout_constraintTop_toTopOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.motion.widget.MotionLayout>
