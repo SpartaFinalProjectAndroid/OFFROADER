@@ -16,8 +16,6 @@ import com.ing.offroader.ui.fragment.community.adapter.CommunityAdapter
 import com.ing.offroader.ui.fragment.community.model.PostDTO
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModel
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModelFactory
-import com.ing.offroader.ui.fragment.sanlist.viewmodel.SanListViewModel
-import com.ing.offroader.ui.fragment.sanlist.viewmodel.SanListViewModelFactory
 
 private const val TAG = "태그 : ChatBotFragment"
 
@@ -44,6 +42,7 @@ class CommunityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        initObserver()
     }
 
     private fun initObserver() {
@@ -102,7 +101,6 @@ class CommunityFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        initObserver()
     }
 
 
