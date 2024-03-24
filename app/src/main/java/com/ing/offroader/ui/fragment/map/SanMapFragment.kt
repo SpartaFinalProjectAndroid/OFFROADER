@@ -32,11 +32,13 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ing.offroader.BuildConfig
 import com.ing.offroader.R
 import com.ing.offroader.databinding.FragmentSanMapBinding
+import com.ing.offroader.ui.activity.main.adapters.ViewPagerAdapter
 import com.ing.offroader.ui.activity.record.RecordActivity
 import com.ing.offroader.ui.activity.sandetail.SanDetailActivity
 import com.naver.maps.geometry.LatLng
@@ -108,6 +110,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         _binding = FragmentSanMapBinding.inflate(inflater, container, false)
         NaverMapSdk.getInstance(requireContext()).client =
             NaverMapSdk.NaverCloudPlatformClient(BuildConfig.NAVERMAPS_API_KEY)
+
         return binding.root
     }
 
@@ -128,7 +131,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     }
 
     // 프래그먼트에 지도 추가
-    private fun initMapView() {
+    fun initMapView() {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map_view) as MapFragment?
                 ?: MapFragment.newInstance().also {
@@ -185,6 +188,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
 
     // 지도 그리는 부분
     override fun onMapReady(naverMap: NaverMap) {
+        Log.d("민용 지도 확인", "onMapReady : ")
         this.naverMap = naverMap
         // 지도 타입 설정
         this.naverMap.mapType = NaverMap.MapType.Basic

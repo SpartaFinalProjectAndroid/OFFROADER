@@ -21,6 +21,8 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.MediaController
 import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionToken
+import androidx.viewpager2.adapter.FragmentViewHolder
+import com.google.android.gms.location.LocationCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -30,6 +32,7 @@ import com.google.firebase.firestore.firestore
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
+import com.ing.offroader.BuildConfig
 import com.ing.offroader.R
 import com.ing.offroader.data.RadioChannelURL
 import com.ing.offroader.databinding.ActivityMainBinding
@@ -44,6 +47,11 @@ import com.ing.offroader.ui.fragment.home.HomeFragment
 import com.ing.offroader.ui.fragment.map.SanMapFragment
 import com.ing.offroader.ui.fragment.mydetail.MyDetailFragment
 import com.ing.offroader.ui.fragment.sanlist.SanListFragment
+import com.naver.maps.map.MapFragment
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.NaverMapSdk
+import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.util.FusedLocationSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -63,8 +71,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var rvAdapter: RadioListAdapter
     private lateinit var rvAdapterList: MutableList<RadioChannelItem>
-
-
+    
     override fun onStart() {
         super.onStart()
 
@@ -124,10 +131,8 @@ class MainActivity : AppCompatActivity() {
         initRadio()
     }
 
-    private fun setBottomNavigation() {
 
-//        replaceFragment(HomeFragment())
-        //showFragment(HomeFragment(), "HOME_FRAGMENT")
+    private fun setBottomNavigation() {
 
         binding.vpMain.isUserInputEnabled = false
         binding.tlBottomTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
@@ -147,22 +152,28 @@ class MainActivity : AppCompatActivity() {
 
         binding.vpMain.adapter = ViewPagerAdapter(this)
 
+
         TabLayoutMediator(binding.tlBottomTab, binding.vpMain) { tab, position ->
             when(position) {
                 0 -> {
-                    tab.text = "Home"
+                    tab.text = "홈"
+                    tab.setIcon(R.drawable.ic_nav_home)
                 }
                 1 -> {
-                    tab.text = "San"
+                    tab.text = "리스트"
+                    tab.setIcon(R.drawable.ic_nav_san)
                 }
                 2 -> {
-                    tab.text = "Map"
+                    tab.text = "지도"
+                    tab.setIcon(R.drawable.ic_nav_map)
                 }
                 3 -> {
-                    tab.text = "Community"
+                    tab.text = "커뮤니티"
+                    tab.setIcon(R.drawable.ic_nav_chat)
                 }
                 4 -> {
-                    tab.text = "MyPage"
+                    tab.text = "내 정보"
+                    tab.setIcon(R.drawable.ic_nav_my)
                 }
             }
         }.attach()
