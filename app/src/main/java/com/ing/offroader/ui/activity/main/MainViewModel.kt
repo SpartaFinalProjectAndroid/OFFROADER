@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ing.offroader.ui.activity.main.adapters.HttpItem
 import com.ing.offroader.ui.activity.main.repository.RadioRepository
+import kotlin.concurrent.thread
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -31,6 +32,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private var _channelUrl : MutableLiveData<String?> = MutableLiveData()
     var channelUrl : MutableLiveData<String?> = _channelUrl
 
+    private var _httpItem : MutableLiveData<HttpItem> = MutableLiveData()
+    val httpItem : LiveData<HttpItem> = _httpItem
+
+    fun addHttpItem(item: HttpItem) {
+        _httpItem.value = item
+    }
     fun getHttpNetWork(item: HttpItem) : String {
         return RadioRepository().initURL(item)
     }
