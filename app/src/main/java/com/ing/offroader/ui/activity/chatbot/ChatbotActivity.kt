@@ -135,6 +135,10 @@ class ChatbotActivity : AppCompatActivity() {
         setSearch()
 
         setClear()
+
+        binding.ivChatBack.setOnClickListener {
+            super.onBackPressed()
+        }
     }
 
     private fun bgDismiss(listSize : Int) {
