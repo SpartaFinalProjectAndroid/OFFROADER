@@ -146,6 +146,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         val viewPagerAdapter = ViewPagerAdapter(this)
+        binding.vpMain.offscreenPageLimit = 5
         binding.vpMain.adapter = viewPagerAdapter
 
 //        binding.vpMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
