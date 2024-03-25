@@ -308,27 +308,37 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
         viewHillTime(totalTime, tvTimeInfo)
     }
 
-    // 아코디언 UI 텍스트 편
-    private fun viewMoreText(view: View, isExpanded: Boolean, layoutExpand: ConstraintLayout) {
-        ToggleAnimation.toggleArrow(view, isExpanded)
-        if (isExpanded) {
-            ToggleAnimation.expand(layoutExpand)
-        } else {
-            ToggleAnimation.collapse(layoutExpand)
-        }
-    }
-
     // 토글 클릭 시 아코디언 UI 펼첬다 접었다 하기
-    private fun setOnClickToggle(toggle: ImageView, accordian: ConstraintLayout) {
-        var isExp = false
+    // 아코디언 UI 텍스트 편
+    //변수명 통일
+    private fun setOnClickToggle(toggle: ImageView, layout: ConstraintLayout) {
+        var isExpand = false
 
         toggle.setOnClickListener {
-            viewMoreText(it, !isExp, accordian)
+            isExpand = !isExpand
+            when (isExpand) {
+                true -> {
+                    ToggleAnimation.toggleArrow(it, isExpand)
+                    ToggleAnimation.expand(layout)
+                }
+                false -> {
+                    ToggleAnimation.toggleArrow(it, isExpand)
+                    ToggleAnimation.collapse(layout)
+                }
+            }
 
-            isExp = if (accordian.visibility == View.VISIBLE) true
-            else false
+
+//
+//            Log.d(TAG, "setOnClickToggle: ${accordian.id}")
+//            viewMoreText(it, isExpand, accordian)
+//            isExpand = !isExpand
+
+//            isExp = if (accordian.visibility == View.VISIBLE) true
+//            else false
         }
     }
+
+
 
     // 등산 시간을 출력시켜주는 함수
     @SuppressLint("SetTextI18n")
