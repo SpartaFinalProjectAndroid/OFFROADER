@@ -71,7 +71,7 @@ class MyDetailFragment : Fragment() {
 
         myDetailViewModel.getUserData("user_test") // 파이어스토에 해당 유저 UID에 맞는 데이터 가져오기
         loadData()
-        initBlur()
+//        blurMyInfo()
         initObserver()
 
         return binding.root
@@ -89,7 +89,7 @@ class MyDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initBlur()
+//        blurMyInfo()
 
         // Lv Dialog
 //        setLvDialog()
@@ -179,6 +179,10 @@ class MyDetailFragment : Fragment() {
         } else {
             tvMyPostCount.text = myPosts?.size.toString()
         }
+
+        binding.blur.visibility = View.GONE
+        binding.tvLogin.visibility = View.GONE
+
     }
 
     private fun setNoLoggedInUser() = with(binding) {
@@ -191,6 +195,7 @@ class MyDetailFragment : Fragment() {
         clMyPost.isClickable = false
         tvMyPostCount.text = "-"
 
+        blurMyInfo()
 
     }
 
@@ -230,12 +235,11 @@ class MyDetailFragment : Fragment() {
     }
 
     // 로그인 상태가 아닐 때, blur처리
-    private fun initBlur() {
-        val blur = binding.blur
-        with(blur) {
-            setupWith(binding.clMyInfo)
+    private fun blurMyInfo() {
+        with(binding.blur) {
+            setupWith(binding.clDetailRoot)
                 .setBlurEnabled(true)
-                .setBlurRadius(15f)
+                .setBlurRadius(4f)
         }
     }
 
