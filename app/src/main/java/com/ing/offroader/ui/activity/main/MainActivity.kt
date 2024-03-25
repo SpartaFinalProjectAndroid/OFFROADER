@@ -249,7 +249,8 @@ class MainActivity : AppCompatActivity() {
 
                         //최종 세로값의 한계 좌표를 지정
                         //clRadioContainer와 bottomNav를 빼줘야 하는데 민용님 뷰페이저 작업중이라 일단 임시값으로 지정
-                        val finalY = max(0f + moveMargin, min(view.y, view.rootView.height - view.height.toFloat() - binding.clRadioContainer.height - 400 - moveMargin))
+                        //현재 문제 : 하단 제한값이 적용되지 않고 있고, xml레이아웃에서 초기위치 마진이 tablayout으로 변경된 후 조정할 수 없는 문제가 있음
+                        val finalY = max(0f + moveMargin, min(view.y, view.rootView.height - view.height.toFloat() - binding.clRadioContainer.height - binding.tlBottomTab.height - 125- moveMargin))
 
                         //ACTION_UP 시점 위치에서 계산한 스냅 위치로 애니메이션 이동
                         view.animate()

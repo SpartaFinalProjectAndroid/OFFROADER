@@ -338,9 +338,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginVertical="15dp"
         android:background="@drawable/apply_recycler_bg_single"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -375,7 +375,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_recode"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_margin="20dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
