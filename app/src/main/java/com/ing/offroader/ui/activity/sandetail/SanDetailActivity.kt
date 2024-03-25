@@ -148,9 +148,9 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                slideImageHandler.removeCallbacks(slideImageRunnable)
                 // 이미지 사진이 1장일 때 자동 스크롤 방지
-                if (imageSize > 2) slideImageHandler.postDelayed(slideImageRunnable, 5000)
+                if (imageSize > 1) { slideImageHandler.postDelayed(slideImageRunnable, 5000) }
+                else { slideImageHandler.removeCallbacks(slideImageRunnable) }
             }
         })
     }
@@ -356,8 +356,10 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
     // 좋아요 기능
     private fun initBookmark(sanlist: SanDetailDTO) {
         with(binding) {
+            val myLikedSan = MyLikedSan(sanlist.mountain, sanlist.thumbnail)
+
             // 초기화
-            if (sanDetailViewModel.sanLikedList.value?.contains(sanlist.mountain) == true) {
+            if (sanDetailViewModel.sanLikedList.value?.contains(myLikedSan) == true) {
                 sanlist.isliked = true
                 ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
             } else {
@@ -370,9 +372,9 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
 
                 //ViewModel LiveData로 저장
                 if (sanlist.isliked) {
-                    sanDetailViewModel.removeSanLikedList(sanlist.mountain)
+                    sanDetailViewModel.removeSanLikedList(myLikedSan)
                 } else {
-                    sanDetailViewModel.addSanLikedList(sanlist.mountain)
+                    sanDetailViewModel.addSanLikedList(myLikedSan)
                 }
 
                 sanlist.isliked = !sanlist.isliked
@@ -390,6 +392,7 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
         }
 
     }
+
 
     // SharedPreference 저장
     private fun <T> saveData(preferKey: String, dataKey: String, data: T) {
@@ -410,8 +413,8 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
             val gson = Gson()
             val json = prefs.getString(LikedConstants.LIKED_PREF_KEY, "")
             try {
-                val type = object : TypeToken<MutableList<String>>() {}.type
-                val sanStore: MutableList<String> = gson.fromJson(json, type)
+                val type = object : TypeToken<MutableList<MyLikedSan>>() {}.type
+                val sanStore: MutableList<MyLikedSan> = gson.fromJson(json, type)
                 sanDetailViewModel.loadSanLikedList(sanStore)
 
                 Log.d(TAG, "저장된 목록 : ${sanStore}")

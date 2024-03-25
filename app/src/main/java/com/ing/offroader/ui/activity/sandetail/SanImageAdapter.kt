@@ -32,7 +32,7 @@ class SanImageAdapter(
     }
 
     override fun getItemCount(): Int {
-        return Int.MAX_VALUE
+        return mItems.size
     }
 
     inner class Holder(val binding: ItemAdapterMountainBinding) :
