@@ -8,6 +8,19 @@
     android:paddingTop="2dp"
     android:paddingBottom="7dp">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_chat_loading"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:scaleY="2"
+        android:scaleX="2"
+        android:visibility="invisible"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/ani_chat_loading"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/ll_chat_ai"
         android:layout_width="wrap_content"
@@ -24,7 +37,7 @@
             android:id="@+id/tv_chat_ai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="250dp"
+            android:maxWidth="300dp"
             android:padding="10dp"
             android:text="@string/item_chatbot_text_ai"
             android:textColor="@color/black"
@@ -47,7 +60,7 @@
             android:id="@+id/tv_chat_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="250dp"
+            android:maxWidth="300dp"
             android:padding="10dp"
             android:text="@string/item_chatbot_text_user"
             android:textColor="@color/white"
