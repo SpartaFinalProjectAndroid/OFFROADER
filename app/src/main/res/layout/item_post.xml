@@ -91,7 +91,6 @@
         android:id="@+id/iv_uploaded_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:src="@drawable/img_mountain"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -86,13 +86,13 @@
     <TextView
         android:id="@+id/markerInfo"
         android:layout_width="0dp"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="120dp"
         android:background="@drawable/map_info_edge"
         android:elevation="10dp"
-        android:minHeight="100dp"
+        android:minHeight="120dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/map_view"
         app:layout_constraintEnd_toEndOf="@id/map_view"
@@ -164,5 +164,21 @@
         app:layout_constraintBottom_toBottomOf="@id/markerInfo"
         app:layout_constraintStart_toStartOf="@id/markerInfo"
         app:layout_constraintTop_toTopOf="@id/markerInfo" />
+
+    <TextView
+        android:id="@+id/btn_recordStart"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/map_info_edge"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:elevation="10dp"
+        android:fontFamily="@font/pretendard_regular"
+        android:text="@string/san_map_record_start"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/markerInfo"
+        app:layout_constraintEnd_toEndOf="@+id/map_view"
+        app:layout_constraintStart_toStartOf="@+id/map_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

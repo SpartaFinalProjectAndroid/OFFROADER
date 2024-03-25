@@ -8,10 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.ing.offroader.data.model.userInfo.UserData
 import com.ing.offroader.data.repository.SanListRepository
 import com.ing.offroader.data.repository.UserRepository
+import com.ing.offroader.ui.activity.add_post.PostRepository
+import com.ing.offroader.ui.fragment.community.model.PostDTO
 import kotlinx.coroutines.launch
 import kotlin.system.measureTimeMillis
 
-class MyDetailViewModel(sanListRepository: SanListRepository) : ViewModel() {
+private const val TAG = "태그 : MyDetailViewModel"
+
+class MyDetailViewModel(sanListRepository: SanListRepository, private val postRepository: PostRepository) : ViewModel() {
     private val repo : SanListRepository = sanListRepository
 
 //    val myDetailDTO : LiveData<MyDetailDTO> = repo.myInfo
@@ -24,6 +28,15 @@ class MyDetailViewModel(sanListRepository: SanListRepository) : ViewModel() {
     val userData : LiveData<UserData> = _userData
 
     private val userRepository : UserRepository = UserRepository()
+
+    // 내 게시물 가져오기 :
+    val myPostItems : LiveData<ArrayList<PostDTO?>?> = postRepository.myPostItems
+
+    fun setRepository() {
+        Log.d(TAG, "setRepository: ")
+        postRepository.setMyPost()
+    }
+
 
 
     // UID를 받아와서 UserRepository의 getUserData 함수를 호출 하여

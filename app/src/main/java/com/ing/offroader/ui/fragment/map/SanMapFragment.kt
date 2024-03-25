@@ -1,12 +1,16 @@
 package com.ing.offroader.ui.fragment.map
 
 import android.Manifest
+import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Outline
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,11 +27,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ing.offroader.BuildConfig
 import com.ing.offroader.R
 import com.ing.offroader.databinding.FragmentSanMapBinding
+import com.ing.offroader.ui.activity.main.adapters.ViewPagerAdapter
+import com.ing.offroader.ui.activity.record.RecordActivity
 import com.ing.offroader.ui.activity.sandetail.SanDetailActivity
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
@@ -41,12 +53,15 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.UiSettings
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
+import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MapConstants
 import com.naver.maps.map.widget.CompassView
 import com.naver.maps.map.widget.ScaleBarView
 import com.naver.maps.map.widget.ZoomControlView
 import java.text.NumberFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class SanMapFragment : Fragment(), OnMapReadyCallback {
@@ -71,7 +86,15 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var uiSettings: UiSettings
 
+    private var user = FirebaseAuth.getInstance().currentUser
     private val firestore = FirebaseFirestore.getInstance()
+
+    lateinit var latLngList: ArrayList<latLng>
+    val date = LocalDateTime.now()
+    var startTime: Long = 0
+    var endTime: Long = 0
+    private lateinit var mName: String
+    private var userDistance: Long = 0
 
     private val requestMultiplePermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -87,6 +110,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         _binding = FragmentSanMapBinding.inflate(inflater, container, false)
         NaverMapSdk.getInstance(requireContext()).client =
             NaverMapSdk.NaverCloudPlatformClient(BuildConfig.NAVERMAPS_API_KEY)
+
         return binding.root
     }
 
@@ -107,7 +131,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     }
 
     // 프래그먼트에 지도 추가
-    private fun initMapView() {
+    fun initMapView() {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map_view) as MapFragment?
                 ?: MapFragment.newInstance().also {
@@ -132,8 +156,39 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         return true
     }
 
+    // 위치 받아와서 저장하는 부분
+    val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(result: LocationResult) {
+            Log.d("location_test", "result: $result")
+            Log.d(ContentValues.TAG, "latitude : ${result.lastLocation!!.latitude}")
+            Log.d(ContentValues.TAG, "latitude : ${result.lastLocation!!.longitude}")
+            Log.d(ContentValues.TAG, "run: 좌표 저장")
+            var lastIdx: Int = 0
+            var lastElement: latLng = latLng(0.0, 0.0)
+            lastIdx = latLngList.size - 1
+            lastElement = latLngList[lastIdx]
+            val preLat: Double = lastElement.lat!!
+            val preLng: Double = lastElement.lng!!
+            latLngList.add(
+                latLng(
+                    result.lastLocation!!.latitude,
+                    result.lastLocation!!.longitude
+                )
+            )
+            Log.d(ContentValues.TAG, "coordinateList: ${latLngList}")
+            val distance = calDist(
+                preLat,
+                preLng,
+                result.lastLocation!!.latitude,
+                result.lastLocation!!.longitude
+            )
+            userDistance += distance
+        }
+    }
+
     // 지도 그리는 부분
     override fun onMapReady(naverMap: NaverMap) {
+        Log.d("민용 지도 확인", "onMapReady : ")
         this.naverMap = naverMap
         // 지도 타입 설정
         this.naverMap.mapType = NaverMap.MapType.Basic
@@ -173,7 +228,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             // 마커 정보를 담을 배열 설정
             var markerDTOs: ArrayList<MarkerDTO> = arrayListOf()
             // Firestore에서 markers collection 접근하여 쿼리를 가져옴
-            firestore.collection("sanTest")
+            firestore.collection("AllSanList")
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     if (querySnapshot == null) {
                         return@addSnapshotListener
@@ -272,6 +327,13 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                         roundLeft(ivMarkerInfoImage, 15f)
                                         markerInfo.visibility = View.VISIBLE
                                         ivMarkerInfoImage.visibility = View.VISIBLE
+                                        user = FirebaseAuth.getInstance().currentUser
+                                        if (user?.uid == null) {
+                                            btnRecordStart.visibility = View.GONE
+                                        } else if (user!!.uid != null) {
+                                            btnRecordStart.visibility = View.VISIBLE
+                                            mName = markerDTOs[idx].name.toString()
+                                        }
                                     } else if (markerInfo.visibility == View.VISIBLE) {
                                         markerInfo.visibility = View.GONE
                                         ivMarkerInfoImage.visibility = View.GONE
@@ -288,6 +350,9 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                     if (markerInfo.visibility == View.VISIBLE) {
                                         markerInfo.visibility = View.GONE
                                         ivMarkerInfoImage.visibility = View.GONE
+                                        if (startTime == 0.toLong()) {
+                                            btnRecordStart.visibility = View.GONE
+                                        }
                                     }
                                 }
                                 markers[idx]!!.map = naverMap
@@ -324,6 +389,94 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                     }
 
                 }
+            latLngList = arrayListOf<latLng>()
+            val timeFormat = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm:ss")
+            val path = PathOverlay()
+            var start = false
+            btnRecordStart.setOnClickListener {
+                val request =
+                    LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).build()
+                if (!start) {
+                    start = true
+                    btnRecordStart.text = "등산 종료"
+                    startTime = System.currentTimeMillis()
+                    latLngList.clear()
+                    latLngList.add(
+                        latLng(
+                            locationSource.lastLocation!!.latitude,
+                            locationSource.lastLocation!!.longitude
+                        )
+                    )
+                    fusedLocationClient.requestLocationUpdates(
+                        request, locationCallback, Looper.myLooper()!!
+                    )
+                } else {
+                    start = false
+                    btnRecordStart.text = "등산 시작"
+                    fusedLocationClient.removeLocationUpdates(locationCallback)
+                    user = FirebaseAuth.getInstance().currentUser
+                    if (user!!.uid != null) {
+                        val documentFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm")
+                        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                        val docString = date.format(documentFormatter)
+                        val nowString = date.format(dateFormatter)
+                        endTime = System.currentTimeMillis()
+                        val duration = calTime(startTime, endTime)
+                        val listData = hashMapOf(
+                            "distance" to userDistance,
+                            "date" to nowString,
+                            "duration" to duration,
+                            "latLng" to latLngList
+                        )
+                        Log.d(TAG, "listData : $listData")
+                        Log.d(TAG, "duration : $duration")
+                        firestore.collection("polyLine").document(user!!.uid).collection(mName)
+                            .document(docString).set(listData)
+                            .addOnSuccessListener { Log.d(TAG, "저장 성공") }
+                            .addOnFailureListener { e -> Log.d(TAG, "저장 실패", e) }
+                        startTime = 0
+                        endTime = 0
+                        val intent = Intent(activity, RecordActivity::class.java)
+                        intent.putExtra("name", mName)
+                        intent.putExtra("date", docString)
+                        intent.putExtra("distance", userDistance)
+                        startActivity(intent)
+                    }
+                }
+            }
+
+        }
+    }
+
+    // 좌표 간 거리 계산
+    private fun calDist(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Long {
+        val EARTH_R = 6371000.0
+        val rad = Math.PI / 180
+        val radLat1 = rad * lat1
+        val radLat2 = rad * lat2
+        val radDist = rad * (lon1 - lon2)
+
+        var distance = Math.sin(radLat1) * Math.sin(radLat2)
+        distance = distance + Math.cos(radLat1) * Math.cos(radLat2) * Math.cos(radDist)
+        val ret = EARTH_R * Math.acos(distance)
+
+        return Math.round(ret) // meter
+    }
+
+    // 등산 소요시간 계산
+    fun calTime(startTime: Long, endTime: Long): String {
+        val time = (endTime - startTime) / 1000
+        val sec = time % 60
+        val min = time / 60 % 60
+        val hour = time / 3600
+
+        Log.d(ContentValues.TAG, "startTime: $startTime")
+        Log.d(ContentValues.TAG, "endTime: $endTime")
+
+        return when {
+            hour > 0 -> "${hour}시 ${min}분 ${sec}초"
+            min > 0 -> "${min}분 ${sec}초"
+            else -> "${sec}초"
         }
     }
 

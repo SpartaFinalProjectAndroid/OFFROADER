@@ -131,7 +131,7 @@ class SanListFragment : Fragment() {
 
     // 선택된 산 디테일 정보를 표시해주는 코드
     private fun setSelectedSan(selectedItem: SanDTO) {
-//        Log.d(TAG, "setSelectedSan 화면 구성 $selectedItem")
+        Log.d(TAG, "setSelectedSan 화면 구성 $selectedItem")
 
         Glide.with(this).load(selectedItem.sanImage?.get(0)).into(binding.ivSelectedImage)
 

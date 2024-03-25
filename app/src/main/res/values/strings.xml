@@ -4,7 +4,7 @@
     <!--    ChatBotFragment-->
     <string name="chatbot_ask_hint">궁금한 것을 물어보세요!</string>
     <string name="chatbot_delete_history">기록 지우기</string>
-    <string name="chatbot_hikey">히키</string>
+    <string name="chatbot_hikey">하이키</string>
     <string name="chatbot_bongbong">봉봉이</string>
     <string name="chatbot_mbti_f">MBTI F</string>
     <string name="chatbot_mbti_t">MBTI T</string>
@@ -44,6 +44,7 @@
     <string name="mountain_name">산 명칭</string>
     <string name="mountain_height">1,000m</string>
     <string name="mountain_description">산 설명</string>
+    <string name="san_map_record_start">등산 시작</string>
     <!--    MainActivity-->
     <string name="mbc_channel_name_standard_fm">표준FM</string>
     <string name="mbc_channel_name_fm4U">FM4U</string>
@@ -89,7 +90,7 @@
     <string name="add_post_content_hint">내용을 입력해주세요.</string>
     <string name="default_web_client_id">399146829257-9m5hulcsutibi2c360od30de3fqqedp7.apps.googleusercontent.com</string>
 
-<!--    dialog_lv-->
+    <!--    dialog_lv-->
     <string name="dialog_lv">레벨</string>
     <string name="dialog_lv1">Lv. 1</string>
     <string name="dialog_lv1_title">등린이</string>
@@ -109,7 +110,16 @@
     <string name="dialog_achieve_lv5">150~</string>
     <string name="achieve_achieve">업적</string>
     <string name="achieve_anumberof_badge">뱃지 갯수</string>
+    <string name="my_post_title">내 게시물</string>
 
+    <!--    Record Activity-->
+    <string name="record_mountain_name">지리산</string>
+    <string name="record_date">2024-03-21 16:50</string>
+    <string name="record_date_text">등산일시</string>
+    <string name="record_distance_text">등산거리</string>
+    <string name="record_distance">1.7km</string>
+    <string name="record_duration_text">소요시간</string>
+    <string name="record_duration">1시간 20분 30초</string>
 
     <!--    Achieve Activity-->
 
