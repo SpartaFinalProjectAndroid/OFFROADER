@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import com.ing.offroader.ui.activity.main.adapters.HttpItem
 import com.ing.offroader.ui.activity.main.repository.RadioRepository
 import com.ing.offroader.ui.activity.sandetail.MyLikedSan
-import kotlin.concurrent.thread
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
