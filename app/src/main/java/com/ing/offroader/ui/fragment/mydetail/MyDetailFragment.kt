@@ -221,8 +221,10 @@ class MyDetailFragment : Fragment() {
         ivSetting.setOnClickListener {
             Toast.makeText(activity, "곧 구현될 예정입니다 :)", Toast.LENGTH_SHORT).show()
         }
-
-
+        //등산 기록
+        clRecord.setOnClickListener {
+            Toast.makeText(activity, "준비중입니다 :)", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // 로그인 상태가 아닐 때, blur처리
