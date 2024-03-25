@@ -18,6 +18,7 @@ import android.view.ViewOutlineProvider
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -32,13 +33,11 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ing.offroader.BuildConfig
 import com.ing.offroader.R
 import com.ing.offroader.databinding.FragmentSanMapBinding
-import com.ing.offroader.ui.activity.main.adapters.ViewPagerAdapter
 import com.ing.offroader.ui.activity.record.RecordActivity
 import com.ing.offroader.ui.activity.sandetail.SanDetailActivity
 import com.naver.maps.geometry.LatLng
@@ -89,11 +88,12 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     private var user = FirebaseAuth.getInstance().currentUser
     private val firestore = FirebaseFirestore.getInstance()
 
-    lateinit var latLngList: ArrayList<latLng>
+    lateinit var coordinateList: ArrayList<Coordinate>
     val date = LocalDateTime.now()
     var startTime: Long = 0
     var endTime: Long = 0
     private lateinit var mName: String
+    private lateinit var category: String
     private var userDistance: Long = 0
 
     private val requestMultiplePermissions =
@@ -164,18 +164,20 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             Log.d(ContentValues.TAG, "latitude : ${result.lastLocation!!.longitude}")
             Log.d(ContentValues.TAG, "run: 좌표 저장")
             var lastIdx: Int = 0
-            var lastElement: latLng = latLng(0.0, 0.0)
-            lastIdx = latLngList.size - 1
-            lastElement = latLngList[lastIdx]
+            var lastElement: Coordinate =
+                Coordinate(0.0, 0.0)
+            lastIdx = coordinateList.size - 1
+            lastElement = coordinateList[lastIdx]
             val preLat: Double = lastElement.lat!!
             val preLng: Double = lastElement.lng!!
-            latLngList.add(
-                latLng(
+            coordinateList.add(
+                Coordinate(
                     result.lastLocation!!.latitude,
                     result.lastLocation!!.longitude
                 )
             )
-            Log.d(ContentValues.TAG, "coordinateList: ${latLngList}")
+            Log.d(TAG, "size: ${coordinateList.size}")
+            Log.d(ContentValues.TAG, "coordinateList: ${coordinateList}")
             val distance = calDist(
                 preLat,
                 preLng,
@@ -333,6 +335,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                         } else if (user!!.uid != null) {
                                             btnRecordStart.visibility = View.VISIBLE
                                             mName = markerDTOs[idx].name.toString()
+                                            category = markerDTOs[idx].category.toString()
                                         }
                                     } else if (markerInfo.visibility == View.VISIBLE) {
                                         markerInfo.visibility = View.GONE
@@ -389,20 +392,20 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                     }
 
                 }
-            latLngList = arrayListOf<latLng>()
+            coordinateList = arrayListOf<Coordinate>()
             val timeFormat = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm:ss")
             val path = PathOverlay()
             var start = false
             btnRecordStart.setOnClickListener {
                 val request =
-                    LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).build()
+                    LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 2000).build()
                 if (!start) {
                     start = true
                     btnRecordStart.text = "등산 종료"
                     startTime = System.currentTimeMillis()
-                    latLngList.clear()
-                    latLngList.add(
-                        latLng(
+                    coordinateList.clear()
+                    coordinateList.add(
+                        Coordinate(
                             locationSource.lastLocation!!.latitude,
                             locationSource.lastLocation!!.longitude
                         )
@@ -414,37 +417,46 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                     start = false
                     btnRecordStart.text = "등산 시작"
                     fusedLocationClient.removeLocationUpdates(locationCallback)
-                    user = FirebaseAuth.getInstance().currentUser
-                    if (user!!.uid != null) {
-                        val documentFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm")
-                        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-                        val docString = date.format(documentFormatter)
-                        val nowString = date.format(dateFormatter)
-                        endTime = System.currentTimeMillis()
-                        val duration = calTime(startTime, endTime)
-                        val listData = hashMapOf(
-                            "distance" to userDistance,
-                            "date" to nowString,
-                            "duration" to duration,
-                            "latLng" to latLngList
-                        )
-                        Log.d(TAG, "listData : $listData")
-                        Log.d(TAG, "duration : $duration")
-                        firestore.collection("polyLine").document(user!!.uid).collection(mName)
-                            .document(docString).set(listData)
-                            .addOnSuccessListener { Log.d(TAG, "저장 성공") }
-                            .addOnFailureListener { e -> Log.d(TAG, "저장 실패", e) }
-                        startTime = 0
-                        endTime = 0
-                        val intent = Intent(activity, RecordActivity::class.java)
-                        intent.putExtra("name", mName)
-                        intent.putExtra("date", docString)
-                        intent.putExtra("distance", userDistance)
-                        startActivity(intent)
+                    if (coordinateList.size < 10) {
+                        Toast.makeText(
+                            activity,
+                            "등산시간이 짧아 기록되지 않았습니다.\n30분 이상 기록해주세요",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        user = FirebaseAuth.getInstance().currentUser
+                        if (user!!.uid != null) {
+                            val documentFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm")
+                            val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                            val docString = date.format(documentFormatter)
+                            val nowString = date.format(dateFormatter)
+                            endTime = System.currentTimeMillis()
+                            val duration = calTime(startTime, endTime)
+                            val listData = hashMapOf(
+                                "distance" to userDistance,
+                                "date" to nowString,
+                                "duration" to duration,
+                                "mountain_name" to mName,
+                                "coordinate" to coordinateList
+                            )
+                            Log.d(TAG, "listData : $listData")
+                            Log.d(TAG, "duration : $duration")
+                            firestore.collection("polyLine").document(user!!.uid).collection(category)
+                                .document(docString).set(listData)
+                                .addOnSuccessListener { Log.d(TAG, "저장 성공") }
+                                .addOnFailureListener { e -> Log.d(TAG, "저장 실패", e) }
+                            startTime = 0
+                            endTime = 0
+                            val intent = Intent(activity, RecordActivity::class.java)
+                            intent.putExtra("name", mName)
+                            intent.putExtra("category", category)
+                            intent.putExtra("date", docString)
+                            intent.putExtra("distance", userDistance)
+                            startActivity(intent)
+                        }
                     }
                 }
             }
-
         }
     }
 
