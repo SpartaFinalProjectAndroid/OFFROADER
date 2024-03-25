@@ -21,7 +21,7 @@ class CommunityAdapter(private val viewModel: CommunityViewModel) :
         DIFF_CALLBACK
     ) {
 
-    interface ItemMoreClick { fun itemMoreClick(user: FirebaseUser?, item: PostDTO?) }
+    interface ItemMoreClick { fun itemMoreClick(item: PostDTO?) }
     interface ItemHeartClick { fun itemHeartClick() }
 
     var moreClick : ItemMoreClick ?= null
@@ -49,25 +49,16 @@ class CommunityAdapter(private val viewModel: CommunityViewModel) :
             item.uid.toString().let{
                 FirebaseFirestore.getInstance().collection("User").document(it).get().addOnSuccessListener { documentSnapshot ->
                     val user = documentSnapshot.toObject(UserData::class.java)
-//                    Log.d(TAG, "onBindViewHolder: $user")
                     userid.text = user?.user_name.toString()
                     Glide.with(holder.profileImage.context).load(user?.photo_Url).into(holder.profileImage)
-
-
                 }
             }
 
             moreButton.setOnClickListener {
-
-                if(loggedInUser?.uid == item.uid) {
-                    moreClick?.itemMoreClick(loggedInUser, item)
-                }
+                moreClick?.itemMoreClick(item)
 
             }
 
-
-//            userid.text =
-//            Log.d(TAG, "onBindViewHolder: providerData: ${user.providerData}")
             title.text = item.title.toString()
             content.text = (item.contents ?: "").toString()
             likeCount.text = item.like.toString()

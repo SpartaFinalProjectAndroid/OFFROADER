@@ -18,7 +18,6 @@ import com.ing.offroader.R
 import com.ing.offroader.data.model.addpost.EditPostDTO
 import com.ing.offroader.databinding.FragmentCommunityBinding
 import com.ing.offroader.ui.activity.add_post.AddPostActivity
-import com.ing.offroader.ui.activity.my_post.MyPostAdapter
 import com.ing.offroader.ui.fragment.community.adapter.CommunityAdapter
 import com.ing.offroader.ui.fragment.community.model.PostDTO
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModel
@@ -104,16 +103,36 @@ class CommunityFragment : Fragment() {
 
     private fun setUpAdapter() {
         communityAdapter.moreClick = object : CommunityAdapter.ItemMoreClick {
-            override fun itemMoreClick(user: FirebaseUser?, item: PostDTO?) {
-                if (user == null) {
-                } else {
-                    setBottomSheetDialog(item)
+            override fun itemMoreClick(item: PostDTO?) {
+                when (user?.uid == item?.uid) {
+                    true -> setEditDeleteBottomSheetDialog(item)
+                    false -> setReportBottomSheetDialog(item)
                 }
             }
         }
     }
 
-    private fun setBottomSheetDialog(item: PostDTO?) {
+    private fun setReportBottomSheetDialog(item: PostDTO?) {
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_other, null)
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        val reportButton: ConstraintLayout? =
+            bottomSheetDialog.findViewById(R.id.cl_report)
+
+        reportButton?.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            ToastMessage("게시물 삭제")
+            // 삭제 다이얼로그 띄우기
+            setUpDeleteDialog(bottomSheetDialog)
+
+        }
+
+        bottomSheetDialog.show()
+    }
+
+    private fun setEditDeleteBottomSheetDialog(item: PostDTO?) {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_my, null)
         val bottomSheetDialog = BottomSheetDialog(requireContext())
 
@@ -122,6 +141,7 @@ class CommunityFragment : Fragment() {
         val deleteButton: ConstraintLayout? =
             bottomSheetDialog.findViewById(R.id.cl_delete)
         val editButton: ConstraintLayout? = bottomSheetDialog.findViewById(R.id.cl_edit)
+
 
         deleteButton?.setOnClickListener {
             bottomSheetDialog.dismiss()
@@ -137,6 +157,10 @@ class CommunityFragment : Fragment() {
 
         }
         bottomSheetDialog.show()
+    }
+
+    private fun showEditDeleteBottomSheet(bottomSheetDialog: BottomSheetDialog) {
+
     }
 
     private fun setUpDeleteDialog(bottomSheetDialog: BottomSheetDialog) {
