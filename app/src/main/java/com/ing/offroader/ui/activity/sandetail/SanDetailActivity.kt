@@ -150,7 +150,7 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
                 super.onPageSelected(position)
                 slideImageHandler.removeCallbacks(slideImageRunnable)
                 // 이미지 사진이 1장일 때 자동 스크롤 방지
-                if(imageSize > 2) slideImageHandler.postDelayed(slideImageRunnable, 5000)
+                if (imageSize > 2) slideImageHandler.postDelayed(slideImageRunnable, 5000)
             }
         })
     }
@@ -363,28 +363,26 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
                 //ViewModel LiveData로 저장
                 if (sanlist.isliked) {
                     sanDetailViewModel.removeSanLikedList(myLikedSan)
-                    if (sanlist.isliked) {
-                        sanDetailViewModel.removeSanLikedList(myLikedSan)
-                    } else {
-                        sanDetailViewModel.addSanLikedList(myLikedSan)
-                    }
-
-                    sanlist.isliked = !sanlist.isliked
-
-                    ivBookmark.setImageResource(
-                        if (sanlist.isliked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
-                    )
-
-                    saveData(
-                        LikedConstants.LIKED_PREFS,
-                        LikedConstants.LIKED_PREF_KEY,
-                        sanDetailViewModel.sanLikedList.value
-                    )
+                } else {
+                    sanDetailViewModel.addSanLikedList(myLikedSan)
                 }
-            }
 
+                sanlist.isliked = !sanlist.isliked
+
+                ivBookmark.setImageResource(
+                    if (sanlist.isliked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
+                )
+
+                saveData(
+                    LikedConstants.LIKED_PREFS,
+                    LikedConstants.LIKED_PREF_KEY,
+                    sanDetailViewModel.sanLikedList.value
+                )
+            }
         }
+
     }
+
 
     // SharedPreference 저장
     private fun <T> saveData(preferKey: String, dataKey: String, data: T) {

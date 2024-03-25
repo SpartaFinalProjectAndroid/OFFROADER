@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
+        loadLikedData()
         Log.d(TAG, "onRestart: ")
     }
 

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_detail_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8F7F3"
@@ -10,6 +11,7 @@
     tools:context=".ui.fragment.mydetail.MyDetailFragment">
 
     <TextView
+        android:id="@+id/tv_detail_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -22,12 +24,14 @@
 
     <ImageView
         android:id="@+id/iv_notify"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="5dp"
+        android:padding="10dp"
         android:src="@drawable/ic_notify"
+        app:layout_constraintBottom_toBottomOf="@id/tv_detail_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/tv_detail_title" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_my_info"
@@ -46,11 +50,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <eightbitlab.com.blurview.BlurView
-                android:id="@+id/blur"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
         </androidx.cardview.widget.CardView>
 
@@ -168,19 +167,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tv_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:fontFamily="@font/pretendard_semibold"
-        android:text="로그인 페이지로 이동"
-        android:textSize="16sp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_my_info" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_level"
         android:layout_width="0dp"
@@ -190,7 +176,7 @@
         android:background="@drawable/apply_recycler_bg_single"
         app:layout_constraintEnd_toStartOf="@id/cl_achievement"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_login">
+        app:layout_constraintTop_toBottomOf="@id/cl_my_info">
 
         <ImageView
             android:id="@+id/iv_lv"
@@ -336,12 +322,42 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <!-- 여기 -->
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/blur"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="-10dp"
+        android:layout_marginEnd="-10dp"
+        android:layout_marginBottom="-10dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@id/cl_my_post"
+        app:layout_constraintEnd_toEndOf="@id/cl_my_info"
+        app:layout_constraintStart_toStartOf="@id/cl_my_info"
+        app:layout_constraintTop_toTopOf="@id/cl_my_info" />
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/bm_hanna_pro"
+        android:paddingVertical="20dp"
+        android:text="로그인 페이지로 이동"
+        android:textSize="20sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@id/blur"
+        app:layout_constraintStart_toStartOf="@id/blur"
+        app:layout_constraintTop_toTopOf="@id/blur" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_recode"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="0dp"
         android:layout_marginVertical="15dp"
+        android:layout_marginTop="0dp"
         android:background="@drawable/apply_recycler_bg_single"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -365,13 +381,16 @@
             android:id="@+id/tv_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="10dp"
             android:fontFamily="@font/pretendard_medium"
+            android:paddingHorizontal="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="14dp"
             android:text="편집"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_recode"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tv_recode" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_recode"
