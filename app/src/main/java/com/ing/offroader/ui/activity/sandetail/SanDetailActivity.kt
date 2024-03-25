@@ -150,7 +150,6 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 // 이미지 사진이 1장일 때 자동 스크롤 방지
-                //when문 사용이 불가한지 찾아보기
                 slideImageHandler.removeCallbacks(slideImageRunnable)
                 if (imageSize > 1) { slideImageHandler.postDelayed(slideImageRunnable, 5000) }
             }

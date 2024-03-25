@@ -84,6 +84,8 @@ class MyDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 좋아요 한 산 데이터 받아오기
+        initPreferenceData()
     }
 
     private fun initObserver() {
@@ -116,8 +118,7 @@ class MyDetailFragment : Fragment() {
         Log.d(TAG, "initView: ")
         setUpUserDetail()
         setUpListeners()
-
-
+        initPreferenceData()
     }
 
     private fun initPreferenceData() {
@@ -166,8 +167,6 @@ class MyDetailFragment : Fragment() {
         binding.blur.visibility = View.GONE
         binding.tvLogin.visibility = View.GONE
 
-        // 좋아요 한 산 데이터 받아오기
-        initPreferenceData()
     }
 
     private fun setNoLoggedInUser() = with(binding) {
