@@ -125,11 +125,15 @@ class CommunityFragment : Fragment() {
             bottomSheetDialog.dismiss()
             ToastMessage("게시물 삭제")
             // 삭제 다이얼로그 띄우기
-            setUpDeleteDialog(bottomSheetDialog)
+            setUpReportDialog(bottomSheetDialog)
 
         }
 
         bottomSheetDialog.show()
+    }
+
+    private fun setUpReportDialog(bottomSheetDialog: BottomSheetDialog) {
+
     }
 
     private fun setEditDeleteBottomSheetDialog(item: PostDTO?) {
@@ -160,7 +164,7 @@ class CommunityFragment : Fragment() {
     }
 
     private fun showEditDeleteBottomSheet(bottomSheetDialog: BottomSheetDialog) {
-
+        // TODO : 다이얼로그 디자인 해주세요ㅜㅜㅠㅠ
     }
 
     private fun setUpDeleteDialog(bottomSheetDialog: BottomSheetDialog) {
