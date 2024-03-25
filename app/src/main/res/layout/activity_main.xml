@@ -31,14 +31,12 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tl_bottom_tab"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:tabRippleColor="#00FFFFFF"
         app:tabIndicatorHeight="0dp"
-        app:tabSelectedTextColor="@color/offroader_green"
-        app:tabTextAppearance="@style/tab_text"
-        app:tabIconTint="@color/nav_item_color">
+        app:tabSelectedTextColor="@color/offroader_green">
     </com.google.android.material.tabs.TabLayout>
 
     <com.google.android.material.divider.MaterialDivider
@@ -155,6 +153,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.media3.ui.PlayerView
+        android:visibility="invisible"
         android:id="@+id/view_test"
         android:layout_width="1dp"
         android:layout_height="1dp"
@@ -168,6 +167,7 @@
         android:layout_height="25dp"
         android:layout_margin="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/ic_radio_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -178,10 +178,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:fontFamily="@font/bm_hanna_11yrs_old"
-        android:text="라디오"
+        android:text="@string/main_radio_title"
         android:textColor="@color/offroader_green"
-        android:textSize="25sp"
-        android:textStyle="bold"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@id/iv_radio_back_btn"
         app:layout_constraintStart_toEndOf="@id/iv_radio_back_btn"
         app:layout_constraintTop_toTopOf="@id/iv_radio_back_btn" />
@@ -269,7 +268,7 @@
         android:layout_marginTop="200dp"
         android:fontFamily="@font/pretendard_regular"
         android:gravity="center"
-        android:text="즐겨찾기 목록이 없어요..."
+        android:text="@string/radio_no_like_list"
         android:textSize="20sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

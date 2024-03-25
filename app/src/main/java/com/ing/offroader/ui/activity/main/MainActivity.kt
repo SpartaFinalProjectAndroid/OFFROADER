@@ -7,8 +7,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.OptIn
@@ -92,7 +95,6 @@ class MainActivity : AppCompatActivity() {
 
         initView()
         initObserver()
-
         loadLikedData()
     }
 
@@ -161,26 +163,40 @@ class MainActivity : AppCompatActivity() {
         binding.vpMain.adapter = viewPagerAdapter
 
         TabLayoutMediator(binding.tlBottomTab, binding.vpMain) { tab, position ->
+
+            val tabView : View = LayoutInflater.from(this).inflate(R.layout.custum_tab_button, null)
+
+            val tabIcon = tabView.findViewById<ImageView>(R.id.iv_tab_icon)
+            val tabTitle = tabView.findViewById<TextView>(R.id.tv_tab_title)
+
+
             when(position) {
                 0 -> {
-                    tab.text = "홈"
-                    tab.setIcon(R.drawable.ic_tab_home_unselected)
+                    tabIcon.setImageResource(R.drawable.ic_tab_home_unselected)
+                    tabTitle.setText(R.string.tab_home_title)
+                    tab.setCustomView(tabView)
+
                 }
                 1 -> {
-                    tab.text = "리스트"
-                    tab.setIcon(R.drawable.ic_tab_san_unselected)
+                    tabIcon.setImageResource(R.drawable.ic_tab_san_unselected)
+                    tabTitle.setText(R.string.tab_san_list_title)
+                    tab.setCustomView(tabView)
+
                 }
                 2 -> {
-                    tab.text = "지도"
-                    tab.setIcon(R.drawable.ic_tab_map_unselected)
+                    tabIcon.setImageResource(R.drawable.ic_tab_map_unselected)
+                    tabTitle.setText(R.string.tab_map_title)
+                    tab.setCustomView(tabView)
                 }
                 3 -> {
-                    tab.text = "커뮤니티"
-                    tab.setIcon(R.drawable.ic_tab_community_unselected)
+                    tabIcon.setImageResource(R.drawable.ic_tab_community_unselected)
+                    tabTitle.setText(R.string.tab_community_title)
+                    tab.setCustomView(tabView)
                 }
                 4 -> {
-                    tab.text = "내 정보"
-                    tab.setIcon(R.drawable.ic_tab_my_unselected)
+                    tabIcon.setImageResource(R.drawable.ic_tab_my_unselected)
+                    tabTitle.setText(R.string.tab_my_page_title)
+                    tab.setCustomView(tabView)
                 }
             }
         }.attach()
