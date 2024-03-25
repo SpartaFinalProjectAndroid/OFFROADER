@@ -2,8 +2,10 @@ package com.ing.offroader.ui.activity.add_post
 
 import android.app.Activity
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -12,6 +14,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import com.ing.offroader.data.model.addpost.EditPostDTO
 import com.ing.offroader.databinding.ActivityAddPostBinding
 import com.ing.offroader.ui.fragment.community.MyApplication
 import org.apache.commons.io.output.ByteArrayOutputStream
@@ -24,10 +29,14 @@ class AddPostActivity : AppCompatActivity() {
     private val addPostViewModel by viewModels<AddPostViewModel> {
         AddPostViewModelFactory((this.application as MyApplication).postRepository)
     }
+    private var editPostInfo : EditPostDTO? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityAddPostBinding.inflate(layoutInflater)
+
+        editPostInfo = intent.getParcelableExtra("POST_INFO")
+
         setContentView(binding.root)
         initView()
         initObserver()
@@ -51,7 +60,49 @@ class AddPostActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        setUpEditActivity()
         setupListener()
+    }
+
+    private fun setUpEditActivity() = with(binding){
+        if (editPostInfo != null) {
+            addPostViewModel.setEditMode(editPostInfo?.postId)
+
+            etTitle.setText(editPostInfo?.title)
+            if (editPostInfo?.content == "null") {
+                Log.d(TAG, "setUpEditActivity: ${editPostInfo?.content}")
+                etContent.text = Editable.Factory.getInstance().newEditable(" ")
+            } else {
+                etContent.setText(editPostInfo?.content)
+            }
+            setEditImage(editPostInfo?.postId)
+
+        }
+        addPostViewModel.titleChangedListener(etTitle.text.toString())
+
+    }
+
+    private fun setEditImage(postId: String?) {
+        val storage = Firebase.storage("gs://offroader-event.appspot.com")
+        val storageRef =
+            storage.reference.child("Offroader_res/post_image/${postId}.jpg")
+
+        // 디비 스토리지에서 받아온 값을 메모리에 저장하려고 함. 앱 메모리보다 큰 사진을 불러오면 크래시가 나기 때문에 불러올 때 메모리의 크기 제한을 둠.
+        val ONE_MEGABYTE: Long = 1024 * 1024
+        storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
+            // 바이트어레이를 비트맵으로 변환해주는 코드
+            val image = BitmapFactory.decodeByteArray(it, 0, it.size)
+            // 비트맵을 바인딩해주는 코드
+            binding.ivSelectedImg.setImageBitmap(image)
+
+            val baos = ByteArrayOutputStream()
+            image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
+
+            addPostViewModel.addImageUri(data)
+        }.addOnFailureListener {
+            Log.d(TAG, "onBindViewHolder: 사진 받아오는거 실패함. 알아서 하셈.")
+        }
     }
 
     private fun setupListener() = with(binding) {

@@ -1,26 +1,19 @@
 package com.ing.offroader.ui.activity.my_post
 
-import android.app.Dialog
-import android.graphics.BitmapFactory
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.ing.offroader.data.model.userInfo.UserData
-import com.ing.offroader.data.model.weather.Wind
 import com.ing.offroader.databinding.ItemPostBinding
 import com.ing.offroader.ui.fragment.community.model.PostDTO
-import kotlin.coroutines.coroutineContext
 
 class MyPostAdapter(private val viewModel: MyPostViewModel) :
     ListAdapter<PostDTO, RecyclerView.ViewHolder>(
@@ -32,33 +25,25 @@ class MyPostAdapter(private val viewModel: MyPostViewModel) :
         return PostItemViewHolder(binding)
     }
 
+    interface ItemMoreClick { fun itemMoreClick(user: FirebaseUser?, item: PostDTO?) }
+    interface ItemHeartClick { fun itemHeartClick() }
+
+    var moreClick : ItemMoreClick ?= null
+    var heartClick : ItemHeartClick ?= null
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val user = FirebaseAuth.getInstance().currentUser
         val item = getItem(position)
 
+
         (holder as PostItemViewHolder).apply {
 
-
-            val storage = Firebase.storage("gs://offroader-event.appspot.com")
-            // 저장소 위치 참조
-            val storageRef = storage.reference
-            // 파일 위치 참조
-            val pathRef = storageRef.child("Offroader_res/post_image/${item.post_id}.jpg")
-
-            // 디비 스토리지에서 받아온 값을 메모리에 저장하려고 함. 앱 메모리보다 큰 사진을 불러오면 크래시가 나기 때문에 불러올 때 메모리의 크기 제한을 둠.
-            val ONE_MEGABYTE: Long = 1024*1024
-            pathRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
-                // 바이트어레이를 비트맵으로 변환해주는 코드
-                val image = BitmapFactory.decodeByteArray(it,0,it.size)
-                // 비트맵을 바인딩해주는 코드
-                postImage.setImageBitmap(image)
-            }.addOnFailureListener {
-                Log.d(TAG, "onBindViewHolder: 사진 받아오는거 실패함. 알아서 하셈.")
-            }
+            // 비트맵을 바인딩해주는 코드
+            postImage.setImageBitmap(item.images)
 
             item.uid.toString().let {
-                FirebaseFirestore.getInstance().collection("User").document(it).get().addOnSuccessListener {documentSnapShot ->
+                FirebaseFirestore.getInstance().collection("User").document(it).get().addOnSuccessListener { documentSnapShot ->
                     val user = documentSnapShot.toObject(UserData::class.java)
                     userid.text = user?.user_name.toString()
                     Glide.with(holder.profileImage.context).load(user?.photo_Url).into(profileImage)
@@ -69,6 +54,9 @@ class MyPostAdapter(private val viewModel: MyPostViewModel) :
             content.text = (item.contents?: "").toString()
             likeCount.text = item.like.toString()
             userLevel.visibility = View.INVISIBLE
+            moreButton.setOnClickListener {
+                moreClick?.itemMoreClick(user, item)
+            }
 
 
             val ds = item.upload_date.toString()
@@ -80,7 +68,7 @@ class MyPostAdapter(private val viewModel: MyPostViewModel) :
     }
 
     inner class PostItemViewHolder(binding: ItemPostBinding) :
-        RecyclerView.ViewHolder(binding.root), View.OnClickListener, View.OnLongClickListener {
+        RecyclerView.ViewHolder(binding.root){
 
         private var postItem: ConstraintLayout = binding.clItemPost
 
@@ -92,27 +80,9 @@ class MyPostAdapter(private val viewModel: MyPostViewModel) :
         val postImage = binding.ivUploadedImage
         val likeCount = binding.tvLikeCount
         val date = binding.tvDate
+        val moreButton = binding.ivMore
+        val heartButton = binding.ivHeart
 
-        init {
-            postItem.setOnClickListener(this)
-            postItem.setOnLongClickListener(this)
-        }
-
-        override fun onClick(p0: View?) {
-            val position = adapterPosition.takeIf { it != RecyclerView.NO_POSITION } ?: return
-            val item = getItem(position)
-
-//            viewModel.getSelectedItem(item)
-        }
-
-        override fun onLongClick(v: View?): Boolean {
-            val position = adapterPosition.takeIf { it != RecyclerView.NO_POSITION } ?: return false
-            Log.d(TAG, "onLongClick: ${getItem(position).title.toString()}")
-            val dialog = Dialog(v!!.context)
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.show()
-            return true
-        }
     }
 
 

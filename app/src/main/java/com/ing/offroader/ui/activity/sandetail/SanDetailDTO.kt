@@ -13,7 +13,7 @@ data class SanDetailDTO(
     val summary: String,
     val recommend: String,
     val img: ArrayList<String>,
-    var isLiked: Boolean,
+    var isliked: Boolean,
     var lat : Double,
     var lng : Double,
     var thumbnail: String

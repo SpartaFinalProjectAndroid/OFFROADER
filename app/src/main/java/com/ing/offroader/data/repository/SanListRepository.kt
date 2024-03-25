@@ -72,7 +72,7 @@ class SanListRepository {
 
         Log.d(TAG, "initPush 함수 여기에서 데이터베이스에 있는 값 접근")
 
-        db.collection("sanTest").get().addOnSuccessListener { documents ->
+        db.collection("AllSanList").get().addOnSuccessListener { documents ->
 
             // 산 리스트 DTO를 가져와주는 함수
             setSanListData(index, documents)
@@ -83,7 +83,7 @@ class SanListRepository {
     }
 
     private fun setSanDetail(sanName: String) {
-        db.collection("sanTest").get().addOnSuccessListener { documents ->
+        db.collection("AllSanList").get().addOnSuccessListener { documents ->
             documents?.forEach { document ->
                 val sanList = SanDetailDTO(
                     document.getString("name") ?: "none",
@@ -94,7 +94,7 @@ class SanListRepository {
                     document.getString("summary") ?: "none",
                     document.getString("recommend") ?: "none",
                     document["images"] as ArrayList<String>,
-                    document.getBoolean("isLiked") ?: false,
+                    document.getBoolean("isliked") ?: false,
                     document.getDouble("lat") ?: 0.0,
                     document.getDouble("lng") ?: 0.0,
                     document.getString("thumbnail") ?: "none"
@@ -116,17 +116,14 @@ class SanListRepository {
 
             val rec = HomeUiState(
                 document.getString("address") ?: "",
-                document.getLong("difficulty") ?: 0,
-                document.getLong("height") ?: 0,
                 document["images"] as ArrayList<String>,
-                document.getBoolean("isLiked") ?: false,
-                document.getString("name") ?: "",
-                document.getString("recommend") ?: "",
-                document.getString("summary") ?: "",
-                document.getLong("time_downhill") ?: 0,
+                document.getBoolean("isliked") ?: false,
+                document.getString("name") ?: ""
             )
-            if (document.getField<Boolean>("isLiked") == true) {
+            Log.d(TAG, "setHomeData: $rec")
+            if (document.getField<Boolean>("isliked") == true) {
                 rvItems.add(rec)
+                Log.d(TAG, "setHomeData: $rvItems")
 
                 //데이터 로딩이 완료되면 리사이클러 뷰를 업데이트 한다
 //                        updateRecyclerView()

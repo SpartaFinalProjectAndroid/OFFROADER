@@ -349,11 +349,11 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
             val myLikedSan = MyLikedSan(sanlist.mountain, sanlist.thumbnail)
 
             // 초기화
-            if(sanDetailViewModel.sanLikedList.value?.contains(myLikedSan) == true) {
-                sanlist.isLiked = true
+            if (sanDetailViewModel.sanLikedList.value?.contains(myLikedSan) == true) {
+                sanlist.isliked = true
                 ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
             } else {
-                sanlist.isLiked = false
+                sanlist.isliked = false
                 ivBookmark.setImageResource(R.drawable.ic_bookmark_off)
             }
 
@@ -361,22 +361,29 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
                 Log.d(TAG, "좋아요 클릭")
 
                 //ViewModel LiveData로 저장
-                if (sanlist.isLiked) {
+                if (sanlist.isliked) {
                     sanDetailViewModel.removeSanLikedList(myLikedSan)
-                } else {
-                    sanDetailViewModel.addSanLikedList(myLikedSan)
+                    if (sanlist.isliked) {
+                        sanDetailViewModel.removeSanLikedList(myLikedSan)
+                    } else {
+                        sanDetailViewModel.addSanLikedList(myLikedSan)
+                    }
+
+                    sanlist.isliked = !sanlist.isliked
+
+                    ivBookmark.setImageResource(
+                        if (sanlist.isliked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
+                    )
+
+                    saveData(
+                        LikedConstants.LIKED_PREFS,
+                        LikedConstants.LIKED_PREF_KEY,
+                        sanDetailViewModel.sanLikedList.value
+                    )
                 }
-
-                sanlist.isLiked = !sanlist.isLiked
-
-                ivBookmark.setImageResource(
-                    if (sanlist.isLiked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
-                )
-
-                saveData(LikedConstants.LIKED_PREFS, LikedConstants.LIKED_PREF_KEY, sanDetailViewModel.sanLikedList.value)
             }
-        }
 
+        }
     }
 
     // SharedPreference 저장

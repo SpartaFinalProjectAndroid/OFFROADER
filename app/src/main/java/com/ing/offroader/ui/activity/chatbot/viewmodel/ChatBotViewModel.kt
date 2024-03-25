@@ -45,7 +45,7 @@ class ChatBotViewModel(
 
 
     init {
-        _conversationUiState.value = ChatUiState.init()
+        _conversationUiState.value = ChatUiState(hikeyUiState.value?.chat ?: listOf(), "hikey")
     }
 
 
@@ -171,12 +171,12 @@ class ChatBotViewModel(
                 when (conversationUiState.value?.position) {
                     "hikey" -> addMessageToDB(
                         "assistant",
-                        aiRepo.hikeyChatCompletion(input).choices.first().message.content
+                        aiRepo.hikeyChatCompletion(text).choices.first().message.content
                     )
 
                     "bongbong" -> addMessageToDB(
                         "assistant",
-                        aiRepo.bongbongChatCompletion(input).choices.first().message.content
+                        aiRepo.bongbongChatCompletion(text).choices.first().message.content
                     )
                 }
 

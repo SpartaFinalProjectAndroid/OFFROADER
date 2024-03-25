@@ -1,7 +1,6 @@
 package com.ing.offroader.ui.fragment.mydetail
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,16 +16,12 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.gson.Gson
-import com.google.gson.JsonParseException
-import com.google.gson.reflect.TypeToken
-import com.ing.offroader.data.liked.LikedConstants
 import com.ing.offroader.databinding.FragmentMyDetailBinding
 import com.ing.offroader.ui.activity.achievement.AchievementActivity
 import com.ing.offroader.ui.activity.login.LoginActivity
 import com.ing.offroader.ui.activity.main.MainActivity
-import com.ing.offroader.ui.activity.my_post.MyPostActivity
 import com.ing.offroader.ui.activity.main.MainViewModel
+import com.ing.offroader.ui.activity.my_post.MyPostActivity
 import com.ing.offroader.ui.activity.sandetail.MyLikedSan
 import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.fragment.community.model.PostDTO
@@ -46,11 +41,12 @@ class MyDetailFragment : Fragment() {
 
     private val likedSanViewModel by activityViewModels<MainViewModel>()
 
-//    private val myDetailViewModel by viewModels<MyDetailViewModel>()
+    //    private val myDetailViewModel by viewModels<MyDetailViewModel>()
     private val communityViewModel: CommunityViewModel by viewModels {
         CommunityViewModelFactory((requireActivity().application as MyApplication).postRepository)
     }
-//    private val communityAdapter: CommunityAdapter by lazy {
+
+    //    private val communityAdapter: CommunityAdapter by lazy {
 //        CommunityAdapter(communityViewModel)
 //    }
     private val myDetailViewModel: MyDetailViewModel by viewModels {
@@ -64,7 +60,7 @@ class MyDetailFragment : Fragment() {
     // 사용자 정보 가져오기
     private var user = FirebaseAuth.getInstance().currentUser
 
-    private var myPosts : ArrayList<PostDTO?>? = null
+    private var myPosts: ArrayList<PostDTO?>? = null
 
     @SuppressLint("InflateParams")
     override fun onCreateView(
@@ -81,7 +77,10 @@ class MyDetailFragment : Fragment() {
         /** 프래그먼트에는 onCreateView랑 onViewCreated 가 둘다 있는데 onCreateView에서는 바인딩해주는
          *  작업만 해주고 모든 초기화및 함수 로직은 onViewCreated에서 해줘야한다고 튜터님께서 말씀해주셨어요
          *  꼬일수도 있다고 하셨던 것 같습니다!
+         *
          **/
+
+
 
     }
 
@@ -137,6 +136,7 @@ class MyDetailFragment : Fragment() {
         setUpUserDetail()
         setUpListeners()
 
+
     }
 
     private fun setUpUserDetail() {
@@ -151,13 +151,13 @@ class MyDetailFragment : Fragment() {
     private fun setUserInformation() = with(binding) {
         tvLogin.visibility = View.VISIBLE
         tvLogin.text = "로그아웃"
-        tvId.visibility= View.INVISIBLE
-        tvName.visibility= View.VISIBLE
+        tvId.visibility = View.INVISIBLE
+        tvName.visibility = View.VISIBLE
         tvName.text = user?.displayName
-        tvNameNim.visibility= View.VISIBLE
+        tvNameNim.visibility = View.VISIBLE
         // 아직 구현이 안된 부분이라 숨겨둘 예정
         // 회원 가입 시 로그인 정부 추가 하면 구현할 VISIBLE로 바꿔주고 적절한 값을 추가해주면 되지 않울까욤.
-        tvProfilInfo.visibility= View.INVISIBLE
+        tvProfilInfo.visibility = View.INVISIBLE
         clAddress.visibility = View.INVISIBLE
         Glide.with(requireActivity()).load(user?.photoUrl).into(ivProfil)
         clMyPost.isClickable = true
@@ -171,10 +171,10 @@ class MyDetailFragment : Fragment() {
     private fun setNoLoggedInUser() = with(binding) {
         tvLogin.visibility = View.VISIBLE
 
-        tvId.visibility=View.VISIBLE
+        tvId.visibility = View.VISIBLE
         tvName.visibility = View.INVISIBLE
-        tvNameNim.visibility= View.INVISIBLE
-        tvProfilInfo.visibility= View.INVISIBLE
+        tvNameNim.visibility = View.INVISIBLE
+        tvProfilInfo.visibility = View.INVISIBLE
         clMyPost.isClickable = false
         tvMyPostCount.text = "-"
 
@@ -185,7 +185,7 @@ class MyDetailFragment : Fragment() {
         clMyPost.setOnClickListener {
             user = FirebaseAuth.getInstance().currentUser
             if (user == null) {
-                Toast.makeText(activity,"로그인 후 확인 가능합니다.",Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "로그인 후 확인 가능합니다.", Toast.LENGTH_SHORT).show()
             } else {
                 val intent = Intent(requireActivity(), MyPostActivity::class.java)
                 startActivity(intent)
@@ -211,6 +211,12 @@ class MyDetailFragment : Fragment() {
         clAchievement.setOnClickListener {
             val intent = Intent(requireActivity(), AchievementActivity::class.java)
             startActivity(intent)
+        }
+        ivNotify.setOnClickListener {
+            Toast.makeText(activity, "곧 구현될 예정입니다 :)", Toast.LENGTH_SHORT).show()
+        }
+        ivSetting.setOnClickListener {
+            Toast.makeText(activity, "곧 구현될 예정입니다 :)", Toast.LENGTH_SHORT).show()
         }
 
 
