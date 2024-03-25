@@ -135,8 +135,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.vpMain.isUserInputEnabled = false
 
-
-
         binding.tlBottomTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when(tab?.position) {
