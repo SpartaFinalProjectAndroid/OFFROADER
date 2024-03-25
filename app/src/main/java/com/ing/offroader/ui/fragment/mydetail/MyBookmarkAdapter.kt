@@ -1,49 +1,46 @@
 package com.ing.offroader.ui.fragment.mydetail
 
-interface OnBookmarkClickedInMyLikedListener{
-    fun onBookmarkClicked()
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.ing.offroader.databinding.ItemSanListBinding
+import com.ing.offroader.ui.activity.sandetail.MyLikedSan
+
+class MyBookmarkAdapter(val mItems: MutableList<MyLikedSan>) : RecyclerView.Adapter<MyBookmarkAdapter.Holder>() {
+
+    // 산 클릭 시 기능 추가
+    interface SanClick {
+        fun onClick(item: MyLikedSan)
+    }
+
+    var sanClick: SanClick? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val binding = ItemSanListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return Holder(binding)
+    }
+
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.mountainName.text = mItems[position].mountain
+
+        Glide.with(holder.mountainImage.context)
+            .load(mItems[position].thumbnail)
+            .into(holder.mountainImage)
+
+        holder.itemView.setOnClickListener {
+            sanClick?.onClick(mItems[position])
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return mItems.size
+    }
+
+    inner class Holder(val binding: ItemSanListBinding) : RecyclerView.ViewHolder(binding.root) {
+        val mountainImage = binding.ivSanImage
+        val mountainName = binding.tvSanName
+    }
 }
-//class MyBookmarkAdapter(val mItems: MutableList<MyDetailDTO>) : RecyclerView.Adapter<MyBookmarkAdapter.Holder>(), OnBookmarkClickedInMyLikedListener {
-//
-//    var onBookmarkClickedInMyLikedListener: List<OnBookmarkClickedInMyLikedListener>? = null
-//    private var bookmarkedItem = LikedUtil.getLiked()
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-//        val binding = ItemSanListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//        return Holder(binding)
-//    }
-//
-//    override fun onBindViewHolder(holder: Holder, position: Int) {
-//        if (bookmarkedItem == mItems){
-//            holder.bind(mItems[position])
-//        }
-//    }
-//
-//    override fun getItemCount(): Int {
-//        return bookmarkedItem?.size ?: 0
-//    }
-//
-//    fun refreshRecyclerView() {
-//        bookmarkedItem = LikedUtil.getLiked()
-//        notifyDataSetChanged()
-//    }
-//
-//    override fun onBookmarkClicked() {
-//        Log.d("MyBookmarkAdapter", "onBookmarkClickedInMyLiked")
-//        refreshRecyclerView()
-//    }
-//
-//    inner class Holder(val binding: ItemSanListBinding) : RecyclerView.ViewHolder(binding.root) {
-//        var mountainImage = binding.ivSanImage
-//        var mountainName = binding.tvSanName
-//
-//        fun bind(item: MyDetailDTO) {
-//            mountainName.text = item.mountain
-//
-//            Glide.with(mountainImage.context)
-//                .load(mItems)
-//                .into(mountainImage)
-//        }
-//    }
-//}
 
 

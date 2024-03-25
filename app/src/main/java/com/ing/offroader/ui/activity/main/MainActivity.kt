@@ -2,6 +2,7 @@ package com.ing.offroader.ui.activity.main
 
 import android.annotation.SuppressLint
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,9 @@ import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.toColor
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.media3.common.MediaItem
@@ -21,6 +25,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -30,6 +35,7 @@ import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import com.ing.offroader.R
 import com.ing.offroader.data.RadioChannelURL
+import com.ing.offroader.data.liked.LikedConstants
 import com.ing.offroader.databinding.ActivityMainBinding
 import com.ing.offroader.ui.activity.chatbot.ChatbotActivity
 import com.ing.offroader.ui.activity.main.adapters.HttpItem
@@ -37,6 +43,7 @@ import com.ing.offroader.ui.activity.main.adapters.RadioChannelItem
 import com.ing.offroader.ui.activity.main.adapters.RadioListAdapter
 import com.ing.offroader.ui.activity.main.adapters.ViewPagerAdapter
 import com.ing.offroader.ui.activity.main.mediasession.PlaybackService
+import com.ing.offroader.ui.activity.sandetail.MyLikedSan
 import com.ing.offroader.ui.fragment.community.CommunityFragment
 import com.ing.offroader.ui.fragment.home.HomeFragment
 import com.ing.offroader.ui.fragment.map.SanMapFragment
@@ -47,6 +54,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlin.math.abs
+import kotlin.math.log
 import kotlin.math.max
 import kotlin.math.min
 
@@ -64,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var rvAdapter: RadioListAdapter
     private lateinit var rvAdapterList: MutableList<RadioChannelItem>
-    
+
     override fun onStart() {
         super.onStart()
 
@@ -85,10 +93,12 @@ class MainActivity : AppCompatActivity() {
         initView()
         initObserver()
 
+        loadLikedData()
     }
 
     override fun onRestart() {
         super.onRestart()
+        loadLikedData()
         Log.d(TAG, "onRestart: ")
     }
 
@@ -111,7 +121,7 @@ class MainActivity : AppCompatActivity() {
     private fun setRadioView(size: Int) {
         if (size == 0 && isRadioLikeTab) {
             binding.tvFavoriteNotify.visibility = View.VISIBLE
-            binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
+            binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없어요..."
         } else {
             binding.tvFavoriteNotify.visibility = View.GONE
             binding.tvFavoriteNotify.text = ""
@@ -129,49 +139,51 @@ class MainActivity : AppCompatActivity() {
     private fun setBottomNavigation() {
 
         binding.vpMain.isUserInputEnabled = false
+
         binding.tlBottomTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
-
+                when(tab?.position) {
+                    2 -> binding.mlMain.setTransition(R.id.trs_empty)
+                    3 -> binding.mlMain.setTransition(R.id.trs_empty)
+                    else -> binding.mlMain.setTransition(R.id.trs_basic)
+                }
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
 
         })
 
-        binding.vpMain.adapter = ViewPagerAdapter(this)
 
+        val viewPagerAdapter = ViewPagerAdapter(this)
+        binding.vpMain.offscreenPageLimit = 5
+        binding.vpMain.adapter = viewPagerAdapter
 
         TabLayoutMediator(binding.tlBottomTab, binding.vpMain) { tab, position ->
             when(position) {
                 0 -> {
                     tab.text = "홈"
-                    tab.setIcon(R.drawable.ic_nav_home)
+                    tab.setIcon(R.drawable.ic_tab_home_unselected)
                 }
                 1 -> {
                     tab.text = "리스트"
-                    tab.setIcon(R.drawable.ic_nav_san)
+                    tab.setIcon(R.drawable.ic_tab_san_unselected)
                 }
                 2 -> {
                     tab.text = "지도"
-                    tab.setIcon(R.drawable.ic_nav_map)
+                    tab.setIcon(R.drawable.ic_tab_map_unselected)
                 }
                 3 -> {
                     tab.text = "커뮤니티"
-                    tab.setIcon(R.drawable.ic_nav_chat)
+                    tab.setIcon(R.drawable.ic_tab_community_unselected)
                 }
                 4 -> {
                     tab.text = "내 정보"
-                    tab.setIcon(R.drawable.ic_nav_my)
+                    tab.setIcon(R.drawable.ic_tab_my_unselected)
                 }
             }
         }.attach()
-
     }
 
     @OptIn(UnstableApi::class)
@@ -350,11 +362,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        firstSetting()
+        //firstSetting()
         broadcastInit(RadioChannelURL.RADIO_API_URL, R.drawable.ic_favorite)
 
         cvFavorites.setOnClickListener {
             isRadioLikeTab = true
+            radioListViewModel.radioLikeList.value?.let { setRadioView(it.size) }
+
             broadcastInit(
                 RadioChannelURL.RADIO_API_URL,
                 R.drawable.ic_favorite
@@ -362,6 +376,8 @@ class MainActivity : AppCompatActivity() {
         }
         cvKbs.setOnClickListener {
             isRadioLikeTab = false
+            setRadioView(0)
+
             broadcastInit(
                 RadioChannelURL.KBS_LIST,
                 R.drawable.ic_kbs_radio
@@ -369,6 +385,8 @@ class MainActivity : AppCompatActivity() {
         }
         cvSbs.setOnClickListener {
             isRadioLikeTab = false
+            setRadioView(0)
+
             broadcastInit(
                 RadioChannelURL.SBS_LIST,
                 R.drawable.ic_sbs_radio
@@ -376,6 +394,8 @@ class MainActivity : AppCompatActivity() {
         }
         cvMbc.setOnClickListener {
             isRadioLikeTab = false
+            setRadioView(0)
+
             broadcastInit(
                 RadioChannelURL.MBC_LIST,
                 R.drawable.ic_mbc_radio
@@ -412,9 +432,7 @@ class MainActivity : AppCompatActivity() {
                 rvAdapter = RadioListAdapter(radioListViewModel)
                 rvChannelList.adapter = rvAdapter
                 rvAdapter.submitList(radioListViewModel.radioLikeList.value?.let {
-                    initAdapter(
-                        it
-                    )
+                    initAdapter(it)
                 })
             } else {
                 rvAdapter = RadioListAdapter(radioListViewModel)
@@ -450,7 +468,8 @@ class MainActivity : AppCompatActivity() {
                 override fun heartClick(key: String) {
                     if (radioListViewModel.radioLikeList.value?.contains(key) == true) {
                         radioListViewModel.removeList(key)
-                        //rvAdapter.submitList(radioListViewModel.radioLikeList.value?.let { initAdapter(it) })
+                        if (isRadioLikeTab)
+                            rvAdapter.submitList(radioListViewModel.radioLikeList.value?.let { initAdapter(it) })
                     } else {
                         radioListViewModel.addList(key)
                     }
@@ -461,7 +480,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
             }
-            rvChannelList.adapter = rvAdapter
+            //rvChannelList.adapter = rvAdapter
         }
 
     // 현재 재생중인 라디오 채널의 재생중 표시를 제거하고 어댑터를 업데이트 해준다.
@@ -566,6 +585,25 @@ class MainActivity : AppCompatActivity() {
                 val typeToken = object : TypeToken<MutableList<String>>() {}.type
                 val storeMap: MutableList<String> = gson.fromJson(json, typeToken)
                 radioListViewModel.loadRadioData(storeMap)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    // 좋아요 SharedPreference
+    private fun loadLikedData() {
+        val prefs = getSharedPreferences(LikedConstants.LIKED_PREFS, Context.MODE_PRIVATE)
+        if (prefs?.contains(LikedConstants.LIKED_PREF_KEY) == true) {
+            val gson = Gson()
+            val json = prefs.getString(LikedConstants.LIKED_PREF_KEY, "")
+            try {
+                val type = object : TypeToken<MutableList<MyLikedSan>>() {}.type
+                val sanStore: MutableList<MyLikedSan> = gson.fromJson(json, type)
+                radioListViewModel.loadSanLikedList(sanStore)
+
+                Log.d(TAG, "저장된 목록 = $sanStore")
+
             } catch (e: JsonParseException) {
                 e.printStackTrace()
             }

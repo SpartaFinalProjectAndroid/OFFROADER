@@ -40,7 +40,8 @@ class MyPostAdapter(private val viewModel: MyPostViewModel) :
         (holder as PostItemViewHolder).apply {
 
             // 비트맵을 바인딩해주는 코드
-            postImage.setImageBitmap(item.images)
+//            postImage.setImageBitmap(item.images)
+            Glide.with(holder.postImage.context).load(item.images).into(postImage)
 
             item.uid.toString().let {
                 FirebaseFirestore.getInstance().collection("User").document(it).get().addOnSuccessListener { documentSnapShot ->

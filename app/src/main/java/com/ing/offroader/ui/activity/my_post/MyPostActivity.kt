@@ -83,6 +83,9 @@ class MyPostActivity : AppCompatActivity() {
 
         Log.d(TAG, "initView: ")
         binding.rvMyPost.adapter = myPostAdapter
+        binding.rvMyPost.apply {
+            itemAnimator = null
+        }
         setItemView(myDetailViewModel.myPostItems.value)
         setAddPostButton()
         setBackButton()

@@ -1,5 +1,7 @@
 package com.ing.offroader.ui.fragment.community.adapter
 
+import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +11,15 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.ing.offroader.R
 import com.ing.offroader.data.model.userInfo.UserData
 import com.ing.offroader.databinding.ItemPostBinding
 import com.ing.offroader.ui.fragment.community.model.PostDTO
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModel
+import okhttp3.internal.wait
+
+private const val TAG = "태그 : CommunityAdapter"
 
 class CommunityAdapter(private val viewModel: CommunityViewModel) :
     ListAdapter<PostDTO, RecyclerView.ViewHolder>(
@@ -43,8 +48,10 @@ class CommunityAdapter(private val viewModel: CommunityViewModel) :
 
 
 
-            postImage.setImageBitmap(item.images)
-
+//            postImage.setImageBitmap(item.images)
+            Log.d(TAG, "onBindViewHolder: ${item.images}")
+//            postImage.setImageURI(item.images)
+            Glide.with(holder.postImage.context).load(item.images).into(postImage)
 
             item.uid.toString().let{
                 FirebaseFirestore.getInstance().collection("User").document(it).get().addOnSuccessListener { documentSnapshot ->

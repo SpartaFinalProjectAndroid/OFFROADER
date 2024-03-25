@@ -64,5 +64,7 @@ class MyDetailViewModel(sanListRepository: SanListRepository, private val postRe
         _sanLikedList.value = sanLikedCopyList
     }
 
-//    fun getLikedSanName()
+    fun getLikedSanName() {
+//        repo.getLikedItemFromRepository(sanLikedCopyList)
+    }
 }

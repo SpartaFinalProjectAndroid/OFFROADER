@@ -1,7 +1,6 @@
 package com.ing.offroader.ui.fragment.mydetail
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,20 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.gson.Gson
-import com.google.gson.JsonParseException
-import com.google.gson.reflect.TypeToken
-import com.ing.offroader.data.liked.LikedConstants
 import com.ing.offroader.databinding.FragmentMyDetailBinding
 import com.ing.offroader.ui.activity.achievement.AchievementActivity
 import com.ing.offroader.ui.activity.login.LoginActivity
 import com.ing.offroader.ui.activity.main.MainActivity
+import com.ing.offroader.ui.activity.main.MainViewModel
 import com.ing.offroader.ui.activity.my_post.MyPostActivity
+import com.ing.offroader.ui.activity.sandetail.MyLikedSan
 import com.ing.offroader.ui.fragment.community.MyApplication
 import com.ing.offroader.ui.fragment.community.model.PostDTO
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModel
@@ -40,7 +39,7 @@ class MyDetailFragment : Fragment() {
     private var _binding: FragmentMyDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val mItems = mutableListOf<MyDetailDTO>()
+    private val likedSanViewModel by activityViewModels<MainViewModel>()
 
     //    private val myDetailViewModel by viewModels<MyDetailViewModel>()
     private val communityViewModel: CommunityViewModel by viewModels {
@@ -71,9 +70,6 @@ class MyDetailFragment : Fragment() {
         _binding = FragmentMyDetailBinding.inflate(inflater, container, false)
 
         myDetailViewModel.getUserData("user_test") // 파이어스토에 해당 유저 UID에 맞는 데이터 가져오기
-        loadData()
-//        blurMyInfo()
-        initObserver()
 
         return binding.root
 
@@ -83,26 +79,16 @@ class MyDetailFragment : Fragment() {
          *
          **/
 
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        blurMyInfo()
-
-        // Lv Dialog
-//        setLvDialog()
-
-        // 업적창으로 이동
-//        goToAchieveActivity()
-
     }
 
     private fun initObserver() {
 //        myDetailViewModel.myDetailDTO.observe(viewLifecycleOwner) {
-//            binding.rvRecode.adapter = MyBookmarkAdapter(mItems)
-//            binding.rvRecode.layoutManager = GridLayoutManager(context, 4)
+//
 //        }
 
         myDetailViewModel.myPostItems.observe(viewLifecycleOwner) {
@@ -116,25 +102,6 @@ class MyDetailFragment : Fragment() {
                 Log.d(TAG, "initObserver: 옵져빙된 값이 널이라서 업데이트가 안됨.")
             }
         }
-    }
-
-    private fun loadData() {
-        val prefs = activity?.getSharedPreferences(LikedConstants.LIKED_PREFS, Context.MODE_PRIVATE)
-        if (prefs?.contains(LikedConstants.LIKED_PREF_KEY) == true) {
-            val gson = Gson()
-            val json = prefs.getString(LikedConstants.LIKED_PREF_KEY, "")
-            try {
-                val type = object : TypeToken<MutableList<String>>() {}.type
-                val sanStore: MutableList<String> = gson.fromJson(json, type)
-                myDetailViewModel.loadSanLikedList(sanStore)
-
-                Log.d(TAG, "저장된 목록 = $sanStore")
-
-            } catch (e: JsonParseException) {
-                e.printStackTrace()
-            }
-        }
-
     }
 
 
@@ -151,6 +118,14 @@ class MyDetailFragment : Fragment() {
         setUpListeners()
 
 
+    }
+
+    private fun initPreferenceData() {
+        val myLikedSan = likedSanViewModel.sanLikedList.value
+        Log.d(TAG, "${myLikedSan}")
+        if (myLikedSan != null) {
+            initLikedRecyclerView(myLikedSan)
+        }
     }
 
     private fun setUpUserDetail() {
@@ -180,10 +155,19 @@ class MyDetailFragment : Fragment() {
         } else {
             tvMyPostCount.text = myPosts?.size.toString()
         }
+        tvLogin.setOnClickListener {
+            Firebase.auth.signOut()
+            val intent = Intent(activity, MainActivity::class.java)
+            // TODO :
+
+            startActivity(intent)
+        }
 
         binding.blur.visibility = View.GONE
         binding.tvLogin.visibility = View.GONE
 
+        // 좋아요 한 산 데이터 받아오기
+        initPreferenceData()
     }
 
     private fun setNoLoggedInUser() = with(binding) {
@@ -252,28 +236,37 @@ class MyDetailFragment : Fragment() {
         }
     }
 
-    // lv 부분에 있는 아이콘 누르면 Dialog 생성
-//    private fun setLvDialog() {
-//        binding.ivLvInfo.setOnClickListener {
-//            val dialog = LvDialogFragment()
-//            dialog.show(childFragmentManager, "LvDialog")
-//        }
-//    }
-
-    // 업적 버튼을 누르면 업적 창으로 이동
-//    private fun goToAchieveActivity() {
-//        binding.ivAchieveInfo.setOnClickListener {
-//            val intent = Intent(requireActivity(), AchievementActivity::class.java)
-//
-//            startActivity(intent)
-//        }
-//    }
-
     //톱니바퀴 누르면 setting
     private fun goToSettingFragment() {
         binding.ivSetting.setOnClickListener { }
     }
 
+
+    private fun initLikedRecyclerView(sanlist: MutableList<MyLikedSan>) {
+        binding.rvRecode.adapter = MyBookmarkAdapter(sanlist)
+        binding.rvRecode.layoutManager = GridLayoutManager(context, 4)
+
+        setOnClickSan(sanlist)
+    }
+
+    private fun setOnClickSan(san: MutableList<MyLikedSan>) {
+//
+        MyBookmarkAdapter(san).sanClick = object : MyBookmarkAdapter.SanClick {
+            override fun onClick(item: MyLikedSan) {
+                Toast.makeText(activity, "곧 구현될 예정입니다 :)", Toast.LENGTH_SHORT).show()
+//                val intent = Intent(requireActivity(), SanDetailActivity::class.java)
+//
+//                if (sanName == null) {
+//                    intent.putExtra("name", "계룡산")
+//                } else {
+//                    intent.putExtra("name", sanName)
+//                }
+//
+//                startActivity(intent)
+            }
+
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
