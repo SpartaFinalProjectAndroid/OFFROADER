@@ -100,6 +100,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
     kapt("com.github.bumptech.glide:compiler:4.12.0")
 
+
     // viewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")

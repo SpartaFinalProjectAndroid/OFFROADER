@@ -39,7 +39,7 @@ class SanListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSanListBinding.inflate(inflater, container, false)
 
         startTime = System.nanoTime()
@@ -47,6 +47,7 @@ class SanListFragment : Fragment() {
         return binding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.rvSanList.adapter = sanListAdapter
@@ -76,7 +77,6 @@ class SanListFragment : Fragment() {
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
             }
 
         }
@@ -195,7 +195,7 @@ class SanListFragment : Fragment() {
         val gridLayoutManager = GridLayoutManager(requireContext(), 4)
         binding.rvSanList.layoutManager = gridLayoutManager
 
-        // 깜ㅃ
+        // 깜빡거림
         binding.rvSanList.apply {
             itemAnimator = null
         }

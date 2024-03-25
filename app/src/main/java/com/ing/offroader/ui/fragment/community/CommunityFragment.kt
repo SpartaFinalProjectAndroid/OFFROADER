@@ -69,6 +69,10 @@ class CommunityFragment : Fragment() {
     private fun setItemView(postItems: ArrayList<PostDTO?>?) {
         Log.d(TAG, "setItemView: 셋 아이템 뷰 여기서 서브밋 함.")
         Log.d(TAG, "setItemView: ${postItems?.size}")
+        // 깜빡거림
+        binding.rvCommunity.apply {
+            itemAnimator = null
+        }
         val sortedItems = postItems?.sortedByDescending { it?.upload_date as Comparable<Any> }
         communityAdapter.submitList(sortedItems)
     }
@@ -182,6 +186,7 @@ class CommunityFragment : Fragment() {
             ) { _, _ ->
                 ToastMessage("취소")
                 bottomSheetDialog.show()
+
             }
         builder.show()
     }

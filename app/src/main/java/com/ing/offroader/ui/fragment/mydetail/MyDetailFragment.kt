@@ -155,6 +155,13 @@ class MyDetailFragment : Fragment() {
         } else {
             tvMyPostCount.text = myPosts?.size.toString()
         }
+        tvLogin.setOnClickListener {
+            Firebase.auth.signOut()
+            val intent = Intent(activity, MainActivity::class.java)
+            // TODO :
+
+            startActivity(intent)
+        }
 
         binding.blur.visibility = View.GONE
         binding.tvLogin.visibility = View.GONE
