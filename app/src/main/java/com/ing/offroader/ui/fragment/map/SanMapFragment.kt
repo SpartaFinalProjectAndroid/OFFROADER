@@ -420,6 +420,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                             "등산시간이 짧아 기록되지 않았습니다.\n30분 이상 기록해주세요",
                             Toast.LENGTH_SHORT
                         ).show()
+                        startTime = 0
                     } else {
                         user = FirebaseAuth.getInstance().currentUser
                         if (user!!.uid != null) {
