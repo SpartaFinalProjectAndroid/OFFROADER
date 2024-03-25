@@ -1,5 +1,6 @@
 package com.ing.offroader.ui.fragment.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -67,10 +68,11 @@ class HomeFragment : Fragment() {
         initUser()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initUser() {
         user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
-            binding.tvUsername.text = user!!.email ?: "츄파춥스님, 안녕하세요!"
+            binding.tvUsername.text = "${user?.displayName ?: ""}, 안녕하세요!"
             Log.d(TAG, "onViewCreated: ${user!!.uid}")
             Log.d(TAG, "onViewCreated: ${user!!.email}")
         }
@@ -85,14 +87,6 @@ class HomeFragment : Fragment() {
 
     private fun initListener() = with(binding) {
 
-        if (user != null) {
-            tvSignOut.visibility = View.VISIBLE
-        }
-        tvSignOut.setOnClickListener {
-            Firebase.auth.signOut()
-            val intent = Intent(activity, MainActivity::class.java)
-            startActivity(intent)
-        }
         btnAttendance.setOnClickListener {
             homeViewModel.takeAttendance()
         }
