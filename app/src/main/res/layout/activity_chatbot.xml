@@ -11,49 +11,66 @@
         android:id="@+id/tb_community"
         android:layout_width="match_parent"
         android:layout_height="@dimen/action_bar_default_height_material"
+        android:layout_marginStart="-17dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="5dp">
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_chat_back"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_back_black"
+                android:paddingVertical="17dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <ImageView
                 android:id="@+id/iv_bot"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/ic_bongbong"
-                app:layout_constraintEnd_toEndOf="@+id/tv_bot_mbti"
-                app:layout_constraintStart_toStartOf="@id/tv_bot_mbti"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/tv_bot_mbti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/chatbot_hikey"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_bot" />
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/pretendard_semibold"
+                app:layout_constraintTop_toBottomOf="@id/iv_bot"
+                app:layout_constraintStart_toStartOf="@id/iv_bot"
+                app:layout_constraintEnd_toEndOf="@id/iv_bot"/>
 
             <Spinner
                 android:id="@+id/sp_bot"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:gravity="end"
+                android:layout_width="65dp"
+                android:layout_height="45dp"
+                android:elevation="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_bot_mbti"
+                app:layout_constraintStart_toStartOf="@id/iv_bot"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                app:layout_constraintEnd_toEndOf="@id/iv_bot"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_clear_chat"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:text="@string/chatbot_delete_history"
+                android:gravity="center"
                 android:textColor="@color/offroader_description"
                 android:textSize="12sp"
+                android:paddingHorizontal="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -108,6 +125,39 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:orientation="vertical"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <View
+            android:id="@+id/v_divider_bottom"
+            style="@style/Divider.Horizontal.Grey" />
+
+        <EditText
+            android:id="@+id/et_ask"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:autofillHints=""
+            android:background="@color/transparent"
+            android:gravity="bottom"
+            android:hint="@string/chatbot_ask_hint"
+            android:inputType="text"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <View
@@ -128,6 +178,6 @@
             android:paddingVertical="12dp"
             android:textSize="16sp" />
 
-    </LinearLayout>
+    </LinearLayout>-->
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+

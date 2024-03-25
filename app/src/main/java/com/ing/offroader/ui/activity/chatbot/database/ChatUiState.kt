@@ -6,10 +6,10 @@ data class ChatUiState(
     val chat: List<Message>,
     val position: String
 ) {
-    companion object {
-        fun init() = ChatUiState(
-            chat = listOf(),
-            position = "hikey",
-        )
-    }
+//    companion object {
+//        fun init() = ChatUiState(
+//            chat = listOf(),
+//            position = "hikey",
+//        )
+//    }
 }

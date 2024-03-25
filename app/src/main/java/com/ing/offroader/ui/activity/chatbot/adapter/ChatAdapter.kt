@@ -42,6 +42,7 @@ class ChatAdapter(private val viewModel: ChatBotViewModel) :
                     aiChat.isVisible = false
                     aiChatBox.isVisible = false
                     userChat.text = item.content
+                    lottie.visibility = View.INVISIBLE
                 }
 
                 "assistant" -> {
@@ -50,6 +51,15 @@ class ChatAdapter(private val viewModel: ChatBotViewModel) :
                     aiChat.visibility = View.VISIBLE
                     aiChatBox.visibility = View.VISIBLE
                     aiChat.text = item.content
+                    lottie.visibility = View.INVISIBLE
+                }
+                "lottie" -> {
+                    userChat.isVisible = false
+                    userChatBox.isVisible = false
+                    aiChat.visibility = View.INVISIBLE
+                    aiChatBox.visibility = View.INVISIBLE
+                    lottie.visibility = View.VISIBLE
+                    aiChat.text = ""
                 }
 
                 else -> {
@@ -69,6 +79,7 @@ class ChatAdapter(private val viewModel: ChatBotViewModel) :
         val userChatBox = binding.llChatUser
         val aiChat = binding.tvChatAi
         val aiChatBox = binding.llChatAi
+        val lottie = binding.lottieChatLoading
 
 
     }
