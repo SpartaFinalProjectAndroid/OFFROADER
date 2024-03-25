@@ -24,7 +24,6 @@ import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MapConstants
 import com.naver.maps.map.widget.CompassView
 import com.naver.maps.map.widget.ZoomControlView
-import java.text.DecimalFormat
 
 
 class RecordActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -48,7 +47,10 @@ class RecordActivity : AppCompatActivity(), OnMapReadyCallback {
     private val user = FirebaseAuth.getInstance().currentUser
     private val firestore = FirebaseFirestore.getInstance()
 
-    private lateinit var latLngList: MutableList<Map<String, Double>>
+    private var coordinateList: MutableList<Map<String, Double>> = mutableListOf()
+    private lateinit var name: String
+    private lateinit var category: String
+    private lateinit var date: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,23 +62,12 @@ class RecordActivity : AppCompatActivity(), OnMapReadyCallback {
         mapView = findViewById(R.id.map_view)
         mapView.onCreate(savedInstanceState)
 
-        val name = intent.getStringExtra("name")
-        val date = intent.getStringExtra("date")
+        name = intent.getStringExtra("name").toString()
+        category = intent.getStringExtra("category").toString()
+        date = intent.getStringExtra("date").toString()
         Log.d("", "name : $name")
         Log.d("", "date : $date")
-        val decimal = DecimalFormat("#,###")
-        firestore.collection("polyLine").document(user!!.uid).collection(name!!).document(date!!)
-            .get()
-            .addOnSuccessListener { documents ->
-                Log.d(ContentValues.TAG, "${documents.id} => ${documents.data}")
-                binding.tvMountainName.text = name
-                binding.tvDate.text = documents.data!!["date"].toString()
-                binding.tvDistance.text = kmFormat(documents.data!!["distance"].toString())
-                binding.tvDuration.text = documents.data!!["duration"].toString()
-                latLngList = documents.data!!["latLng"] as MutableList<Map<String, Double>>
-                Log.d("", "${documents}")
-                Log.d("", "${latLngList}")
-            }
+        Log.d("", "date : ${user?.uid}")
         mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
     }
@@ -167,17 +158,32 @@ class RecordActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val path = PathOverlay()
         val coords = mutableListOf<LatLng>()
-        for (i in 0 until latLngList.size) {
-            Log.d("", "${latLngList[i]}")
-            Log.d("", "${latLngList[i]}")
-            Log.d("", "${latLngList.get(i).getValue("lat")}")
-            val lat = latLngList.get(i).getValue("lat")
-            val lng = latLngList.get(i).getValue("lng")
-            coords.add(LatLng(lat, lng))
-        }
-        path.coords = coords
-        path.map = naverMap
 
+        firestore.collection("polyLine").document(user!!.uid).collection(category).document(date)
+            .get()
+            .addOnSuccessListener { documents ->
+                Log.d(ContentValues.TAG, "${documents.id} => ${documents.data}")
+                binding.tvMountainName.text = name
+                binding.tvDate.text = documents.data!!["date"].toString()
+                binding.tvDistance.text = kmFormat(documents.data!!["distance"].toString())
+                binding.tvDuration.text = documents.data!!["duration"].toString()
+                coordinateList = documents.data!!["coordinate"] as MutableList<Map<String, Double>>
+                Log.d("", "docu : ${documents}")
+                Log.d("", "list : ${coordinateList}")
+                Log.d("", "list : ${coordinateList.size}")
+                for (i in 0 until coordinateList.size) {
+                    Log.d("", "${coordinateList[i]}")
+                    Log.d("", "${coordinateList.get(i).getValue("lat")}")
+                    val lat = coordinateList.get(i).getValue("lat")
+                    val lng = coordinateList.get(i).getValue("lng")
+                    coords.add(LatLng(lat, lng))
+                }
+                Log.d("", "size : ${coords.size}")
+                if (coords.size > 2) {
+                    path.coords = coords
+                    path.map = naverMap
+                }
+            }
         setUpMap()
     }
 
