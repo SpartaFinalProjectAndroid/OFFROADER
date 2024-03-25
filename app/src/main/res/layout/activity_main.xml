@@ -104,7 +104,7 @@
                 android:id="@+id/iv_radio_profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_favorite" />
+                android:src="@drawable/ic_kbs_radio" />
         </androidx.cardview.widget.CardView>
 
         <TextView

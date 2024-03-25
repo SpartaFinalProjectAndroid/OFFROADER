@@ -17,9 +17,6 @@ import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toDrawable
-import androidx.core.graphics.toColor
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.media3.common.MediaItem
@@ -28,7 +25,6 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -57,7 +53,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlin.math.abs
-import kotlin.math.log
 import kotlin.math.max
 import kotlin.math.min
 
@@ -70,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var radioPlayer: ExoPlayer
     private var isRadioLikeTab = true
 
-    private val radioListViewModel by viewModels<MainViewModel>()
+    private val mainViewModel by viewModels<MainViewModel>()
     private var lastTimeBackPressed: Long = -1500
 
     private lateinit var rvAdapter: RadioListAdapter
@@ -115,18 +110,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initObserver() {
-        radioListViewModel.radioLikeList.observe(this) {
+        mainViewModel.radioLikeList.observe(this) {
             setRadioView(it.size)
         }
     }
 
-    private fun setRadioView(size: Int) {
+    private fun setRadioView(size: Int) = with(binding) {
         if (size == 0 && isRadioLikeTab) {
-            binding.tvFavoriteNotify.visibility = View.VISIBLE
-            binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없어요..."
+            tvFavoriteNotify.visibility = View.VISIBLE
+            tvFavoriteNotify.text = "즐겨찾기 목록이 없어요..."
         } else {
-            binding.tvFavoriteNotify.visibility = View.GONE
-            binding.tvFavoriteNotify.text = ""
+            tvFavoriteNotify.visibility = View.GONE
+            tvFavoriteNotify.text = ""
         }
     }
 
@@ -369,21 +364,20 @@ class MainActivity : AppCompatActivity() {
     @OptIn(UnstableApi::class)
     private fun radioSetting() = with(binding) {
 
-        radioListViewModel.isPlaying.observe(this@MainActivity){
+        mainViewModel.isPlaying.observe(this@MainActivity){
             if (it) {
-                val item = radioListViewModel.httpItem.value
+                val item = mainViewModel.httpItem.value
                 //playingMarkCurrent(item?.key, item?.position)
             } else {
                 playingMarkChange()
             }
         }
 
-        //firstSetting()
         broadcastInit(RadioChannelURL.RADIO_API_URL, R.drawable.ic_favorite)
 
         cvFavorites.setOnClickListener {
             isRadioLikeTab = true
-            radioListViewModel.radioLikeList.value?.let { setRadioView(it.size) }
+            mainViewModel.radioLikeList.value?.let { setRadioView(it.size) }
 
             broadcastInit(
                 RadioChannelURL.RADIO_API_URL,
@@ -419,23 +413,39 @@ class MainActivity : AppCompatActivity() {
         }
 
         llRadioPlayBtn.setOnClickListener {
-            if (radioListViewModel.isPlaying.value == true) {
+            if (mainViewModel.isPlaying.value == true) {
                 radioPause()
             } else {
                 preparePlayer()
-                radioListViewModel.whoPlay.value?.let { bottomRadioPlay(it) }
+                mainViewModel.whoPlay.value?.let { bottomRadioPlay(it) }
             }
         }
+
+        firstSetting()
     }
 
     // 처음 앱 시작시 KBS 1Radio로 시작하도록 초기화
-// 추후에 마지막으로 들었던 채널로 시작하도록 구현 예정
+    // 추후에 마지막으로 들었던 채널로 시작하도록 구현 예정
     private fun firstSetting() {
-        if (radioListViewModel.isPlaying.value == true) {
+
+        val item = HttpItem(
+            "https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/21",
+            "1Radio",
+            R.drawable.ic_kbs_radio,
+            0
+        )
+
+        mainViewModel.addHttpItem(item)
+        CoroutineScope(Dispatchers.Main).launch {
+            val channelUrl =
+                CoroutineScope(Dispatchers.Default).async {
+                    mainViewModel.getHttpNetWork(item)
+                }.await()
+
+            mainViewModel.addChannelUrl(channelUrl)
             preparePlayer()
-            radioPlay("test", R.drawable.ic_favorite)
-        } else {
-            preparePlayer()
+            radioPlay(item.key, item.radioIcon)
+            radioPause()
         }
     }
 
@@ -445,31 +455,31 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
 
             if (urlList == RadioChannelURL.RADIO_API_URL) {
-                rvAdapter = RadioListAdapter(radioListViewModel)
+                rvAdapter = RadioListAdapter(mainViewModel)
                 rvChannelList.adapter = rvAdapter
-                rvAdapter.submitList(radioListViewModel.radioLikeList.value?.let {
+                rvAdapter.submitList(mainViewModel.radioLikeList.value?.let {
                     initAdapter(it)
                 })
             } else {
-                rvAdapter = RadioListAdapter(radioListViewModel)
+                rvAdapter = RadioListAdapter(mainViewModel)
                 rvChannelList.adapter = rvAdapter
                 rvAdapter.submitList(initAdapter(urlList))
             }
 
             rvAdapter.itemClick = object : RadioListAdapter.ItemClick {
                 override fun onClick(key: String, pos: Int) {
-                    if (radioListViewModel.whoPlay.value != key) {
+                    if (mainViewModel.whoPlay.value != key) {
                         urlList[key]?.let {
 
                             val item = HttpItem(it, key, radioIcon, pos)
-                            radioListViewModel.addHttpItem(item)
+                            mainViewModel.addHttpItem(item)
                             CoroutineScope(Dispatchers.Main).launch {
                                 val channelUrl =
                                     CoroutineScope(Dispatchers.Default).async {
-                                        radioListViewModel.getHttpNetWork(item)
+                                        mainViewModel.getHttpNetWork(item)
                                     }.await()
 
-                                radioListViewModel.addChannelUrl(channelUrl)
+                                mainViewModel.addChannelUrl(channelUrl)
                                 preparePlayer()
                                 playingMarkChange()
                                 radioPlay(item.key, item.radioIcon)
@@ -482,17 +492,17 @@ class MainActivity : AppCompatActivity() {
 
             rvAdapter.heartClick = object : RadioListAdapter.HeartClick {
                 override fun heartClick(key: String) {
-                    if (radioListViewModel.radioLikeList.value?.contains(key) == true) {
-                        radioListViewModel.removeList(key)
+                    if (mainViewModel.radioLikeList.value?.contains(key) == true) {
+                        mainViewModel.removeList(key)
                         if (isRadioLikeTab)
-                            rvAdapter.submitList(radioListViewModel.radioLikeList.value?.let { initAdapter(it) })
+                            rvAdapter.submitList(mainViewModel.radioLikeList.value?.let { initAdapter(it) })
                     } else {
-                        radioListViewModel.addList(key)
+                        mainViewModel.addList(key)
                     }
                     saveData(
                         RadioChannelURL.PREFERENCE_KEY,
                         RadioChannelURL.DATA_KEY,
-                        radioListViewModel.radioLikeList.value
+                        mainViewModel.radioLikeList.value
                     )
                 }
             }
@@ -503,7 +513,7 @@ class MainActivity : AppCompatActivity() {
     private fun playingMarkChange() {
 
         rvAdapterList = rvAdapter.currentList.toMutableList()
-        val whoPlay = radioListViewModel.whoPlay.value.toString()
+        val whoPlay = mainViewModel.whoPlay.value.toString()
         val playChannel = RadioChannelItem(whoPlay, true) // 현재 재생중인 라디오 채널
 
         if (rvAdapterList.contains(playChannel)) {
@@ -544,7 +554,7 @@ class MainActivity : AppCompatActivity() {
 
         viewTest.player?.stop()
         //radioListViewModel.addChannelUrl(radioUrl.toString())
-        val test = radioListViewModel.channelUrl.value
+        val test = mainViewModel.channelUrl.value
 
         mediaItem = test?.let { MediaItem.fromUri(test) }
         mediaItem?.let { item -> viewTest.player?.setMediaItem(item) }
@@ -556,25 +566,25 @@ class MainActivity : AppCompatActivity() {
     // 하단 라디오 플레이어의 재생 상태를 설정하는 함수
     private fun bottomRadioPlay(key: String?) {
         binding.viewTest.player?.play()
-        radioListViewModel.checkIsPlaying(true)
+        mainViewModel.checkIsPlaying(true)
         binding.ivRadioPlayBtn.setImageResource(R.drawable.ic_pause)
-        radioListViewModel.addWhoPlay(key)
+        mainViewModel.addWhoPlay(key)
     }
 
     // 라디오를 재생 하고 뷰모델 whoPlay 변수에 어떤 채널이 재생 되고 있는지 저장
     private fun radioPlay(key: String?, icon: Int) = with(binding) {
         viewTest.player?.play()
-        radioListViewModel.checkIsPlaying(true)
+        mainViewModel.checkIsPlaying(true)
         ivRadioPlayBtn.setImageResource(R.drawable.ic_pause)
         tvBottomRadioTitle.text = key
         ivRadioProfile.setImageResource(icon)
-        radioListViewModel.addWhoPlay(key)
+        mainViewModel.addWhoPlay(key)
     }
 
     // 라디오 정지
     private fun radioPause() = with(binding) {
         viewTest.player?.stop()
-        radioListViewModel.checkIsPlaying(false)
+        mainViewModel.checkIsPlaying(false)
         ivRadioPlayBtn.setImageResource(R.drawable.ic_play)
     }
 
@@ -600,7 +610,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 val typeToken = object : TypeToken<MutableList<String>>() {}.type
                 val storeMap: MutableList<String> = gson.fromJson(json, typeToken)
-                radioListViewModel.loadRadioData(storeMap)
+                mainViewModel.loadRadioData(storeMap)
             } catch (e: JsonParseException) {
                 e.printStackTrace()
             }
@@ -616,7 +626,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 val type = object : TypeToken<MutableList<MyLikedSan>>() {}.type
                 val sanStore: MutableList<MyLikedSan> = gson.fromJson(json, type)
-                radioListViewModel.loadSanLikedList(sanStore)
+                mainViewModel.loadSanLikedList(sanStore)
 
                 Log.d(TAG, "저장된 목록 = $sanStore")
 
