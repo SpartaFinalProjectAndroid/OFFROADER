@@ -42,11 +42,12 @@ class MyDetailFragment : Fragment() {
 
     private val mItems = mutableListOf<MyDetailDTO>()
 
-//    private val myDetailViewModel by viewModels<MyDetailViewModel>()
+    //    private val myDetailViewModel by viewModels<MyDetailViewModel>()
     private val communityViewModel: CommunityViewModel by viewModels {
         CommunityViewModelFactory((requireActivity().application as MyApplication).postRepository)
     }
-//    private val communityAdapter: CommunityAdapter by lazy {
+
+    //    private val communityAdapter: CommunityAdapter by lazy {
 //        CommunityAdapter(communityViewModel)
 //    }
     private val myDetailViewModel: MyDetailViewModel by viewModels {
@@ -60,7 +61,7 @@ class MyDetailFragment : Fragment() {
     // 사용자 정보 가져오기
     private var user = FirebaseAuth.getInstance().currentUser
 
-    private var myPosts : ArrayList<PostDTO?>? = null
+    private var myPosts: ArrayList<PostDTO?>? = null
 
     @SuppressLint("InflateParams")
     override fun onCreateView(
@@ -81,7 +82,6 @@ class MyDetailFragment : Fragment() {
          *  꼬일수도 있다고 하셨던 것 같습니다!
          *
          **/
-
 
 
     }
@@ -150,6 +150,7 @@ class MyDetailFragment : Fragment() {
         setUpUserDetail()
         setUpListeners()
 
+
     }
 
     private fun setUpUserDetail() {
@@ -164,13 +165,13 @@ class MyDetailFragment : Fragment() {
     private fun setUserInformation() = with(binding) {
         tvLogin.visibility = View.VISIBLE
         tvLogin.text = "로그아웃"
-        tvId.visibility= View.INVISIBLE
-        tvName.visibility= View.VISIBLE
+        tvId.visibility = View.INVISIBLE
+        tvName.visibility = View.VISIBLE
         tvName.text = user?.displayName
-        tvNameNim.visibility= View.VISIBLE
+        tvNameNim.visibility = View.VISIBLE
         // 아직 구현이 안된 부분이라 숨겨둘 예정
         // 회원 가입 시 로그인 정부 추가 하면 구현할 VISIBLE로 바꿔주고 적절한 값을 추가해주면 되지 않울까욤.
-        tvProfilInfo.visibility= View.INVISIBLE
+        tvProfilInfo.visibility = View.INVISIBLE
         clAddress.visibility = View.INVISIBLE
         Glide.with(requireActivity()).load(user?.photoUrl).into(ivProfil)
         clMyPost.isClickable = true
@@ -188,10 +189,10 @@ class MyDetailFragment : Fragment() {
     private fun setNoLoggedInUser() = with(binding) {
         tvLogin.visibility = View.VISIBLE
 
-        tvId.visibility=View.VISIBLE
+        tvId.visibility = View.VISIBLE
         tvName.visibility = View.INVISIBLE
-        tvNameNim.visibility= View.INVISIBLE
-        tvProfilInfo.visibility= View.INVISIBLE
+        tvNameNim.visibility = View.INVISIBLE
+        tvProfilInfo.visibility = View.INVISIBLE
         clMyPost.isClickable = false
         tvMyPostCount.text = "-"
 
@@ -203,7 +204,7 @@ class MyDetailFragment : Fragment() {
         clMyPost.setOnClickListener {
             user = FirebaseAuth.getInstance().currentUser
             if (user == null) {
-                Toast.makeText(activity,"로그인 후 확인 가능합니다.",Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "로그인 후 확인 가능합니다.", Toast.LENGTH_SHORT).show()
             } else {
                 val intent = Intent(requireActivity(), MyPostActivity::class.java)
                 startActivity(intent)
@@ -229,6 +230,12 @@ class MyDetailFragment : Fragment() {
         clAchievement.setOnClickListener {
             val intent = Intent(requireActivity(), AchievementActivity::class.java)
             startActivity(intent)
+        }
+        ivNotify.setOnClickListener {
+            Toast.makeText(activity, "곧 구현될 예정입니다 :)", Toast.LENGTH_SHORT).show()
+        }
+        ivSetting.setOnClickListener {
+            Toast.makeText(activity, "곧 구현될 예정입니다 :)", Toast.LENGTH_SHORT).show()
         }
 
 
@@ -264,7 +271,6 @@ class MyDetailFragment : Fragment() {
     private fun goToSettingFragment() {
         binding.ivSetting.setOnClickListener { }
     }
-
 
 
     override fun onDestroyView() {

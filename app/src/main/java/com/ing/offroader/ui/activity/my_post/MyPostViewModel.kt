@@ -8,11 +8,8 @@ import com.ing.offroader.ui.fragment.community.model.PostDTO
 
 private const val TAG = "태그 : MyPostViewModel"
 class MyPostViewModel(private val postRepository: PostRepository): ViewModel() {
-//    fun setRepository() {
-//        Log.d(TAG, "setRepository: ")
-//        postRepository.setMyPost()
-//    }
-//
-//    val myPostItems : LiveData<ArrayList<PostDTO?>?> = postRepository.myPostItems
+    fun deletePost(item: PostDTO?) {
+        postRepository.deletePost(item)
+    }
 
 }
