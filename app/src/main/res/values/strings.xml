@@ -110,7 +110,7 @@
     <string name="dialog_achieve_lv5">150~</string>
     <string name="achieve_achieve">업적</string>
     <string name="achieve_anumberof_badge">뱃지 갯수</string>
-    <string name="my_post_title">내 게시물</string>
+    <string name="my_post_title">내 게시글</string>
 
     <!--    Record Activity-->
     <string name="record_mountain_name">지리산</string>
@@ -124,6 +124,7 @@
     <string name="post_delete">게시글 삭제</string>
     <string name="more_title">게시글 옵션</string>
     <string name="report">신고하기</string>
+    <string name="add_post_make_post">게시글 작성</string>
 
     <!--    Achieve Activity-->
 

@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:fontFamily="@font/bm_hanna_11yrs_old"
-                android:text="@string/add_post_select_image"
+                android:text="@string/add_post_make_post"
                 android:textColor="@color/offroader_green"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
