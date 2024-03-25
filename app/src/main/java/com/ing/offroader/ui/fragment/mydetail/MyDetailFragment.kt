@@ -80,28 +80,17 @@ class MyDetailFragment : Fragment() {
          *
          **/
 
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // 데이터 받아오기
-        val myLikedSan = likedSanViewModel.sanLikedList.value
-        Log.d(TAG, "${myLikedSan}")
-        if (myLikedSan != null) {
-            initLikedRecyclerView(myLikedSan)
-        }
+        initPreferenceData()
+
 
         initBlur()
 //        initObserver()
-
-        // Lv Dialog
-//        setLvDialog()
-
-        // 업적창으로 이동
-//        goToAchieveActivity()
 
     }
 
@@ -137,6 +126,14 @@ class MyDetailFragment : Fragment() {
         setUpListeners()
 
 
+    }
+
+    private fun initPreferenceData() {
+        val myLikedSan = likedSanViewModel.sanLikedList.value
+        Log.d(TAG, "${myLikedSan}")
+        if (myLikedSan != null) {
+            initLikedRecyclerView(myLikedSan)
+        }
     }
 
     private fun setUpUserDetail() {
@@ -231,23 +228,6 @@ class MyDetailFragment : Fragment() {
                 .setBlurRadius(15f)
         }
     }
-
-    // lv 부분에 있는 아이콘 누르면 Dialog 생성
-//    private fun setLvDialog() {
-//        binding.ivLvInfo.setOnClickListener {
-//            val dialog = LvDialogFragment()
-//            dialog.show(childFragmentManager, "LvDialog")
-//        }
-//    }
-
-    // 업적 버튼을 누르면 업적 창으로 이동
-//    private fun goToAchieveActivity() {
-//        binding.ivAchieveInfo.setOnClickListener {
-//            val intent = Intent(requireActivity(), AchievementActivity::class.java)
-//
-//            startActivity(intent)
-//        }
-//    }
 
     //톱니바퀴 누르면 setting
     private fun goToSettingFragment() {
