@@ -9,6 +9,11 @@
     app:layoutDescription="@xml/activity_main_scene"
     tools:context=".ui.activity.main.MainActivity">
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_main2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <FrameLayout
         android:id="@+id/fl_main"
         android:layout_width="match_parent"
@@ -29,7 +34,8 @@
         android:layout_height="50dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:tabIndicatorColor="@color/offroader_green"></com.google.android.material.tabs.TabLayout>
+        app:tabIndicatorColor="@color/offroader_green">
+    </com.google.android.material.tabs.TabLayout>
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/dv_line"

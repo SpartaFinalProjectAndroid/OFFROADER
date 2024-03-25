@@ -21,6 +21,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -144,10 +145,35 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        val fragmentList = listOf(HomeFragment(), SanListFragment(), SanMapFragment(), CommunityFragment(), MyDetailFragment())
         val viewPagerAdapter = ViewPagerAdapter(this)
-        viewPagerAdapter.fragments.addAll(fragmentList)
         binding.vpMain.adapter = viewPagerAdapter
+
+//        binding.vpMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+//            var currentState = 0
+//            var currentPos = 0
+//            var selectPos = 0
+//
+//            override fun onPageScrolled(
+//                position: Int,
+//                positionOffset: Float,
+//                positionOffsetPixels: Int
+//            ) {
+//                //Log.d("민용!!!!!", "onPageSelected: $position")
+//                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+//            }
+//
+//            override fun onPageSelected(position: Int) {
+//                currentPos = position
+//                //Log.d("민용!!!!!", "onPageSelected: $position")
+//                super.onPageSelected(position)
+//            }
+//
+//            override fun onPageScrollStateChanged(state: Int) {
+//                currentState = state
+//                Log.d("민용!!!!!", "onPageSelected: ${ViewPager2.SCREEN_STATE_ON}")
+//                super.onPageScrollStateChanged(state)
+//            }
+//        })
 
         TabLayoutMediator(binding.tlBottomTab, binding.vpMain) { tab, position ->
             when(position) {
