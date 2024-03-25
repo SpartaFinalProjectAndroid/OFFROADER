@@ -165,6 +165,7 @@ class CommunityFragment : Fragment() {
 
     private fun showEditDeleteBottomSheet(bottomSheetDialog: BottomSheetDialog) {
         // TODO : 다이얼로그 디자인 해주세요ㅜㅜㅠㅠ
+        ToastMessage("아직 다이얼로그 부분이 구현되지 않았습니다. 저희 팀원분 중 한 분이 해줄 거라고 했습니다. :)")
     }
 
     private fun setUpDeleteDialog(bottomSheetDialog: BottomSheetDialog) {
