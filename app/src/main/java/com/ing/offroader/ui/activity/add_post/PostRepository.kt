@@ -40,7 +40,7 @@ class PostRepository {
     }
 
 
-    fun setMyImage(post: PostDTO?) {
+    fun setImage(post: PostDTO?, updateTo: String) {
 
 
         val pathRef = storageRef.child("Offroader_res/post_image/${post?.post_id}.jpg")
@@ -57,13 +57,17 @@ class PostRepository {
                 it?.post_id == post?.post_id
             }
             if (item == null) {
+
                 myPostItemArray.add(post)
             }
 
 
-            // 비트맵을 바인딩해주는 코드
             val items = myPostItemArray
-            _myPostItems.value = items
+            when (updateTo) {
+                "my" -> _myPostItems.value = items
+                "community" -> _setPostItems.value = items
+            }
+
 
             Log.d(TAG, "setMyPost: ${myPostItems.value?.size}, ${post?.title}")
 
@@ -88,7 +92,7 @@ class PostRepository {
                     }
                     value?.documents?.forEach {
                         val post = it.toObject(PostDTO::class.java)
-                        setMyImage(post)
+                        setImage(post, "my")
                     }
 
                 }
@@ -114,7 +118,7 @@ class PostRepository {
                     value?.documents?.forEach {
                         val post = it.toObject(PostDTO::class.java)
                         Log.d(TAG, "setPost: ${post?.title}")
-                        setMyImage(post)
+                        setImage(post, "community")
                     }
 
                 }

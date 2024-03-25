@@ -1,8 +1,5 @@
 package com.ing.offroader.ui.activity.my_post
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +11,6 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.ing.offroader.data.model.userInfo.UserData
 import com.ing.offroader.databinding.ItemPostBinding
 import com.ing.offroader.ui.fragment.community.model.PostDTO

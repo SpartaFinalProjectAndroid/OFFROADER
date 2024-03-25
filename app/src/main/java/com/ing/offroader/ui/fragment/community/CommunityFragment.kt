@@ -17,7 +17,7 @@ import com.ing.offroader.ui.fragment.community.model.PostDTO
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModel
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModelFactory
 
-private const val TAG = "태그 : ChatBotFragment"
+private const val TAG = "태그 : CommunityFragment"
 
 class CommunityFragment : Fragment() {
 
@@ -41,6 +41,7 @@ class CommunityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated: ")
         initView()
         initObserver()
     }
@@ -61,17 +62,19 @@ class CommunityFragment : Fragment() {
 
     private fun setItemView(postItems: ArrayList<PostDTO?>?) {
         Log.d(TAG, "setItemView: 셋 아이템 뷰 여기서 서브밋 함.")
-        Log.d(TAG, "setItemView: $postItems")
+        Log.d(TAG, "setItemView: ${postItems?.size}")
         val sortedItems = postItems?.sortedByDescending { it?.upload_date as Comparable<Any> }
         communityAdapter.submitList(sortedItems)
     }
 
     private fun initView() {
+        Log.d(TAG, "initView: bind Adapter")
         // 어댑터를 가장 먼저 바인딩 해줘야만 서브밋이 가능함
         binding.rvCommunity.adapter = communityAdapter
         // 리포지토리에서 우선 커뮤니티 게시글을 가져와야함.
 //        communityViewModel.setPosts()
-
+        Log.d(TAG, "initView: ${communityViewModel.postItems.value}")
+        setItemView(communityViewModel.postItems.value)
         setAddPostButton()
 
     }
