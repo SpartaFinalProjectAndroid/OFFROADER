@@ -322,6 +322,53 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_record"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/apply_recycler_bg_single"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cl_my_post"
+        app:layout_constraintTop_toBottomOf="@id/cl_level">
+
+        <ImageView
+            android:id="@+id/iv_record"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/ic_record"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="등산 기록"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_record"
+            app:layout_constraintTop_toTopOf="@id/iv_record" />
+
+        <TextView
+            android:id="@+id/tv_record_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:inputType="number"
+            android:text="1"
+            android:textColor="@color/offroader_name"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_record"
+            app:layout_constraintStart_toStartOf="@id/tv_record"
+            app:layout_constraintTop_toBottomOf="@id/tv_record" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <!-- 여기 -->
     <eightbitlab.com.blurview.BlurView
