@@ -52,7 +52,6 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.UiSettings
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
-import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MapConstants
 import com.naver.maps.map.widget.CompassView
@@ -393,12 +392,10 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
 
                 }
             coordinateList = arrayListOf<Coordinate>()
-            val timeFormat = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm:ss")
-            val path = PathOverlay()
             var start = false
             btnRecordStart.setOnClickListener {
                 val request =
-                    LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 2000).build()
+                    LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 150000).build()
                 if (!start) {
                     start = true
                     btnRecordStart.text = "등산 종료"
@@ -509,9 +506,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     fun roundLeft(iv: ImageView, curveRadius: Float): ImageView {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
             iv.outlineProvider = object : ViewOutlineProvider() {
-
                 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
                 override fun getOutline(view: View?, outline: Outline?) {
                     outline?.setRoundRect(
@@ -523,7 +518,6 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                     )
                 }
             }
-
             iv.clipToOutline = true
         }
         return iv
