@@ -219,6 +219,15 @@
                 android:alpha="0.1" />
 
             <KeyAttribute
+                app:motionTarget="@+id/rv_channel_list"
+                app:framePosition="0"
+                android:alpha="0" />
+            <KeyAttribute
+                app:motionTarget="@+id/rv_channel_list"
+                app:framePosition="80"
+                android:alpha="0.1" />
+
+            <KeyAttribute
                 app:motionTarget="@id/ll_radio_channels"
                 app:framePosition="0"
                 android:alpha="0" />

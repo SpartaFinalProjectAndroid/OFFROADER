@@ -13,6 +13,9 @@ import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.toColor
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.media3.common.MediaItem
@@ -48,6 +51,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlin.math.abs
+import kotlin.math.log
 import kotlin.math.max
 import kotlin.math.min
 
@@ -130,6 +134,9 @@ class MainActivity : AppCompatActivity() {
     private fun setBottomNavigation() {
 
         binding.vpMain.isUserInputEnabled = false
+
+
+
         binding.tlBottomTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when(tab?.position) {
@@ -145,62 +152,35 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+
         val viewPagerAdapter = ViewPagerAdapter(this)
         binding.vpMain.offscreenPageLimit = 5
         binding.vpMain.adapter = viewPagerAdapter
-
-//        binding.vpMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
-//            var currentState = 0
-//            var currentPos = 0
-//            var selectPos = 0
-//
-//            override fun onPageScrolled(
-//                position: Int,
-//                positionOffset: Float,
-//                positionOffsetPixels: Int
-//            ) {
-//                //Log.d("민용!!!!!", "onPageSelected: $position")
-//                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-//            }
-//
-//            override fun onPageSelected(position: Int) {
-//                currentPos = position
-//                //Log.d("민용!!!!!", "onPageSelected: $position")
-//                super.onPageSelected(position)
-//            }
-//
-//            override fun onPageScrollStateChanged(state: Int) {
-//                currentState = state
-//                Log.d("민용!!!!!", "onPageSelected: ${ViewPager2.SCREEN_STATE_ON}")
-//                super.onPageScrollStateChanged(state)
-//            }
-//        })
 
         TabLayoutMediator(binding.tlBottomTab, binding.vpMain) { tab, position ->
             when(position) {
                 0 -> {
                     tab.text = "홈"
-                    tab.setIcon(R.drawable.ic_nav_home)
+                    tab.setIcon(R.drawable.ic_tab_home_unselected)
                 }
                 1 -> {
                     tab.text = "리스트"
-                    tab.setIcon(R.drawable.ic_nav_san)
+                    tab.setIcon(R.drawable.ic_tab_san_unselected)
                 }
                 2 -> {
                     tab.text = "지도"
-                    tab.setIcon(R.drawable.ic_nav_map)
+                    tab.setIcon(R.drawable.ic_tab_map_unselected)
                 }
                 3 -> {
                     tab.text = "커뮤니티"
-                    tab.setIcon(R.drawable.ic_nav_chat)
+                    tab.setIcon(R.drawable.ic_tab_community_unselected)
                 }
                 4 -> {
                     tab.text = "내 정보"
-                    tab.setIcon(R.drawable.ic_nav_my)
+                    tab.setIcon(R.drawable.ic_tab_my_unselected)
                 }
             }
         }.attach()
-
     }
 
     @OptIn(UnstableApi::class)
