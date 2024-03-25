@@ -71,8 +71,6 @@ class MyDetailFragment : Fragment() {
 
         myDetailViewModel.getUserData("user_test") // 파이어스토에 해당 유저 UID에 맞는 데이터 가져오기
 
-        blurMyInfo()
-
         return binding.root
 
         /** 프래그먼트에는 onCreateView랑 onViewCreated 가 둘다 있는데 onCreateView에서는 바인딩해주는
@@ -85,9 +83,6 @@ class MyDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // 데이터 받아오기
-        initPreferenceData()
 
     }
 
@@ -114,7 +109,6 @@ class MyDetailFragment : Fragment() {
         super.onResume()
         Log.d(TAG, "onResume: ")
         myDetailViewModel.setRepository()
-        initPreferenceData()
         initView()
     }
 
@@ -165,6 +159,8 @@ class MyDetailFragment : Fragment() {
         binding.blur.visibility = View.GONE
         binding.tvLogin.visibility = View.GONE
 
+        // 좋아요 한 산 데이터 받아오기
+        initPreferenceData()
     }
 
     private fun setNoLoggedInUser() = with(binding) {
@@ -245,10 +241,11 @@ class MyDetailFragment : Fragment() {
     }
 
     private fun setOnClickSan(san: MutableList<MyLikedSan>) {
-//        MyBookmarkAdapter(san).sanClick = object : MyBookmarkAdapter.SanClick {
-//            override fun onClick(item: MyLikedSan) {
+//
+        MyBookmarkAdapter(san).sanClick = object : MyBookmarkAdapter.SanClick {
+            override fun onClick(item: MyLikedSan) {
+                Toast.makeText(activity, "곧 구현될 예정입니다 :)", Toast.LENGTH_SHORT).show()
 //                val intent = Intent(requireActivity(), SanDetailActivity::class.java)
-//                val sanName = MyLikedSan(mountain = )
 //
 //                if (sanName == null) {
 //                    intent.putExtra("name", "계룡산")
@@ -257,9 +254,9 @@ class MyDetailFragment : Fragment() {
 //                }
 //
 //                startActivity(intent)
-//            }
-//
-//        }
+            }
+
+        }
     }
 
     override fun onDestroyView() {
