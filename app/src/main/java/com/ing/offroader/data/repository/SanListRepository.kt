@@ -96,7 +96,8 @@ class SanListRepository {
                     document["images"] as ArrayList<String>,
                     document.getBoolean("isliked") ?: false,
                     document.getDouble("lat") ?: 0.0,
-                    document.getDouble("lng") ?: 0.0
+                    document.getDouble("lng") ?: 0.0,
+                    document.getString("thumbnail") ?: "none"
                 )
                 if (sanList.mountain == sanName) {
                     _detailInfo.value = sanList
@@ -168,28 +169,28 @@ class SanListRepository {
 
     }
 
-    private fun setMyDetail(sanName: String) {
-        db.collection("sanTest").get().addOnSuccessListener { documents ->
-            documents?.forEach { document ->
-                val sanList = MyDetailDTO(
-                    document.getString("name") ?: "none",
-                    document.getString("address") ?: "none",
-                    document.getLong("difficulty") ?: 0,
-                    document.getDouble("height") ?: 0.0,
-                    document.getLong("time") ?: 0,
-                    document.getString("summary") ?: "none",
-                    document.getString("recommend") ?: "none",
-                    document["images"] as ArrayList<String>,
-                    document.getBoolean("isLiked") ?: false
-                )
-                if (sanList.mountain == sanName) {
-                    _myInfo.value = sanList
-                    Log.d(
-                        TAG, "initSanData: $sanList -> ${myInfo.value}"
-                    )
-                }
-            }
-        }
-    }
+//    private fun setMyDetail(sanName: String) {
+//        db.collection("sanTest").get().addOnSuccessListener { documents ->
+//            documents?.forEach { document ->
+//                val sanList = MyDetailDTO(
+//                    document.getString("name") ?: "none",
+//                    document.getString("address") ?: "none",
+//                    document.getLong("difficulty") ?: 0,
+//                    document.getDouble("height") ?: 0.0,
+//                    document.getLong("time") ?: 0,
+//                    document.getString("summary") ?: "none",
+//                    document.getString("recommend") ?: "none",
+//                    document["images"] as ArrayList<String>,
+//                    document.getBoolean("isLiked") ?: false
+//                )
+//                if (sanList.mountain == sanName) {
+//                    _myInfo.value = sanList
+//                    Log.d(
+//                        TAG, "initSanData: $sanList -> ${myInfo.value}"
+//                    )
+//                }
+//            }
+//        }
+//    }
 }
 

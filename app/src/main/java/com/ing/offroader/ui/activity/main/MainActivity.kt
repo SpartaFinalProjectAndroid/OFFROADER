@@ -2,6 +2,7 @@ package com.ing.offroader.ui.activity.main
 
 import android.annotation.SuppressLint
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -30,6 +31,7 @@ import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import com.ing.offroader.R
 import com.ing.offroader.data.RadioChannelURL
+import com.ing.offroader.data.liked.LikedConstants
 import com.ing.offroader.databinding.ActivityMainBinding
 import com.ing.offroader.ui.activity.chatbot.ChatbotActivity
 import com.ing.offroader.ui.activity.main.adapters.HttpItem
@@ -37,6 +39,7 @@ import com.ing.offroader.ui.activity.main.adapters.RadioChannelItem
 import com.ing.offroader.ui.activity.main.adapters.RadioListAdapter
 import com.ing.offroader.ui.activity.main.adapters.ViewPagerAdapter
 import com.ing.offroader.ui.activity.main.mediasession.PlaybackService
+import com.ing.offroader.ui.activity.sandetail.MyLikedSan
 import com.ing.offroader.ui.fragment.community.CommunityFragment
 import com.ing.offroader.ui.fragment.home.HomeFragment
 import com.ing.offroader.ui.fragment.map.SanMapFragment
@@ -64,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var rvAdapter: RadioListAdapter
     private lateinit var rvAdapterList: MutableList<RadioChannelItem>
-    
+
     override fun onStart() {
         super.onStart()
 
@@ -85,10 +88,12 @@ class MainActivity : AppCompatActivity() {
         initView()
         initObserver()
 
+        loadLikedData()
     }
 
     override fun onRestart() {
         super.onRestart()
+        loadLikedData()
         Log.d(TAG, "onRestart: ")
     }
 
@@ -566,6 +571,25 @@ class MainActivity : AppCompatActivity() {
                 val typeToken = object : TypeToken<MutableList<String>>() {}.type
                 val storeMap: MutableList<String> = gson.fromJson(json, typeToken)
                 radioListViewModel.loadRadioData(storeMap)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    // 좋아요 SharedPreference
+    private fun loadLikedData() {
+        val prefs = getSharedPreferences(LikedConstants.LIKED_PREFS, Context.MODE_PRIVATE)
+        if (prefs?.contains(LikedConstants.LIKED_PREF_KEY) == true) {
+            val gson = Gson()
+            val json = prefs.getString(LikedConstants.LIKED_PREF_KEY, "")
+            try {
+                val type = object : TypeToken<MutableList<MyLikedSan>>() {}.type
+                val sanStore: MutableList<MyLikedSan> = gson.fromJson(json, type)
+                radioListViewModel.loadSanLikedList(sanStore)
+
+                Log.d(TAG, "저장된 목록 = $sanStore")
+
             } catch (e: JsonParseException) {
                 e.printStackTrace()
             }
