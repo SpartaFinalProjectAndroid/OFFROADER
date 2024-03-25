@@ -348,10 +348,10 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
         with(binding) {
             // 초기화
             if (sanDetailViewModel.sanLikedList.value?.contains(sanlist.mountain) == true) {
-                sanlist.isLiked = true
+                sanlist.isliked = true
                 ivBookmark.setImageResource(R.drawable.ic_bookmark_on)
             } else {
-                sanlist.isLiked = false
+                sanlist.isliked = false
                 ivBookmark.setImageResource(R.drawable.ic_bookmark_off)
             }
 
@@ -359,16 +359,16 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
                 Log.d(TAG, "좋아요 클릭")
 
                 //ViewModel LiveData로 저장
-                if (sanlist.isLiked) {
+                if (sanlist.isliked) {
                     sanDetailViewModel.removeSanLikedList(sanlist.mountain)
                 } else {
                     sanDetailViewModel.addSanLikedList(sanlist.mountain)
                 }
 
-                sanlist.isLiked = !sanlist.isLiked
+                sanlist.isliked = !sanlist.isliked
 
                 ivBookmark.setImageResource(
-                    if (sanlist.isLiked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
+                    if (sanlist.isliked) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark_off
                 )
 
                 saveData(
