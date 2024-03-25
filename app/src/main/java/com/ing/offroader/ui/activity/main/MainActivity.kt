@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
     private fun setRadioView(size: Int) {
         if (size == 0 && isRadioLikeTab) {
             binding.tvFavoriteNotify.visibility = View.VISIBLE
-            binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없습니다."
+            binding.tvFavoriteNotify.text = "즐겨찾기 목록이 없어요..."
         } else {
             binding.tvFavoriteNotify.visibility = View.GONE
             binding.tvFavoriteNotify.text = ""
@@ -143,21 +143,23 @@ class MainActivity : AppCompatActivity() {
         binding.vpMain.isUserInputEnabled = false
         binding.tlBottomTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
-
+                when(tab?.position) {
+                    2 -> binding.mlMain.setTransition(R.id.trs_empty)
+                    3 -> binding.mlMain.setTransition(R.id.trs_empty)
+                    else -> binding.mlMain.setTransition(R.id.trs_basic)
+                }
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
 
         })
 
-        binding.vpMain.adapter = ViewPagerAdapter(this)
-
+        val fragmentList = listOf(HomeFragment(), SanListFragment(), SanMapFragment(), CommunityFragment(), MyDetailFragment())
+        val viewPagerAdapter = ViewPagerAdapter(this)
+        viewPagerAdapter.fragments.addAll(fragmentList)
+        binding.vpMain.adapter = viewPagerAdapter
 
         TabLayoutMediator(binding.tlBottomTab, binding.vpMain) { tab, position ->
             when(position) {
@@ -361,11 +363,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        firstSetting()
+        //firstSetting()
         broadcastInit(RadioChannelURL.RADIO_API_URL, R.drawable.ic_favorite)
 
         cvFavorites.setOnClickListener {
             isRadioLikeTab = true
+            radioListViewModel.radioLikeList.value?.let { setRadioView(it.size) }
+
             broadcastInit(
                 RadioChannelURL.RADIO_API_URL,
                 R.drawable.ic_favorite
@@ -373,6 +377,8 @@ class MainActivity : AppCompatActivity() {
         }
         cvKbs.setOnClickListener {
             isRadioLikeTab = false
+            setRadioView(0)
+
             broadcastInit(
                 RadioChannelURL.KBS_LIST,
                 R.drawable.ic_kbs_radio
@@ -380,6 +386,8 @@ class MainActivity : AppCompatActivity() {
         }
         cvSbs.setOnClickListener {
             isRadioLikeTab = false
+            setRadioView(0)
+
             broadcastInit(
                 RadioChannelURL.SBS_LIST,
                 R.drawable.ic_sbs_radio
@@ -387,6 +395,8 @@ class MainActivity : AppCompatActivity() {
         }
         cvMbc.setOnClickListener {
             isRadioLikeTab = false
+            setRadioView(0)
+
             broadcastInit(
                 RadioChannelURL.MBC_LIST,
                 R.drawable.ic_mbc_radio
@@ -423,9 +433,7 @@ class MainActivity : AppCompatActivity() {
                 rvAdapter = RadioListAdapter(radioListViewModel)
                 rvChannelList.adapter = rvAdapter
                 rvAdapter.submitList(radioListViewModel.radioLikeList.value?.let {
-                    initAdapter(
-                        it
-                    )
+                    initAdapter(it)
                 })
             } else {
                 rvAdapter = RadioListAdapter(radioListViewModel)
@@ -461,7 +469,8 @@ class MainActivity : AppCompatActivity() {
                 override fun heartClick(key: String) {
                     if (radioListViewModel.radioLikeList.value?.contains(key) == true) {
                         radioListViewModel.removeList(key)
-                        //rvAdapter.submitList(radioListViewModel.radioLikeList.value?.let { initAdapter(it) })
+                        if (isRadioLikeTab)
+                            rvAdapter.submitList(radioListViewModel.radioLikeList.value?.let { initAdapter(it) })
                     } else {
                         radioListViewModel.addList(key)
                     }
@@ -472,7 +481,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
             }
-            rvChannelList.adapter = rvAdapter
+            //rvChannelList.adapter = rvAdapter
         }
 
     // 현재 재생중인 라디오 채널의 재생중 표시를 제거하고 어댑터를 업데이트 해준다.

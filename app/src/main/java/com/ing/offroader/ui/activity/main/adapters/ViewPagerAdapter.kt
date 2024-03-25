@@ -16,17 +16,21 @@ import com.naver.maps.map.MapFragment
 
 class ViewPagerAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
 
+    val fragments = mutableListOf<Fragment>()
 
-    override fun getItemCount() = 5
+    override fun getItemCount() = fragments.size
 
 
-    override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            0 -> HomeFragment()
-            1 -> SanListFragment()
-            2 -> SanMapFragment()
-            3 -> CommunityFragment()
-            else -> MyDetailFragment()
-        }
-    }
+    override fun createFragment(position: Int): Fragment = fragments[position]
+
+//    override fun createFragment(position: Int): Fragment {
+//        return when (position) {
+//            0 -> HomeFragment()
+//            1 -> SanListFragment()
+//            2 -> SanMapFragment()
+//            3 -> CommunityFragment()
+//            else -> MyDetailFragment()
+//        }
+//    }
+
 }

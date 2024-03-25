@@ -56,11 +56,11 @@ class RadioListAdapter(private val mainViewModel: MainViewModel)
 
         private fun checkIsLike(key: String) {
             if (mainViewModel.radioLikeList.value?.contains(key) == true) {
-                binding.ivHeart.setImageResource(R.drawable.ic_fill_heart)
                 isLike = true
+                binding.ivChannelHeart.setImageResource(R.drawable.ic_fill_heart)
             } else {
-                binding.ivHeart.setImageResource(R.drawable.ic_empty_heart)
                 isLike = false
+                binding.ivChannelHeart.setImageResource(R.drawable.ic_empty_heart)
             }
         }
         fun likeSetting(key: String) {
@@ -72,10 +72,10 @@ class RadioListAdapter(private val mainViewModel: MainViewModel)
 
                 if (isLike) {
                     isLike = false
-                    binding.ivHeart.setImageResource(R.drawable.ic_empty_heart)
+                    binding.ivChannelHeart.setImageResource(R.drawable.ic_empty_heart)
                 } else {
                     isLike = true
-                    binding.ivHeart.setImageResource(R.drawable.ic_fill_heart)
+                    binding.ivChannelHeart.setImageResource(R.drawable.ic_fill_heart)
                 }
             }
         }
