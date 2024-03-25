@@ -151,7 +151,7 @@ class CommunityFragment : Fragment() {
             bottomSheetDialog.dismiss()
             ToastMessage("게시물 삭제")
             // 삭제 다이얼로그 띄우기
-            setUpDeleteDialog(bottomSheetDialog)
+            setUpDeleteDialog(bottomSheetDialog, item)
 
         }
         editButton?.setOnClickListener {
@@ -168,20 +168,20 @@ class CommunityFragment : Fragment() {
         ToastMessage("아직 다이얼로그 부분이 구현되지 않았습니다. 저희 팀원분 중 한 분이 해줄 거라고 했습니다. :)")
     }
 
-    private fun setUpDeleteDialog(bottomSheetDialog: BottomSheetDialog) {
+    private fun setUpDeleteDialog(bottomSheetDialog: BottomSheetDialog,item: PostDTO?) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("게시물 삭제").setMessage("정말 게시물을 삭제하시겠습니까? (게시물은 영구 삭제됩니다.)")
             .setPositiveButton(
                 "확인"
             ) { _, _ ->
-                //TODO
                 bottomSheetDialog.dismiss()
                 ToastMessage("확인")
+                communityViewModel.deletePost(item)
             }.setNegativeButton(
                 "취소"
             ) { _, _ ->
-                //TODO
                 ToastMessage("취소")
+                bottomSheetDialog.show()
             }
         builder.show()
     }

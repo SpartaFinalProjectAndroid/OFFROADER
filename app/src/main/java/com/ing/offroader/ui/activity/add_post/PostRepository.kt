@@ -40,7 +40,7 @@ class PostRepository {
     }
 
 
-    fun setImage(post: PostDTO?, updateTo: String) {
+    fun setMyImage(post: PostDTO?) {
 
 
         val pathRef = storageRef.child("Offroader_res/post_image/${post?.post_id}.jpg")
@@ -48,26 +48,18 @@ class PostRepository {
         // 디비 스토리지에서 받아온 값을 메모리에 저장하려고 함. 앱 메모리보다 큰 사진을 불러오면 크래시가 나기 때문에 불러올 때 메모리의 크기 제한을 둠.
         val ONE_MEGABYTE: Long = 1024 * 1024
 
-        pathRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
+        pathRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { it ->
             // 바이트어레이를 비트맵으로 변환해주는 코드
 
             val image = BitmapFactory.decodeByteArray(it, 0, it.size)
             post?.images = image
-            val item = myPostItemArray.find {
-                it?.post_id == post?.post_id
-            }
+            val item = myPostItemArray.find { it?.post_id == post?.post_id }
             if (item == null) {
-
                 myPostItemArray.add(post)
             }
 
-
             val items = myPostItemArray
-            when (updateTo) {
-                "my" -> _myPostItems.value = items
-                "community" -> _setPostItems.value = items
-            }
-
+            _myPostItems.value = items
 
             Log.d(TAG, "setMyPost: ${myPostItems.value?.size}, ${post?.title}")
 
@@ -75,7 +67,32 @@ class PostRepository {
             Log.d(TAG, "onBindViewHolder: 사진 받아오는거 실패함. 알아서 하셈.")
         }
     }
+    fun setCommunityImage(post: PostDTO?) {
 
+        val pathRef = storageRef.child("Offroader_res/post_image/${post?.post_id}.jpg")
+
+        // 디비 스토리지에서 받아온 값을 메모리에 저장하려고 함. 앱 메모리보다 큰 사진을 불러오면 크래시가 나기 때문에 불러올 때 메모리의 크기 제한을 둠.
+        val ONE_MEGABYTE: Long = 1024 * 1024
+
+        pathRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { it ->
+            // 바이트어레이를 비트맵으로 변환해주는 코드
+
+            val image = BitmapFactory.decodeByteArray(it, 0, it.size)
+            post?.images = image
+            val item = myPostItemArray.find { it?.post_id == post?.post_id }
+            if (item == null) {
+                myPostItemArray.add(post)
+            }
+
+            val items = myPostItemArray
+            _setPostItems.value = items
+
+            Log.d(TAG, "setMyPost: ${myPostItems.value?.size}, ${post?.title}")
+
+        }.addOnFailureListener {
+            Log.d(TAG, "onBindViewHolder: 사진 받아오는거 실패함. 알아서 하셈.")
+        }
+    }
 
     fun setMyPost() {
         Log.d(TAG, "setMyPost: ")
@@ -92,7 +109,7 @@ class PostRepository {
                     }
                     value?.documents?.forEach {
                         val post = it.toObject(PostDTO::class.java)
-                        setImage(post, "my")
+                        setMyImage(post)
                     }
 
                 }
@@ -118,7 +135,7 @@ class PostRepository {
                     value?.documents?.forEach {
                         val post = it.toObject(PostDTO::class.java)
                         Log.d(TAG, "setPost: ${post?.title}")
-                        setImage(post, "community")
+                        setCommunityImage(post)
                     }
 
                 }
@@ -236,6 +253,14 @@ class PostRepository {
         } catch (e: Exception) {
             Log.e(TAG, "FireStore Error: $e")
         }
+    }
+
+    fun deletePost(item: PostDTO?) {
+        deleteImage((item?.post_id ?: "").toString())
+        db.collection("Community").document(item?.post_id.toString())
+            .delete()
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
     }
 
 

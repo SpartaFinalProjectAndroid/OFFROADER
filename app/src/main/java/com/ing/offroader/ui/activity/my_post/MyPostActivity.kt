@@ -115,7 +115,7 @@ class MyPostActivity : AppCompatActivity() {
             bottomSheetDialog.dismiss()
             ToastMessage("게시물 삭제")
             // 삭제 다이얼로그 띄우기
-            setUpDeleteDialog(bottomSheetDialog)
+            setUpDeleteDialog(bottomSheetDialog, item)
 
         }
         editButton?.setOnClickListener {
@@ -127,19 +127,19 @@ class MyPostActivity : AppCompatActivity() {
         bottomSheetDialog.show()
     }
 
-    private fun setUpDeleteDialog(bottomSheetDialog: BottomSheetDialog) {
+    private fun setUpDeleteDialog(bottomSheetDialog: BottomSheetDialog, item : PostDTO?) {
         val builder = AlertDialog.Builder(this@MyPostActivity)
         builder.setTitle("게시물 삭제").setMessage("정말 게시물을 삭제하시겠습니까? (게시물은 영구 삭제됩니다.)")
             .setPositiveButton(
                 "확인"
             ) { _, _ ->
-                //TODO
                 bottomSheetDialog.dismiss()
                 ToastMessage("확인")
+                myPostViewModel.deletePost(item)
             }.setNegativeButton(
                 "취소"
             ) { _, _ ->
-                //TODO
+                bottomSheetDialog.show()
                 ToastMessage("취소")
             }
         builder.show()
