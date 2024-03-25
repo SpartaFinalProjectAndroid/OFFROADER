@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ing.offroader.data.model.userInfo.UserData
 import com.ing.offroader.databinding.ItemPostBinding
@@ -19,6 +21,13 @@ class CommunityAdapter(private val viewModel: CommunityViewModel) :
         DIFF_CALLBACK
     ) {
 
+    interface ItemMoreClick { fun itemMoreClick(user: FirebaseUser?, item: PostDTO?) }
+    interface ItemHeartClick { fun itemHeartClick() }
+
+    var moreClick : ItemMoreClick ?= null
+    var heartClick : ItemHeartClick ?= null
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PostItemViewHolder(binding)
@@ -27,6 +36,8 @@ class CommunityAdapter(private val viewModel: CommunityViewModel) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val item = getItem(position)
+        val loggedInUser = FirebaseAuth.getInstance().currentUser
+
 
         (holder as PostItemViewHolder).apply {
 
@@ -44,6 +55,14 @@ class CommunityAdapter(private val viewModel: CommunityViewModel) :
 
 
                 }
+            }
+
+            moreButton.setOnClickListener {
+
+                if(loggedInUser?.uid == item.uid) {
+                    moreClick?.itemMoreClick(loggedInUser, item)
+                }
+
             }
 
 
@@ -77,6 +96,8 @@ class CommunityAdapter(private val viewModel: CommunityViewModel) :
         val postImage = binding.ivUploadedImage
         val likeCount = binding.tvLikeCount
         val date = binding.tvDate
+        val moreButton = binding.ivMore
+        val heartButton = binding.ivHeart
 
         init {
             postItem.setOnClickListener(this)
@@ -92,7 +113,7 @@ class CommunityAdapter(private val viewModel: CommunityViewModel) :
 
     companion object {
 
-        private const val TAG = "태그 : CommunityAdapter"
+//        private const val TAG = "태그 : CommunityAdapter"
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PostDTO>() {
             override fun areItemsTheSame(oldItem: PostDTO, newItem: PostDTO): Boolean {
 //                Log.d(TAG, "areItemsTheSame: ${oldItem.post_id}, ${newItem.post_id}")

@@ -93,16 +93,11 @@ class MyPostActivity : AppCompatActivity() {
     private fun setUpAdapter() {
         myPostAdapter.moreClick = object : MyPostAdapter.ItemMoreClick {
             override fun itemMoreClick(user: FirebaseUser?, item: PostDTO?) {
-
                 if (user == null) {
-
                 } else {
                     setBottomSheetDialog(item)
-
-
                 }
             }
-
         }
     }
 
