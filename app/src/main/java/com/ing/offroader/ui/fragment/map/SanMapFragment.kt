@@ -486,7 +486,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         val hour = time / 3600
 
         return when {
-            hour > 0 -> "${hour}시 ${min}분 ${sec}초"
+            hour > 0 -> "${hour}시간 ${min}분 ${sec}초"
             min > 0 -> "${min}분 ${sec}초"
             else -> "${sec}초"
         }
