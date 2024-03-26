@@ -128,8 +128,8 @@ class MyDetailFragment : Fragment() {
     }
 
     private fun setUserInformation() = with(binding) {
-        tvLogin.visibility = View.VISIBLE
-        tvLogin.text = "로그아웃"
+        tvLogout.visibility = View.VISIBLE
+        tvLogout.text = "로그아웃"
         tvId.visibility = View.INVISIBLE
         tvName.visibility = View.VISIBLE
         tvName.text = user?.displayName
@@ -141,7 +141,7 @@ class MyDetailFragment : Fragment() {
         Glide.with(requireActivity()).load(user?.photoUrl).into(ivProfil)
         setMyPosts()
 
-        tvLogin.setOnClickListener {
+        tvLogout.setOnClickListener {
             Firebase.auth.signOut()
             val intent = Intent(activity, MainActivity::class.java)
             intent.putExtra("MY_POSTS",myPosts)
@@ -149,7 +149,8 @@ class MyDetailFragment : Fragment() {
         }
 
         binding.blur.visibility = View.GONE
-        binding.tvLogin.visibility = View.GONE
+
+        tvLogin.visibility = View.GONE
 
         // 좋아요 한 산 데이터 받아오기
         initPreferenceData()
