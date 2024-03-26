@@ -25,6 +25,17 @@
     <string name="san_list_mountain_info">1,947 m | 2h 40m | 상</string>
     <string name="san_list_chip_alphabetical_order">가나다순</string>
 
+
+    <!--    radio-->
+    <string name="radio_no_like_list">즐겨찾기 목록이 없어요…</string>
+
+    <!--    tab-->
+    <string name="tab_home_title">홈</string>
+    <string name="tab_san_list_title">산</string>
+    <string name="tab_map_title">지도</string>
+    <string name="tab_community_title">커뮤니티</string>
+    <string name="tab_my_page_title">내 정보</string>
+
     <!--    SanMapFragment-->
     <string name="san_map_input">산 이름으로 검색어를 입력해 주세요</string>
     <string name="san_name_bukhansan">북한산</string>
