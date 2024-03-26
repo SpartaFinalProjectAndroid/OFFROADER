@@ -10,14 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.ing.offroader.R
 import com.ing.offroader.data.model.addpost.EditPostDTO
 import com.ing.offroader.data.model.addpost.PostModel
 import com.ing.offroader.databinding.ActivityMyPostBinding
 import com.ing.offroader.ui.activity.add_post.AddPostActivity
 import com.ing.offroader.ui.fragment.community.MyApplication
-import com.ing.offroader.ui.fragment.community.model.PostDTO
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModel
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModelFactory
 
@@ -61,6 +59,7 @@ class MyPostActivity : AppCompatActivity() {
             Log.d(TAG, "initObserver: ${it?.size}")
             if (it != null) {
                 Log.d(TAG, "initObserver: postItem 업데이트 ${it}")
+                scrollToTop(it)
                 setItemView(it)
             } else {
                 Log.d(TAG, "initObserver: 옵져빙된 값이 널이라서 업데이트가 안됨.")
@@ -94,6 +93,12 @@ class MyPostActivity : AppCompatActivity() {
         setBackButton()
         setUpAdapter()
 
+
+    }
+    private fun scrollToTop(message: ArrayList<PostModel?>?) {
+        if (message.isNullOrEmpty().not()) {
+            binding.rvMyPost.smoothScrollToPosition(0)
+        }
     }
 
 
