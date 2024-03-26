@@ -59,7 +59,7 @@ class MyPostActivity : AppCompatActivity() {
             Log.d(TAG, "initObserver: ${it?.size}")
             if (it != null) {
                 Log.d(TAG, "initObserver: postItem 업데이트 ${it}")
-                scrollToTop(it)
+//                scrollToTop(it)
                 setItemView(it)
             } else {
                 Log.d(TAG, "initObserver: 옵져빙된 값이 널이라서 업데이트가 안됨.")

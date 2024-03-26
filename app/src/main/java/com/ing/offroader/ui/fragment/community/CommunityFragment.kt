@@ -59,7 +59,7 @@ class CommunityFragment : Fragment() {
             if (it != null) {
                 Log.d(TAG, "initObserver: postItem 업데이트 ${it}")
                 setItemView(it)
-                scrollToTop(it)
+//                scrollToTop(it)
             } else {
                 Log.d(TAG, "initObserver: 옵져빙된 값이 널이라서 업데이트가 안됨.")
             }

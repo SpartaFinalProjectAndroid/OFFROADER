@@ -108,10 +108,15 @@ class PostRepository {
     private fun setMyPostLists(items: ArrayList<PostDTO?>) {
         val myPostArray: ArrayList<PostModel?> = arrayListOf()
         items?.forEach {
+            var contentsText = ""
+            if (it?.contents != null) {
+                contentsText = it.contents.toString()
+            }
+
             val post = PostModel(
                 userName = user?.displayName,
                 userProfileImage = user?.photoUrl,
-                contents = it?.contents.toString(),
+                contents = contentsText,
                 images = it?.images,
                 like = it?.like.toString().toInt(),
                 postId = it?.post_id.toString(),
