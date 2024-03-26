@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.ing.offroader.data.model.addpost.PostModel
 import com.ing.offroader.databinding.FragmentMyDetailBinding
 import com.ing.offroader.ui.activity.achievement.AchievementActivity
 import com.ing.offroader.ui.activity.login.LoginActivity
@@ -41,14 +42,7 @@ class MyDetailFragment : Fragment() {
 
     private val likedSanViewModel by activityViewModels<MainViewModel>()
 
-    //    private val myDetailViewModel by viewModels<MyDetailViewModel>()
-    private val communityViewModel: CommunityViewModel by viewModels {
-        CommunityViewModelFactory((requireActivity().application as MyApplication).postRepository)
-    }
 
-    //    private val communityAdapter: CommunityAdapter by lazy {
-//        CommunityAdapter(communityViewModel)
-//    }
     private val myDetailViewModel: MyDetailViewModel by viewModels {
         return@viewModels MyDetailViewModelFactory(
             (requireActivity().application as MyApplication).sanListRepository,
@@ -60,7 +54,7 @@ class MyDetailFragment : Fragment() {
     // 사용자 정보 가져오기
     private var user = FirebaseAuth.getInstance().currentUser
 
-    private var myPosts: ArrayList<PostDTO?>? = null
+    private var myPosts: ArrayList<PostModel?>? = null
 
     @SuppressLint("InflateParams")
     override fun onCreateView(
@@ -68,8 +62,6 @@ class MyDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMyDetailBinding.inflate(inflater, container, false)
-
-        myDetailViewModel.getUserData("user_test") // 파이어스토에 해당 유저 UID에 맞는 데이터 가져오기
 
         return binding.root
 
@@ -83,15 +75,13 @@ class MyDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        myDetailViewModel.getUserData("user_test") // 파이어스토에 해당 유저 UID에 맞는 데이터 가져오기
+        initObserver()
     }
 
     private fun initObserver() {
-//        myDetailViewModel.myDetailDTO.observe(viewLifecycleOwner) {
-//
-//        }
 
-        myDetailViewModel.myPostItems.observe(viewLifecycleOwner) {
+        myDetailViewModel.myPostLists.observe(viewLifecycleOwner) {
             Log.d(TAG, "initObserver: ${it?.size}")
             if (it != null) {
                 Log.d(TAG, "initObserver: postItem 업데이트 ${it}")
@@ -149,17 +139,12 @@ class MyDetailFragment : Fragment() {
         tvProfilInfo.visibility = View.INVISIBLE
         clAddress.visibility = View.INVISIBLE
         Glide.with(requireActivity()).load(user?.photoUrl).into(ivProfil)
-        clMyPost.isClickable = true
-        if (myPosts.isNullOrEmpty()) {
-            tvMyPostCount.text = "0"
-        } else {
-            tvMyPostCount.text = myPosts?.size.toString()
-        }
+        setMyPosts()
+
         tvLogin.setOnClickListener {
             Firebase.auth.signOut()
             val intent = Intent(activity, MainActivity::class.java)
-            // TODO :
-
+            intent.putExtra("MY_POSTS",myPosts)
             startActivity(intent)
         }
 
@@ -169,6 +154,21 @@ class MyDetailFragment : Fragment() {
         // 좋아요 한 산 데이터 받아오기
         initPreferenceData()
     }
+
+    private fun setMyPosts() = with (binding) {
+        clMyPost.isClickable = true
+        
+        if (myPosts.isNullOrEmpty()) {
+            Log.d(TAG, "setMyPosts: ${myPosts?.size}")
+            myDetailViewModel.setRepository()
+            myPosts = myDetailViewModel.myPostLists.value
+            Log.d(TAG, "setMyPosts: 2 ${myPosts?.size}")
+            tvMyPostCount.text = ""
+
+        } else {
+//            tvMyPostCount.text = myPosts?.size.toString()
+            tvMyPostCount.text = ""
+        }    }
 
     private fun setNoLoggedInUser() = with(binding) {
         tvLogin.visibility = View.VISIBLE

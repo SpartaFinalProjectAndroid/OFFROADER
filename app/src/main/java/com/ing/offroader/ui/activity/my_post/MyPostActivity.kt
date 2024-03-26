@@ -1,15 +1,9 @@
 package com.ing.offroader.ui.activity.my_post
 
 import android.app.AlertDialog
-import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import android.view.Window
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -17,11 +11,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.ing.offroader.R
 import com.ing.offroader.data.model.addpost.EditPostDTO
-import com.ing.offroader.data.model.userInfo.Post
+import com.ing.offroader.data.model.addpost.PostModel
 import com.ing.offroader.databinding.ActivityMyPostBinding
 import com.ing.offroader.ui.activity.add_post.AddPostActivity
 import com.ing.offroader.ui.fragment.community.MyApplication
@@ -40,7 +32,7 @@ class MyPostActivity : AppCompatActivity() {
         MyPostViewModelFactory((this.application as MyApplication).postRepository)
     }
     private val myPostAdapter: MyPostAdapter by lazy {
-        MyPostAdapter(myPostViewModel)
+        MyPostAdapter(this@MyPostActivity,myPostViewModel)
     }
     private val myDetailViewModel: MyDetailViewModel by viewModels {
         return@viewModels MyDetailViewModelFactory(
@@ -48,6 +40,7 @@ class MyPostActivity : AppCompatActivity() {
             (this.application as MyApplication).postRepository
         )
     }
+    private var myPosts: ArrayList<PostModel?>? = null
 
 
     private val user = FirebaseAuth.getInstance().currentUser
@@ -58,9 +51,11 @@ class MyPostActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initView()
+//        myDetailViewModel.setMyPostLists()
     }
 
     private fun initObserver() {
+
         Log.d(TAG, "initObserver: ")
         myDetailViewModel.myPostItems.observe(this) {
             Log.d(TAG, "initObserver: ${it?.size}")
@@ -73,9 +68,17 @@ class MyPostActivity : AppCompatActivity() {
         }
     }
 
-    private fun setItemView(postItems: ArrayList<PostDTO?>?) {
-        Log.d(TAG, "setItemView: $postItems")
-        val sortedItems = postItems?.sortedByDescending { it?.upload_date as Comparable<Any> }
+    private fun setItemView(postItems: ArrayList<PostModel?>?) {
+        if (postItems?.size == 0) {
+            Log.d(TAG, "setItemView: observed Empty")
+            myPosts = intent.getParcelableArrayListExtra("MY_POSTS")
+        } else {
+            myPosts = postItems
+            Log.d(TAG, "setItemView: using observed")
+        }
+        Log.d(TAG, "setItemView: ${postItems?.size}")
+
+        val sortedItems = myPosts?.sortedByDescending { it?.upload_date as Comparable<Any> }
         myPostAdapter.submitList(sortedItems)
     }
 
@@ -86,16 +89,18 @@ class MyPostActivity : AppCompatActivity() {
         binding.rvMyPost.apply {
             itemAnimator = null
         }
-        setItemView(myDetailViewModel.myPostItems.value)
+        setItemView(myDetailViewModel.myPostLists.value)
         setAddPostButton()
         setBackButton()
         setUpAdapter()
 
     }
 
+
+
     private fun setUpAdapter() {
         myPostAdapter.moreClick = object : MyPostAdapter.ItemMoreClick {
-            override fun itemMoreClick(user: FirebaseUser?, item: PostDTO?) {
+            override fun itemMoreClick(user: String?, item: PostModel?) {
                 if (user == null) {
                 } else {
                     setBottomSheetDialog(item)
@@ -104,7 +109,7 @@ class MyPostActivity : AppCompatActivity() {
         }
     }
 
-    private fun setBottomSheetDialog(item: PostDTO?) {
+    private fun setBottomSheetDialog(item: PostModel?) {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_my, null)
         val bottomSheetDialog = BottomSheetDialog(this@MyPostActivity)
 
@@ -130,7 +135,7 @@ class MyPostActivity : AppCompatActivity() {
         bottomSheetDialog.show()
     }
 
-    private fun setUpDeleteDialog(bottomSheetDialog: BottomSheetDialog, item : PostDTO?) {
+    private fun setUpDeleteDialog(bottomSheetDialog: BottomSheetDialog, item : PostModel?) {
         val builder = AlertDialog.Builder(this@MyPostActivity)
         builder.setTitle("게시물 삭제").setMessage("정말 게시물을 삭제하시겠습니까? (게시물은 영구 삭제됩니다.)")
             .setPositiveButton(
@@ -148,7 +153,7 @@ class MyPostActivity : AppCompatActivity() {
         builder.show()
     }
 
-    private fun setEditPostView(item: PostDTO?) {
+    private fun setEditPostView(item: PostModel?) {
 
         val intent = Intent(this@MyPostActivity, AddPostActivity::class.java)
         try {
@@ -158,7 +163,7 @@ class MyPostActivity : AppCompatActivity() {
                 EditPostDTO(
                     item?.title.toString(),
                     item?.contents.toString(),
-                    item?.post_id.toString()
+                    item?.postId.toString()
                 )
             )
         } catch (e: Exception) {
@@ -171,6 +176,7 @@ class MyPostActivity : AppCompatActivity() {
     private fun setBackButton() {
         binding.ivBack.setOnClickListener {
             finish()
+
         }
     }
 
@@ -182,6 +188,7 @@ class MyPostActivity : AppCompatActivity() {
             } else {
                 val intent = Intent(this, AddPostActivity::class.java)
                 startActivity(intent)
+                finish()
             }
 
         }

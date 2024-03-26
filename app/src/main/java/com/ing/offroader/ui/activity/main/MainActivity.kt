@@ -112,6 +112,11 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onStop: ")
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        Log.d(TAG, "onDetachedFromWindow: ")
+    }
+
     private fun initObserver() {
         radioListViewModel.radioLikeList.observe(this) {
             setRadioView(it.size)
@@ -294,6 +299,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.d(TAG, "onDestroy: ")
+        // 다시 액티비티가 실행 되었을 때 중첩이 될 수 있는 이쓔가 있을 수 있어서 떼주어야함.
         radioPlayer.release()
         binding.viewTest.player?.release()
     }
