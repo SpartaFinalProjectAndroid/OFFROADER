@@ -1,16 +1,21 @@
 <resources>
     <string name="app_name">OFFROADER</string>
 
-    <!--    ChatBotFragment-->
-    <string name="chatbot_ask_hint">궁금한 것을 물어보세요!</string>
-    <string name="chatbot_delete_history">기록 지우기</string>
-    <string name="chatbot_hikey">하이키</string>
-    <string name="chatbot_bongbong">봉봉이</string>
-    <string name="chatbot_mbti_f">MBTI F</string>
-    <string name="chatbot_mbti_t">MBTI T</string>
-    <string name="chatbot_clear"> </string>
-    <string name="item_chatbot_text_ai">Hello World</string>
-    <string name="item_chatbot_text_user">Hello World</string>
+    <!--    MainActivity-->
+    <string name="mbc_channel_name_standard_fm">표준FM</string>
+    <string name="mbc_channel_name_fm4U">FM4U</string>
+    <string name="sbs_channel_name_love_fm">러브FM</string>
+    <string name="kbs_channel_name_1radio">1Radio</string>
+    <string name="kbs_channel_name_happy_fm">HappyFM</string>
+    <string name="kbs_channel_name_3radio">3Radio</string>
+    <string name="kbs_channel_name_classic_fm">ClassicFM</string>
+    <string name="kbs_channel_name_korean_broadcast">한민족방송</string>
+
+    <!--    HomeFragment-->
+    <string name="signin_google">GOOGLE LOGIN</string>
+    <string name="home_attendance">출석체크</string>
+    <string name="community_title">커뮤니티</string>
+    <string name="default_web_client_id">399146829257-9m5hulcsutibi2c360od30de3fqqedp7.apps.googleusercontent.com</string>
 
     <!--    SanListFragment-->
     <string name="san_list_hard">상</string>
@@ -20,20 +25,16 @@
     <string name="san_list_mountain_info">1,947 m | 2h 40m | 상</string>
     <string name="san_list_chip_alphabetical_order">가나다순</string>
 
-    <!--    MyDetailFragment-->
-    <string name="mydetail_myinfo">내 정보</string>
-    <string name="mydetail_summary">총 등산 정보</string>
-    <string name="mydetail_counttime">100시간</string>
-    <string name="mydetail_counttracking">6회</string>
-    <string name="mydetail_recode">내가 추가한 산 목록</string>
-
-    <!--    BookmarkAdapter-->
-    <string name="item_bookmark_name">지리산</string>
-    <string name="item_bookmark_time">총 등산 시간 2 : 40</string>
-    <string name="item_bookmark_date">2024.02.27(화)</string>
 
     <!--    radio-->
-    <string name="main_radio_title">라디오</string>
+    <string name="radio_no_like_list">즐겨찾기 목록이 없어요…</string>
+
+    <!--    tab-->
+    <string name="tab_home_title">홈</string>
+    <string name="tab_san_list_title">산</string>
+    <string name="tab_map_title">지도</string>
+    <string name="tab_community_title">커뮤니티</string>
+    <string name="tab_my_page_title">내 정보</string>
 
     <!--    SanMapFragment-->
     <string name="san_map_input">산 이름으로 검색어를 입력해 주세요</string>
@@ -51,15 +52,48 @@
     <string name="mountain_description">산 설명</string>
     <string name="san_map_record_start">등산 시작</string>
 
-    <!--    MainActivity-->
-    <string name="mbc_channel_name_standard_fm">표준FM</string>
-    <string name="mbc_channel_name_fm4U">FM4U</string>
-    <string name="sbs_channel_name_love_fm">러브FM</string>
-    <string name="kbs_channel_name_1radio">1Radio</string>
-    <string name="kbs_channel_name_happy_fm">HappyFM</string>
-    <string name="kbs_channel_name_3radio">3Radio</string>
-    <string name="kbs_channel_name_classic_fm">ClassicFM</string>
-    <string name="kbs_channel_name_korean_broadcast">한민족방송</string>
+    <!--    ChatBotFragment-->
+    <string name="chatbot_ask_hint">궁금한 것을 물어보세요!</string>
+    <string name="chatbot_delete_history">기록 지우기</string>
+    <string name="chatbot_hikey">하이키</string>
+    <string name="chatbot_bongbong">봉봉이</string>
+    <string name="chatbot_mbti_f">MBTI F</string>
+    <string name="chatbot_mbti_t">MBTI T</string>
+    <string name="chatbot_clear"> </string>
+    <string name="item_chatbot_text_ai">Hello World</string>
+    <string name="item_chatbot_text_user">Hello World</string>
+
+    <!--    CommunityFragment-->
+    <string name="post_edit">게시글 수정</string>
+    <string name="post_delete">게시글 삭제</string>
+    <string name="more_title">게시글 옵션</string>
+    <string name="report">신고하기</string>
+    <string name="add_post_make_post">게시글 작성</string>
+    <string name="add_post_select_image">이미지 선택</string>
+    <string name="add_post_complete">완료</string>
+    <string name="add_post_outoften">/10</string>
+    <string name="add_post_title_hint">제목</string>
+    <string name="add_post_content_hint">내용을 입력해주세요.</string>
+
+    <!--    MyDetailFragment-->
+    <string name="mydetail_myinfo">내 정보</string>
+    <string name="mydetail_summary">총 등산 정보</string>
+    <string name="mydetail_counttime">100시간</string>
+    <string name="mydetail_counttracking">6회</string>
+    <string name="mydetail_recode">내가 추가한 산 목록</string>
+    <string name="mydetail_record">등산 기록</string>
+    <string name="mydetail_post">게시글</string>
+    <string name="mydetail_level">레벨</string>
+    <string name="mydetail_achievement">업적</string>
+    <string name="mydetail_hiking_junior">등린이</string>
+    <string name="mydetail_address">Address</string>
+    <string name="mydetail_name">Name</string>
+    <string name="mydetail_require_login">로그인이 필요합니다.</string>
+    <string name="mydetail_edit">편집</string>
+    <string name="mydetail_move_to_login">로그인 페이지로 이동</string>
+
+    <!--    radio-->
+    <string name="main_radio_title">라디오</string>
 
     <!--    SanDetailActivity-->
     <string name="sandetail_name">지리산</string>
@@ -84,16 +118,10 @@
     <string name="sandetail_intro_short">축소하기 ▲</string>
     <string name="sandetail_recommend_short">축소하기 ▲</string>
 
-    <string name="mountain_height_text">고도 :</string>
-    <string name="signin_google">GOOGLE LOGIN</string>
-    <string name="home_attendance">출석체크</string>
-    <string name="community_title">커뮤니티</string>
-    <string name="add_post_select_image">이미지 선택</string>
-    <string name="add_post_complete">완료</string>
-    <string name="add_post_outoften">/10</string>
-    <string name="add_post_title_hint">제목</string>
-    <string name="add_post_content_hint">내용을 입력해주세요.</string>
-    <string name="default_web_client_id">399146829257-9m5hulcsutibi2c360od30de3fqqedp7.apps.googleusercontent.com</string>
+    <!--    BookmarkAdapter-->
+    <string name="item_bookmark_name">지리산</string>
+    <string name="item_bookmark_time">총 등산 시간 2 : 40</string>
+    <string name="item_bookmark_date">2024.02.27(화)</string>
 
     <!--    dialog_lv-->
     <string name="dialog_lv">레벨</string>
@@ -125,11 +153,6 @@
     <string name="record_distance">1.7km</string>
     <string name="record_duration_text">소요시간</string>
     <string name="record_duration">1시간 20분 30초</string>
-    <string name="post_edit">게시글 수정</string>
-    <string name="post_delete">게시글 삭제</string>
-    <string name="more_title">게시글 옵션</string>
-    <string name="report">신고하기</string>
-    <string name="add_post_make_post">게시글 작성</string>
 
     <!--    Achieve Activity-->
 

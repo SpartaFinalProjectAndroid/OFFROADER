@@ -46,7 +46,7 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
     // 자동 스크롤
     private val slideImageHandler: Handler = Handler()
     private val slideImageRunnable =
-        Runnable { binding.vpMountain.currentItem = binding.vpMountain.currentItem + 1 }
+        Runnable { binding.vpMountain.currentItem += 1 }
 
     private val sanDetailViewModel: SanDetailViewModel by viewModels {
         return@viewModels SanDetailViewModelFactory(
@@ -78,6 +78,7 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
         loadData()
         initBackButton()
         initObserver()
+        Log.d(TAG, "index: $slideImageRunnable")
     }
 
     //본문 읽는 중 사진 자동 스크롤 중지
@@ -149,8 +150,8 @@ class SanDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListe
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 // 이미지 사진이 1장일 때 자동 스크롤 방지
+                slideImageHandler.removeCallbacks(slideImageRunnable)
                 if (imageSize > 1) { slideImageHandler.postDelayed(slideImageRunnable, 5000) }
-                else { slideImageHandler.removeCallbacks(slideImageRunnable) }
             }
         })
     }

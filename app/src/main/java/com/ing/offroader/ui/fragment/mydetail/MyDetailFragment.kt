@@ -77,6 +77,9 @@ class MyDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         myDetailViewModel.getUserData("user_test") // 파이어스토에 해당 유저 UID에 맞는 데이터 가져오기
         initObserver()
+
+        // 좋아요 한 산 데이터 받아오기
+        initPreferenceData()
     }
 
     private fun initObserver() {
@@ -106,8 +109,7 @@ class MyDetailFragment : Fragment() {
         Log.d(TAG, "initView: ")
         setUpUserDetail()
         setUpListeners()
-
-
+        initPreferenceData()
     }
 
     private fun initPreferenceData() {
@@ -136,7 +138,7 @@ class MyDetailFragment : Fragment() {
         tvNameNim.visibility = View.VISIBLE
         // 아직 구현이 안된 부분이라 숨겨둘 예정
         // 회원 가입 시 로그인 정부 추가 하면 구현할 VISIBLE로 바꿔주고 적절한 값을 추가해주면 되지 않울까욤.
-        tvProfilInfo.visibility = View.INVISIBLE
+        tvProfileInfo.visibility = View.INVISIBLE
         clAddress.visibility = View.INVISIBLE
         Glide.with(requireActivity()).load(user?.photoUrl).into(ivProfil)
         setMyPosts()
@@ -152,13 +154,11 @@ class MyDetailFragment : Fragment() {
 
         tvLogin.visibility = View.GONE
 
-        // 좋아요 한 산 데이터 받아오기
-        initPreferenceData()
     }
 
     private fun setMyPosts() = with (binding) {
         clMyPost.isClickable = true
-        
+
         if (myPosts.isNullOrEmpty()) {
             Log.d(TAG, "setMyPosts: ${myPosts?.size}")
             myDetailViewModel.setRepository()
@@ -177,7 +177,7 @@ class MyDetailFragment : Fragment() {
         tvId.visibility = View.VISIBLE
         tvName.visibility = View.INVISIBLE
         tvNameNim.visibility = View.INVISIBLE
-        tvProfilInfo.visibility = View.INVISIBLE
+        tvProfileInfo.visibility = View.INVISIBLE
         clMyPost.isClickable = false
         tvMyPostCount.text = "-"
 

@@ -2,9 +2,7 @@ package com.ing.offroader.ui.activity.record
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -65,9 +63,7 @@ class RecordActivity : AppCompatActivity(), OnMapReadyCallback {
         name = intent.getStringExtra("name").toString()
         category = intent.getStringExtra("category").toString()
         date = intent.getStringExtra("date").toString()
-        Log.d("", "name : $name")
-        Log.d("", "date : $date")
-        Log.d("", "date : ${user?.uid}")
+
         mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
     }
@@ -90,6 +86,7 @@ class RecordActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    // 이동거리를 단순하게 보기 위해 km로 변환
     fun kmFormat(distance: String): String {
         val meter = distance.toInt()
         val km: Double = meter.toDouble() / 1000
@@ -162,23 +159,17 @@ class RecordActivity : AppCompatActivity(), OnMapReadyCallback {
         firestore.collection("polyLine").document(user!!.uid).collection(category).document(date)
             .get()
             .addOnSuccessListener { documents ->
-                Log.d(ContentValues.TAG, "${documents.id} => ${documents.data}")
                 binding.tvMountainName.text = name
                 binding.tvDate.text = documents.data!!["date"].toString()
                 binding.tvDistance.text = kmFormat(documents.data!!["distance"].toString())
                 binding.tvDuration.text = documents.data!!["duration"].toString()
                 coordinateList = documents.data!!["coordinate"] as MutableList<Map<String, Double>>
-                Log.d("", "docu : ${documents}")
-                Log.d("", "list : ${coordinateList}")
-                Log.d("", "list : ${coordinateList.size}")
                 for (i in 0 until coordinateList.size) {
-                    Log.d("", "${coordinateList[i]}")
-                    Log.d("", "${coordinateList.get(i).getValue("lat")}")
                     val lat = coordinateList.get(i).getValue("lat")
                     val lng = coordinateList.get(i).getValue("lng")
                     coords.add(LatLng(lat, lng))
                 }
-                Log.d("", "size : ${coords.size}")
+                // 경로선은 최소 2개의 좌표가 있어야 생기므로 오류 방지
                 if (coords.size > 2) {
                     path.coords = coords
                     path.map = naverMap
