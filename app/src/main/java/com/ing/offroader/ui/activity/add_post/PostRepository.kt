@@ -1,6 +1,5 @@
 package com.ing.offroader.ui.activity.add_post
 
-import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +8,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.ing.offroader.data.model.addpost.PostModel
+import com.ing.offroader.data.model.userInfo.UserData
 import com.ing.offroader.ui.fragment.community.model.PostDTO
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -17,16 +18,22 @@ import java.util.UUID
 class PostRepository {
     private val TAG = "태그 : AddPostRepository"
 
-    private var user = FirebaseAuth.getInstance().currentUser
+    var user = FirebaseAuth.getInstance().currentUser
     private val db = FirebaseFirestore.getInstance()
+
+    // setUserInfo
+    private val _userInfo: MutableLiveData<UserData?>? = null
+    val userInfo : LiveData<UserData?>? = _userInfo
 
     // setPostItems
     private val _setPostItems: MutableLiveData<ArrayList<PostDTO?>?> = MutableLiveData()
     val setPostItems: LiveData<ArrayList<PostDTO?>?> = _setPostItems
 
     // myPostItems
-    private val _myPostItems: MutableLiveData<ArrayList<PostDTO?>?> = MutableLiveData()
-    val myPostItems: LiveData<ArrayList<PostDTO?>?> = _myPostItems
+//    private val _myPostItems: MutableLiveData<ArrayList<PostDTO?>?> = MutableLiveData()
+//    val myPostItems: LiveData<ArrayList<PostDTO?>?> = _myPostItems
+    private val _myPostItems: MutableLiveData<ArrayList<PostModel?>?> = MutableLiveData()
+    val myPostItems: LiveData<ArrayList<PostModel?>?> = _myPostItems
 
     /** 사진 전송 관련 */
     private val specifiedStorage = Firebase.storage("gs://offroader-event.appspot.com")
@@ -36,6 +43,17 @@ class PostRepository {
 
     init {
         setPost()
+
+    }
+
+    fun setUserInfo(user: String?) {
+        if (user != null) {
+            FirebaseFirestore.getInstance().collection("User").document(user!!).get()
+                .addOnSuccessListener { documentSnapShot ->
+                    val user = documentSnapShot.toObject(UserData::class.java)
+                    _userInfo?.value = user
+                }
+        }
 
     }
 
@@ -56,7 +74,9 @@ class PostRepository {
             }
 
             val items = myPostItemArray
-            _myPostItems.value = items
+
+            setMyPostLists(items)
+//            _myPostItems.value = items
 
             Log.d(TAG, "setMyPost: ${myPostItems.value?.size}, ${post?.title}")
 
@@ -84,6 +104,31 @@ class PostRepository {
 //            Log.d(TAG, "onBindViewHolder: 사진 받아오는거 실패함. 알아서 하셈.")
 //        }
     }
+
+    private fun setMyPostLists(items: ArrayList<PostDTO?>) {
+        val myPostArray: ArrayList<PostModel?> = arrayListOf()
+        items?.forEach {
+            var contentsText = ""
+            if (it?.contents != null) {
+                contentsText = it.contents.toString()
+            }
+
+            val post = PostModel(
+                userName = user?.displayName,
+                userProfileImage = user?.photoUrl,
+                contents = contentsText,
+                images = it?.images,
+                like = it?.like.toString().toInt(),
+                postId = it?.post_id.toString(),
+                san = it?.san.toString(),
+                title = it?.title.toString(),
+                uid = it?.uid.toString(),
+                upload_date = it?.upload_date.toString().toLong()
+            )
+            myPostArray.add(post)
+        }
+        _myPostItems.value = myPostArray    }
+
     fun setCommunityImage(post: PostDTO?) {
 
         val pathRef = storageRef.child("Offroader_res/post_image/${post?.post_id}.jpg")
@@ -289,9 +334,9 @@ class PostRepository {
         }
     }
 
-    fun deletePost(item: PostDTO?) {
-        deleteImage((item?.post_id ?: "").toString())
-        db.collection("Community").document(item?.post_id.toString())
+    fun deletePost(postId: String?) {
+        deleteImage((postId ?: "").toString())
+        db.collection("Community").document(postId.toString())
             .delete()
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }

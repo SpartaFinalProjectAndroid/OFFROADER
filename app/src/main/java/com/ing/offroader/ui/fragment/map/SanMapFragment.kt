@@ -1,7 +1,6 @@
 package com.ing.offroader.ui.fragment.map
 
 import android.Manifest
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -95,6 +94,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var category: String
     private var userDistance: Long = 0
 
+    // 위치 권한 요구
     private val requestMultiplePermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             if (permissions[android.Manifest.permission.ACCESS_FINE_LOCATION] == true) {
@@ -107,6 +107,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentSanMapBinding.inflate(inflater, container, false)
+        // 네이버지도 API 클라이언트 ID 지정 / 없으면 인증 오류 발생
         NaverMapSdk.getInstance(requireContext()).client =
             NaverMapSdk.NaverCloudPlatformClient(BuildConfig.NAVERMAPS_API_KEY)
 
@@ -158,10 +159,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     // 위치 받아와서 저장하는 부분
     val locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult) {
-            Log.d("location_test", "result: $result")
-            Log.d(ContentValues.TAG, "latitude : ${result.lastLocation!!.latitude}")
-            Log.d(ContentValues.TAG, "latitude : ${result.lastLocation!!.longitude}")
-            Log.d(ContentValues.TAG, "run: 좌표 저장")
+            // 최소 좌표 저장 시간 및 좌표 간 거리 계산을 위해 배열의 인덱스를 계산
             var lastIdx: Int = 0
             var lastElement: Coordinate =
                 Coordinate(0.0, 0.0)
@@ -175,8 +173,6 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                     result.lastLocation!!.longitude
                 )
             )
-            Log.d(TAG, "size: ${coordinateList.size}")
-            Log.d(ContentValues.TAG, "coordinateList: ${coordinateList}")
             val distance = calDist(
                 preLat,
                 preLng,
@@ -329,6 +325,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                         markerInfo.visibility = View.VISIBLE
                                         ivMarkerInfoImage.visibility = View.VISIBLE
                                         user = FirebaseAuth.getInstance().currentUser
+                                        // 비로그인일때 저장할수 없도록 visibility를 Gone으로 설정
                                         if (user?.uid == null) {
                                             btnRecordStart.visibility = View.GONE
                                         } else if (user!!.uid != null) {
@@ -361,6 +358,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                             }
                         }
                     }
+                    // 마커 검색 실행
                     etInputLocation.setOnEditorActionListener { _, actionId, _ ->
                         if (actionId == EditorInfo.IME_ACTION_DONE) {
                             ivSearchLocation.performClick()
@@ -383,7 +381,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                         for (idx in 0 until markerDTOs.size) {
                             if (etInputLocation.text.toString() == markerDTOs[idx].name) {
                                 val cameraUpdate = CameraUpdate.scrollAndZoomTo(
-                                    LatLng(markerDTOs[idx].lat!!, markerDTOs[idx].lng!!), 17.0
+                                    LatLng(markerDTOs[idx].lat!!, markerDTOs[idx].lng!!), 15.0
                                 ).animate(CameraAnimation.Fly, 1500)
                                 naverMap.moveCamera(cameraUpdate)
                             }
@@ -394,6 +392,7 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
             coordinateList = arrayListOf<Coordinate>()
             var start = false
             btnRecordStart.setOnClickListener {
+                // 저장 간격을 150000ms = 2분 30초로 지정
                 val request =
                     LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 150000).build()
                 if (!start) {
@@ -407,22 +406,28 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                             locationSource.lastLocation!!.longitude
                         )
                     )
+                    // 반복작업 시작
                     fusedLocationClient.requestLocationUpdates(
                         request, locationCallback, Looper.myLooper()!!
                     )
                 } else {
                     start = false
                     btnRecordStart.text = "등산 시작"
+                    // 반복작업 중지
                     fusedLocationClient.removeLocationUpdates(locationCallback)
+                    // 등산시간이 30분 미만일 경우 저장되지 않도록 지정
                     if (coordinateList.size < 10) {
                         Toast.makeText(
                             activity,
                             "등산시간이 짧아 기록되지 않았습니다.\n30분 이상 기록해주세요",
                             Toast.LENGTH_SHORT
                         ).show()
+                        startTime = 0
                     } else {
+                        // 저장에 오류가 나지 않도록 로그인되어 있는지 확인
                         user = FirebaseAuth.getInstance().currentUser
                         if (user!!.uid != null) {
+                            // firestore에 저장되는 값인 산 명칭, 좌표, 등산시각, 소요시간, 이동거리를 HashMap에 저장
                             val documentFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm")
                             val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
                             val docString = date.format(documentFormatter)
@@ -436,14 +441,15 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                                 "mountain_name" to mName,
                                 "coordinate" to coordinateList
                             )
-                            Log.d(TAG, "listData : $listData")
-                            Log.d(TAG, "duration : $duration")
-                            firestore.collection("polyLine").document(user!!.uid).collection(category)
+                            // firestore에 저장하고 시작 시간과 종료 시간 0으로 초기화
+                            firestore.collection("polyLine").document(user!!.uid)
+                                .collection(category)
                                 .document(docString).set(listData)
                                 .addOnSuccessListener { Log.d(TAG, "저장 성공") }
                                 .addOnFailureListener { e -> Log.d(TAG, "저장 실패", e) }
                             startTime = 0
                             endTime = 0
+                            // 저장한 경로선 보여주기 위한 intent로 fierestore 검색 키워드를 intent에 저장
                             val intent = Intent(activity, RecordActivity::class.java)
                             intent.putExtra("name", mName)
                             intent.putExtra("category", category)
@@ -479,11 +485,8 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         val min = time / 60 % 60
         val hour = time / 3600
 
-        Log.d(ContentValues.TAG, "startTime: $startTime")
-        Log.d(ContentValues.TAG, "endTime: $endTime")
-
         return when {
-            hour > 0 -> "${hour}시 ${min}분 ${sec}초"
+            hour > 0 -> "${hour}시간 ${min}분 ${sec}초"
             min > 0 -> "${min}분 ${sec}초"
             else -> "${sec}초"
         }
