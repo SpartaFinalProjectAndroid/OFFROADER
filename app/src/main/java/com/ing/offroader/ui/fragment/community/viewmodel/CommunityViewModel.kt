@@ -10,13 +10,13 @@ private const val TAG = "태그 : CommunityViewModel"
 class CommunityViewModel(private val postRepository: PostRepository): ViewModel() {
     fun deletePost(item: PostModel?) {
         if (item != null) {
-            postRepository.deletePost(item.postId)
+            postRepository.deletePost(item.postId, "CommunityFragment")
         }
     }
     fun deletePost(item: PostDTO?) {
-        postRepository.deletePost(item?.post_id.toString())
+        postRepository.deletePost(item?.post_id.toString(), "CommunityFragment")
     }
 
-    val postItems : LiveData<ArrayList<PostDTO?>?> = postRepository.setPostItems
+    val postItems : LiveData<ArrayList<PostDTO?>?> = postRepository.allPostItems
 
 }

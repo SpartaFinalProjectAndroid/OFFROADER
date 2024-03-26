@@ -88,7 +88,7 @@ class MyPostActivity : AppCompatActivity() {
         binding.rvMyPost.apply {
             itemAnimator = null
         }
-        setItemView(myDetailViewModel.myPostLists.value)
+//        setItemView(myDetailViewModel.myPostLists.value)
         setAddPostButton()
         setBackButton()
         setUpAdapter()
@@ -192,6 +192,7 @@ class MyPostActivity : AppCompatActivity() {
                 Toast.makeText(this, "회원가입을 해야만 포스팅이 가능합니다.", Toast.LENGTH_SHORT).show()
             } else {
                 val intent = Intent(this, AddPostActivity::class.java)
+                intent.putExtra("FROM","MyPostActivity")
                 startActivity(intent)
                 finish()
             }

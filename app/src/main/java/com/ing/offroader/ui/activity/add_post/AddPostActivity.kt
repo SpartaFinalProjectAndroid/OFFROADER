@@ -33,6 +33,8 @@ class AddPostActivity : AppCompatActivity() {
     }
     private var editPostInfo : EditPostDTO? = null
 
+    private var rootPage : String? = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityAddPostBinding.inflate(layoutInflater)
@@ -51,9 +53,16 @@ class AddPostActivity : AppCompatActivity() {
             } else {
                 if (it.errorMessage == null) {
                     Log.d(TAG, "initObserver: finish")
+
+                    when (rootPage) {
+                        "CommunityFragment" -> {}
+                        "MyPostActivity" -> {
+                            val intent = Intent(this, MyPostActivity::class.java)
+                            startActivity(intent)
+                        }
+                    }
                     finish()
-                    val intent = Intent(this, MyPostActivity::class.java)
-                    startActivity(intent)
+
                 } else {
                     if (it.errorMessage.isEmpty().not()) {
                         Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
@@ -64,6 +73,7 @@ class AddPostActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        rootPage = intent.getStringExtra("FROM")
         setUpEditActivity()
         setupListener()
     }
@@ -112,7 +122,7 @@ class AddPostActivity : AppCompatActivity() {
     private fun setupListener() = with(binding) {
         etTitle.addTextChangedListener { addPostViewModel.titleChangedListener(etTitle.text.toString()) }
         etContent.addTextChangedListener { addPostViewModel.contentChangedListener(etContent.text.toString()) }
-        tvComplete.setOnClickListener { addPostViewModel.setOnCompleteButton() }
+        tvComplete.setOnClickListener { addPostViewModel.setOnCompleteButton(rootPage) }
         ivAddImage.setOnClickListener { imgPicker() }
         ivAddPhoto.setOnClickListener { imgPickerCamera() }
         // TODO : 2. 카메라로 이동해서 사진 찍는 코드

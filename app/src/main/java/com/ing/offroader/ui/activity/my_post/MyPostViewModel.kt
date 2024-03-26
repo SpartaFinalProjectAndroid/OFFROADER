@@ -7,7 +7,7 @@ import com.ing.offroader.ui.activity.add_post.PostRepository
 private const val TAG = "태그 : MyPostViewModel"
 class MyPostViewModel(private val postRepository: PostRepository): ViewModel() {
     fun deletePost(item: PostModel?) {
-        postRepository.deletePost(item?.postId.toString())
+        postRepository.deletePost(item?.postId.toString(), rootPage = "MyPostActivity")
     }
 
 }
