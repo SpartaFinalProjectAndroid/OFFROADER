@@ -1,6 +1,7 @@
 package com.ing.offroader.ui.activity.add_post
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
@@ -18,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.ing.offroader.data.model.addpost.EditPostDTO
 import com.ing.offroader.databinding.ActivityAddPostBinding
+import com.ing.offroader.ui.activity.my_post.MyPostActivity
 import com.ing.offroader.ui.fragment.community.MyApplication
 import org.apache.commons.io.output.ByteArrayOutputStream
 
@@ -50,6 +52,8 @@ class AddPostActivity : AppCompatActivity() {
                 if (it.errorMessage == null) {
                     Log.d(TAG, "initObserver: finish")
                     finish()
+                    val intent = Intent(this, MyPostActivity::class.java)
+                    startActivity(intent)
                 } else {
                     if (it.errorMessage.isEmpty().not()) {
                         Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
