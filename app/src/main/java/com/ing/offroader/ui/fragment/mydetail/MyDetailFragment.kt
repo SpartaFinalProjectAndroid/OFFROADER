@@ -29,6 +29,9 @@ import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModel
 import com.ing.offroader.ui.fragment.community.viewmodel.CommunityViewModelFactory
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModel
 import com.ing.offroader.ui.fragment.mydetail.viewmodel.MyDetailViewModelFactory
+import com.ing.offroader.ui.fragment.sanlist.adapter.SanListAdapter
+import okhttp3.internal.notify
+import okhttp3.internal.notifyAll
 
 class MyDetailFragment : Fragment() {
 
@@ -40,6 +43,9 @@ class MyDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val likedSanViewModel by activityViewModels<MainViewModel>()
+
+    private val myBookmarkAdapter: MyBookmarkAdapter by lazy { MyBookmarkAdapter() }
+
 
     //    private val myDetailViewModel by viewModels<MyDetailViewModel>()
     private val communityViewModel: CommunityViewModel by viewModels {
@@ -89,9 +95,7 @@ class MyDetailFragment : Fragment() {
     }
 
     private fun initObserver() {
-//        myDetailViewModel.myDetailDTO.observe(viewLifecycleOwner) {
-//
-//        }
+
 
         myDetailViewModel.myPostItems.observe(viewLifecycleOwner) {
             Log.d(TAG, "initObserver: ${it?.size}")
@@ -242,15 +246,18 @@ class MyDetailFragment : Fragment() {
 
 
     private fun initLikedRecyclerView(sanlist: MutableList<MyLikedSan>) {
-        binding.rvRecode.adapter = MyBookmarkAdapter(sanlist)
+        Log.d(TAG, "initLikedRecyclerView: $sanlist.")
+        binding.rvRecode.adapter = myBookmarkAdapter
         binding.rvRecode.layoutManager = GridLayoutManager(context, 4)
+        binding.rvRecode.itemAnimator = null
+        myBookmarkAdapter.submitList(sanlist)
 
         setOnClickSan(sanlist)
     }
 
     private fun setOnClickSan(san: MutableList<MyLikedSan>) {
 //
-        MyBookmarkAdapter(san).sanClick = object : MyBookmarkAdapter.SanClick {
+        MyBookmarkAdapter().sanClick = object : MyBookmarkAdapter.SanClick {
             override fun onClick(item: MyLikedSan) {
                 Toast.makeText(activity, "곧 구현될 예정입니다 :)", Toast.LENGTH_SHORT).show()
 //                val intent = Intent(requireActivity(), SanDetailActivity::class.java)
