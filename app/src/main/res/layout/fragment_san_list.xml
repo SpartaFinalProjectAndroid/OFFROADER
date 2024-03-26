@@ -11,26 +11,36 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@drawable/apply_recycler_bg_single"
         android:layout_height="280dp">
 
-        <ImageView
-            android:id="@+id/iv_selectedImage"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_selected_img"
             android:layout_width="match_parent"
             android:layout_height="280dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_mountain"
+            app:cardElevation="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" >
 
-        <!-- 어두운 그라데이션 한 스푼 추가 -->
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_gravity="bottom"
-            android:alpha="0.7"
-            android:src="@drawable/apply_gradation_shadow_black"
-            app:layout_constraintBottom_toBottomOf="@id/iv_selectedImage" />
+            <ImageView
+                android:id="@+id/iv_selectedImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_mountain"
+                />
+            <!-- 어두운 그라데이션 한 스푼 추가 -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_gravity="bottom"
+                android:alpha="0.7"
+                android:src="@drawable/apply_gradation_shadow_black"
+                app:layout_constraintBottom_toBottomOf="@id/iv_selectedImage" />
+        </androidx.cardview.widget.CardView>
+
+
 
 
 
@@ -42,10 +52,11 @@
             android:text="@string/san_name_gyeryongsan"
             android:textColor="@color/white"
             android:textSize="32sp"
-            app:layout_constraintBottom_toBottomOf="@id/iv_selectedImage"
+            android:elevation="3dp"
+            app:layout_constraintBottom_toBottomOf="@id/cv_selected_img"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="30dp"/>
+            android:layout_marginBottom="45dp"/>
 
         <TextView
             android:id="@+id/tv_san_info"
@@ -54,6 +65,7 @@
             android:fontFamily="@font/pretendard_medium"
             android:text="@string/san_list_mountain_info"
             android:textColor="@color/white"
+            android:elevation="3dp"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_san_name"
@@ -75,6 +87,7 @@
             android:id="@+id/sp_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/offroader_background"
             android:paddingVertical="5dp"/>
 
     </LinearLayout>

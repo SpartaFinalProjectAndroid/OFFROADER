@@ -3,6 +3,7 @@ package com.ing.offroader.ui.fragment.mydetail
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -46,12 +47,8 @@ class MyBookmarkAdapter : ListAdapter<MyLikedSan, RecyclerView.ViewHolder>(DIFF_
 
         (holder as Holder).apply {
             mountainName.text = item.mountain
-
-            try {
-                Glide.with(itemView).load(item.thumbnail).placeholder(R.drawable.ic_favorite).into(mountainImage)
-            } catch (e: Exception) {
-                Log.e(TAG, "onBindViewHolder: ",e )
-            }
+            Glide.with(itemView).load(item.thumbnail).placeholder(R.drawable.ic_favorite).into(mountainImage)
+            outline.visibility = View.GONE
         }
 
 
@@ -63,6 +60,7 @@ class MyBookmarkAdapter : ListAdapter<MyLikedSan, RecyclerView.ViewHolder>(DIFF_
     inner class Holder(val binding: ItemSanListBinding) : RecyclerView.ViewHolder(binding.root) {
         val mountainImage = binding.ivSanImage
         val mountainName = binding.tvSanName
+        val outline = binding.ivSanOutline
     }
 }
 
