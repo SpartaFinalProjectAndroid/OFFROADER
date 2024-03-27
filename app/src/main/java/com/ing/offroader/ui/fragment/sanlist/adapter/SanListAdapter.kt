@@ -1,5 +1,6 @@
 package com.ing.offroader.ui.fragment.sanlist.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,7 @@ import com.ing.offroader.databinding.ItemSanListBinding
 import com.ing.offroader.ui.fragment.sanlist.model.SanDTO
 import com.ing.offroader.ui.fragment.sanlist.viewmodel.SanListViewModel
 
-
+private const val TAG = "태그 : SanListAdapter"
 class SanListAdapter(private val viewModel: SanListViewModel) :
     ListAdapter<SanDTO, RecyclerView.ViewHolder>(
         DIFF_CALLBACK
@@ -35,6 +36,7 @@ class SanListAdapter(private val viewModel: SanListViewModel) :
             sanOutline.isVisible = item.sanSelected
             if (item.sanImage != null) {
                 Glide.with(itemView).load(item.sanImage[0]).into(sanImage)
+                Log.d(TAG, "onBindViewHolder: ${item.sanImage[0]}")
             }
             sanName.text = item.sanName
         }
