@@ -6,14 +6,18 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Outline
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
+import android.view.Window
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -68,7 +72,8 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         private const val PERMISSION_REQUEST_CODE = 100
         private val PERMISSIONS = arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.WRITE_SETTINGS
         )
     }
 
@@ -93,11 +98,13 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mName: String
     private lateinit var category: String
     private var userDistance: Long = 0
+    var origin = 0.0f
+    var auto = 0.0f
 
     // 위치 권한 요구
     private val requestMultiplePermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            if (permissions[android.Manifest.permission.ACCESS_FINE_LOCATION] == true) {
+            if (permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true) {
                 initMapView()
             }
         }
@@ -105,17 +112,13 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentSanMapBinding.inflate(inflater, container, false)
         // 네이버지도 API 클라이언트 ID 지정 / 없으면 인증 오류 발생
         NaverMapSdk.getInstance(requireContext()).client =
             NaverMapSdk.NaverCloudPlatformClient(BuildConfig.NAVERMAPS_API_KEY)
-
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -138,7 +141,6 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                     childFragmentManager.beginTransaction().add(R.id.map_view, it)
                         .commit()
                 }
-
         // fragment의 getMapAsync() 메서드로 OnMapReadyCallBack 콜백을 등록하면, 비동기로 NaverMap 객체를 얻을 수 있음
         mapFragment.getMapAsync(this)
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
@@ -180,12 +182,24 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                 result.lastLocation!!.longitude
             )
             userDistance += distance
+            Log.d(TAG, "origin : $origin")
+            Settings.System.putInt(
+                requireActivity().contentResolver,
+                Settings.System.SCREEN_BRIGHTNESS_MODE,
+                1
+            )
+            auto = Settings.System.getInt(
+                requireActivity().contentResolver,
+                Settings.System.SCREEN_BRIGHTNESS,
+                Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC
+            ).toFloat()
+            Log.d(TAG, "auto : $auto")
+            changeScreenBrightness(auto)
         }
     }
 
     // 지도 그리는 부분
     override fun onMapReady(naverMap: NaverMap) {
-        Log.d("민용 지도 확인", "onMapReady : ")
         this.naverMap = naverMap
         // 지도 타입 설정
         this.naverMap.mapType = NaverMap.MapType.Basic
@@ -218,6 +232,9 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                 ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                     requireContext(),
                     Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.WRITE_SETTINGS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 return
@@ -413,13 +430,14 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                 } else {
                     start = false
                     btnRecordStart.text = "등산 시작"
+                    changeScreenBrightness(origin)
                     // 반복작업 중지
                     fusedLocationClient.removeLocationUpdates(locationCallback)
                     // 등산시간이 30분 미만일 경우 저장되지 않도록 지정
-                    if (coordinateList.size < 10) {
+                    if (coordinateList.size < 5) {
                         Toast.makeText(
                             activity,
-                            "등산시간이 짧아 기록되지 않았습니다.\n30분 이상 기록해주세요",
+                            "등산시간이 짧아 기록되지 않았습니다.\n10분 이상 기록해주세요",
                             Toast.LENGTH_SHORT
                         ).show()
                         startTime = 0
@@ -537,6 +555,37 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
         naverMap.extent = MapConstants.EXTENT_KOREA
     }
 
+    fun checkSystemPermission(): Boolean {
+        var permission = true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   //23버전 이상
+            permission = Settings.System.canWrite(requireContext())
+            Log.d("test", "Can Write Settings: $permission")
+            if (permission) {
+                Log.e("test", "허용")
+            } else {
+                Log.e("test", "불허용")
+                val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
+                intent.setData(Uri.parse("package:" + requireContext().packageName))
+                startActivityForResult(intent, 2127)
+                permission = false
+            }
+        } else {
+            Toast.makeText(
+                activity,
+                "시스템 권한을 허용해야 자동밝기를 조절할 수 있습니다.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        return permission
+    }
+
+    private fun changeScreenBrightness(value: Float) {
+        val window: Window? = activity?.window
+        val layoutParams: WindowManager.LayoutParams = window!!.attributes
+        layoutParams.screenBrightness = value
+        window.setAttributes(layoutParams)
+    }
+
     // MapView 라이프 사이클 메서드를 호출
     override fun onStart() {
         super.onStart()
@@ -546,11 +595,17 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
         mapView.onResume()
+        checkSystemPermission()
+        origin = Settings.System.getInt(
+            requireActivity().contentResolver,
+            Settings.System.SCREEN_BRIGHTNESS
+        ).toFloat()
     }
 
     override fun onPause() {
         super.onPause()
         mapView.onPause()
+        changeScreenBrightness(origin)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
