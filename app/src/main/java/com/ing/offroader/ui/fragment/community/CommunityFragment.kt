@@ -106,6 +106,7 @@ class CommunityFragment : Fragment() {
                     .show()
             } else {
                 val intent = Intent(requireActivity(), AddPostActivity::class.java)
+                intent.putExtra("FROM", "CommunityFragment")
                 startActivity(intent)
             }
 
