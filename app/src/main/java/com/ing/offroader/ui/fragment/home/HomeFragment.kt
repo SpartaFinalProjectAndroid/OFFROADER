@@ -72,9 +72,11 @@ class HomeFragment : Fragment() {
     private fun initUser() {
         user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
-            binding.tvUsername.text = "${user?.displayName ?: ""}, 안녕하세요!"
+            binding.tvUsername.text = "${user?.displayName ?: ""}님, 안녕하세요!"
             Log.d(TAG, "onViewCreated: ${user!!.uid}")
             Log.d(TAG, "onViewCreated: ${user!!.email}")
+        }else {
+            binding.tvUsername.text = ""
         }
     }
 

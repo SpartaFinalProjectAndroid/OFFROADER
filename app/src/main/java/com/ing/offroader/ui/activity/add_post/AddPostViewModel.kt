@@ -34,7 +34,7 @@ class AddPostViewModel(private val postRepository: PostRepository) : ViewModel()
     }
 
 
-    fun setOnCompleteButton() {
+    fun setOnCompleteButton(rootPage: String?) {
         when {
             addPostUiState.value?.title.isNullOrBlank() -> {
                 // 토스트 메세지 띄워주기
@@ -53,23 +53,27 @@ class AddPostViewModel(private val postRepository: PostRepository) : ViewModel()
             }
             else -> {
                 //  디비에 저장하기 & 포스팅 액티비티 종료시키기
-                saveUpdatedPostData()
+                saveUpdatedPostData(rootPage)
             }
         }
     }
 
-    private fun saveUpdatedPostData() {
+    private fun saveUpdatedPostData(rootPage: String?) {
         when (addPostUiState.value?.edit) {
-            null -> postRepository.addPost(
+            null -> postRepository.savePost(
                 addPostUiState.value?.title!!,
                 addPostUiState.value?.content,
-                addPostUiState.value?.image
+                addPostUiState.value?.image,
+                rootPage
             )
             else -> postRepository.editPost(
                 addPostUiState.value?.title!!,
                 addPostUiState.value?.content,
                 addPostUiState.value?.image,
-                addPostUiState.value?.edit)
+                addPostUiState.value?.edit,
+                rootPage
+                )
+
         }
         finishAddPostActivity()
 

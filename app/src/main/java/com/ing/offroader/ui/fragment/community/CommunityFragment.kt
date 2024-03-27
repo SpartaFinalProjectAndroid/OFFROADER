@@ -59,10 +59,17 @@ class CommunityFragment : Fragment() {
             if (it != null) {
                 Log.d(TAG, "initObserver: postItem 업데이트 ${it}")
                 setItemView(it)
+//                scrollToTop(it)
             } else {
                 Log.d(TAG, "initObserver: 옵져빙된 값이 널이라서 업데이트가 안됨.")
             }
 
+        }
+    }
+
+    private fun scrollToTop(it: ArrayList<PostDTO?>) {
+        if (it.isNullOrEmpty().not()) {
+            binding.rvCommunity.smoothScrollToPosition(0)
         }
     }
 
@@ -99,6 +106,7 @@ class CommunityFragment : Fragment() {
                     .show()
             } else {
                 val intent = Intent(requireActivity(), AddPostActivity::class.java)
+                intent.putExtra("FROM", "CommunityFragment")
                 startActivity(intent)
             }
 

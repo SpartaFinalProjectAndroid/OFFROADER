@@ -1,207 +1,319 @@
 # OFFROADER
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/f26e141d-b052-4903-bf93-3e194bd369fd/Untitled.png)
 
-<h1 align="center">
-여기에 이미지 넣기
-&nbsp
-</h1>
- <p align="center">
-   <a>등산 정보 앱</a>
-   <br />
-   <br />
-    <a> 프로젝트 팀원</a>
-    <br />
-    <a href="https://github.com/eun-24k">김은이</a>
-    ·
-    <a href="https://github.com/CodingVirus">이민용</a>
-    ·
-    <a href="https://github.com/rihan530">한병철</a>
-    .
-    <a href="https://github.com/kiwonkim11">김기원</a>
-    ·
-    <a href="https://github.com/Box-o">박상우</a>
-   <br />
-   <br />
-    <a>페이지 상세 설명</a>
-    <br />
-    <a href="https://github.com/intermediate-one/Contact-App/blob/main/Md/ContactListFragment.md">연락처 목록 탭</a>
-    ·
-    <a href="https://github.com/intermediate-one/Contact-App/blob/main/Md/GroupFragment.md">그룹별 보기 탭</a>
-    ·
-    <a href="https://github.com/intermediate-one/Contact-App/blob/main/Md/MyPageFragment.md">마이페이지 탭</a>
-    ·
-    <a href="https://github.com/intermediate-one/Contact-App/blob/main/Md/AddContactActivity.md">연락처 추가 페이지</a>
-    ·
-    <a href="https://github.com/intermediate-one/Contact-App/blob/main/Md/Detail.md">연락처 상세정보 페이지</a>
-</p>
- <h3 align = "center">PreView</h3>
+**바로가기 링크**
 
- <p align ="center">
- <img alt="" src ="https://github.com/intermediate-one/Contact-App/assets/62335652/952c94f7-c45d-4070-acea-cc26f8471d2e" height="380"/>
- <img alt="" src ="https://github.com/intermediate-one/Contact-App/assets/62335652/520ef269-ccf6-4692-a51b-c125eccec61b" height="380" />
- <img alt="" src ="https://github.com/intermediate-one/Contact-App/assets/62335652/4f679fa9-2337-4caa-bc22-437b86c1c778" height="380" />
- <img alt="" src ="https://github.com/intermediate-one/Contact-App/assets/62335652/7d0d2bc5-66db-433c-be6d-2b8832cbd893" height="380" />
- <img alt="" src ="https://github.com/intermediate-one/Contact-App/assets/62335652/cb2bdc5f-19a6-4767-b3ae-02b993f475b5" height="380" />
- <img alt="" src ="https://github.com/intermediate-one/Contact-App/assets/62335652/704791c2-8f78-459b-84d3-f2365e3b940c" height="380" />
- <img alt="" src ="https://github.com/intermediate-one/Contact-App/assets/62335652/a77d9260-0b99-4571-87e3-508a69b6fe6a" height="380" />
- </p>
+[화면 별 적용 기술 소개](https://www.notion.so/66b5a7d7db9b40b5acf0cf6ea2c0e509?pvs=21) 
 
-### 프로젝트 팀원
-이용제, 김건두, 김은이, 홍유창 
+[기술적 의사결정](https://www.notion.so/167e2c93a24549cb84662adc1b269b11?pvs=21) 
 
-### 앱 이름
-띠리링!
+[트러블슈팅](https://www.notion.so/acb921bc17f646e7a945170f6908cb32?pvs=21) 
 
-### 앱 이름의 의미
-누구나 전화 소리 하면 떠올릴 수 있는 띠리링!
-이렇게 쉽게 떠올릴 수 있는 만큼 누구나 쉽게 사용할 수 있는 앱이 되었으면 바램이 들어갔다.
+# 앱 소개
 
-### 앱의 목적
-간단하고 사용자가 사용하기 편안한 연락처 앱
+**최신 등산 정보 및 유용한 등산 팁을 제공하여 등산을 더욱 쉽고 즐겁게 만들어주는 앱**
 
-### 프로젝트 일정
-24/01/15(월) ~ 24/01/21(일)
+[Stack](https://www.notion.so/e891eae120ca479c96e5a84ceeb59448?pvs=21)
 
-### 프로젝트 기획
-먼저 팀노션에서 자유롭게 아이디어 브레인스토밍을 통해 사전 조사로 이미 시장에 유통되고 있는 
-연락처 앱들을 살펴보고 밴치마킹 할 부분을 생각하고, 컬러코드도 여러가지를 가져와서 그 중에서 제일 눈이 편안하고 안정감을 주는 색깔을 선택했다.
-이후 Figma를 통해 각 페이지마다 들어갈 기능과 레이아웃 등에 대한 의견을 나누고 결정하였다.
-또한 매일 2번씩 코드 리뷰 및 PR을 진행 하고, 팀 노션에 각 페이지별로 들어가는 내용들을 기록하여 완료했는지, 진행중인지 팀원들이 알 수 있게 하였다.
+## 홈 페이지
 
-<Figma 링크>
+![Screen_recording_20240326_153434-ezgif.com-video-to-webp-converter.webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/656bbbe0-4ddd-477f-bbdb-e80818d07af6/Screen_recording_20240326_153434-ezgif.com-video-to-webp-converter.webp)
 
-<p align="center">
- <a href="https://www.figma.com/file/FBuwfsaWWQwWYkBMvutzhS?&viewer=1">
-  <img alt="Wire Frame" src="https://github.com/intermediate-one/Contact-App/assets/62335652/8522dc45-84be-45ba-a834-04a110bc4e10" />
- </a>
-</p>
+- 추천 산 확인
+- 추천 산을 클릭하면 해당 산 정보 페이지로 이동
+- 진행 중인 이벤트 확인 및 해당 이벤트를 클릭하여 자세한 내용 확인
 
+---
 
-[//]: # (<p align="center">)
+## 산 리스트 페이지
 
-[//]: # ( <a href="https://www.figma.com/file/W77t6eKPMSJsTW6WhqeqCJ/%EB%B3%84%EA%B0%9C%EB%83%A5?type=design&mode=design&t=WLSCOLn5fvtgA33U-1">)
+![Screen_recording_20240326_155529-ezgif.com-video-to-webp-converter.webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/f4cde5cd-88ef-4e30-955a-5570bcedf282/Screen_recording_20240326_155529-ezgif.com-video-to-webp-converter.webp)
 
-[//]: # (  <img alt="와이어프레임" src="https://github.com/heesoo-park/TeamAssignment3_2/assets/116724657/901448b8-cb81-49bb-a4bb-ef29a7fa5121")
+- 산 리스트를 확인
+- 산을 선택하고 해당 산의 상단에 있는 프로필 사진을 클릭하면 산 정보 페이지로 이동
 
-[//]: # (</p>)
+---
 
-### 역할 분담
-이용제 : MyPageFragment, 갤러리 이미지 가져오기, 연락처 복사, 푸시 예약 알림, 깃과 전체적인 코드 관리
+## 지도 페이지
 
-김건두 : DetailActivity, 전화걸기, 문자보내기
+![Screen_recording_20240326_160508-ezgif.com-video-to-webp-converter (1).webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/be7d2a15-2630-4066-9323-692e12606657/Screen_recording_20240326_160508-ezgif.com-video-to-webp-converter_(1).webp)
 
-김은이 : ContactActivity, GroupFragment, AddContactActivity, Dialog
+![Screen_recording_20240326_155954-ezgif.com-video-to-webp-converter.webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/5148e15a-3856-4da7-afd7-ae3a7b55a333/Screen_recording_20240326_155954-ezgif.com-video-to-webp-converter.webp)
 
-홍유창 : ContactListFragment
+- 지도를 통해 산의 위치를 확인
+- 산의 마커를 클릭하면 해당 산의 간단한 정보를 볼 수 있는 정보 창 확인
+- 정보 창을 클릭하면 해당 산의 정보 페이지로 이동
+- 등산 시작을 클릭하면 현재 위치의 좌표가 계속 저장되고 등산 종료를 클릭하면 기록을 확인할 수 있는 화면으로 이동
 
+---
 
-### 코드 컨벤션
-베이스는 Kotlin 스타일 가이드에 맞춰 진행했다.
+## 커뮤니티 페이지
 
-가장 기본적인 부분에 대한 코드 컨벤션을 다음과 같이 설정했다.
+![Screen_recording_20240326_142354-ezgif.com-video-to-webp-converter.webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/195f6e4b-bced-43c0-8553-2a4a6a86dd4a/Screen_recording_20240326_142354-ezgif.com-video-to-webp-converter.webp)
 
-| 제목                        | 내용                      |
-|---------------------------|-------------------------|
-| 클래스 이름                    | PascalCase              |
-| 함수 이름                     | camelCase               |
-| 변수 이름                     | camelCase               |
-| 문자열 리소스 이름                | snake_case              |
-| 문자열 이름                    | (페이지_)용도                |
-| 레이아웃 이름                   | 속성_페이지_위치               |
-| 뷰 이름                      | 속성_페이지_용도(_사용방법)        |
-| 리스트 내 변수                  | 엔터로 정리                  |
-| enum class 내 변수 이름        | 모두 다 대문자                |
-| drawable 내 이미지/셀렉터/아이콘 이름 | img/selector/ic(_위치)_용도 |
-| 조건이 3개 이상일 때              | when 사용                 |
-| 기본적인 코드 정리                | CTRL + ALT + L          |
+- 현재 올라온 게시물 목록 확인
+- 연필 모양의 아이콘을 클릭하여 게시물을 작성
+- 게시물 작성은 회원 가입을 해야 작성 가능
 
-### 협업 관련 사항 조정
-**안드로이드 스튜디오** 사용
+---
 
-에뮬레이터는 서로 다른 에뮬레이터를 사용하여 여러 기기에서의 호환성 보장
+## 내 정보 페이지
 
-**풀 리퀘스트** 
+![Screen_recording_20240326_143651-ezgif.com-video-to-webp-converter.webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/743d177a-61a2-4c3f-87c0-2b8a381ed11e/Screen_recording_20240326_143651-ezgif.com-video-to-webp-converter.webp)
 
-풀 리퀘스트에는 최대한 이름과 내용을 자세히 기록하고 팀원을 리뷰어로 등록해 최소 1명에게 확인받은 후 merge 진행
+- 내가 추가한 산 목록 확인
+- 로그인 페이지로 이동을 클릭하여 로그인
+- 로그인을 하면 나의 레벨, 업적, 내가 올린 게시글, 등산 기록을 확인
+- 로그아웃을 클릭하여 로그아웃
 
-**Readme.md**
+---
 
-Readme.md를 이용해서 개발 기록 작성 및 트러블 슈팅 관련 사항 작성
+## 산 정보 페이지
 
-**코드 리뷰 및 PR진행 시간 맞추기**
+![Screen_recording_20240326_141838-ezgif.com-video-to-webp-converter (1).webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/fba1e298-62f8-4dda-a2cb-89f987438905/Screen_recording_20240326_141838-ezgif.com-video-to-webp-converter_(1).webp)
 
-매일 오후 2시 30분과 오후 7시 30분에 진행
+- 산의 정보들을 확인
+- 산 이름, 이미지, 주소, 해발고도, 난이도, 등산 시간, 개요, 날씨 확인
+- 북마크를 찍으면 내 정보 페이지에서 내가 추가한 산 목록에 추가 및 삭제
 
-선행 작업으로 인해 대기할 시간이 필요하다면 다른 작업(피그마나, 자료 준비, 발표 준비 등) 진행
+---
 
-앱 기획 단계에서 유사 앱 사전 조사 후 밴치마킹
+## 챗봇 페이지
 
-**organization**을 만들어서 사용
+![Screen_recording_20240326_155354-ezgif.com-crop.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/3b00e98c-45dd-4054-b92c-e62ff5fc7df0/Screen_recording_20240326_155354-ezgif.com-crop.gif)
 
-기능별 브랜치 사용 해 보기
+![Screen_recording_20240326_155001-ezgif.com-crop.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/6ca05556-5ce0-4ebd-94e7-f7bc156dbf25/Screen_recording_20240326_155001-ezgif.com-crop.gif)
 
-### 만든 기능 :
+- 우측 하단에 챗봇 플로팅 버튼을 클릭하면 챗봇 대화 창으로 이동
+- 플로팅 버튼의 위치는 조절 가능
+- 챗봇은 MBTI T/F 두 가지 성격으로 구분해서 중앙 상단에 스피너를 통해 선택 하여 대화
 
-#### 1. ViewPager를 통해 여러 탭 프래그먼트와 연결
-1) 메인, 그룹, 마이 페이지 Button 클릭 시 화면 전환
+---
 
-#### 2. RecyclerView 구현
-1) RecyclerView로 재사용 가능한 연락처 List를 생성
-2) 데이터가 업데이트 되면 기준에 따라 연락처 리스트가 재정렬됨
-3) 기준) 1. 즐겨찾기, 2. 이름 순
+## 라디오 페이지
 
-#### 3. Adapter, ViewHolder 사용
-1) RecyclerView Adapter를 생성해 List와 Grid 변경을 구현
-2) 변경된 데이터를 ViewHolder에 담아 연락처, 그룹의 Item 구현
+![Screen_recording_20240326_161208-ezgif.com-crop.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/e18cb138-c065-4761-a446-cd4d86768aae/Screen_recording_20240326_161208-ezgif.com-crop.gif)
 
-#### 4. 유효성 검사
-1) 정규식을 이용해 각각의 Item마다 유효성을 검사
+![Screen_recording_20240326_160813-ezgif.com-crop.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/b8957520-3ebc-4a02-be20-ed891e9f5297/Screen_recording_20240326_160813-ezgif.com-crop.gif)
 
-#### 5. 그룹, mbti 선택 스피너
-1) Spinner를 선택해 Item을 설정한다.
-2) 그룹, MBTI의 기본값 = 선택 안함
+- 하단 바텀 플레이어를 통해 현재 재생 중인 라디오 채널 재생/일시 정지
+- 바텀 플레이어를 위로 드래그 하면 각 방송국의 채널 리스트 화면으로 전환
+- 채널 클릭 시 해당 채널 재생
+- 알림 창에서 재생/일시 정지
+- 하트 버튼을 클릭하여 즐겨 찾기에 저장 및 취소
 
-#### 6. 생일 선택 다이얼 로그
-1) DatePickerDialog사용
-2) 캘린더 구현, Dialog로 띄우기
+---
 
-#### 7. 메세지, 전화버튼을 누르면 해당 번호로 전화, 문자
-1) Permission을 추가해 메세지, 전화 기능을 사용하는데 필요한 권한 확인
-2) 앱 실행하면 해당 앱으로 전화번호를 전송
-3) 메세지 버튼 클릭 -> 메세지 앱 실행
-4) 전화 버튼 클릭 -> 전화 앱 실행
+## 화면 별 적용 기술 소개
 
-#### 8. 즐겨찾기 기능 구현
-1) 즐겨찾기된 연락처가 연락처 리스트에서 우선적으로 표시됨
-2) 연락처에 들어가서 별 모양 버튼을 누르는 것으로 해당 연락처를 즐겨찾기에 추가/제거 가능
-3) 연락처 즐겨찾기 추가/제거 시 해당 기능이 실행되었다는 Toast 메세지 표시
+### MainActivity
 
-#### 9. 공유버튼 누르면 연락처 복사
-1) 연락처에서 공유버튼을 누르면 클립보드에 연락처가 복사됨 
-2) 연락처가 복사되면 "전화번호가 클립보드에 복사되었습니다" Toast 메세지 출력
+각 방송국의 해당하는 채널, 좋아요 한 채널 리스트 표시
 
-#### 10. StickyHeader를 통해 그룹별로 나누기
-1) StickyHeader를 사용해 그룹의 Title을 View의 맨 위에 붙임
-2) StickyHeader를 그룹별로 구분
-3) StickyHeader가 표시하는 아이템의 갯수가 0개가 되면 다른 Header에 의해 바깥으로 밀려나감
+- 라디오 관련?
+    - JETPACK.Media3 의 ExoPlayer, MediaSessionService 사용하여 라디오 재생 구현
+    - MotionLayout 사용하여 초기 상태는 바텀 플레이어 형태로 유지, 위로 스와이프 하면 방송국 채널 리스트 레이아웃 표시
+    - 각 방송국의 라디오 채널들은 OkHttp 사용하여 API 호출
+    - 좋아요 한 채널은 ViewModel의 좋아요 한 채널 리스트에 추가, SharedPreferences 사용하여 local에 저장
 
-#### 11. notification
-1) 연락처 수정에서 생일 알림을 설정하면 해당 날짜가 될 때 알림을 수신함
-2) 연락처 수정에서 5초뒤, 5분뒤, 10분뒤 알림을 설정하면 해당 시간 이후 알림을 수신함
+- ViewPager2, TabLayout
+    - 
 
-#### 12. 갤러리에서 이미지 가져오기
-1) 연락처 수정에서 이미지 영역을 누르면 갤러리에서 이미지를 선택하여 가져옴
-2) 가져온 이미지는 Uri를 절대경로로 변경하여 저장
+### HomeFragment
 
-## TroubleShooting
-- Github Organization Repository 추가 문제 -> 해결
-- push / pull / abort 가 안되는 문제 발생 -> 해결
-- RecyclerView가 데이터를 받아와도 화면에 표시하지 못하는 문제 발생 -> 해결
-- 다이얼로그 창을 띄웠을 때의 유효성 검사 및 버튼 활성화 하는 방법 -> 해결
-- @Parcelize가 인식되지 않고 빨갛게 뜨는 문제 -> 해결
-- 수정 페이지가 열리지 않는 문제 -> 해결
-- 즐겨찾기가 프래그먼트 간에 업데이트 되지 않는 문제 -> 해결
-- 예약 알림이 리시버에서 받아지지 않는 문제 -> 해결
-- uri 구현 중, 다시 불러오면? 터지는 문제 -> 해결
-- 브랜치 이동 시 rebase 실수해서 dev에 잘못된 코드가 올라간 경우 -> 해결
+추천 산 및 이벤트 등 다양한 정보를 진입시 표시
 
+- Multi View Type RecyclerView를 사용해 다양한 아이템 및 스크롤 뷰 추가 가능
+- Google Cloud Firebase에서 데이터를 받아와 화면에 추가해 줌
+- UI에 사용한 아이콘 출처 표기
 
+### SanListFragment
+
+100대 명산 리스트를 표시
+
+- Firebase Firestore에 저장되어 있는 산 리스트를 RecyclerView를 통해 보여
+- RecyclerView를 통해 Firebase의 산 리스트 데이터를 표시
+
+### SanMapFragment
+
+지도에서 산 위치에 마커를 표시
+
+- 네이버 지도 API 사용해 100대 명산의 산 위치를 표시
+- 산 이름을 검색해 해당 산으로 이동하고 간단 설명창을 표시, 클릭 시 상세 페이지로 이동
+- 산을 선택하고 등산 시작을 눌러 등산내용을 기록할 수 있고 RecordActivity에서 기록을 확인
+
+### CommunityFragment
+
+로그인 사용자만 이용할 수 있는 커뮤니티
+
+- 실시간으로 게시글을 볼 수 있고 게시글을 삭제 및 수정 기능
+- 게시글 정보는 Firestore Database에 저장
+- 사진은 Google Storage에 저장해 두었다.
+- downloadUrl을 이용하여 저장되어있는 사진을 접근하고 Glide로 이미지 표시
+
+### MyDetailFragment
+
+내 정보 페이지 및 북마크 리스트
+
+- 로그인/로그아웃을 할 수 있음
+- 내가 지금까지 오르면서 남은 기록들을 레벨, 업적, 오른 횟수 등으로 표시
+- SanDetailActivity에서 북마크를 찍은 산의 목록을 볼 수 있음
+
+### SanDetailActivity
+
+산의 정보들을 표시
+
+- 산의 모습, 해발고도, 주소, 걸리는 시간, 개요, 추천 이유, 날씨
+- 북마크를 누르면 MyDetailFragment에서 찜한 산을 확인할 수 있음
+- 기본적으로 CoordinatorLayout으로 구성되어 있고, 산의 이미지는 Appbar를 내리면 멈추고 올리면 다시 재생되는 형식
+- 날씨는 OpenWeather API를 사용
+
+### AddPostActivity
+
+게시글 업로드
+
+- 사진을 촬영하거나 사진을 업로드 기능
+- 간단한 이미지 편집 기능 지원
+- 제목 및 이미지가 선택되어야만 확인 버튼 활성화
+
+### MyPostActivity
+
+내 글 목록
+
+- 내가 작성한 게시글을 한번에 확인할 수 있고 편집 및 삭제 가능
+
+### ChatBotActivity
+
+챗봇
+
+- 두 가지의 인격을 가진 캐릭터로 같은 질문을 다른 느낌으로 답변 받을 수 있다
+
+### RecordActivity
+
+등산 경로에 대한 정보를 확인할 수 있다.
+
+지도 프래그먼트에서 기록 종료 시 해당 액티비티로 넘어와 등산시각, 이동거리, 소요시간, 경로를 확인할 수 있다.
+
+## 기술적 의사결정
+
+### 1. Firebase RealTime DB  VS  Firestore
+
+클라우드에 저장하는 방법이 두 가지 있어서 시작하기에 앞서 둘 중 어느 것을 사용할 지 고민. 
+
+Firestore을 선택한 이유
+
+1. 더 계층이 복합적인 데이터를 저장할 수 있다.
+2. 쿼리가 인덱싱이 되어있고 정렬 및 필터링 기능에 제한이 없다.
+3. uptime이 상대적으로 빠르다
+4. 보안이 더 강하다
+5. 사용 가격이 더 저렴하다
+6. Firebase 측에서 이용을 권한다.
+
+### 2. BottomNavigationView  VS  TapLayout/ViewPager2
+
+BottomNavigationView 와 TapLayout/ViewPager2의 가장 큰 차이점은 좌우 스크롤 기능의 유무이다. 앱을 처음 기획할 때 양옆 슬라이드 기능이 홈화면의 리사이클러뷰와 겹치고 몇 안드로이드 기기에는 옆으로 슬라이드하여 뒤로가기 기능이 생겼기 때문에 UX를 고려하여 슬라이드 기능을 넣지 말자고 이야기가 나왔고 따라서 BottomNavigationView로 진행하였다.
+
+하지만 나중에 많은 데이터 및 사진을 표시해야 하는 화면(SanListFragment)에서 이미지 로딩 시간이 너무 길어지는 문제가 생겼다. ViewPager를 사용하면 첫 메인 화면에서 양 옆에 있는 프래그먼트를 미리 로딩해주기 때문에 이미지 로딩 시간을 단축 해 줄 수 있다는 장점이 있다. 따라서 ViewPager로 수정하고 슬라이드 기능을 제거하는 방향으로 진행하였다.
+
+### 3. List Adapter  VS  RecyclerView Adapter
+
+List Adapter는 DIFFUTIL을 사용하여 submit만 해주면 그 안의 아이템과 아이템 내용을 비교하여 자동으로 업데이트 시켜주기 때문에 RecyclerView Adapter 대신에 무조건 List Adapter가 나을 것이라고 판단하고 있었는데 똑같은 어댑터를 다른 액티비티 또는 프래그먼트에서 재사용하게 될 경우에는 List Adapter의 재사용이 불가능하다는 점을 배웠다. 그래서 앞으로 Adapter 재사용의 유무에 의사결정을 진행하기로 하였다. 
+
+### 4. documentSnapShotListener  VS  addOnSuccessListener
+
+DocumentSnapShotListener은 실시간 업데이트를 해주고 addOnSuccessListener은 함수가 실행 될때에만 한 번 값을 가져오기 때문에 실시간 업데이트가 필요한 커뮤니티에서는 DocumentSnapShotListener을 사용하고 산 리스트를 받아오는 부분 및 산의 좌표를 받아오는 기능은 addOnSuccessListener을 사용하였다. 
+
+### 5. Firestore Storage : 메모리  VS  로컬 파일  VS  URL
+
+로컬 파일 저장은 사용자가 오프라인에서도 파일을 접근할 수 있다는 장점이 있지만 용량을 많이 차지한다. 오프로더 앱의 커뮤니티는 기획 상 온라인 상에서만 사용 가능하도록 했기 때문에 로컬 파일은 사용하지 않았다. 그럼 이제 메모리 또는 URL을 사용해주어야하는데 메모리를 사용해보니 파일 다운로드는 용이하지만 메모리에 전체 파일 콘텐츠를 로드해야 하기 때문에 앱의 가용 메모리보다 큰 파일을 요청하면 앱이 다운되는 문제가 생길 수 있다. 이 때문에 다운로드할 최대 바이트 수를 지정하는데 이미지의 크기가 이보다 크면 저장이 안되는 오류가 떴다. 따라서 용량 및 메모리에 큰 제약 없이 원하는 사진을 올릴 수 있는 URL 다운로드 방식을 선택하였다.
+
+### **6. 네이버지도 API  VS  구글 지도 API**
+
+국내 사용자 기준에 맞춰 익숙한 네이버지도를 사용
+
+레이어 중에 등산로가 제공되어 확인이 용이함
+
+### 7. Glide  VS  Coil
+
+글라이드와 코일의 결정적 차이점은 현대 이미지 포맷팅 지원 기능 및 캐싱 기능의 차이이다. 우선 오프로더 앱은 산리스트 부분에서 이미지 로딩을 매우 많이 해주고 이때 이미지가 로딩하는 초기 시간이 많이 걸린다는 단점이 있다. 같은 이미지를 로딩하는 시간이 다시 사용되지 않으려면 어느정도의 캐싱 기능을 필요로 하기 때문에 글라이드를 선택하게 되었다. 
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/2dad49b9-5275-407c-bf47-baa241cd69bb/Untitled.png)
+
+## 트러블슈팅
+
+**문제 및 해결방법 정리** - 각 섹션 별 핵심적인 문제만 기입
+
+### 1. 홈
+
+- **멀티 뷰 타입 리사이클러뷰 문제**: 스크롤 뷰 내의 리사이클러뷰 사용 시 별도의 스크롤 적용 문제.
+    - **해결**: 멀티 뷰 타입 리사이클러뷰를 사용하여 아이템 추가, 가로 스크롤 구현으로 문제 해결.
+- **Firebase Firestore 문제**: 권한 설정 미흡으로 인한 데이터 로드 실패.
+    - **해결**: Firebase 권한을 올바르게 설정하여 문제 해결.
+
+### 2. 산 리스트
+
+- **라이브 데이터 초기값 누락 문제**: 초기값 미부여로 인한 빌드 오류 발생.
+    - **해결**: 라이브 데이터 값 부여 또는 널러블 타입으로 변경하여 오류 해결.
+- **선택된 아이템 깜빡임 문제**: DiffUtil의 아이템 동일성 판단 오류.
+    - **해결**: 아이템 동일성 판단 로직 수정 및 itemAnimator를 null로 설정하여 해결.
+
+### 3. 지도
+
+- **등산 경로선 그리기 문제**: 실제 기기에서의 작동 불량.
+    - **해결**: 좌표 저장 후 경로선 그리기 로직 수정으로 문제 해결.
+- **경로 기록 재사용 문제**: 단일 위치 정보 요청으로 인한 재사용 불가.
+    - **해결**: 위치 정보 주기적 요청 변경으로 재사용 가능하도록 개선.
+
+### 4. 챗봇
+
+- **챗봇 명령 이해도 문제**: 복잡한 명령으로 인한 이해 부족.
+    - **해결**: 캐릭터 컨셉 명확화 및 추가 커스터마이징 필요.
+- **챗봇 응답 대기 문제**: 응답 대기 중 진행 상태 불명확.
+    - **해결**: 로딩 애니메이션 사용으로 사용자 경험 개선.
+- **챗봇 캐릭터 선택 안내 부재 문제**: 사용자의 캐릭터 선택 인지 부족.
+    - **해결**: 채팅 시작 전 안내 문구 추가로 해결.
+- **채팅 글 길이 문제**: 대화창이 화면 밖으로 넘어가는 현상.
+    - **해결**: MaxWidth 설정으로 길이 제한 적용.
+- **채팅 입력창 디자인 문제**: 기기 코너 곡률에 따른 디자인 잘림.
+    - **해결**: 플랫 디자인 입력창으로 변경하여 해결.
+- **플로팅 액션 버튼 위치 문제**: 고정된 위치로 인한 버튼 가림 현상.
+    - **해결**: 델타 좌표 계산으로 이동 가능하게 구현하여 해결.
+
+### 5. 라디오
+
+- **공식 API 부재 문제**: 방송국 공식 API 미제공.
+    - **해결**: 크롬 개발자 도구 및 OkHttp 사용으로 비공식 API 호출하여 해결.
+- API 호출
+
+### 6. 산 정보
+
+- **산 정보 로딩 시간 문제**: 페이지 진입 시 데이터 로딩 지연.
+    - **해결**: Firestore 데이터베이스 최적화 및 정보 분류로 로딩 시간 단축.
+
+### 7. 마이 페이지
+
+- **비로그인 상태 접근 문제**: 로그인하지 않은 사용자의 마이 페이지 접근.
+- **해결**: 로그인 안내와 블러 처리로 비로그인 사용자의 접근 제한.
+- **위젯 제약 조건 문제**: 루트 뷰에 모든 제약 조건을 설정하여 유지보수성 저하.
+    - **해결**: 인접 위젯 종속성 강화로 유지보수성 향상.
+
+### 8. 커뮤니티
+
+- **최신 게시글 표시 문제**: 최근 게시글이 맨 위에 표시되지 않음.
+    - **해결**: Firestore 데이터베이스 정렬 기능 사용으로 문제 해결.
+- **필터링 후 정렬 문제**: 필터링과 정렬 동시 적용의 코틀린 반영 미비.
+    - **해결**: **`sortedByDescending`** 함수 사용으로 직접 정렬 적용.
+- **큰 용량 이미지 로드 문제**: 지정된 용량 초과 시 로드 실패.
+    - **해결**: 이미지 `**downloadURL**` 사용으로 메모리 문제 해결.
+- **로그아웃 시 앱 튕김 문제**: 커뮤니티 탭 접근 시 사용자 정보 누락으로 인한 오류.
+    - **해결**: 콜백 이용하여 안정적인 정보 관리 구현.
+- **실시간 게시글 보기 문제**: 다른 사용자 게시글의 실시간 업데이트 미표시.
+    - **해결**: **`onSnapshotListener`** 사용으로 데이터 실시간 동기화 적용.
+
+## 개선 예정
+
+1. 산 리스트 좋아요 클릭
+2. 업적 (산 실시간 위치 마킹이 이제 막 구현되어 추후 업적과 연동할 예정입니다.)
+3. 등산 기록 모아보기
+
+[Team OFFROADER](https://www.notion.so/c666fef5b3dc40a091ff98b26e8360e8?pvs=21)
