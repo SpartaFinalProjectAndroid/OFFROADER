@@ -139,10 +139,13 @@ class SanListRepository {
     private fun setSanListData(index: Int, documents: QuerySnapshot?) {
         val sanArrayList: ArrayList<SanDTO> = arrayListOf()
 
+//        Log.d(TAG, "setSanListData: $index")
+//        Log.d(TAG, "setSanListData: ${sanArrayList.size}")
+
         if (documents != null) {
             for (i in documents.documents.indices) {
                 val sanInfo = documents.documents[i]
-                //
+
                 sanArrayList.add(
                     SanDTO(
                         sanImage = sanInfo["images"] as ArrayList<String>,
@@ -157,15 +160,25 @@ class SanListRepository {
             }
         }
 
-        Log.d(
-            TAG,
-            "DocumentSnapshot Data: ${documents?.documents}"
-        ) // HashMap 타입으로 값을 받아옴. 이 그대로 저장해줘도 될듯?
+//        Log.d(TAG, "DocumentSnapshot Data: ${documents?.documents}") // HashMap 타입으로 값을 받아옴. 이 그대로 저장해줘도 될듯?
+//
+//        sanArrayList[index].sanSelected = true
+//
+////        Log.d(TAG, "값 다 가져옴 $sanArrayList")
+//        _sanListDTO.value = sanArrayList
 
-        sanArrayList[index].sanSelected = true
+        //상우 임시작성 : 여러 아이템을 교차선택 시 유효하지 않은 인덱스 -1을 반환하고 크래시 되는 문제를
+        //사이즈 조건이 참이면 sanArrayList값을 전달, 아닌경우 로그를 찍는 걸로 반창고 붙여놈
+        if (index >= 0 && index < sanArrayList.size) {
+            sanArrayList[index].sanSelected = true
+            _sanListDTO.value = sanArrayList
+        } else {
+//            Log.d(TAG, "setSanListData: $index, 리스트 크기: ${sanArrayList.size}")
+        }
 
-        Log.d(TAG, "값 다 가져옴 $sanArrayList")
-        _sanListDTO.value = sanArrayList
+
+
+
 
     }
 

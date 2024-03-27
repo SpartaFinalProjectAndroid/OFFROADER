@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/iv_dialog_report_img"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_home_suggestion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:fontFamily="@font/bm_hanna_pro"
+        android:text="신고하기"
+        android:textSize="26dp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_dialog_report_img"
+        app:layout_constraintStart_toEndOf="@id/iv_dialog_report_img"
+        app:layout_constraintTop_toTopOf="@id/iv_dialog_report_img" />
+
+    <EditText
+        android:id="@+id/et_dialog_report_cat"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/apply_recycler_bg_single"
+        android:hint="    신고 분류를 선택해 주세요"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_dialog_report_img" />
+
+    <EditText
+        android:id="@+id/et_dialog_report_des"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/apply_recycler_bg_single"
+        android:gravity="top"
+        android:hint="\n    해당 내용을 자세히 설명해 주세요"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_dialog_report_cat" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/v_dialog_report_no"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/apply_recycler_bg_single"
+        android:backgroundTint="@color/offroader_description"
+        app:layout_constraintEnd_toStartOf="@id/v_dialog_report_yes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_dialog_report_des">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/pretendard_bold"
+            android:gravity="center"
+            android:text="취 소"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/v_dialog_report_yes"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:background="@drawable/apply_recycler_bg_single"
+        android:backgroundTint="@color/offroader_red"
+        app:layout_constraintBottom_toBottomOf="@id/v_dialog_report_no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/v_dialog_report_no"
+        app:layout_constraintTop_toTopOf="@id/v_dialog_report_no">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/pretendard_bold"
+            android:gravity="center"
+            android:text="신 고"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
