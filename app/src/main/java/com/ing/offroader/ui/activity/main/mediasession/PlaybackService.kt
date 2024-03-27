@@ -23,7 +23,6 @@ class PlaybackService : MediaSessionService() {
             release()
             mediaSession = null
         }
-
         super.onDestroy()
     }
 }

@@ -61,7 +61,6 @@ private const val TAG = "태그 : MainActivity"
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var radioPlayer: ExoPlayer
     private var isRadioLikeTab = true
 
@@ -204,10 +203,10 @@ class MainActivity : AppCompatActivity() {
 
     @OptIn(UnstableApi::class)
     private fun setRadioPlayer() {
-        radioPlayer = ExoPlayer.Builder(this)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(this).setLiveTargetOffsetMs(5000))
-            .build()
-        binding.viewTest.player = radioPlayer
+//        radioPlayer = ExoPlayer.Builder(this)
+//            .setMediaSourceFactory(DefaultMediaSourceFactory(this).setLiveTargetOffsetMs(5000))
+//            .build()
+//        binding.viewTest.player = radioPlayer
     }
 
     //클릭이 아니라 터치를 사용하면 생기는 경고를 무시해주는 Suppress인데 Lint 경고는 성능, 접근성, 국제화, 보안등 코드에서 잠재적인 문제가 발생할 수 있는 부분의 경고를 무시해 줌
@@ -310,50 +309,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "onDestroy: ")
         // 다시 액티비티가 실행 되었을 때 중첩이 될 수 있는 이쓔가 있을 수 있어서 떼주어야함.
         radioPlayer.release()
         binding.viewTest.player?.release()
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fl_main, fragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .commit()
-    }
-
-
-    // <-------------------------------- 라디오 관련 설정들 --------------------------------------->
-    private fun showFragment(fragment: Fragment, tag: String) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-
-        var previousFragment = supportFragmentManager.findFragmentByTag(tag)
-        if (previousFragment == null) {
-            previousFragment = when (tag) {
-                "HOME_FRAGMENT" -> HomeFragment()
-                "SAN_LIST_FRAGMENT" -> SanListFragment()
-                "SAN_MAP_FRAGMENT" -> SanMapFragment()
-                "CHAT_BOT_FRAGMENT" -> CommunityFragment()
-                "MY_DETAIL_FRAGMENT" -> MyDetailFragment()
-                else -> null
-            }
-
-            previousFragment?.let { fragmentTransaction.add(R.id.fl_main, it, tag) }
-        }
-
-        val currentFragments = supportFragmentManager.fragments
-        for (fragment in currentFragments) {
-            if (fragment != previousFragment) {
-                fragmentTransaction.hide(fragment)
-            }
-        }
-
-        previousFragment?.let { fragmentTransaction.show(it) }
-
-        fragmentTransaction.commit()
-    }
 
     // <-------------------------------- 라디오 관련 설정들 --------------------------------------->
 
@@ -428,7 +388,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        firstSetting()
+        //firstSetting()
     }
 
     // 처음 앱 시작시 KBS 1Radio로 시작하도록 초기화
@@ -487,6 +447,7 @@ class MainActivity : AppCompatActivity() {
                                     }.await()
 
                                 mainViewModel.addChannelUrl(channelUrl)
+                                Log.d("민용라디오", "onClick: test!!!")
                                 preparePlayer()
                                 playingMarkChange()
                                 radioPlay(item.key, item.radioIcon)
