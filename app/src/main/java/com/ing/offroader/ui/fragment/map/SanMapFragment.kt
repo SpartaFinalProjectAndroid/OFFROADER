@@ -430,6 +430,11 @@ class SanMapFragment : Fragment(), OnMapReadyCallback {
                 } else {
                     start = false
                     btnRecordStart.text = "등산 시작"
+                    Settings.System.putInt(
+                        requireActivity().contentResolver,
+                        Settings.System.SCREEN_BRIGHTNESS_MODE,
+                        0
+                    )
                     changeScreenBrightness(origin)
                     // 반복작업 중지
                     fusedLocationClient.removeLocationUpdates(locationCallback)
