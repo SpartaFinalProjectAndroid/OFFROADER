@@ -20,14 +20,16 @@ class PostRepository {
 
     var user = FirebaseAuth.getInstance().currentUser
     private val db = FirebaseFirestore.getInstance()
+    private val specifiedStorage = Firebase.storage("gs://offroader-event.appspot.com")
+    private val storageRef = specifiedStorage.reference
 
     // setUserInfo
     private val _userInfo: MutableLiveData<UserData?>? = null
     val userInfo : LiveData<UserData?>? = _userInfo
 
     // setPostItems
-    private val _setPostItems: MutableLiveData<ArrayList<PostDTO?>?> = MutableLiveData()
-    val setPostItems: LiveData<ArrayList<PostDTO?>?> = _setPostItems
+    private val _allPostItems: MutableLiveData<ArrayList<PostDTO?>?> = MutableLiveData()
+    val allPostItems: LiveData<ArrayList<PostDTO?>?> = _allPostItems
 
     // myPostItems
 //    private val _myPostItems: MutableLiveData<ArrayList<PostDTO?>?> = MutableLiveData()
@@ -36,8 +38,7 @@ class PostRepository {
     val myPostItems: LiveData<ArrayList<PostModel?>?> = _myPostItems
 
     /** 사진 전송 관련 */
-    private val specifiedStorage = Firebase.storage("gs://offroader-event.appspot.com")
-    private val storageRef = specifiedStorage.reference
+
 
     var myPostItemArray: ArrayList<PostDTO?> = arrayListOf()
 
@@ -63,9 +64,6 @@ class PostRepository {
 
         val pathRef = storageRef.child("Offroader_res/post_image/${post?.post_id}.jpg")
 
-        // 디비 스토리지에서 받아온 값을 메모리에 저장하려고 함. 앱 메모리보다 큰 사진을 불러오면 크래시가 나기 때문에 불러올 때 메모리의 크기 제한을 둠.
-        val FOUR_MEGABYTE: Long = 1024 * 1024 * 4
-
         pathRef.downloadUrl.addOnSuccessListener {
             post?.images = it
             val item = myPostItemArray.find { it?.post_id == post?.post_id }
@@ -82,50 +80,34 @@ class PostRepository {
 
         }.addOnFailureListener {
             Log.d(TAG, "onBindViewHolder: 사진 받아오는거 실패함. 알아서 하셈.")
+            setMyImage(post)
         }
-//        }
-//
-//        pathRef.getBytes(FOUR_MEGABYTE).addOnSuccessListener { it ->
-//            // 바이트어레이를 비트맵으로 변환해주는 코드
-//
-//            val image = BitmapFactory.decodeByteArray(it, 0, it.size)
-//            post?.images = image
-//            val item = myPostItemArray.find { it?.post_id == post?.post_id }
-//            if (item == null) {
-//                myPostItemArray.add(post)
-//            }
-//
-//            val items = myPostItemArray
-//            _myPostItems.value = items
-//
-//            Log.d(TAG, "setMyPost: ${myPostItems.value?.size}, ${post?.title}")
-//
-//        }.addOnFailureListener {
-//            Log.d(TAG, "onBindViewHolder: 사진 받아오는거 실패함. 알아서 하셈.")
-//        }
+
     }
 
     private fun setMyPostLists(items: ArrayList<PostDTO?>) {
         val myPostArray: ArrayList<PostModel?> = arrayListOf()
-        items?.forEach {
+        items.forEach {
             var contentsText = ""
             if (it?.contents != null) {
                 contentsText = it.contents.toString()
             }
+            if (user?.uid == it?.uid) {
+                val post = PostModel(
+                    userName = user?.displayName,
+                    userProfileImage = user?.photoUrl,
+                    contents = contentsText,
+                    images = it?.images,
+                    like = it?.like.toString().toInt(),
+                    postId = it?.post_id.toString(),
+                    san = it?.san.toString(),
+                    title = it?.title.toString(),
+                    uid = it?.uid.toString(),
+                    upload_date = it?.upload_date.toString().toLong()
+                )
+                myPostArray.add(post)
+            }
 
-            val post = PostModel(
-                userName = user?.displayName,
-                userProfileImage = user?.photoUrl,
-                contents = contentsText,
-                images = it?.images,
-                like = it?.like.toString().toInt(),
-                postId = it?.post_id.toString(),
-                san = it?.san.toString(),
-                title = it?.title.toString(),
-                uid = it?.uid.toString(),
-                upload_date = it?.upload_date.toString().toLong()
-            )
-            myPostArray.add(post)
         }
         _myPostItems.value = myPostArray    }
 
@@ -145,32 +127,15 @@ class PostRepository {
             }
 
             val items = myPostItemArray
-            _setPostItems.value = items
+            _allPostItems.value = items
 
             Log.d(TAG, "setMyPost: ${myPostItems.value?.size}, ${post?.title}")
 
         }.addOnFailureListener {
             Log.d(TAG, "onBindViewHolder: 사진 받아오는거 실패함. 알아서 하셈.")
+            setCommunityImage(post)
         }
 
-//        pathRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { it ->
-//            // 바이트어레이를 비트맵으로 변환해주는 코드
-//
-//            val image = BitmapFactory.decodeByteArray(it, 0, it.size)
-//            post?.images = image
-//            val item = myPostItemArray.find { it?.post_id == post?.post_id }
-//            if (item == null) {
-//                myPostItemArray.add(post)
-//            }
-//
-//            val items = myPostItemArray
-//            _setPostItems.value = items
-//
-//            Log.d(TAG, "setMyPost: ${myPostItems.value?.size}, ${post?.title}")
-//
-//        }.addOnFailureListener {
-//            Log.d(TAG, "onBindViewHolder: 사진 받아오는거 실패함. 알아서 하셈.")
-//        }
     }
 
     fun setMyPost() {
@@ -223,11 +188,11 @@ class PostRepository {
         }
     }
 
-    fun editPost(title: String, content: String?, image: ByteArray?, postId: String?) {
+    fun editPost(title: String, content: String?, image: ByteArray?, postId: String?, rootPage: String? ) {
         db.collection("Community").document(postId.toString()).get().addOnSuccessListener {
             val postDto = it.toObject(PostDTO::class.java)
-            deleteImage(postId)
-            saveImage(image, postId)
+            deleteImage(postId, rootPage)
+            saveImageToStorage(image, postId, rootPage)
 
             val newPost = hashMapOf(
                 "uid" to user!!.uid,
@@ -262,7 +227,7 @@ class PostRepository {
 
     }
 
-    private fun deleteImage(postId: String?) {
+    private fun deleteImage(postId: String?, rootPage: String?) {
         val ref = storageRef.child("Offroader_res/post_image/${postId}.jpg")
         ref.delete().addOnSuccessListener {
             Log.d(TAG, "delete successful")
@@ -272,7 +237,7 @@ class PostRepository {
 
     }
 
-    private fun saveImage(image: ByteArray?, postId: String?) {
+    private fun saveImageToStorage(image: ByteArray?, postId: String?, rootPage: String?) {
 // 이미지를 저장할 위치를 지정
         val ref = storageRef.child("Offroader_res/post_image/${postId}.jpg")
 
@@ -286,21 +251,23 @@ class PostRepository {
             Log.d(TAG, "사진 업로드 성공여부: 성공")
 
         }.addOnCompleteListener {
-            setPost()
-
+//            when (rootPage) {
+//                "CommunityFragment" -> setPost()
+//                "MyPostActivity" -> setMyPost()
+//            }
         }
     }
 
 
-    fun addPost(title: String, content: String?, image: ByteArray?) {
+    // 게시물 파이어스토어 데이터베이스에 저장해주는 함수
+    fun savePost(title: String, content: String?, image: ByteArray?, rootPage: String?) {
         Log.d(TAG, "addPost uid: ${user?.uid}")
 
-
+        // 랜덤한 포스트 아이디 값 받음.
         val postId = UUID.randomUUID().toString()
 
-        saveImage(image, postId)
+        saveImageToStorage(image, postId, rootPage)
         val dateToLong = getDateTimeNow()
-
 
         Log.d(TAG, "addPost: $dateToLong")
 
@@ -334,8 +301,8 @@ class PostRepository {
         }
     }
 
-    fun deletePost(postId: String?) {
-        deleteImage((postId ?: "").toString())
+    fun deletePost(postId: String?, rootPage: String?) {
+        deleteImage((postId ?: "").toString(), rootPage)
         db.collection("Community").document(postId.toString())
             .delete()
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
