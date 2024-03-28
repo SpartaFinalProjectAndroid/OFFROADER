@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.MutableLiveData
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -42,6 +43,7 @@ import com.ing.offroader.ui.activity.main.adapters.RadioChannelItem
 import com.ing.offroader.ui.activity.main.adapters.RadioListAdapter
 import com.ing.offroader.ui.activity.main.adapters.ViewPagerAdapter
 import com.ing.offroader.ui.activity.main.mediasession.PlaybackService
+import com.ing.offroader.ui.activity.main.network.NetworkManager
 import com.ing.offroader.ui.activity.sandetail.MyLikedSan
 import com.ing.offroader.ui.fragment.community.CommunityFragment
 import com.ing.offroader.ui.fragment.home.HomeFragment
@@ -53,6 +55,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlin.math.abs
+import kotlin.math.log
 import kotlin.math.max
 import kotlin.math.min
 
@@ -77,9 +80,12 @@ class MainActivity : AppCompatActivity() {
         val controllerFuture = MediaController.Builder(this, sessionToken).buildAsync()
 
         controllerFuture.addListener(
-            { binding.viewTest.player = controllerFuture.get() },
+            {
+                binding.viewTest.player = controllerFuture.get()
+            },
             MoreExecutors.directExecutor()
         )
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,7 +119,8 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onDetachedFromWindow: ")
     }
 
-    private fun initObserver() {
+    private fun initObserver()  {
+
         mainViewModel.radioLikeList.observe(this) {
             setRadioView(it.size)
         }
@@ -435,25 +442,28 @@ class MainActivity : AppCompatActivity() {
 
             rvAdapter.itemClick = object : RadioListAdapter.ItemClick {
                 override fun onClick(key: String, pos: Int) {
-                    if (mainViewModel.whoPlay.value != key) {
-                        urlList[key]?.let {
+                    if (NetworkManager.checkNetworkState(this@MainActivity)) {
+                        if (mainViewModel.whoPlay.value != key) {
+                            urlList[key]?.let {
 
-                            val item = HttpItem(it, key, radioIcon, pos)
-                            mainViewModel.addHttpItem(item)
-                            CoroutineScope(Dispatchers.Main).launch {
-                                val channelUrl =
-                                    CoroutineScope(Dispatchers.Default).async {
-                                        mainViewModel.getHttpNetWork(item)
-                                    }.await()
+                                val item = HttpItem(it, key, radioIcon, pos)
+                                mainViewModel.addHttpItem(item)
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    val channelUrl =
+                                        CoroutineScope(Dispatchers.Default).async {
+                                            mainViewModel.getHttpNetWork(item)
+                                        }.await()
 
-                                mainViewModel.addChannelUrl(channelUrl)
-                                Log.d("민용라디오", "onClick: test!!!")
-                                preparePlayer()
-                                playingMarkChange()
-                                radioPlay(item.key, item.radioIcon)
-                                playingMarkCurrent(item.key, item.position)
+                                    mainViewModel.addChannelUrl(channelUrl)
+                                    preparePlayer()
+                                    playingMarkChange()
+                                    radioPlay(item.key, item.radioIcon)
+                                    playingMarkCurrent(item.key, item.position)
+                                }
                             }
                         }
+                    } else {
+                        Toast.makeText(this@MainActivity, "인터넷을 연결해 주세요!", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -541,6 +551,7 @@ class MainActivity : AppCompatActivity() {
 
     // 라디오를 재생 하고 뷰모델 whoPlay 변수에 어떤 채널이 재생 되고 있는지 저장
     private fun radioPlay(key: String?, icon: Int) = with(binding) {
+
         viewTest.player?.play()
         mainViewModel.checkIsPlaying(true)
         ivRadioPlayBtn.setImageResource(R.drawable.ic_pause)
@@ -551,7 +562,7 @@ class MainActivity : AppCompatActivity() {
 
     // 라디오 정지
     private fun radioPause() = with(binding) {
-        viewTest.player?.stop()
+        viewTest.player?.pause()
         mainViewModel.checkIsPlaying(false)
         ivRadioPlayBtn.setImageResource(R.drawable.ic_play)
     }
