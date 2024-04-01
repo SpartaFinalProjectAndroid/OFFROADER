@@ -1,108 +1,99 @@
 # OFFROADER
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/f26e141d-b052-4903-bf93-3e194bd369fd/Untitled.png)
+![OFFROADER Logo](https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6088bcf9-c972-45c0-a664-02ab6cfe52b4%2Ff26e141d-b052-4903-bf93-3e194bd369fd%2FUntitled.png?table=block&id=e065dac3-420e-47c9-b64b-f0d05c3c153a&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=2000&userId=&cache=v2)
 
-**바로가기 링크**
+## 바로가기 링크
 
-[화면 별 적용 기술 소개](https://www.notion.so/66b5a7d7db9b40b5acf0cf6ea2c0e509?pvs=21) 
+- [**앱 소개**](#앱-소개)
+- [**화면 별 적용 기술 소개**](#화면-별-적용-기술-소개)
+- [**기술적 의사결정**](#기술적-의사결정)
+- [**트러블슈팅**](#트러블슈팅)
 
-[기술적 의사결정](https://www.notion.so/167e2c93a24549cb84662adc1b269b11?pvs=21) 
 
-[트러블슈팅](https://www.notion.so/acb921bc17f646e7a945170f6908cb32?pvs=21) 
-
-# 앱 소개
+## 앱 소개
 
 **최신 등산 정보 및 유용한 등산 팁을 제공하여 등산을 더욱 쉽고 즐겁게 만들어주는 앱**
 
-[Stack](https://www.notion.so/e891eae120ca479c96e5a84ceeb59448?pvs=21)
+| 분류 | 내용 |
+|-|-|
+| 아키텍쳐 | `MVVM` |
+| 라이브러리 | `LifeCycle`, `LiveData`, `Lottie`, `Media3`, `Navigation`, `Splash`, `ViewModel` |
+| 비동기 처리 | `Coroutine` |
+| 데이터 처리 | `Gson`, `Parcelize`, `SharedPreferences` |
+| 데이터베이스| `Google Authentication`, `Google Firestore`, `Google Storage`, `RoomDatabase` |
+| API 통신 | `Google Login`, `KBS API`, `MBC API`, `NaverMaps API`, `OkHttp`, `OpenAi API`, `OpenWeather API`, `Retrofit`, `SBS API` |
+| 이미지 로더 | `Bitmap`, `Glide`, `ImagePicker` |
+| UI | `Accordion UI`, `AlertDialog`, `BLUR`, `BottomSheetDialog`, `CoordinatorLayout`, `CustomDialog`, `DialogFragment`, `ExoPlayer`, `FloatingActionBubble`, `Fragment`, `ListAdapter`, `MaterialDesign`, `MotionLayout`, `MultiViewType`, `RecyclerViewAdapter`, `TapLayout`, `ViewPager2`, `XML` |
+
 
 ## 홈 페이지
 
-![Screen_recording_20240326_153434-ezgif.com-video-to-webp-converter.webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/656bbbe0-4ddd-477f-bbdb-e80818d07af6/Screen_recording_20240326_153434-ezgif.com-video-to-webp-converter.webp)
+<img src="https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6088bcf9-c972-45c0-a664-02ab6cfe52b4%2F656bbbe0-4ddd-477f-bbdb-e80818d07af6%2FScreen_recording_20240326_153434-ezgif.com-video-to-webp-converter.webp?table=block&id=099d962f-ed7a-4f08-b7a8-a867ef0a9624&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=580&userId=&cache=v2" width="400">
+
+<img src="" width="400">
+
 
 - 추천 산 확인
 - 추천 산을 클릭하면 해당 산 정보 페이지로 이동
 - 진행 중인 이벤트 확인 및 해당 이벤트를 클릭하여 자세한 내용 확인
 
----
-
 ## 산 리스트 페이지
 
-![Screen_recording_20240326_155529-ezgif.com-video-to-webp-converter.webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/f4cde5cd-88ef-4e30-955a-5570bcedf282/Screen_recording_20240326_155529-ezgif.com-video-to-webp-converter.webp)
+<img src="https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6088bcf9-c972-45c0-a664-02ab6cfe52b4%2Ff4cde5cd-88ef-4e30-955a-5570bcedf282%2FScreen_recording_20240326_155529-ezgif.com-video-to-webp-converter.webp?table=block&id=a7f7dd13-2a34-454d-b5f3-dcff67627393&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=580&userId=&cache=v2" width="400">
 
 - 산 리스트를 확인
 - 산을 선택하고 해당 산의 상단에 있는 프로필 사진을 클릭하면 산 정보 페이지로 이동
 
----
-
 ## 지도 페이지
 
-![Screen_recording_20240326_160508-ezgif.com-video-to-webp-converter (1).webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/be7d2a15-2630-4066-9323-692e12606657/Screen_recording_20240326_160508-ezgif.com-video-to-webp-converter_(1).webp)
-
-![Screen_recording_20240326_155954-ezgif.com-video-to-webp-converter.webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/5148e15a-3856-4da7-afd7-ae3a7b55a333/Screen_recording_20240326_155954-ezgif.com-video-to-webp-converter.webp)
+<img src="https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6088bcf9-c972-45c0-a664-02ab6cfe52b4%2Fbe7d2a15-2630-4066-9323-692e12606657%2FScreen_recording_20240326_160508-ezgif.com-video-to-webp-converter_(1).webp?table=block&id=aef476c6-4068-42a6-9d59-c84e44c0bc4a&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=660&userId=&cache=v2" width="400"> <img src="https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6088bcf9-c972-45c0-a664-02ab6cfe52b4%2F5148e15a-3856-4da7-afd7-ae3a7b55a333%2FScreen_recording_20240326_155954-ezgif.com-video-to-webp-converter.webp?table=block&id=7f24f560-bc55-46b2-a368-781cf9fd5c18&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=880&userId=&cache=v2" width="400">
 
 - 지도를 통해 산의 위치를 확인
 - 산의 마커를 클릭하면 해당 산의 간단한 정보를 볼 수 있는 정보 창 확인
 - 정보 창을 클릭하면 해당 산의 정보 페이지로 이동
 - 등산 시작을 클릭하면 현재 위치의 좌표가 계속 저장되고 등산 종료를 클릭하면 기록을 확인할 수 있는 화면으로 이동
 
----
-
 ## 커뮤니티 페이지
 
-![Screen_recording_20240326_142354-ezgif.com-video-to-webp-converter.webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/195f6e4b-bced-43c0-8553-2a4a6a86dd4a/Screen_recording_20240326_142354-ezgif.com-video-to-webp-converter.webp)
+<img src="https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6088bcf9-c972-45c0-a664-02ab6cfe52b4%2F195f6e4b-bced-43c0-8553-2a4a6a86dd4a%2FScreen_recording_20240326_142354-ezgif.com-video-to-webp-converter.webp?table=block&id=8567f890-a9ef-4823-a3b0-31003e7c6028&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=580&userId=&cache=v2" width="400">
 
 - 현재 올라온 게시물 목록 확인
 - 연필 모양의 아이콘을 클릭하여 게시물을 작성
 - 게시물 작성은 회원 가입을 해야 작성 가능
 
----
-
 ## 내 정보 페이지
 
-![Screen_recording_20240326_143651-ezgif.com-video-to-webp-converter.webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/743d177a-61a2-4c3f-87c0-2b8a381ed11e/Screen_recording_20240326_143651-ezgif.com-video-to-webp-converter.webp)
+<img src="https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6088bcf9-c972-45c0-a664-02ab6cfe52b4%2F743d177a-61a2-4c3f-87c0-2b8a381ed11e%2FScreen_recording_20240326_143651-ezgif.com-video-to-webp-converter.webp?table=block&id=a2ade8f3-1783-4b49-bcfd-26c6445cfec0&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=580&userId=&cache=v2" width="400"> <img src="https://file.notion.so/f/f/83c75a39-3aba-4ba4-a792-7aefe4b07895/0c06ff92-4132-4f50-aab0-22d3bc17928b/Screen_recording_20240326_171855-ezgif.com-crop.gif?id=238ae260-7e98-4c46-aee7-cf07c3656fa5&table=block&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&expirationTimestamp=1711771200000&signature=jOV7eM0_3N9ctote6CUxdpAjPC5YsiK68PU_VjZcwMQ" width="400">
 
 - 내가 추가한 산 목록 확인
 - 로그인 페이지로 이동을 클릭하여 로그인
 - 로그인을 하면 나의 레벨, 업적, 내가 올린 게시글, 등산 기록을 확인
 - 로그아웃을 클릭하여 로그아웃
 
----
-
 ## 산 정보 페이지
 
-![Screen_recording_20240326_141838-ezgif.com-video-to-webp-converter (1).webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/fba1e298-62f8-4dda-a2cb-89f987438905/Screen_recording_20240326_141838-ezgif.com-video-to-webp-converter_(1).webp)
+<img src="https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6088bcf9-c972-45c0-a664-02ab6cfe52b4%2Ffba1e298-62f8-4dda-a2cb-89f987438905%2FScreen_recording_20240326_141838-ezgif.com-video-to-webp-converter_(1).webp?table=block&id=6ddbe2f1-05c7-459f-a902-eb9c0b996f18&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=580&userId=&cache=v2" width="400">
 
 - 산의 정보들을 확인
 - 산 이름, 이미지, 주소, 해발고도, 난이도, 등산 시간, 개요, 날씨 확인
 - 북마크를 찍으면 내 정보 페이지에서 내가 추가한 산 목록에 추가 및 삭제
 
----
-
 ## 챗봇 페이지
 
-![Screen_recording_20240326_155354-ezgif.com-crop.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/3b00e98c-45dd-4054-b92c-e62ff5fc7df0/Screen_recording_20240326_155354-ezgif.com-crop.gif)
-
-![Screen_recording_20240326_155001-ezgif.com-crop.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/6ca05556-5ce0-4ebd-94e7-f7bc156dbf25/Screen_recording_20240326_155001-ezgif.com-crop.gif)
+<img src="https://file.notion.so/f/f/83c75a39-3aba-4ba4-a792-7aefe4b07895/3b00e98c-45dd-4054-b92c-e62ff5fc7df0/Screen_recording_20240326_155354-ezgif.com-crop.gif?id=434f2f2c-dfd8-450c-8d7b-3a290579ac74&table=block&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&expirationTimestamp=1711771200000&signature=ncYoRFPXBZRiuIlR2VLy3WEIUyjKr_ghoxBRNiaNRyM" width="400"> <img src="https://file.notion.so/f/f/83c75a39-3aba-4ba4-a792-7aefe4b07895/6ca05556-5ce0-4ebd-94e7-f7bc156dbf25/Screen_recording_20240326_155001-ezgif.com-crop.gif?id=7a72e761-5e42-4f6e-ac71-4dde12773030&table=block&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&expirationTimestamp=1711771200000&signature=2AZet8wGzyXBn2CDyzMlrdZ6fGBHq-TSSSuIxVH65Lk" width="400">
 
 - 우측 하단에 챗봇 플로팅 버튼을 클릭하면 챗봇 대화 창으로 이동
 - 플로팅 버튼의 위치는 조절 가능
 - 챗봇은 MBTI T/F 두 가지 성격으로 구분해서 중앙 상단에 스피너를 통해 선택 하여 대화
 
----
-
 ## 라디오 페이지
 
-![Screen_recording_20240326_161208-ezgif.com-crop.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/e18cb138-c065-4761-a446-cd4d86768aae/Screen_recording_20240326_161208-ezgif.com-crop.gif)
-
-![Screen_recording_20240326_160813-ezgif.com-crop.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/b8957520-3ebc-4a02-be20-ed891e9f5297/Screen_recording_20240326_160813-ezgif.com-crop.gif)
+<img src="https://file.notion.so/f/f/83c75a39-3aba-4ba4-a792-7aefe4b07895/e18cb138-c065-4761-a446-cd4d86768aae/Screen_recording_20240326_161208-ezgif.com-crop.gif?id=fe417368-d6a1-4473-bc70-27453fb8f88a&table=block&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&expirationTimestamp=1711771200000&signature=cWHeBflMpyzhW-i8g3f4424WrONyiUShvhLSCzgdqcA" width="400"> <img src="https://file.notion.so/f/f/83c75a39-3aba-4ba4-a792-7aefe4b07895/b8957520-3ebc-4a02-be20-ed891e9f5297/Screen_recording_20240326_160813-ezgif.com-crop.gif?id=50909950-b1d8-44f3-82a4-5823781719db&table=block&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&expirationTimestamp=1711771200000&signature=9XwDD5ltO5vRxZGYvaiEI7-nGgKp7ImlWI6IYX79M-U" width="400">
 
 - 하단 바텀 플레이어를 통해 현재 재생 중인 라디오 채널 재생/일시 정지
 - 바텀 플레이어를 위로 드래그 하면 각 방송국의 채널 리스트 화면으로 전환
 - 채널 클릭 시 해당 채널 재생
 - 알림 창에서 재생/일시 정지
 - 하트 버튼을 클릭하여 즐겨 찾기에 저장 및 취소
-
----
 
 ## 화면 별 적용 기술 소개
 
@@ -237,11 +228,9 @@ DocumentSnapShotListener은 실시간 업데이트를 해주고 addOnSuccessList
 
 글라이드와 코일의 결정적 차이점은 현대 이미지 포맷팅 지원 기능 및 캐싱 기능의 차이이다. 우선 오프로더 앱은 산리스트 부분에서 이미지 로딩을 매우 많이 해주고 이때 이미지가 로딩하는 초기 시간이 많이 걸린다는 단점이 있다. 같은 이미지를 로딩하는 시간이 다시 사용되지 않으려면 어느정도의 캐싱 기능을 필요로 하기 때문에 글라이드를 선택하게 되었다. 
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6088bcf9-c972-45c0-a664-02ab6cfe52b4/2dad49b9-5275-407c-bf47-baa241cd69bb/Untitled.png)
+![Untitled](https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6088bcf9-c972-45c0-a664-02ab6cfe52b4%2F2dad49b9-5275-407c-bf47-baa241cd69bb%2FUntitled.png?table=block&id=2f244e8e-74e9-4666-9daa-1ca54b624998&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=1680&userId=&cache=v2)
 
 ## 트러블슈팅
-
-**문제 및 해결방법 정리** - 각 섹션 별 핵심적인 문제만 기입
 
 ### 1. 홈
 
@@ -310,10 +299,17 @@ DocumentSnapShotListener은 실시간 업데이트를 해주고 addOnSuccessList
 - **실시간 게시글 보기 문제**: 다른 사용자 게시글의 실시간 업데이트 미표시.
     - **해결**: **`onSnapshotListener`** 사용으로 데이터 실시간 동기화 적용.
 
+| 이름   | 구분   | MBTI | 블로그                                                                                       | 깃허브                                   | 한마디           |
+|------|-------|------|---------------------------------------------------------------------------------------------|----------------------------------------|-----------------|
+| 김은이 | 리더   | ISTP | [블로그](http://occhiolism.tistory.com)                                                      | [깃허브](http://github.com/eun-24k)      | 잘 해보아요! :))) |
+| 이민용 | 부리더 | INFP | [블로그](https://yongfelatte.tistory.com/)                                                   | [깃허브](https://github.com/CodingVirus) | 화이팅 화이팅!   |
+| 김기원 | 팀원   | INTP | [블로그](https://mydailycoding.tistory.com/)                                                 | [깃허브](https://github.com/kiwonkim11)  | 윈 드디어        |
+| 박상우 | 팀원   | ENTP | [블로그](https://nowcoffee.notion.site/Today-I-Learned-ae16ec6bd18449a3a4f1f030ae3cdfdf?pvs=4) | [깃허브](https://github.com/Box-o/TIL)   | 가 보자구요!     |
+| 한병철 | 팀원   | ISTJ | [블로그](https://rihan530.tistory.com/)                                                      | [깃허브](https://github.com/rihan530)    |                  |
+
+
 ## 개선 예정
 
 1. 산 리스트 좋아요 클릭
 2. 업적 (산 실시간 위치 마킹이 이제 막 구현되어 추후 업적과 연동할 예정입니다.)
 3. 등산 기록 모아보기
-
-[Team OFFROADER](https://www.notion.so/c666fef5b3dc40a091ff98b26e8360e8?pvs=21)
