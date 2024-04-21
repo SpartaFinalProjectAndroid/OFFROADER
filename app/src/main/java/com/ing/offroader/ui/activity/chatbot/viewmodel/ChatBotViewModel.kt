@@ -161,22 +161,25 @@ class ChatBotViewModel(
     }
 
     // ai의 답변을 받아오고 그 값을 DB에 넘겨주는 함수
-    private fun getReplyFromChatGpt(text: String, input: String) {
+    private fun getReplyFromChatGpt(text: String) {
 
         viewModelScope.launch {
             runCatching {
 
                 addMessageToDB("user", text)
 
+                var hikeyText = hikeyUiState.value?.chat
+                var bongbongText = bongbongUiState.value?.chat
+
                 when (conversationUiState.value?.position) {
                     "hikey" -> addMessageToDB(
                         "assistant",
-                        aiRepo.hikeyChatCompletion(text).choices.first().message.content
+                        aiRepo.hikeyChatCompletion(hikeyText).choices.first().message.content
                     )
 
                     "bongbong" -> addMessageToDB(
                         "assistant",
-                        aiRepo.bongbongChatCompletion(text).choices.first().message.content
+                        aiRepo.bongbongChatCompletion(bongbongText).choices.first().message.content
                     )
                 }
 
@@ -200,16 +203,14 @@ class ChatBotViewModel(
             "hikey" -> {
 
                 getReplyFromChatGpt(
-                    text,
-                    "$text. 최대 두문장으로 간단히 대답해줘. 대답할 때 감정은 배제하고 오로지 사실에 기반해서만 대답해줘."
+                    text
                 )
 
             }
 
             "bongbong" -> {
                 getReplyFromChatGpt(
-                    text,
-                    "$text. 최대 두문장으로 간단히 대답해줘. 대답할 때 내가 상처받지 않게 내 감정을 살펴가며 대답해줘."
+                    text
                 )
 
             }
