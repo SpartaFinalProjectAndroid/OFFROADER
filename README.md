@@ -1,5 +1,7 @@
 # OFFROADER
-![OFFROADER Logo](https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6088bcf9-c972-45c0-a664-02ab6cfe52b4%2Ff26e141d-b052-4903-bf93-3e194bd369fd%2FUntitled.png?table=block&id=e065dac3-420e-47c9-b64b-f0d05c3c153a&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=2000&userId=&cache=v2)
+<!-- ![OFFROADER Logo](https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6088bcf9-c972-45c0-a664-02ab6cfe52b4%2Ff26e141d-b052-4903-bf93-3e194bd369fd%2FUntitled.png?table=block&id=e065dac3-420e-47c9-b64b-f0d05c3c153a&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=2000&userId=&cache=v2) -->
+
+![Slide 2](https://github.com/SpartaFinalProjectAndroid/OFFROADER/assets/93506475/65828d22-ed51-4b77-83e9-e665a70a58e7)
 
 ## 바로가기 링크
 
