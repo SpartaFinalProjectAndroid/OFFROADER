@@ -88,8 +88,8 @@
 - 챗봇은 MBTI T/F 두 가지 성격으로 구분해서 중앙 상단에 스피너를 통해 선택 하여 대화
 
 ## 라디오 페이지
-
-<img src="https://file.notion.so/f/f/83c75a39-3aba-4ba4-a792-7aefe4b07895/e18cb138-c065-4761-a446-cd4d86768aae/Screen_recording_20240326_161208-ezgif.com-crop.gif?id=fe417368-d6a1-4473-bc70-27453fb8f88a&table=block&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&expirationTimestamp=1711771200000&signature=cWHeBflMpyzhW-i8g3f4424WrONyiUShvhLSCzgdqcA" width="400"> <img src="https://file.notion.so/f/f/83c75a39-3aba-4ba4-a792-7aefe4b07895/b8957520-3ebc-4a02-be20-ed891e9f5297/Screen_recording_20240326_160813-ezgif.com-crop.gif?id=50909950-b1d8-44f3-82a4-5823781719db&table=block&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&expirationTimestamp=1711771200000&signature=9XwDD5ltO5vRxZGYvaiEI7-nGgKp7ImlWI6IYX79M-U" width="400">
+![Screen_recording_20240326_161208-ezgif com-resize](https://github.com/SpartaFinalProjectAndroid/OFFROADER/assets/93506475/8f721ef0-6006-40c7-9e73-0386527b6173)
+![Screen_recording_20240326_160813-ezgif com-resize](https://github.com/SpartaFinalProjectAndroid/OFFROADER/assets/93506475/d55a3946-2556-4af1-9730-319c597986e9)
 
 - 하단 바텀 플레이어를 통해 현재 재생 중인 라디오 채널 재생/일시 정지
 - 바텀 플레이어를 위로 드래그 하면 각 방송국의 채널 리스트 화면으로 전환
