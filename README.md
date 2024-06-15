@@ -80,6 +80,8 @@
 - 북마크를 찍으면 내 정보 페이지에서 내가 추가한 산 목록에 추가 및 삭제
 
 ## 챗봇 페이지
+![1-ezgif com-resize](https://github.com/SpartaFinalProjectAndroid/OFFROADER/assets/93506475/fbcd72f8-76fd-47b1-9293-ae79d7817f82)
+![2-ezgif com-resize](https://github.com/SpartaFinalProjectAndroid/OFFROADER/assets/93506475/167d9539-ce1a-436b-84b7-cc959c6777fd)
 
 <img src="https://file.notion.so/f/f/83c75a39-3aba-4ba4-a792-7aefe4b07895/3b00e98c-45dd-4054-b92c-e62ff5fc7df0/Screen_recording_20240326_155354-ezgif.com-crop.gif?id=434f2f2c-dfd8-450c-8d7b-3a290579ac74&table=block&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&expirationTimestamp=1711771200000&signature=ncYoRFPXBZRiuIlR2VLy3WEIUyjKr_ghoxBRNiaNRyM" width="400"> <img src="https://file.notion.so/f/f/83c75a39-3aba-4ba4-a792-7aefe4b07895/6ca05556-5ce0-4ebd-94e7-f7bc156dbf25/Screen_recording_20240326_155001-ezgif.com-crop.gif?id=7a72e761-5e42-4f6e-ac71-4dde12773030&table=block&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&expirationTimestamp=1711771200000&signature=2AZet8wGzyXBn2CDyzMlrdZ6fGBHq-TSSSuIxVH65Lk" width="400">
 
